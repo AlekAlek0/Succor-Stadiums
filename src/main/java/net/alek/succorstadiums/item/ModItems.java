@@ -12,8 +12,10 @@ import java.util.function.Function;
 
 public class ModItems {
 
-    public static final Item BRENNON_ORE = registerItem("brennon_ore", Item::new);
     public static final Item SUCCOR_STADIUM_ICON = registerItem("succor_stadium_icon", Item::new);
+
+    public static final Item BRENNON_ORE = registerItem("brennon_ore", Item::new);
+    public static final Item SILVER_INGOT = registerItem("silver_ingot", Item::new);
 
 
     private static Item registerItem(String name, Function<Item.Properties, Item> function) {

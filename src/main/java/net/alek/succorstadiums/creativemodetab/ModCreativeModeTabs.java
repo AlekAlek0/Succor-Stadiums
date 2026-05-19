@@ -21,6 +21,7 @@ public class ModCreativeModeTabs {
                     .displayItems((parameters, output) -> {
                       output.accept(ModItems.SUCCOR_STADIUM_ICON);
                       output.accept(ModItems.BRENNON_ORE);
+                      output.accept(ModItems.SILVER_INGOT);
 
 
 

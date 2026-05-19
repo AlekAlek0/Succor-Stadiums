@@ -19,8 +19,12 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerators) {
-        itemModelGenerators.generateFlatItem(ModItems.BRENNON_ORE, ModelTemplates.FLAT_ITEM);
+
         itemModelGenerators.generateFlatItem(ModItems.SUCCOR_STADIUM_ICON, ModelTemplates.FLAT_ITEM);
+
+        itemModelGenerators.generateFlatItem(ModItems.BRENNON_ORE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.SILVER_INGOT, ModelTemplates.FLAT_ITEM);
+
 
 
     }
