@@ -1,5 +1,7 @@
 package net.alek.succorstadiums;
 
+import net.alek.succorstadiums.creativemodetab.ModCreativeModeTabs;
+import net.alek.succorstadiums.item.ModItems;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -15,10 +17,10 @@ public class SuccorStadiums implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
 
-		LOGGER.info("Hello Fabric world!");
+		ModCreativeModeTabs.registerModCreativeModeTabs();
+
+		ModItems.registerModItems();
+
 	}
 }
