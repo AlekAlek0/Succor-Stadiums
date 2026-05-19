@@ -1,6 +1,7 @@
 package net.alek.succorstadiums.item;
 
 import net.alek.succorstadiums.SuccorStadiums;
+import net.alek.succorstadiums.item.custom.FireStaffItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -17,6 +18,7 @@ public class ModItems {
     public static final Item BRENNON_ORE = registerItem("brennon_ore", Item::new);
     public static final Item SILVER_INGOT = registerItem("silver_ingot", Item::new);
 
+    public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties.durability(50)));
 
     private static Item registerItem(String name, Function<Item.Properties, Item> function) {
         return Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, name),
