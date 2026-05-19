@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "succorstadiums",
+	"version": "${version}",
+	"name": "Succor Stadiums",
+	"description": "Dependency mod for Succor Stadiums.",
+	"authors": [
+		"Alek"
+	],
+	"contact": {
+		"homepage": "Discord: alekalek1",
+		"sources": ""
+	},
+	"license": "MIT-License",
+	"icon": "assets/succorstadiums/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.alek.succorstadiums.SuccorStadiums"
+		],
+		"fabric-datagen": [
+			"net.alek.succorstadiums.SuccorStadiumsDataGenerator"
+		]
+	},
+	"mixins": [
+		"succorstadiums.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.2",
+		"minecraft": "~26.1.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
