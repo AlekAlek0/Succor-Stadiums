@@ -15,8 +15,8 @@ public class FireStaffItem extends Item {
 
     @Override
     public InteractionResult use(Level level, Player user, InteractionHand hand) {
-        // Ensure we don't spawn the fireball only on the client.
-        // This is to prevent desync.
+
+        // Ensure we don't spawn the fireball only on the client this is to prevent desync.
         if (level.isClientSide()) {
             return InteractionResult.PASS;
         }
