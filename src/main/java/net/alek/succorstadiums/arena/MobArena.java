@@ -13,6 +13,7 @@ public class MobArena {
     private int delayBetweenWaves; // in seconds, applies between every wave
     private final List<Wave> waves = new ArrayList<>();
 
+    // Create a MobArena with the given name, center position, radius, and wave delay
     public MobArena(String name, double centerX, double centerY, double centerZ, int radius, int delayBetweenWaves) {
         this.name = name;
         this.centerX = centerX;
@@ -30,14 +31,22 @@ public class MobArena {
     public int getDelayBetweenWaves() { return delayBetweenWaves; }
     public List<Wave> getWaves() { return waves; }
 
+    // Set the center of the MobArena
     public void setCenter(double x, double y, double z) {
         this.centerX = x;
         this.centerY = y;
         this.centerZ = z;
     }
 
-    public void setRadius(int radius) { this.radius = radius; }
-    public void setDelayBetweenWaves(int delay) { this.delayBetweenWaves = delay; }
+    // Set the Radius of the MobArena
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
+    // Set the delay between Waves
+    public void setDelayBetweenWaves(int delay) {
+        this.delayBetweenWaves = delay;
+    }
 
     // Adds a new wave with the next wave number automatically
     public Wave addWave() {

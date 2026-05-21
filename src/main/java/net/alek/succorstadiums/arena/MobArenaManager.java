@@ -42,6 +42,7 @@ public class MobArenaManager {
         load();
     }
 
+    // Create a MobArena with the given name, center position, radius, and wave delay
     public static boolean createArena(String name, double x, double y, double z, int radius, int delayBetweenWaves) {
         if (arenas.containsKey(name)) return false;
         arenas.put(name, new MobArena(name, x, y, z, radius, delayBetweenWaves));
@@ -49,26 +50,32 @@ public class MobArenaManager {
         return true;
     }
 
+    // Remove a given MobArena
     public static boolean removeArena(String name) {
         boolean removed = arenas.remove(name) != null;
         if (removed) save();
         return removed;
     }
 
+    // Get a given MobArena
     public static MobArena getArena(String name) {
+
         return arenas.get(name);
     }
 
+    // Get all MobArenas
     public static Collection<MobArena> getAllArenas() {
+
         return arenas.values();
     }
 
+    // Check if arena already exists with name given
     public static boolean arenaExists(String name) {
+
         return arenas.containsKey(name);
     }
 
-    // --- JSON ---
-
+    // Save the MobArena info to a JSON file
     public static void save() {
         try (Writer writer = new FileWriter(saveFile.toFile())) {
             List<MobArena> list = new ArrayList<>(arenas.values());
@@ -78,6 +85,7 @@ public class MobArenaManager {
         }
     }
 
+    // Load the data in the arena JSON file
     private static void load() {
         if (!Files.exists(saveFile)) return;
 

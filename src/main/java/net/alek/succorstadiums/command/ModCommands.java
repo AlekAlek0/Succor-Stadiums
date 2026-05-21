@@ -103,6 +103,18 @@ public class ModCommands {
                                         )
                                 )
                         )
+                        .then(Commands.literal("remove_MobFromWave")
+                                .then(Commands.argument("arena", StringArgumentType.word())
+                                        .suggests(ARENA_SUGGESTIONS)
+                                        .then(Commands.argument("wave_number", IntegerArgumentType.integer(1))
+                                                .suggests(WAVE_SUGGESTIONS)
+                                                .then(Commands.argument("mob_type", StringArgumentType.string())
+                                                        .suggests(MOB_SUGGESTIONS)
+                                                        .executes(ModCommands::removeMobFromWave)
+                                                )
+                                        )
+                                )
+                        )
                         .then(Commands.literal("list_Waves")
                                 .then(Commands.argument("arena", StringArgumentType.word())
                                         .suggests(ARENA_SUGGESTIONS)
@@ -239,6 +251,37 @@ public class ModCommands {
 
         context.getSource().sendSuccess(
                 () -> Component.literal("§aAdded §e" + count + "x §2" + mobType + " §ato §bwave " + waveNumber + " §aof arena §6\"" + arenaName + "\" §asuccesfully!"),
+                false
+        );
+        return 1;
+    }
+
+    private static int removeMobFromWave(CommandContext<CommandSourceStack> context) {
+        String arenaName = StringArgumentType.getString(context, "arena");
+        int waveNumber = IntegerArgumentType.getInteger(context, "wave_number");
+        String mobType = StringArgumentType.getString(context, "mob_type");
+
+        MobArena arena = MobArenaManager.getArena(arenaName);
+        if (arena == null) {
+            context.getSource().sendFailure(Component.literal("Arena   + arenaName + "  + " does not exist!"));
+            return 0;
+        }
+
+        Wave wave = arena.getWave(waveNumber);
+        if (wave == null) {
+            context.getSource().sendFailure(Component.literal("Wave " + waveNumber + " does not exist in arena   + arenaName + "  + "!"));
+            return 0;
+        }
+
+        boolean removed = wave.removeMob(mobType);
+        if (!removed) {
+            context.getSource().sendFailure(Component.literal("Mob type   + mobType + "  + " not found in wave " + waveNumber + " of arena   + arenaName + "  + "!"));
+            return 0;
+        }
+
+        MobArenaManager.save();
+        context.getSource().sendSuccess(
+                () -> Component.literal("Removed   + mobType + "  + " from wave " + waveNumber + " of arena   + arenaName + "  + "."),
                 false
         );
         return 1;
