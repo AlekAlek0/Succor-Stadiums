@@ -19,7 +19,6 @@ public class ModCreativeModeTabs {
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SUCCOR_STADIUM_ICON))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_items"))
                     .displayItems((parameters, output) -> {
-                      output.accept(ModItems.SUCCOR_STADIUM_ICON);
                       output.accept(ModItems.BRENNON_ORE);
                       output.accept(ModItems.SILVER_INGOT);
 
@@ -34,6 +33,7 @@ public class ModCreativeModeTabs {
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SUCCOR_STADIUM_ICON))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_weapons"))
                     .displayItems((parameters, output) -> {
+                        output.accept(ModItems.BEAN_POLE);
                         output.accept(ModItems.FIRE_STAFF);
 
 
