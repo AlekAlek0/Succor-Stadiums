@@ -59,92 +59,100 @@ public class ModCommands {
     public static void registerModCommands() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
                 dispatcher.register(
-                Commands.literal("succorstadiums")
-                        // --- Arena commands ---
-                        .then(Commands.literal("create_mobArena")
-                                .then(Commands.argument("name", StringArgumentType.word())
-                                        .then(Commands.argument("center_position", Vec3Argument.vec3())
-                                                .then(Commands.argument("radius", IntegerArgumentType.integer(1))
-                                                        .then(Commands.argument("delay_seconds", IntegerArgumentType.integer(0))
-                                                                .executes(ModCommands::createMobArena)
-                                                        )
-                                                )
-                                        )
-                                )
-                        )
-                        .then(Commands.literal("remove_mobArena")
-                                .then(Commands.argument("name", StringArgumentType.word())
-                                        .suggests(ARENA_SUGGESTIONS)
-                                        .executes(ModCommands::removeMobArena)
-                                )
-                        )
-                        .then(Commands.literal("list_mobArenas")
-                                .executes(ModCommands::listMobArenas)
-                        )
+                        Commands.literal("succorstadiums")
 
-                        // --- Wave commands ---
-                        .then(Commands.literal("add_WaveToMobArena")
-                                .then(Commands.argument("arena", StringArgumentType.word())
-                                        .suggests(ARENA_SUGGESTIONS)
-                                        .executes(ModCommands::addWaveToMobArena)
-                                )
-                        )
-                        .then(Commands.literal("add_MobsToMobArena")
-                                .then(Commands.argument("arena", StringArgumentType.word())
-                                        .suggests(ARENA_SUGGESTIONS)
-                                        .then(Commands.argument("wave_number", IntegerArgumentType.integer(1))
-                                                .suggests(WAVE_SUGGESTIONS)
-                                                .then(Commands.argument("mob_type", StringArgumentType.string())
-                                                        .suggests(MOB_SUGGESTIONS)
-                                                        .then(Commands.argument("count", IntegerArgumentType.integer(1))
-                                                                .executes(ModCommands::addMobsToWave)
+                                // Mob Arena commands
+                                .then(Commands.literal("create_mobArena")
+                                        .then(Commands.argument("name", StringArgumentType.word())
+                                                .then(Commands.argument("center_position", Vec3Argument.vec3())
+                                                        .then(Commands.argument("radius", IntegerArgumentType.integer(1))
+                                                                .then(Commands.argument("delay_seconds", IntegerArgumentType.integer(0))
+                                                                        .executes(ModCommands::createMobArena)
+                                                                )
                                                         )
                                                 )
                                         )
                                 )
-                        )
-                        .then(Commands.literal("remove_MobFromWave")
-                                .then(Commands.argument("arena", StringArgumentType.word())
-                                        .suggests(ARENA_SUGGESTIONS)
-                                        .then(Commands.argument("wave_number", IntegerArgumentType.integer(1))
-                                                .suggests(WAVE_SUGGESTIONS)
-                                                .then(Commands.argument("mob_type", StringArgumentType.string())
-                                                        .suggests(MOB_SUGGESTIONS)
-                                                        .executes(ModCommands::removeMobFromWave)
+                                .then(Commands.literal("remove_mobArena")
+                                        .then(Commands.argument("name", StringArgumentType.word())
+                                                .suggests(ARENA_SUGGESTIONS)
+                                                .executes(ModCommands::removeMobArena)
+                                        )
+                                )
+                                .then(Commands.literal("list_mobArenas")
+                                        .executes(ModCommands::listMobArenas)
+                                )
+
+                                // Wave commands
+                                .then(Commands.literal("add_WaveToMobArena")
+                                        .then(Commands.argument("arena", StringArgumentType.word())
+                                                .suggests(ARENA_SUGGESTIONS)
+                                                .executes(ModCommands::addWaveToMobArena)
+                                        )
+                                )
+                                .then(Commands.literal("remove_WaveFromMobArena")
+                                        .then(Commands.argument("arena", StringArgumentType.word())
+                                                .suggests(ARENA_SUGGESTIONS)
+                                                .then(Commands.argument("wave_number", IntegerArgumentType.integer(1))
+                                                        .suggests(WAVE_SUGGESTIONS)
+                                                        .executes(ModCommands::removeWaveFromMobArena)
                                                 )
                                         )
                                 )
-                        )
-                        .then(Commands.literal("list_Waves")
-                                .then(Commands.argument("arena", StringArgumentType.word())
-                                        .suggests(ARENA_SUGGESTIONS)
-                                        .executes(ModCommands::listWaves)
+                                .then(Commands.literal("list_Waves")
+                                        .then(Commands.argument("arena", StringArgumentType.word())
+                                                .suggests(ARENA_SUGGESTIONS)
+                                                .executes(ModCommands::listWaves)
+                                        )
                                 )
-                        )
-                        .then(Commands.literal("start_MobArena")
-                                .then(Commands.argument("arena", StringArgumentType.word())
-                                        .suggests(ARENA_SUGGESTIONS)
-                                        .then(Commands.argument("players", EntityArgument.players())
-                                                .executes(ModCommands::startMobArena)
+
+                                // Mob Commands
+                                .then(Commands.literal("add_MobsToWave")
+                                        .then(Commands.argument("arena", StringArgumentType.word())
+                                                .suggests(ARENA_SUGGESTIONS)
+                                                .then(Commands.argument("wave_number", IntegerArgumentType.integer(1))
+                                                        .suggests(WAVE_SUGGESTIONS)
+                                                        .then(Commands.argument("mob_type", StringArgumentType.string())
+                                                                .suggests(MOB_SUGGESTIONS)
+                                                                .then(Commands.argument("count", IntegerArgumentType.integer(1))
+                                                                        .executes(ModCommands::addMobsToWave)
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+                                .then(Commands.literal("remove_MobFromWave")
+                                        .then(Commands.argument("arena", StringArgumentType.word())
+                                                .suggests(ARENA_SUGGESTIONS)
+                                                .then(Commands.argument("wave_number", IntegerArgumentType.integer(1))
+                                                        .suggests(WAVE_SUGGESTIONS)
+                                                                .then(Commands.argument("mob_type", StringArgumentType.string())
+                                                                        .suggests(MOB_SUGGESTIONS)
+                                                                        .then(Commands.argument("count", IntegerArgumentType.integer(1))
+                                                                                .executes(ModCommands::removeMobFromWave)
+                                                                )
+                                                        )
+                                                )
+                                        )
+                                )
+
+                                // Start and stop MobArena commands
+                                .then(Commands.literal("start_MobArena")
+                                        .then(Commands.argument("arena", StringArgumentType.word())
+                                                .suggests(ARENA_SUGGESTIONS)
+                                                .then(Commands.argument("players", EntityArgument.players())
+                                                        .executes(ModCommands::startMobArena)
+                                                )
+                                        )
+                                )
+                                .then(Commands.literal("stop_MobArena")
+                                        .then(Commands.argument("arena", StringArgumentType.word())
+                                                .suggests(ARENA_SUGGESTIONS)
+                                                .executes(ModCommands::stopMobArena)
                                         )
                                 )
                         )
-                        .then(Commands.literal("stop_MobArena")
-                                .then(Commands.argument("arena", StringArgumentType.word())
-                                        .suggests(ARENA_SUGGESTIONS)
-                                        .executes(ModCommands::stopMobArena)
-                                )
-                        )
-                        .then(Commands.literal("remove_WaveFromMobArena")
-                                .then(Commands.argument("arena", StringArgumentType.word())
-                                        .suggests(ARENA_SUGGESTIONS)
-                                        .then(Commands.argument("wave_number", IntegerArgumentType.integer(1))
-                                                .suggests(WAVE_SUGGESTIONS)
-                                                .executes(ModCommands::removeWaveFromMobArena)
-                                        )
-                                )
-                        )
-        ));
+        );
     }
 
     // --- Arena handlers ---
@@ -199,7 +207,7 @@ public class ModCommands {
                     .append("\n\n§eRadius: ").append(arena.getRadius())
                     .append("b\n§dWave Delay: ").append(arena.getDelayBetweenWaves()).append("s")
                     .append("\n\n§bWaves: ").append(arena.getWaveCount())
-                    .append("\n\n");
+                    .append("\n\n§7---------------\n\n");
         }
 
         String message = sb.toString();
@@ -223,65 +231,6 @@ public class ModCommands {
 
         context.getSource().sendSuccess(
                 () -> Component.literal("§aAdded §bwave " + wave.getWaveNumber() + "§a to arena §6\"" + arenaName + "\" §asuccesfully!"),
-                false
-        );
-        return 1;
-    }
-
-    private static int addMobsToWave(CommandContext<CommandSourceStack> context) {
-        String arenaName = StringArgumentType.getString(context, "arena");
-        int waveNumber = IntegerArgumentType.getInteger(context, "wave_number");
-        String mobType = StringArgumentType.getString(context, "mob_type");
-        int count = IntegerArgumentType.getInteger(context, "count");
-
-        MobArena arena = MobArenaManager.getArena(arenaName);
-        if (arena == null) {
-            context.getSource().sendFailure(Component.literal("§cArena §6\"" + arenaName + "\"§c does not exist!"));
-            return 0;
-        }
-
-        Wave wave = arena.getWave(waveNumber);
-        if (wave == null) {
-            context.getSource().sendFailure(Component.literal("§bWave " + waveNumber + " §cdoes not exist in arena §6\"" + arenaName + "\"§c!"));
-            return 0;
-        }
-
-        wave.addMob(mobType, count);
-        MobArenaManager.save();
-
-        context.getSource().sendSuccess(
-                () -> Component.literal("§aAdded §e" + count + "x §2" + mobType + " §ato §bwave " + waveNumber + " §aof arena §6\"" + arenaName + "\" §asuccesfully!"),
-                false
-        );
-        return 1;
-    }
-
-    private static int removeMobFromWave(CommandContext<CommandSourceStack> context) {
-        String arenaName = StringArgumentType.getString(context, "arena");
-        int waveNumber = IntegerArgumentType.getInteger(context, "wave_number");
-        String mobType = StringArgumentType.getString(context, "mob_type");
-
-        MobArena arena = MobArenaManager.getArena(arenaName);
-        if (arena == null) {
-            context.getSource().sendFailure(Component.literal("Arena   + arenaName + "  + " does not exist!"));
-            return 0;
-        }
-
-        Wave wave = arena.getWave(waveNumber);
-        if (wave == null) {
-            context.getSource().sendFailure(Component.literal("Wave " + waveNumber + " does not exist in arena   + arenaName + "  + "!"));
-            return 0;
-        }
-
-        boolean removed = wave.removeMob(mobType);
-        if (!removed) {
-            context.getSource().sendFailure(Component.literal("Mob type   + mobType + "  + " not found in wave " + waveNumber + " of arena   + arenaName + "  + "!"));
-            return 0;
-        }
-
-        MobArenaManager.save();
-        context.getSource().sendSuccess(
-                () -> Component.literal("Removed   + mobType + "  + " from wave " + waveNumber + " of arena   + arenaName + "  + "."),
                 false
         );
         return 1;
@@ -322,7 +271,7 @@ public class ModCommands {
         }
 
         if (arena.getWaves().isEmpty()) {
-            context.getSource().sendSuccess(() -> Component.literal("§cArena §6\"" + arenaName + "\" §chas no waves yet."), false);
+            context.getSource().sendSuccess(() -> Component.literal("§cArena §6\"" + arenaName + "\" §chas no waves yet!"), false);
             return 0;
         }
 
@@ -341,8 +290,73 @@ public class ModCommands {
         return 1;
     }
 
+    private static int addMobsToWave(CommandContext<CommandSourceStack> context) {
+        String arenaName = StringArgumentType.getString(context, "arena");
+        int waveNumber = IntegerArgumentType.getInteger(context, "wave_number");
+        String mobType = StringArgumentType.getString(context, "mob_type");
+        int count = IntegerArgumentType.getInteger(context, "count");
 
-// --- Session handlers ---
+        MobArena arena = MobArenaManager.getArena(arenaName);
+        if (arena == null) {
+            context.getSource().sendFailure(Component.literal("§cArena §6\"" + arenaName + "\"§c does not exist!"));
+            return 0;
+        }
+
+        Wave wave = arena.getWave(waveNumber);
+        if (wave == null) {
+            context.getSource().sendFailure(Component.literal("§bWave " + waveNumber + " §cdoes not exist in arena §6\"" + arenaName + "\"§c!"));
+            return 0;
+        }
+
+        wave.addMob(mobType, count);
+        MobArenaManager.save();
+
+        context.getSource().sendSuccess(
+                () -> Component.literal("§aAdded §e" + count + "x §2" + mobType + " §ato §bwave " + waveNumber + " §aof arena §6\"" + arenaName + "\" §asuccesfully!"),
+                false
+        );
+        return 1;
+    }
+
+    private static int removeMobFromWave(CommandContext<CommandSourceStack> context) {
+        String arenaName = StringArgumentType.getString(context, "arena");
+        int waveNumber = IntegerArgumentType.getInteger(context, "wave_number");
+        String mobType = StringArgumentType.getString(context, "mob_type");
+
+        // Attempt to read optional count; -1 means "remove all"
+        int count = -1;
+        if (context.getNodes().stream().anyMatch(n -> n.getNode().getName().equals("count"))) {
+            count = IntegerArgumentType.getInteger(context, "count");
+        }
+
+        MobArena arena = MobArenaManager.getArena(arenaName);
+        if (arena == null) {
+            context.getSource().sendFailure(Component.literal("§cArena §6\"" + arenaName + "\" §cdoes not exist!"));
+            return 0;
+        }
+
+        Wave wave = arena.getWave(waveNumber);
+        if (wave == null) {
+            context.getSource().sendFailure(Component.literal("§bWave " + waveNumber + " §cdoes not exist in arena §6\"" + arenaName + "\"§c!"));
+            return 0;
+        }
+
+        int removed = wave.removeMob(mobType, count);
+        if (removed == 0) {
+            context.getSource().sendFailure(Component.literal("§2Mob type " + mobType + " §cnot found in §bwave " + waveNumber + " §cof arena §6\"" + arenaName + "\"§c!"));
+            return 0;
+        }
+
+        MobArenaManager.save();
+        String countMsg = count == -1 ? "§eall" : "§e" + removed + "x";
+        context.getSource().sendSuccess(
+                () -> Component.literal("§aRemoved " + countMsg + " §2" + mobType + " §afrom §bwave " + waveNumber + " §aof arena §6\"" + arenaName + "\" §asuccessfully!"),
+                false
+        );
+        return 1;
+    }
+
+    // --- Session handlers ---
 
     private static int startMobArena(CommandContext<CommandSourceStack> context) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
         String arenaName = StringArgumentType.getString(context, "arena");
@@ -384,16 +398,16 @@ public class ModCommands {
             return 0;
         }
 
-        // 1. Get the active session instance from your manager before stopping it
+        // Get the active session instance from your manager before stopping it
         // (Replace 'ArenaSession' with whatever your session object class name actually is)
         ArenaSession session = ArenaSessionManager.getSession(arenaName);
 
         if (session != null) {
-            // 2. Call the method on the actual instance variable (lowercase 'session')
+            // Call the method on the actual instance variable (lowercase 'session')
             session.KillCurrentWave();
         }
 
-        // 3. Stop the session afterward
+        // Stop the session afterward
         ArenaSessionManager.stopSession(arenaName);
 
         context.getSource().sendSuccess(() -> Component.literal("§aStopped arena §6\"" + arenaName + "\" §asuccessfully!"), false);

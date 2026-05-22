@@ -1,6 +1,9 @@
 package net.alek.succorstadiums.arena;
 
+import net.minecraft.world.entity.Mob;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Wave {
@@ -31,8 +34,21 @@ public class Wave {
         }
     }
 
-    public boolean removeMob(String mobType) {
-        return mobs.removeIf(mob -> mob.getMobType().equalsIgnoreCase(mobType));
+    public int removeMob(String mobType, int count) {
+        for (WaveMob mob : mobs) {
+            if (mob.getMobType().equalsIgnoreCase(mobType)) {
+                int available = mob.getCount();
+                int toRemove = count == -1 ? available : Math.min(count, available);
+                int newCount = available - toRemove;
+                if (newCount <= 0) {
+                    mobs.remove(mob);
+                } else {
+                    mob.setCount(newCount);
+                }
+                return toRemove; // return how many were actually removed
+            }
+        }
+        return 0; // mob type not found
     }
 
 

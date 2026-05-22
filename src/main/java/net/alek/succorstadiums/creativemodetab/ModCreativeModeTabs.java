@@ -11,7 +11,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
-
 public class ModCreativeModeTabs {
 
     public static final CreativeModeTab SUCCOR_STADIUM_ITEM_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
@@ -35,6 +34,34 @@ public class ModCreativeModeTabs {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.BEAN_POLE);
                         output.accept(ModItems.FIRE_STAFF);
+
+
+
+
+
+                    }).build());
+
+    public static final CreativeModeTab SUCCOR_STADIUM_TRINKET_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
+            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_trinkets"),
+            FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SUCCOR_STADIUM_ICON))
+                    .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_trinkets"))
+                    .displayItems((parameters, output) -> {
+                        output.accept(ModItems.SUCCOR_STADIUM_ICON); // PLACEHOLDER
+
+
+
+
+
+
+                    }).build());
+
+    public static final CreativeModeTab SUCCOR_STADIUM_FOOD_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
+            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_foods"),
+            FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SUCCOR_STADIUM_ICON))
+                    .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_foods"))
+                    .displayItems((parameters, output) -> {
+                        output.accept(ModItems.SUCCOR_STADIUM_ICON); // PLACEHOLDER
+
 
 
 

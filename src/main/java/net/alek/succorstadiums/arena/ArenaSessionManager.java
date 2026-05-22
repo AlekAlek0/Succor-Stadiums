@@ -46,7 +46,6 @@ public class ArenaSessionManager {
                 toRemove.add(entry.getKey());
             }
         }
-
         toRemove.forEach(activeSessions::remove);
     }
 }

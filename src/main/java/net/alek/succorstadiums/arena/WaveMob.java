@@ -28,8 +28,6 @@ public class WaveMob {
     }
 
     // Set the mob count of the waveMob
-    public void setCount(int count) {
-        this.count = count;
-    }
+    public void setCount(int count) { this.count = count; }
 
 }
