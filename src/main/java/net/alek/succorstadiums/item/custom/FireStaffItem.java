@@ -33,7 +33,4 @@ public class FireStaffItem extends Item {
 
         return InteractionResult.SUCCESS;
     }
-
-    public Inte
-
 }
