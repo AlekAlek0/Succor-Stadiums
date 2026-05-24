@@ -3,6 +3,7 @@
   "creativemodetab.succorstadiums.succor_stadium_items": "Succor Stadium Items",
   "creativemodetab.succorstadiums.succor_stadium_weapons": "Succor Stadium Weapons",
   "creativemodetab.succorstadiums.succor_stadium_trinkets": "Succor Stadium Trinkets",
+  "creativemodetab.succorstadiums.succor_stadium_foods": "Succor Stadium Foods",
 
   "item.succorstadiums.succor_stadium_icon": "Succor Stadium Icon",
 
@@ -10,8 +11,10 @@
   "item.succorstadiums.silver_ingot": "Silver Ingot",
 
   "item.succorstadiums.bean_pole": "10ft Beanpole",
-  "item.succorstadiums.fire_staff": "Fire Staff",
-  "creativemodetab.succorstadiums.succor_stadium_foods": "Succor Stadium Foods"
+  "item.succorstadiums.bone_dagger": "Bone Dagger",
+  "item.succorstadiums.fire_staff": "Fire Staff"
+
+
 
 
 

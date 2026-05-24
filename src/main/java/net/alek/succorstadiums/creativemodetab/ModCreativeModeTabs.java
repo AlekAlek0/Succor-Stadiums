@@ -33,6 +33,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_weapons"))
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.BEAN_POLE);
+                        output.accept(ModItems.BONE_DAGGER);
                         output.accept(ModItems.FIRE_STAFF);
 
 
