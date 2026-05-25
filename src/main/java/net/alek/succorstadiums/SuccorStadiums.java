@@ -21,7 +21,8 @@ public class SuccorStadiums implements ModInitializer {
 		ModItems.registerModItems();
 		ModCommands.registerModCommands();
 
-		ArenaSessionManager.init(); // registers the tick event
+		// Register the tick event
+		ArenaSessionManager.init();
 		ServerLifecycleEvents.SERVER_STARTED.register(MobArenaManager::init);
 	}
 }

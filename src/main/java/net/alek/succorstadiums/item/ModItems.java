@@ -1,6 +1,7 @@
 package net.alek.succorstadiums.item;
 
 import net.alek.succorstadiums.SuccorStadiums;
+import net.alek.succorstadiums.food.ModFoods;
 import net.alek.succorstadiums.item.custom.FireStaffItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -44,6 +45,8 @@ public class ModItems {
     public static final Item BEAN_POLE = registerItem("bean_pole", properties -> new Item(properties.sword(BEAN_POLE_TOOL_MATERIAL, 0.1F, -3.8F)));
     public static final Item BONE_DAGGER = registerItem("bone_dagger", properties -> new Item(properties.sword(BONE_DAGGER_TOOL_MATERIAL, 1.3F, -2.3F)));
     public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties.durability(50)));
+
+    public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)));
 
     private static Item registerItem(String name, Function<Item.Properties, Item> function) {
         return Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, name),
