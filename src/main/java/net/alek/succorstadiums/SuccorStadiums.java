@@ -17,6 +17,7 @@ public class SuccorStadiums implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+
 		ModCreativeModeTabs.registerModCreativeModeTabs();
 		ModItems.registerModItems();
 		ModCommands.registerModCommands();
