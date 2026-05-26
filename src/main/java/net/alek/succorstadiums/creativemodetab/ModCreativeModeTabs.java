@@ -61,15 +61,8 @@ public class ModCreativeModeTabs {
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_foods"),
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SUCCOR_STADIUM_ICON))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_foods"))
-                    .displayItems((parameters, output) -> {
-                        output.accept(ModItems.GRAMBLE_BAPPLE);
-
-
-
-
-
-
-                    }).build());
+                    .displayItems((parameters, output) ->
+                        output.accept(ModItems.GRAMBLE_BAPPLE)).build());
 
 
     public static void registerModCreativeModeTabs()
