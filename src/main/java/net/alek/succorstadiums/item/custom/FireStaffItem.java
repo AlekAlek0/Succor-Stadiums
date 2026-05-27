@@ -1,7 +1,5 @@
 package net.alek.succorstadiums.item.custom;
 
-import net.alek.succorstadiums.sound.ModSounds;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
