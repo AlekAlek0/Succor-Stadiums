@@ -24,7 +24,7 @@ public class ModFoods {
                     new MobEffectInstance(MobEffects.REGENERATION, 300, 0), 0.85f))
 
             .onConsume(new ApplyStatusEffectsConsumeEffect(
-                    new MobEffectInstance(MobEffects.RESISTANCE, 300, 0), 0.05f))
+                    new MobEffectInstance(MobEffects.HEALTH_BOOST, 300, 0), 0.05f))
 
             .onConsume(new ApplyStatusEffectsConsumeEffect(
                     new MobEffectInstance(MobEffects.SLOWNESS, 200, 3), 0.35f))

@@ -18,6 +18,9 @@
 		"main": [
 			"net.alek.succorstadiums.SuccorStadiums"
 		],
+		"client": [
+			"net.alek.succorstadiums.client.SuccorStadiumsClient"
+		],
 		"fabric-datagen": [
 			"net.alek.succorstadiums.SuccorStadiumsDataGenerator"
 		]

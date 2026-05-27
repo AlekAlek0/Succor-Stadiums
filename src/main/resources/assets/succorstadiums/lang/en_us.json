@@ -13,13 +13,22 @@
   "item.succorstadiums.bean_pole": "10ft Beanpole",
   "item.succorstadiums.bone_dagger": "Bone Dagger",
   "item.succorstadiums.fire_staff": "Fire Staff",
-  "item.succorstadiums.aqua_rod": "Aqua Rod",
+  "item.succorstadiums.aqua_staff": "Aqua Staff",
 
-  "item.succorstadiums.ghramble_bapple": "Ghramble Bapple"
+  "item.succorstadiums.ghramble_bapple": "Ghramble Bapple",
 
+  "item.succorstadiums.brennon_ore.tooltip": "Finally!",
+  "item.succorstadiums.silver_ingot.tooltip": "Shiny!",
 
+  "item.succorstadiums.bean_pole.tooltip": "I wouldn't even touch you with a...",
+  "item.succorstadiums.bone_dagger.tooltip": "3 inches is actually pretty big..",
+  "item.succorstadiums.aqua_staff.tooltip": "A staff that shoots out a circle inflicting snowless and slow falling.",
 
-
-
+  "item.succorstadiums.ghramble_bapple.tooltip_0": "Ghramble is my favorite bapple.",
+  "item.succorstadiums.ghramble_bapple.tooltip_1": "+ Resistance II | 0:45 | 30%",
+  "item.succorstadiums.ghramble_bapple.tooltip_2": "+ Regeneration I | 0:15 | 85%",
+  "item.succorstadiums.ghramble_bapple.tooltip_3": "+ Health Boost I | 0:15 | 5%",
+  "item.succorstadiums.ghramble_bapple.tooltip_4": "- Weakness I | 0:08 | 75%",
+  "item.succorstadiums.ghramble_bapple.tooltip_5": "- Slowness IV | 0:10 | 35%"
 
 }

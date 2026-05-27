@@ -35,7 +35,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.BEAN_POLE);
                         output.accept(ModItems.BONE_DAGGER);
                         output.accept(ModItems.FIRE_STAFF);
-                        output.accept(ModItems.AQUA_ROD);
+                        output.accept(ModItems.AQUA_STAFF);
 
 
 

@@ -5,6 +5,7 @@ import net.alek.succorstadiums.arena.MobArenaManager;
 import net.alek.succorstadiums.command.ModCommands;
 import net.alek.succorstadiums.creativemodetab.ModCreativeModeTabs;
 import net.alek.succorstadiums.item.ModItems;
+import net.alek.succorstadiums.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import org.slf4j.Logger;
@@ -19,8 +20,9 @@ public class SuccorStadiums implements ModInitializer {
 	public void onInitialize() {
 
 		ModCreativeModeTabs.registerModCreativeModeTabs();
-		ModItems.registerModItems();
 		ModCommands.registerModCommands();
+		ModItems.registerModItems();
+		ModSounds.registerModSounds();
 
 		// Register the tick event
 		ArenaSessionManager.init();

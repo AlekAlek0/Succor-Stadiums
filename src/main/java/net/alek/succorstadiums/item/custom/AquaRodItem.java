@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.item.custom;
 
+import net.alek.succorstadiums.sound.ModSounds;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -32,7 +33,9 @@ public class AquaRodItem extends Item {
     private static final double RING_RADIUS = 2.5;
     private static final int PARTICLE_COUNT = 48;
     private static final int SLOWNESS_DURATION = 100;
+    private static final int SLOW_FALLING_DURATION = 100;
     private static final int SLOWNESS_AMPLIFIER = 0;
+    private static final int SLOW_FALLING_AMPLIFIER = 0;
     private static final int COOLDOWN_TICKS = 100;
     private static final int RING_DURATION_TICKS = 60;
 
@@ -79,6 +82,7 @@ public class AquaRodItem extends Item {
 
         activeBolts.add(new ParticleBolt(serverLevel, start, direction));
 
+
         user.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
         return InteractionResult.SUCCESS;
     }
@@ -123,6 +127,8 @@ public class AquaRodItem extends Item {
                         30, 0.3, 0.1, 0.3, 0
                 );
 
+                level.playSound(null, landPos.x, landPos.y,  landPos.z, ModSounds.AQUA_ROD_USE, net.minecraft.sounds.SoundSource.PLAYERS, 1.0f, 1.0f);
+
                 AABB area = new AABB(
                         landPos.x - RING_RADIUS, landPos.y - 2, landPos.z - RING_RADIUS,
                         landPos.x + RING_RADIUS, landPos.y + 2, landPos.z + RING_RADIUS
@@ -133,6 +139,9 @@ public class AquaRodItem extends Item {
                 targets.forEach(entity -> {
                     boolean applied = entity.addEffect(
                             new MobEffectInstance(MobEffects.SLOWNESS, SLOWNESS_DURATION, SLOWNESS_AMPLIFIER)
+                    );
+                    boolean applied_2 = entity.addEffect(
+                            new MobEffectInstance(MobEffects.SLOW_FALLING, SLOW_FALLING_DURATION, SLOW_FALLING_AMPLIFIER)
                     );
                 });
 
@@ -167,12 +176,13 @@ public class AquaRodItem extends Item {
                         center.x + RING_RADIUS, center.y + 4, center.z + RING_RADIUS
                 );
                 List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, area, e -> true);
-                LOGGER.info("[AquaRod] Ring tick {} — found {} entities", ticksAlive, targets.size());
                 targets.forEach(entity -> {
                     boolean applied = entity.addEffect(
-                            new MobEffectInstance(MobEffects.SLOWNESS, 40, SLOWNESS_AMPLIFIER)
+                            new MobEffectInstance(MobEffects.SLOW_FALLING, 40)
                     );
-                    LOGGER.info("[AquaRod] Slowness on '{}' — success: {}", entity.getName().getString(), applied);
+                    boolean applied_2 = entity.addEffect(
+                            new MobEffectInstance(MobEffects.SLOWNESS, 40, SLOW_FALLING_AMPLIFIER)
+                    );
                 });
             }
         }

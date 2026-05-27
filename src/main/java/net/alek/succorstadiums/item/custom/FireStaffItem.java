@@ -1,5 +1,7 @@
 package net.alek.succorstadiums.item.custom;
 
+import net.alek.succorstadiums.sound.ModSounds;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -36,6 +38,7 @@ public class FireStaffItem extends Item {
         fireball.setPos(spawnPos);
         level.addFreshEntity(fireball);
 
+        // Give a cooldown on the item and return a success
         user.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
         return InteractionResult.SUCCESS;
     }

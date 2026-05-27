@@ -47,7 +47,7 @@ public class ModItems {
     public static final Item BEAN_POLE = registerItem("bean_pole", properties -> new Item(properties.sword(BEAN_POLE_TOOL_MATERIAL, 0.1F, -3.8F).rarity(Rarity.COMMON)));
     public static final Item BONE_DAGGER = registerItem("bone_dagger", properties -> new Item(properties.sword(BONE_DAGGER_TOOL_MATERIAL, 1.3F, -2.3F).rarity(Rarity.COMMON)));
     public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties.durability(50).rarity(Rarity.EPIC)));
-    public static final Item AQUA_ROD = registerItem("aqua_rod", properties -> new AquaRodItem(properties.durability(50).rarity(Rarity.RARE)));
+    public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaRodItem(properties.durability(50).rarity(Rarity.RARE)));
 
     public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE).rarity(Rarity.RARE)));
 
