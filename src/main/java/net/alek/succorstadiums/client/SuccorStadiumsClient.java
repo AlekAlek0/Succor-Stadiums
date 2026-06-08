@@ -1,15 +1,28 @@
 package net.alek.succorstadiums.client;
 
 import net.alek.succorstadiums.item.ModItems;
+import net.alek.succorstadiums.network.ResurrectionAmuletPayload;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 
 public class SuccorStadiumsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+
+        ClientPlayNetworking.registerGlobalReceiver(ResurrectionAmuletPayload.TYPE, (payload, context) -> {
+            context.client().execute(() -> {
+                ItemStack stack = new ItemStack(ModItems.RESURRECTION_AMULET);
+                context.client().gameRenderer.displayItemActivation(stack);
+            });
+        });
+
+
 
         ItemTooltipCallback.EVENT.register((stack, context, type, tooltip) -> {
 

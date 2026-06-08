@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.item.custom;
+package net.alek.succorstadiums.item.weapons;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -16,6 +16,7 @@ public class FireStaffItem extends Item {
         super(properties);
 
     }
+
 
 
     @Override

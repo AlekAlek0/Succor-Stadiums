@@ -7,6 +7,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -138,6 +140,15 @@ public class ArenaSession {
 
                     entity.snapTo(spawnPos.x, spawnPos.y, spawnPos.z,
                             level.getRandom().nextFloat() * 360f, 0f);
+
+                    if (entity instanceof Mob mob) {
+                        mob.finalizeSpawn(
+                                (ServerLevelAccessor) level,
+                                level.getCurrentDifficultyAt(mob.blockPosition()),
+                                EntitySpawnReason.COMMAND,
+                                null
+                        );
+                    }
 
                     level.addFreshEntity(entity);
                     activeMobUUIDs.add(entity.getUUID());

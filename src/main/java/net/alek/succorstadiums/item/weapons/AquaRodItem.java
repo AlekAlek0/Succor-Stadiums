@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.item.custom;
+package net.alek.succorstadiums.item.weapons;
 
 import net.alek.succorstadiums.sound.ModSounds;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;

@@ -1,6 +1,7 @@
 {
 
   "creativemodetab.succorstadiums.succor_stadium_items": "Succor Stadium Items",
+  "creativemodetab.succorstadiums.succor_stadium_armor": "Succor Stadium Armor",
   "creativemodetab.succorstadiums.succor_stadium_weapons": "Succor Stadium Weapons",
   "creativemodetab.succorstadiums.succor_stadium_trinkets": "Succor Stadium Trinkets",
   "creativemodetab.succorstadiums.succor_stadium_foods": "Succor Stadium Foods",
@@ -9,13 +10,20 @@
 
   "item.succorstadiums.brennon_ore": "Brennon Ore",
   "item.succorstadiums.silver_ingot": "Silver Ingot",
+  "item.succorstadiums.silk_spool": "Silk Spool",
+  "item.succorstadiums.silk_weave": "Silk Weave",
 
   "item.succorstadiums.bean_pole": "10ft Beanpole",
   "item.succorstadiums.bone_dagger": "Bone Dagger",
-  "item.succorstadiums.fire_staff": "Fire Staff",
-  "item.succorstadiums.aqua_staff": "Aqua Staff",
+  "item.succorstadiums.fire_staff": "§4Fire Staff",
+  "item.succorstadiums.aqua_staff": "§3Aqua Staff",
+  "item.succorstadiums.bownana": "§eBownana",
 
   "item.succorstadiums.ghramble_bapple": "Ghramble Bapple",
+
+  "item.succorstadiums.resurrection_amulet": "Resurrection Amulet",
+
+  "enchantment.succorstadiums.viper_bite": "Viper Bite",
 
   "item.succorstadiums.brennon_ore.tooltip": "Finally!",
   "item.succorstadiums.silver_ingot.tooltip": "Shiny!",

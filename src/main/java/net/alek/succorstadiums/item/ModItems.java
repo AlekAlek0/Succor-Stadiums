@@ -2,8 +2,10 @@ package net.alek.succorstadiums.item;
 
 import net.alek.succorstadiums.SuccorStadiums;
 import net.alek.succorstadiums.food.ModFoods;
-import net.alek.succorstadiums.item.custom.AquaRodItem;
-import net.alek.succorstadiums.item.custom.FireStaffItem;
+import net.alek.succorstadiums.item.weapons.AquaRodItem;
+import net.alek.succorstadiums.item.weapons.BownanaItem;
+import net.alek.succorstadiums.item.weapons.FireStaffItem;
+import net.alek.succorstadiums.item.trinkets.ResurrectionAmuletItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -43,14 +45,19 @@ public class ModItems {
 
     public static final Item BRENNON_ORE = registerItem("brennon_ore", Item::new);
     public static final Item SILVER_INGOT = registerItem("silver_ingot", Item::new);
+    public static final Item SILK_SPOOL = registerItem("silk_spool", Item::new);
+    public static final Item SILK_WEAVE = registerItem("silk_weave", Item::new);
 
-    public static final Item BEAN_POLE = registerItem("bean_pole", properties -> new Item(properties.sword(BEAN_POLE_TOOL_MATERIAL, 0.1F, -3.8F).rarity(Rarity.COMMON)));
-    public static final Item BONE_DAGGER = registerItem("bone_dagger", properties -> new Item(properties.sword(BONE_DAGGER_TOOL_MATERIAL, 1.3F, -2.3F).rarity(Rarity.COMMON)));
-    public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties.durability(50).rarity(Rarity.EPIC)));
-    public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaRodItem(properties.durability(50).rarity(Rarity.RARE)));
+    public static final Item BEAN_POLE = registerItem("bean_pole", properties -> new Item(properties.sword(BEAN_POLE_TOOL_MATERIAL, 1.1F, -3.35F)));
+    public static final Item BONE_DAGGER = registerItem("bone_dagger", properties -> new Item(properties.sword(BONE_DAGGER_TOOL_MATERIAL, 1.3F, -2.3F)));
+    public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties.durability(50)));
+    public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaRodItem(properties.durability(50)));
+
+    public static final Item BOWNANA = registerItem("bownana", properties -> new BownanaItem(properties.durability(384)));
 
     public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE).rarity(Rarity.RARE)));
 
+    public static final Item RESURRECTION_AMULET = registerItem("resurrection_amulet", properties -> new ResurrectionAmuletItem(properties.stacksTo(1)));
 
     private static Item registerItem(String name, Function<Item.Properties, Item> function) {
         return Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, name),

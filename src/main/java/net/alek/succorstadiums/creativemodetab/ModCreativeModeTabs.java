@@ -18,10 +18,21 @@ public class ModCreativeModeTabs {
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SUCCOR_STADIUM_ICON))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_items"))
                     .displayItems((parameters, output) -> {
-                      output.accept(ModItems.BRENNON_ORE);
-                      output.accept(ModItems.SILVER_INGOT);
+                        output.accept(ModItems.BRENNON_ORE);
+                        output.accept(ModItems.SILVER_INGOT);
+                        output.accept(ModItems.SILK_WEAVE);
+                        output.accept(ModItems.SILK_SPOOL);
 
 
+
+                    }).build());
+
+    public static final CreativeModeTab SUCCOR_STADIUM_ARMOR_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
+            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_armor"),
+            FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SUCCOR_STADIUM_ICON))
+                    .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_armor"))
+                    .displayItems((parameters, output) -> {
+                        output.accept(ModItems.SUCCOR_STADIUM_ICON); // PLACEHOLDER
 
 
 
@@ -36,8 +47,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.BONE_DAGGER);
                         output.accept(ModItems.FIRE_STAFF);
                         output.accept(ModItems.AQUA_STAFF);
-
-
+                        output.accept(ModItems.BOWNANA);
 
 
 
@@ -48,10 +58,7 @@ public class ModCreativeModeTabs {
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SUCCOR_STADIUM_ICON))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_trinkets"))
                     .displayItems((parameters, output) -> {
-                        output.accept(ModItems.SUCCOR_STADIUM_ICON); // PLACEHOLDER
-
-
-
+                        output.accept(ModItems.RESURRECTION_AMULET);
 
 
 
@@ -62,8 +69,11 @@ public class ModCreativeModeTabs {
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SUCCOR_STADIUM_ICON))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_foods"))
                     .displayItems((parameters, output) ->
-                        output.accept(ModItems.GRAMBLE_BAPPLE)).build());
+                        output.accept(ModItems.GRAMBLE_BAPPLE))
 
+
+
+                    .build());
 
     public static void registerModCreativeModeTabs()
     {

@@ -12,11 +12,12 @@ public class Wave {
         this.waveNumber = waveNumber;
         this.mobs = new ArrayList<>();
     }
-
+    // Method to return the wave number
     public int getWaveNumber() { return waveNumber; }
     public void setWaveNumber(int waveNumber) { this.waveNumber = waveNumber; }
     public List<WaveMob> getMobs() { return mobs; }
 
+    // Method to add a mob to the wave
     public void addMob(String mobType, int count) {
 
         WaveMob existingMob = mobs.stream()
@@ -31,6 +32,7 @@ public class Wave {
         }
     }
 
+    // Method to remove a mob from a wave
     public int removeMob(String mobType, int count) {
         for (WaveMob mob : mobs) {
             if (mob.getMobType().equalsIgnoreCase(mobType)) {
@@ -42,14 +44,17 @@ public class Wave {
                 } else {
                     mob.setCount(newCount);
                 }
-                return toRemove; // return how many were actually removed
+                // Return how many were actually removed
+                return toRemove;
             }
         }
-        return 0; // mob type not found
+        // Mob type not found
+        return 0;
     }
 
-
+    // Method to get total mob count of a wave
     public int getTotalMobCount() {
+
         return mobs.stream().mapToInt(WaveMob::getCount).sum();
     }
 }

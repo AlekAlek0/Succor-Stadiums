@@ -230,7 +230,7 @@ public class ModCommands {
         MobArenaManager.save();
 
         context.getSource().sendSuccess(
-                () -> Component.literal("§aAdded §bwave " + wave.getWaveNumber() + "§a to arena §6\"" + arenaName + "\" §asuccesfully!"),
+                () -> Component.literal("§aAdded §bwave " + wave.getWaveNumber() + "§a to arena §6\"" + arenaName + "\" §asuccessfully!"),
                 false
         );
         return 1;
@@ -312,7 +312,7 @@ public class ModCommands {
         MobArenaManager.save();
 
         context.getSource().sendSuccess(
-                () -> Component.literal("§aAdded §e" + count + "x §2" + mobType + " §ato §bwave " + waveNumber + " §aof arena §6\"" + arenaName + "\" §asuccesfully!"),
+                () -> Component.literal("§aAdded §e" + count + "x §2" + mobType + " §ato §bwave " + waveNumber + " §aof arena §6\"" + arenaName + "\" §asuccessfully!"),
                 false
         );
         return 1;
