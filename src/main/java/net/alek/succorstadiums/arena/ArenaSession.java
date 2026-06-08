@@ -143,7 +143,7 @@ public class ArenaSession {
 
                     if (entity instanceof Mob mob) {
                         mob.finalizeSpawn(
-                                (ServerLevelAccessor) level,
+                                level,
                                 level.getCurrentDifficultyAt(mob.blockPosition()),
                                 EntitySpawnReason.COMMAND,
                                 null

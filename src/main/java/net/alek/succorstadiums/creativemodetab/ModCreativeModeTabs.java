@@ -57,12 +57,11 @@ public class ModCreativeModeTabs {
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_trinkets"),
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SUCCOR_STADIUM_ICON))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_trinkets"))
-                    .displayItems((parameters, output) -> {
-                        output.accept(ModItems.RESURRECTION_AMULET);
+                    .displayItems((parameters, output) ->
+                            output.accept(ModItems.RESURRECTION_AMULET))
 
 
-
-                    }).build());
+                    .build());
 
     public static final CreativeModeTab SUCCOR_STADIUM_FOOD_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_foods"),

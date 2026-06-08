@@ -35,7 +35,7 @@ public class ModCommands {
             (context, builder) -> {
                 String remaining = builder.getRemaining().replace("\"", "");
                 net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.keySet().stream()
-                        .map(key -> "\"" + key.toString() + "\"")
+                        .map(key -> "\"" + key + "\"")
                         .filter(s -> s.contains(remaining))
                         .forEach(builder::suggest);
                 return builder.buildFuture();
