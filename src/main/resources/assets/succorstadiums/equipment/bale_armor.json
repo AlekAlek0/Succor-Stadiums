@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "succorstadiums:bale_armor"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "succorstadiums:bale_armor"
+      }
+    ]
+  }
+}

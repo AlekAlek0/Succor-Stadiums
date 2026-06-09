@@ -20,23 +20,29 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerators) {
 
-        itemModelGenerators.generateFlatItem(ModItems.SUCCOR_STADIUM_ICON, ModelTemplates.FLAT_ITEM);
-
         itemModelGenerators.generateFlatItem(ModItems.BRENNON_ORE, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.SILVER_INGOT, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.SILK_SPOOL, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.SILK_WEAVE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.BONE_BROTH, ModelTemplates.FLAT_ITEM);
+
+        itemModelGenerators.generateFlatItem(ModItems.BALE_HELMET, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.BALE_CHESTPLATE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.BALE_LEGGINGS, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.BALE_BOOTS, ModelTemplates.FLAT_ITEM);
 
         itemModelGenerators.generateFlatItem(ModItems.BEAN_POLE, ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.BONE_DAGGER, ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.FIRE_STAFF, ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.AQUA_STAFF, ModelTemplates.FLAT_HANDHELD_ITEM);
 
-        itemModelGenerators.generateBow(ModItems.BOWNANA);
+        //itemModelGenerators.generateFlatItem(ModItems.BOWNANA, ModelTemplates.FLAT_HANDHELD_ITEM);
 
-        itemModelGenerators.generateFlatItem(ModItems.RESURRECTION_AMULET, ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.RESURRECTION_AMULET, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.FLINT_CHARM, ModelTemplates.FLAT_ITEM);
 
         itemModelGenerators.generateFlatItem(ModItems.GRAMBLE_BAPPLE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.ROTTEN_STEW, ModelTemplates.FLAT_ITEM);
 
     }
 }

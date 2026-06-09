@@ -32,4 +32,17 @@ public class ModFoods {
             .onConsume(new ApplyStatusEffectsConsumeEffect(
                     new MobEffectInstance(MobEffects.WEAKNESS, 160, 0), 0.75f))
             .build();
+
+    public static final FoodProperties ROTTEN_STEW = new FoodProperties.Builder()
+            .nutrition(6)
+            .saturationModifier(1.2f)
+            .build();
+
+    public static final Consumable ROTTEN_STEW_CONSUMABLE = Consumables.defaultFood()
+            .consumeSeconds(2.2f)
+
+            .onConsume(new ApplyStatusEffectsConsumeEffect(
+                    new MobEffectInstance(MobEffects.HUNGER, 400, 1), 0.3f))
+            .build();
+
 }

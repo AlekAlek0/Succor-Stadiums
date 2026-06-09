@@ -3,6 +3,7 @@
   "package": "net.alek.succorstadiums.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
+    "AnvilScreenHandlerMixin",
     "MobDamageMixin",
     "PlayerAttributesMixin",
     "ResurrectionAmuletMixin"
@@ -12,5 +13,5 @@
   },
   "overwrites": {
     "requireAnnotations": true
-	}
+  }
 }
