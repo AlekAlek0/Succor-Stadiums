@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:item/bow",
+  "parent": "minecraft:item/handheld",
   "textures": {
     "layer0": "succorstadiums:item/bownana_pulling_0"
   }

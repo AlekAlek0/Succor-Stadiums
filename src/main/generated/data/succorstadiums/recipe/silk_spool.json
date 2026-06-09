@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "category": "misc",
   "ingredients": [
     "minecraft:string",
     "minecraft:string",
@@ -11,7 +12,6 @@
     "minecraft:string"
   ],
   "result": {
-    "id": "succorstadiums:silk_spool",
-    "count": 1
+    "id": "succorstadiums:silk_spool"
   }
 }
