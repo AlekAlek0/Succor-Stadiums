@@ -3,6 +3,7 @@ package net.alek.succorstadiums.item;
 import net.alek.succorstadiums.SuccorStadiums;
 import net.alek.succorstadiums.food.ModFoods;
 import net.alek.succorstadiums.item.armor.BaleArmorMaterial;
+import net.alek.succorstadiums.item.armor.NannerWaterWadersItem;
 import net.alek.succorstadiums.item.trinkets.FlintCharmItem;
 import net.alek.succorstadiums.item.weapons.*;
 import net.alek.succorstadiums.item.trinkets.ResurrectionAmuletItem;
@@ -70,6 +71,13 @@ public class ModItems {
                             .durability(112)
             )
     );
+
+    public static final Item NANNER_WATER_WADERS = registerItem("nanner_water_waders", properties -> new NannerWaterWadersItem(
+                    properties.humanoidArmor(BaleArmorMaterial.INSTANCE, ArmorType.BOOTS)
+                            .durability(100)
+            )
+    );
+
 
     public static final Item BEAN_POLE = registerItem("bean_pole", properties -> new BeanPoleItem(
             properties.sword(BONE_DAGGER_TOOL_MATERIAL,

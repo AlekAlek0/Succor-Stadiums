@@ -58,6 +58,7 @@ public class ModCreativeModeTabs {
                         boots.enchant(enchantments.getOrThrow(Enchantments.PROJECTILE_PROTECTION), 1);
                         output.accept(boots);
 
+                        output.accept(ModItems.NANNER_WATER_WADERS);
 
 
                     }).build());

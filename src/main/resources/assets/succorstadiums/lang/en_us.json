@@ -20,6 +20,8 @@
   "item.succorstadiums.bale_chestplate": "Bale Target",
   "item.succorstadiums.bale_leggings": "Bale Leggings",
   "item.succorstadiums.bale_boots": "Bale Boots",
+  "item.succorstadiums.nanner_water_waders": "Nanner Water Waders",
+  "item.succorstadiums.nanner_water_waders_tooltip": "  Increased speed on soul sand, soul soil, mud, and underwater",
 
   "item.succorstadiums.bean_pole": "10ft Beanpole",
   "item.succorstadiums.bone_dagger": "Bone Dagger",
@@ -39,6 +41,12 @@
   "item.succorstadiums.silver_ingot.tooltip": "Shiny!",
   "item.succorstadiums.silk_spool.tooltip": "Used to make the Spider Silk Bow and Silkweave.",
   "item.succorstadiums.silk_weave.tooltip": "Used to make the Silkweave armor set.",
+  "item.succorstadiums.bone_broth.tooltip": "Looks inedible, but may have a use...",
+
+  "item.succorstadiums.bale_helmet.tooltip": "Why a bale bucket you may ask... well it sounded nice.",
+  "item.succorstadiums.bale_chestplate.tooltip": "Aim for the target.",
+  "item.succorstadiums.bale_leggings.tooltip": "All sneaky beaky like.",
+  "item.succorstadiums.bale_boots.tooltip": "Good for a short fall.",
 
   "item.succorstadiums.bean_pole.tooltip": "I wouldn't even touch you with a...",
   "item.succorstadiums.bone_dagger.tooltip": "3 inches is actually pretty big..",
@@ -56,12 +64,7 @@
   "item.succorstadiums.rotten_stew.tooltip_0": "Cafeteria slop.",
   "item.succorstadiums.rotten_stew.tooltip_1": "- Hunger II | 0:20 | 30%",
 
-  "item.succorstadiums.resurrection_amulet.tooltip": "I mean the name tells you all you need to know.",
-  "item.succorstadiums.bale_helmet.tooltip": "Why a bale bucket you may ask... well it sounded nice.",
-  "item.succorstadiums.bale_chestplate.tooltip": "Aim for the target.",
-  "item.succorstadiums.bale_leggings.tooltip": "All sneaky beaky like.",
-  "item.succorstadiums.bale_boots.tooltip": "Good for a short fall.",
-  "item.succorstadiums.bone_broth.tooltip": "Looks inedible, but may have a use...",
-  "item.succorstadiums.flint_charm.tooltip": "Increases attack damage when in offhand."
+  "item.succorstadiums.flint_charm.tooltip": "Flint Charm? I just don't see it.",
+  "item.succorstadiums.resurrection_amulet.tooltip": "I mean the name tells you all you need to know."
 
 }

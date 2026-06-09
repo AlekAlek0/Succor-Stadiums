@@ -116,6 +116,12 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                         ChatFormatting.ITALIC)
                 );
             }
+            if (stack.is(ModItems.NANNER_WATER_WADERS)) {
+
+                tooltip.add(Component.translatable("item.succorstadiums.nanner_water_waders_tooltip")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+            }
 
             // Weapon Tooltips
             if (stack.is(ModItems.BEAN_POLE)) {
@@ -209,7 +215,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 tooltip.add(
                         1,
                         Component.translatable("item.succorstadiums.flint_charm.tooltip")
-                                .withStyle(ChatFormatting.YELLOW,
+                                .withStyle(ChatFormatting.DARK_GRAY,
                                         ChatFormatting.ITALIC)
                 );
             }
