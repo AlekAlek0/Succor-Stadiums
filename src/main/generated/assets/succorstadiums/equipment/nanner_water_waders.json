@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "succorstadiums:nanner_water_waders"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "succorstadiums:nanner_water_waders"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "succorstadiums:nanner_water_waders"
+      }
+    ]
+  }
+}

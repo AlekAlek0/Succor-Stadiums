@@ -5,6 +5,7 @@
   "mixins": [
     "AnvilScreenHandlerMixin",
     "MobDamageMixin",
+    "MobHealthMixin",
     "NannerWaterWadersMixin",
     "PlayerAttributesMixin",
     "ResurrectionAmuletMixin"
