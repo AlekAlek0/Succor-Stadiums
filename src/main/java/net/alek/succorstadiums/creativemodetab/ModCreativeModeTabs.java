@@ -105,6 +105,7 @@ public class ModCreativeModeTabs {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.FLINT_CHARM);
                         output.accept(ModItems.RESURRECTION_AMULET);
+                        output.accept(ModItems.DOG_WHISTLE);
 
 
                     }).build());
@@ -126,5 +127,4 @@ public class ModCreativeModeTabs {
     {
         SuccorStadiums.LOGGER.info("Registering Creative Mode Tabs for " + SuccorStadiums.MOD_ID);
     }
-
 }

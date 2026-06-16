@@ -3,6 +3,7 @@ package net.alek.succorstadiums.item;
 import net.alek.succorstadiums.SuccorStadiums;
 import net.alek.succorstadiums.food.ModFoods;
 import net.alek.succorstadiums.item.armor.NannerWaterWadersItem;
+import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
 import net.alek.succorstadiums.item.trinkets.FlintCharmItem;
 import net.alek.succorstadiums.item.weapons.*;
 import net.alek.succorstadiums.item.trinkets.ResurrectionAmuletItem;
@@ -17,8 +18,6 @@ import java.util.function.Function;
 
 import static net.alek.succorstadiums.item.ModToolMaterials.BEAN_POLE_TOOL_MATERIAL;
 import static net.alek.succorstadiums.item.ModToolMaterials.BONE_DAGGER_TOOL_MATERIAL;
-
-import static net.alek.succorstadiums.item.ModArmorMaterials.NANNER_WADERS_MATERIAL;
 
 public class ModItems {
 
@@ -53,7 +52,7 @@ public class ModItems {
     );
 
     public static final Item NANNER_WATER_WADERS = registerItem("nanner_water_waders", properties -> new NannerWaterWadersItem(
-                    properties.humanoidArmor(NANNER_WADERS_MATERIAL , ArmorType.BOOTS)
+                    properties.humanoidArmor(ModArmorMaterials.NANNER_WADERS_MATERIAL , ArmorType.BOOTS)
                             .durability(100)
             )
     );
@@ -62,13 +61,13 @@ public class ModItems {
             properties.sword(BEAN_POLE_TOOL_MATERIAL,
                     0F,
                     0F)
-                    .durability(80)));
+                    .durability(160)));
 
     public static final Item BONE_DAGGER = registerItem("bone_dagger", properties -> new BoneDaggerItem(
             properties.sword(BONE_DAGGER_TOOL_MATERIAL,
                     0F,
                     0F)
-                    .durability(64)
+                    .durability(128)
     ));
 
     public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties.durability(50)));
@@ -82,6 +81,7 @@ public class ModItems {
 
     public static final Item FLINT_CHARM = registerItem("flint_charm", properties -> new FlintCharmItem(properties.stacksTo(1)));
     public static final Item RESURRECTION_AMULET = registerItem("resurrection_amulet", properties -> new ResurrectionAmuletItem(properties.stacksTo(1)));
+    public static final Item DOG_WHISTLE = registerItem("dog_whistle", properties -> new DogWhistleItem(properties.stacksTo(1)));
 
     private static Item registerItem(String name, Function<Item.Properties, Item> function) {
         return Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, name),
@@ -93,5 +93,4 @@ public class ModItems {
         SuccorStadiums.LOGGER.info("Registering Mod Items for " + SuccorStadiums.MOD_ID);
 
     }
-
 }

@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -36,7 +37,7 @@ public class AquaRodItem extends Item {
     private static final int SLOW_FALLING_DURATION = 100;
     private static final int SLOWNESS_AMPLIFIER = 0;
     private static final int SLOW_FALLING_AMPLIFIER = 0;
-    private static final int COOLDOWN_TICKS = 100;
+    private static final int COOLDOWN_TICKS = 240;
     private static final int RING_DURATION_TICKS = 60;
 
     private static final DustParticleOptions AQUA_DUST =
@@ -127,7 +128,7 @@ public class AquaRodItem extends Item {
                         30, 0.3, 0.1, 0.3, 0
                 );
 
-                level.playSound(null, landPos.x, landPos.y,  landPos.z, ModSounds.AQUA_ROD_USE, net.minecraft.sounds.SoundSource.PLAYERS, 1.0f, 1.0f);
+                level.playSound(null, landPos.x, landPos.y,  landPos.z, ModSounds.AQUA_ROD_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
 
                 AABB area = new AABB(
                         landPos.x - RING_RADIUS, landPos.y - 2, landPos.z - RING_RADIUS,

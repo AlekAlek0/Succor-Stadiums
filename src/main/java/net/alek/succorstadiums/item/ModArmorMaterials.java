@@ -21,8 +21,6 @@ public class ModArmorMaterials {
             ArmorMaterials.makeDefense(0,1,2,1,3),
     20, SoundEvents.ARMOR_EQUIP_LEATHER, 0, 0, null, BALE_ARMOR_KEY);
 
-
-
     public static final ArmorMaterial NANNER_WADERS_MATERIAL = new ArmorMaterial(0,
             ArmorMaterials.makeDefense(0,0,0,0,0),
             10, SoundEvents.ARMOR_EQUIP_LEATHER, 0, 0, null, NANNER_WADERS_KEY);

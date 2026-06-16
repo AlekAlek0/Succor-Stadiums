@@ -26,7 +26,7 @@ public class FireStaffItem extends Item {
         Vec3 lookVec = user.getLookAngle();
         Vec3 spawnPos = user.getEyePosition().add(lookVec.scale(2));
 
-        LargeFireball fireball = new LargeFireball(level, user, lookVec, 1);
+        LargeFireball fireball = new LargeFireball(level, user, lookVec, 0);
         fireball.setPos(spawnPos);
         level.addFreshEntity(fireball);
 
