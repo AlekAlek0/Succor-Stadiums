@@ -38,7 +38,7 @@ public class BoneDaggerItem extends Item implements FreeRepair {
                                 Attributes.ENTITY_INTERACTION_RANGE,
                                 new AttributeModifier(
                                         Identifier.withDefaultNamespace("bone_dagger_range"),
-                                        -0.6,
+                                        -0.5,
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 EquipmentSlotGroup.MAINHAND

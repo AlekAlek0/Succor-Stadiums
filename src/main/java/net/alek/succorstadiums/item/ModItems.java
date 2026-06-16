@@ -71,13 +71,15 @@ public class ModItems {
     ));
 
     public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties.durability(50)));
-    public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaRodItem(properties.durability(50)));
+    public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaStaffItem(properties.durability(50)));
 
     public static final Item BOWNANA = registerItem("bownana", properties -> new BownanaItem(properties.durability(384)));
 
 
-    public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)));
-    public static final Item ROTTEN_STEW = registerItem("rotten_stew", properties -> new Item(properties.food(ModFoods.ROTTEN_STEW, ModFoods.ROTTEN_STEW_CONSUMABLE).stacksTo(16)));
+    public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
+            .useCooldown(5)));
+    public static final Item ROTTEN_STEW = registerItem("rotten_stew", properties -> new Item(properties.food(ModFoods.ROTTEN_STEW, ModFoods.ROTTEN_STEW_CONSUMABLE)
+            .stacksTo(16)));
 
     public static final Item FLINT_CHARM = registerItem("flint_charm", properties -> new FlintCharmItem(properties.stacksTo(1)));
     public static final Item RESURRECTION_AMULET = registerItem("resurrection_amulet", properties -> new ResurrectionAmuletItem(properties.stacksTo(1)));

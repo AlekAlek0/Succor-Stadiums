@@ -35,7 +35,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .save(output);
 
                 // Bone Broth Recipe
-                shaped(RecipeCategory.FOOD, ModItems.BONE_BROTH)
+                shaped(RecipeCategory.FOOD, ModItems.BONE_BROTH, 2)
+                        .pattern("xxx")
                         .pattern("xxx")
                         .pattern(" p ")
                         .define('x', Items.BONE)

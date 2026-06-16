@@ -27,7 +27,7 @@ import java.util.List;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
 
-public class AquaRodItem extends Item {
+public class AquaStaffItem extends Item {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -47,7 +47,7 @@ public class AquaRodItem extends Item {
     private static final List<StaticRing> activeRings = new ArrayList<>();
     private static boolean tickRegistered = false;
 
-    public AquaRodItem(Properties properties) {
+    public AquaStaffItem(Properties properties) {
         super(properties);
         registerTick();
     }
