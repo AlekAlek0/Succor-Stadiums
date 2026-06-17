@@ -2,6 +2,7 @@ package net.alek.succorstadiums.client;
 
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.network.ResurrectionAmuletPayload;
+import net.alek.succorstadiums.screen.MobArenaScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -14,6 +15,8 @@ public class SuccorStadiumsClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+
+        MobArenaScreenHandler.register();
 
         ClientPlayNetworking.registerGlobalReceiver(ResurrectionAmuletPayload.TYPE, (payload, context) -> context.client().execute(() -> {
             ItemStack stack = new ItemStack(ModItems.RESURRECTION_AMULET);

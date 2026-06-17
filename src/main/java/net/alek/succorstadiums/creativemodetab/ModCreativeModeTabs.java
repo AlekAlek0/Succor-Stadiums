@@ -24,6 +24,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.SILK_WEAVE);
                         output.accept(ModItems.SILK_SPOOL);
                         output.accept(ModItems.BONE_BROTH);
+                        output.accept(ModItems.SPIDER_SHELL_FRAGMENT);
+
 
 
                     }).build());

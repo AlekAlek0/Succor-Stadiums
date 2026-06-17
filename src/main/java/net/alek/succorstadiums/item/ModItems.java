@@ -26,6 +26,7 @@ public class ModItems {
     public static final Item SILK_SPOOL = registerItem("silk_spool", Item::new);
     public static final Item SILK_WEAVE = registerItem("silk_weave", Item::new);
     public static final Item BONE_BROTH = registerItem("bone_broth", Item::new);
+    public static final Item SPIDER_SHELL_FRAGMENT = registerItem("spider_shell_fragment", Item::new);
 
     public static final Item BALE_HELMET = registerItem("bale_helmet", properties -> new Item(
                     properties.humanoidArmor(ModArmorMaterials.BALE_ARMOR_MATERIAL, ArmorType.HELMET)
