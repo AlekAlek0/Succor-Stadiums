@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/spear_in_hand",
+  "textures": {
+    "layer0": "succorstadiums:item/fumblebringer_fork_in_hand"
+  }
+}

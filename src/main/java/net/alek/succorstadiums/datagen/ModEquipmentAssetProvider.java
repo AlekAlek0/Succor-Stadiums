@@ -10,6 +10,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.equipment.EquipmentAsset;
+import org.jspecify.annotations.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,8 +38,8 @@ public class ModEquipmentAssetProvider implements DataProvider {
     }
 
     @Override
-    public CompletableFuture<?> run(final CachedOutput cache) {
-        Map<ResourceKey<EquipmentAsset>, EquipmentClientInfo> equipmentAssets = new HashMap();
+    public @NonNull CompletableFuture<?> run(final @NonNull CachedOutput cache) {
+        Map<ResourceKey<EquipmentAsset>, EquipmentClientInfo> equipmentAssets = new HashMap<>();
         bootstrap((id, asset) -> {
             if (equipmentAssets.putIfAbsent(id, asset) != null) {
                 throw new IllegalStateException("Tried to register equipment asset twice for id: " + id);
@@ -48,7 +49,7 @@ public class ModEquipmentAssetProvider implements DataProvider {
     }
 
     @Override
-    public String getName() {
+    public @NonNull String getName() {
         return "Succor Stadiums Mod Equipment Asset Definitions";
     }
 }

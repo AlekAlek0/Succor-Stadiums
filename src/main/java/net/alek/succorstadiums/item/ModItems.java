@@ -62,13 +62,25 @@ public class ModItems {
             properties.sword(BEAN_POLE_TOOL_MATERIAL,
                     0F,
                     0F)
-                    .durability(160)));
+    ));
 
     public static final Item BONE_DAGGER = registerItem("bone_dagger", properties -> new BoneDaggerItem(
             properties.sword(BONE_DAGGER_TOOL_MATERIAL,
                     0F,
                     0F)
-                    .durability(128)
+    ));
+
+    public static final Item FUMBLEBRINGER_FORK = registerItem("fumblebringer_fork", properties -> new Item(
+            properties.spear(ModToolMaterials.FUMBLEBRINGER_FORK_TOOL_MATERIAL,
+            0.65F,
+            0.50F,
+            0.6F,
+            5.0F,
+            14.0F,
+            8.0F,
+            5.1F,
+            8.0F,
+            4.6F)
     ));
 
     public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties.durability(50)));
