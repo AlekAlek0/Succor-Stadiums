@@ -6,7 +6,7 @@ import net.alek.succorstadiums.command.ModCommands;
 import net.alek.succorstadiums.creativemodetab.ModCreativeModeTabs;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
-import net.alek.succorstadiums.network.ResurrectionAmuletPayload;
+import net.alek.succorstadiums.network.*;
 import net.alek.succorstadiums.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -38,8 +38,15 @@ public class SuccorStadiums implements ModInitializer {
 
 		PayloadTypeRegistry.clientboundPlay().register(ResurrectionAmuletPayload.TYPE, ResurrectionAmuletPayload.CODEC);
 
-		ArenaSessionManager.init();
-		ServerLifecycleEvents.SERVER_STARTED.register(MobArenaManager::init);
+		PayloadTypeRegistry.clientboundPlay().register(OpenMobArenaPayload.TYPE, OpenMobArenaPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(ArenaActionPayload.TYPE, ArenaActionPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(ArenaDataPayload.TYPE, ArenaDataPayload.CODEC);
+		ArenaPacketHandler.register();
+
+		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+			MobArenaManager.init(server);
+			ArenaSessionManager.init();
+		});
 
 		// Wolf despawn tick
 		ServerTickEvents.END_SERVER_TICK.register(server -> {

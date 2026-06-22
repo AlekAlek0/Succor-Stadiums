@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MobArena {
 
-    private final String name;
+    private String name;  // remove final
     private double centerX;
     private double centerY;
     private double centerZ;
@@ -30,6 +30,10 @@ public class MobArena {
     public int getRadius() { return radius; }
     public int getDelayBetweenWaves() { return delayBetweenWaves; }
     public List<Wave> getWaves() { return waves; }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     // Set the center of the MobArena
     public void setCenter(double x, double y, double z) {

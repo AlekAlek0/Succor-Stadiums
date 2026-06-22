@@ -69,10 +69,15 @@ public class MobArenaManager {
         return arenas.values();
     }
 
-    // Check if arena already exists with name given
-    public static boolean arenaExists(String name) {
-
-        return arenas.containsKey(name);
+    // Rename a given MobArena
+    public static boolean renameArena(String oldName, String newName) {
+        if (!arenas.containsKey(oldName)) return false;
+        if (arenas.containsKey(newName)) return false;
+        MobArena arena = arenas.remove(oldName);
+        arena.setName(newName);
+        arenas.put(newName, arena);
+        save();
+        return true;
     }
 
     // Save the MobArena info to a JSON file

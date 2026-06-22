@@ -28,8 +28,8 @@ public class ModToolMaterials {
     public static final ToolMaterial FUMBLEBRINGER_FORK_TOOL_MATERIAL = new ToolMaterial(
             BlockTags.INCORRECT_FOR_WOODEN_TOOL,
             256,
-            2F,
-            1.5F,
+            0F,
+            0F,
             22,
             FUMBLEBRINGER_FORK_REPAIR
     );

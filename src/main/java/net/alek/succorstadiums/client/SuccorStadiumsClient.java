@@ -1,12 +1,16 @@
 package net.alek.succorstadiums.client;
 
 import net.alek.succorstadiums.item.ModItems;
+import net.alek.succorstadiums.network.OpenMobArenaPayload;
 import net.alek.succorstadiums.network.ResurrectionAmuletPayload;
+import net.alek.succorstadiums.screen.MobArenaScreen;
 import net.alek.succorstadiums.screen.MobArenaScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -37,6 +41,10 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         (Math.random() - 0.5) * 0.5
                 );
             }
+        }));
+
+        ClientPlayNetworking.registerGlobalReceiver(OpenMobArenaPayload.TYPE, (payload, context) -> context.client().execute(() -> {
+            Minecraft.getInstance().setScreen(new MobArenaScreen(Component.literal("Mob Arena Manager")));
         }));
 
         ItemTooltipCallback.EVENT.register((stack, context, type, tooltip) -> {

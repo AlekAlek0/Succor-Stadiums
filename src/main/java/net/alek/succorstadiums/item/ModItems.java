@@ -70,7 +70,7 @@ public class ModItems {
                     0F)
     ));
 
-    public static final Item FUMBLEBRINGER_FORK = registerItem("fumblebringer_fork", properties -> new Item(
+    public static final Item FUMBLEBRINGER_FORK = registerItem("fumblebringer_fork", properties -> new FumblebringerForkItem(
             properties.spear(ModToolMaterials.FUMBLEBRINGER_FORK_TOOL_MATERIAL,
             0.65F,
             0.50F,
@@ -87,7 +87,6 @@ public class ModItems {
     public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaStaffItem(properties.durability(50)));
 
     public static final Item BOWNANA = registerItem("bownana", properties -> new BownanaItem(properties.durability(384)));
-
 
     public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
             .useCooldown(5)));
