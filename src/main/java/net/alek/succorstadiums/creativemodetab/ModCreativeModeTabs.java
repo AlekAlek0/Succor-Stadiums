@@ -72,6 +72,7 @@ public class ModCreativeModeTabs {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.BEAN_POLE);
                         output.accept(ModItems.BONE_DAGGER);
+                        output.accept(ModItems.BANANNER_BLADE);
                         output.accept(ModItems.FUMBLEBRINGER_FORK);
 
 

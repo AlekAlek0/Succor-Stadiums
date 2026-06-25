@@ -1,5 +1,6 @@
 package net.alek.succorstadiums;
 
+import net.alek.succorstadiums.datagen.ModEnglishLangProvider;
 import net.alek.succorstadiums.datagen.ModEquipmentAssetProvider;
 import net.alek.succorstadiums.datagen.ModModelProvider;
 import net.alek.succorstadiums.datagen.ModRecipeProvider;
@@ -15,6 +16,7 @@ public class SuccorStadiumsDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ModModelProvider::new);
 		pack.addProvider(ModEquipmentAssetProvider::new);
 		pack.addProvider(ModRecipeProvider::new);
+		pack.addProvider(ModEnglishLangProvider::new);
 
 	}
 }

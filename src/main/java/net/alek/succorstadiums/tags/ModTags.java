@@ -12,6 +12,7 @@ public class ModTags {
 
         public static final TagKey<Item> BEAN_POLE_REPAIR = createTag("bean_pole_repair");
         public static final TagKey<Item> BONE_DAGGER_REPAIR = createTag("bone_dagger_repair");
+        public static final TagKey<Item> BANANNER_BLADE_REPAIR = createTag("bananner_blade_repair");
         public static final TagKey<Item> FUMBLEBRINGER_FORK_REPAIR = createTag("fumblebringer_fork_repair");
 
         private static TagKey<Item> createTag(String name) {

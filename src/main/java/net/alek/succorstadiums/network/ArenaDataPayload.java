@@ -24,7 +24,16 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
 
     public record WaveEntry(int waveNumber, List<MobEntry> mobs) {}
 
-    public record MobEntry(String mobType, int count) {}
+    public record MobEntry(
+            String mobType,
+            int count,
+            String ridingMob,
+            String mainHandItem,
+            String offHandItem,
+            List<String> armorItems,
+            String potionEffects, // New field
+            String enchantments   // New field
+    ) {}
 
     public static final StreamCodec<FriendlyByteBuf, ArenaDataPayload> CODEC = StreamCodec.of(
             (buf, payload) -> {
@@ -44,6 +53,12 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                         for (MobEntry mob : wave.mobs()) {
                             buf.writeUtf(mob.mobType());
                             buf.writeInt(mob.count());
+                            buf.writeUtf(mob.ridingMob() == null ? "" : mob.ridingMob());
+                            buf.writeUtf(mob.mainHandItem() == null ? "" : mob.mainHandItem());
+                            buf.writeUtf(mob.offHandItem() == null ? "" : mob.offHandItem());
+                            buf.writeCollection(mob.armorItems(), FriendlyByteBuf::writeUtf);
+                            buf.writeUtf(mob.potionEffects() == null ? "" : mob.potionEffects()); // New
+                            buf.writeUtf(mob.enchantments() == null ? "" : mob.enchantments());   // New
                         }
                     }
                 }
@@ -63,7 +78,16 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                         int mobCount = buf.readInt();
                         List<MobEntry> mobs = new ArrayList<>();
                         for (int m = 0; m < mobCount; m++) {
-                            mobs.add(new MobEntry(buf.readUtf(), buf.readInt()));
+                            mobs.add(new MobEntry(
+                                    buf.readUtf(),
+                                    buf.readInt(),
+                                    buf.readUtf(),
+                                    buf.readUtf(),
+                                    buf.readUtf(),
+                                    buf.readCollection(ArrayList::new, FriendlyByteBuf::readUtf),
+                                    buf.readUtf(), // New
+                                    buf.readUtf()  // New
+                            ));
                         }
                         waves.add(new WaveEntry(waveNum, mobs));
                     }
@@ -85,7 +109,16 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
             List<WaveEntry> waves = new ArrayList<>();
             arena.getWaves().forEach(wave -> {
                 List<MobEntry> mobs = new ArrayList<>();
-                wave.getMobs().forEach(mob -> mobs.add(new MobEntry(mob.getMobType(), mob.getCount())));
+                wave.getMobs().forEach(mob -> mobs.add(new MobEntry(
+                        mob.getMobType(),
+                        mob.getCount(),
+                        mob.getRidingMob(),
+                        mob.getMainHandItem(),
+                        mob.getOffHandItem(),
+                        mob.getArmorItems(),
+                        mob.getPotionEffects(),
+                        mob.getEnchantments()
+                )));
                 waves.add(new WaveEntry(wave.getWaveNumber(), mobs));
             });
             entries.add(new ArenaEntry(

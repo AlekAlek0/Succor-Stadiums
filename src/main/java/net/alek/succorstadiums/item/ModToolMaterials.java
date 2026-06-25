@@ -25,6 +25,15 @@ public class ModToolMaterials {
             BONE_DAGGER_REPAIR
     );
 
+    public static final ToolMaterial BANANNER_BLADE_TOOL_MATERIAL = new ToolMaterial(
+            BlockTags.INCORRECT_FOR_WOODEN_TOOL,
+            300,
+            0F,
+            0F,
+            22,
+            BANANNER_BLADE_REPAIR
+    );
+
     public static final ToolMaterial FUMBLEBRINGER_FORK_TOOL_MATERIAL = new ToolMaterial(
             BlockTags.INCORRECT_FOR_WOODEN_TOOL,
             256,
@@ -33,6 +42,8 @@ public class ModToolMaterials {
             22,
             FUMBLEBRINGER_FORK_REPAIR
     );
+
+
 
 
 }

@@ -16,8 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.equipment.ArmorType;
 import java.util.function.Function;
 
-import static net.alek.succorstadiums.item.ModToolMaterials.BEAN_POLE_TOOL_MATERIAL;
-import static net.alek.succorstadiums.item.ModToolMaterials.BONE_DAGGER_TOOL_MATERIAL;
+import static net.alek.succorstadiums.item.ModToolMaterials.*;
 
 public class ModItems {
 
@@ -64,8 +63,14 @@ public class ModItems {
                     0F)
     ));
 
-    public static final Item BONE_DAGGER = registerItem("bone_dagger", properties -> new BoneDaggerItem(
+    public static final Item BONE_DAGGER = registerItem("bone_dagger", properties -> new BannanerBladeItem(
             properties.sword(BONE_DAGGER_TOOL_MATERIAL,
+                    0F,
+                    0F)
+    ));
+
+    public static final Item BANANNER_BLADE = registerItem("bananner_blade", properties -> new BannanerBladeItem(
+            properties.sword(BANANNER_BLADE_TOOL_MATERIAL,
                     0F,
                     0F)
     ));

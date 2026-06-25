@@ -8,7 +8,6 @@ import net.alek.succorstadiums.screen.MobArenaScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -93,7 +92,14 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                         ChatFormatting.ITALIC)
                 );
             }
-
+            if (stack.is(ModItems.SPIDER_SHELL_FRAGMENT)) {
+                tooltip.add(
+                        1,
+                        Component.translatable("item.succorstadiums.spider_shell_fragment.tooltip")
+                                .withStyle(ChatFormatting.DARK_GRAY,
+                                        ChatFormatting.ITALIC)
+                );
+            }
             // Armor Tooltips
             if (stack.is(ModItems.BALE_HELMET)) {
                 tooltip.add(
@@ -128,9 +134,12 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
             }
             if (stack.is(ModItems.NANNER_WATER_WADERS)) {
-
-                tooltip.add(Component.translatable("item.succorstadiums.nanner_water_waders_tooltip")
-                                .withStyle(ChatFormatting.BLUE)
+                tooltip.add(Component.translatable("item.succorstadiums.nanner_water_waders.tooltip_0")
+                        .withStyle(ChatFormatting.DARK_GRAY,
+                                ChatFormatting.ITALIC)
+                );
+                tooltip.add(Component.translatable("item.succorstadiums.nanner_water_waders.tooltip_1")
+                        .withStyle(ChatFormatting.BLUE)
                 );
             }
 
@@ -151,6 +160,24 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 ChatFormatting.ITALIC)
                 );
             }
+            if (stack.is(ModItems.BANANNER_BLADE)) {
+                tooltip.add(
+                        1,
+                        Component.translatable("item.succorstadiums.bananner_blade.tooltip")
+                                .withStyle(ChatFormatting.DARK_GRAY,
+                                        ChatFormatting.ITALIC)
+                );
+            }
+
+            if (stack.is(ModItems.FUMBLEBRINGER_FORK)) {
+                tooltip.add(
+                        1,
+                        Component.translatable("item.succorstadiums.fumblebringer_fork.tooltip")
+                                .withStyle(ChatFormatting.DARK_GRAY,
+                                        ChatFormatting.ITALIC)
+                );
+            }
+
             if (stack.is(ModItems.AQUA_STAFF)) {
                 tooltip.add(
                         1,
@@ -238,7 +265,14 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                         ChatFormatting.ITALIC)
                 );
             }
-
+            if (stack.is(ModItems.DOG_WHISTLE)) {
+                tooltip.add(
+                        1,
+                        Component.translatable("item.succorstadiums.dog_whistle.tooltip")
+                                .withStyle(ChatFormatting.DARK_GRAY,
+                                        ChatFormatting.ITALIC)
+                );
+            }
 
         });
     }

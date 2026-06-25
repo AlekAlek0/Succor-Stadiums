@@ -7,15 +7,23 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -81,7 +89,6 @@ public class ArenaSession {
             return entity == null || !entity.isAlive();
         });
 
-        // Update boss bar
         int remaining = activeMobUUIDs.size();
         int waveNum = currentWaveIndex + 1;
         int totalWaves = arena.getWaveCount();
@@ -146,6 +153,176 @@ public class ArenaSession {
                                 EntitySpawnReason.COMMAND,
                                 null
                         );
+
+                        // ── Riding mob ────────────────────────────────────────
+                        if (waveMob.getRidingMob() != null && !waveMob.getRidingMob().isEmpty()) {
+                            Optional<EntityType<?>> ridingEntityTypeOpt = BuiltInRegistries.ENTITY_TYPE
+                                    .getOptional(Identifier.parse(waveMob.getRidingMob()));
+                            if (ridingEntityTypeOpt.isPresent()) {
+                                Entity ridingEntity = ridingEntityTypeOpt.get().create(level, EntitySpawnReason.COMMAND);
+                                if (ridingEntity != null) {
+                                    ridingEntity.snapTo(spawnPos.x, spawnPos.y, spawnPos.z,
+                                            level.getRandom().nextFloat() * 360f, 0f);
+                                    level.addFreshEntity(ridingEntity);
+                                    entity.startRiding(ridingEntity);
+                                    activeMobUUIDs.add(ridingEntity.getUUID());
+                                } else {
+                                    broadcast("§cCould not create riding entity for '" + waveMob.getRidingMob() + "'");
+                                }
+                            } else {
+                                broadcast("§cUnknown riding mob type '" + waveMob.getRidingMob() + "'");
+                            }
+                        }
+
+                        // ── Main hand item ────────────────────────────────────
+                        if (waveMob.getMainHandItem() != null && !waveMob.getMainHandItem().isEmpty()) {
+                            BuiltInRegistries.ITEM.getOptional(Identifier.parse(waveMob.getMainHandItem()))
+                                    .ifPresentOrElse(
+                                            item -> mob.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(item)),
+                                            () -> broadcast("§cUnknown main hand item '" + waveMob.getMainHandItem() + "'")
+                                    );
+                        }
+
+                        // ── Off hand item ─────────────────────────────────────
+                        if (waveMob.getOffHandItem() != null && !waveMob.getOffHandItem().isEmpty()) {
+                            BuiltInRegistries.ITEM.getOptional(Identifier.parse(waveMob.getOffHandItem()))
+                                    .ifPresentOrElse(
+                                            item -> mob.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(item)),
+                                            () -> broadcast("§cUnknown off hand item '" + waveMob.getOffHandItem() + "'")
+                                    );
+                        }
+
+                        // ── Armor items ───────────────────────────────────────
+                        if (waveMob.getArmorItems() != null && !waveMob.getArmorItems().isEmpty()) {
+                            for (String armorItemId : waveMob.getArmorItems()) {
+                                BuiltInRegistries.ITEM.getOptional(Identifier.parse(armorItemId))
+                                        .ifPresentOrElse(item -> {
+                                            ItemStack stack = new ItemStack(item);
+                                            String id = armorItemId.toLowerCase();
+                                            if (id.contains("helmet")) {
+                                                mob.setItemSlot(EquipmentSlot.HEAD, stack);
+                                            } else if (id.contains("chestplate")) {
+                                                mob.setItemSlot(EquipmentSlot.CHEST, stack);
+                                            } else if (id.contains("leggings")) {
+                                                mob.setItemSlot(EquipmentSlot.LEGS, stack);
+                                            } else if (id.contains("boots")) {
+                                                mob.setItemSlot(EquipmentSlot.FEET, stack);
+                                            } else if (id.contains("skull") || id.contains("head") || id.contains("pumpkin")) {
+                                                mob.setItemSlot(EquipmentSlot.HEAD, stack);
+                                            } else {
+                                                broadcast("§cUnknown armor slot for '" + armorItemId + "'");
+                                            }
+                                        }, () -> broadcast("§cUnknown armor item '" + armorItemId + "'"));
+                            }
+                        }
+
+                        // ── Potion effects ────────────────────────────────────
+                        // Format: "effectId:durationSeconds:amplifier,..."
+                        if (waveMob.getPotionEffects() != null && !waveMob.getPotionEffects().isEmpty()) {
+                            for (String entry : waveMob.getPotionEffects().split(",")) {
+                                String[] parts = entry.trim().split(":");
+                                // parts[0]=namespace, parts[1]=path, parts[2]=duration, parts[3]=amplifier
+                                // e.g. "minecraft:strength:60:1" → 4 parts
+                                if (parts.length < 4) {
+                                    broadcast("§cInvalid potion effect entry '" + entry + "' (expected namespace:id:duration:amplifier)");
+                                    continue;
+                                }
+                                String effectId  = parts[0] + ":" + parts[1];
+                                String durStr    = parts[2];
+                                String ampStr    = parts[3];
+                                try {
+                                    int durationTicks = Integer.parseInt(durStr) * 20;
+                                    int amplifier     = Integer.parseInt(ampStr);
+                                    BuiltInRegistries.MOB_EFFECT
+                                            .getOptional(Identifier.parse(effectId))
+                                            .ifPresentOrElse(
+                                                    effect -> {
+                                                        var registry = level.registryAccess()
+                                                                .lookupOrThrow(Registries.MOB_EFFECT);
+
+                                                        var key = net.minecraft.resources.ResourceKey.create(
+                                                                Registries.MOB_EFFECT,
+                                                                Identifier.parse(effectId)
+                                                        );
+
+                                                        var holder = registry.get(key);
+
+                                                        if (holder.isPresent()) {
+                                                            mob.addEffect(new MobEffectInstance(
+                                                                    holder.get(),
+                                                                    durationTicks,
+                                                                    amplifier
+                                                            ));
+                                                        } else {
+                                                            broadcast("§cUnknown potion effect '" + effectId + "'");
+                                                        }
+                                                    },
+                                                    () -> broadcast("§cUnknown potion effect '" + effectId + "'")
+                                            );
+                                } catch (NumberFormatException e) {
+                                    broadcast("§cInvalid potion effect numbers in '" + entry + "'");
+                                }
+                            }
+                        }
+
+                        // ── Enchantments ──────────────────────────────────────
+                        // Format: "target:namespace:enchantId:level,..."
+                        // e.g. "mainhand:minecraft:sharpness:5"
+                        if (waveMob.getEnchantments() != null && !waveMob.getEnchantments().isEmpty()) {
+                            for (String entry : waveMob.getEnchantments().split(",")) {
+                                String[] parts = entry.trim().split(":");
+                                // parts[0]=target, parts[1]=namespace, parts[2]=enchant, parts[3]=level
+                                if (parts.length < 4) {
+                                    broadcast("§cInvalid enchantment entry '" + entry + "' (expected target:namespace:id:level)");
+                                    continue;
+                                }
+                                String target    = parts[0];
+                                String enchantId = parts[1] + ":" + parts[2];
+                                String lvlStr    = parts[3];
+
+                                EquipmentSlot slot = switch (target.toLowerCase()) {
+                                    case "mainhand"   -> EquipmentSlot.MAINHAND;
+                                    case "offhand"    -> EquipmentSlot.OFFHAND;
+                                    case "helmet"     -> EquipmentSlot.HEAD;
+                                    case "chestplate" -> EquipmentSlot.CHEST;
+                                    case "leggings"   -> EquipmentSlot.LEGS;
+                                    case "boots"      -> EquipmentSlot.FEET;
+                                    default           -> null;
+                                };
+
+                                if (slot == null) {
+                                    broadcast("§cUnknown enchantment target '" + target + "'");
+                                    continue;
+                                }
+
+                                try {
+                                    int level = Integer.parseInt(lvlStr);
+                                    var enchantRegistry = this.level.registryAccess()
+                                            .lookupOrThrow(Registries.ENCHANTMENT);
+                                    Optional<Holder.Reference<Enchantment>> enchantOpt =
+                                            enchantRegistry.get(net.minecraft.resources.ResourceKey.create(
+                                                    Registries.ENCHANTMENT,
+                                                    Identifier.parse(enchantId)));
+
+                                    if (enchantOpt.isEmpty()) {
+                                        broadcast("§cUnknown enchantment '" + enchantId + "'");
+                                        continue;
+                                    }
+
+                                    ItemStack stack = mob.getItemBySlot(slot);
+                                    if (stack.isEmpty()) {
+                                        // Create a dummy item so the enchant has somewhere to live.
+                                        // Using a book as fallback; adjust if needed.
+                                        stack = new ItemStack(net.minecraft.world.item.Items.ENCHANTED_BOOK);
+                                        mob.setItemSlot(slot, stack);
+                                    }
+                                    stack.enchant(enchantOpt.get(), level);
+
+                                } catch (NumberFormatException e) {
+                                    broadcast("§cInvalid enchantment level in '" + entry + "'");
+                                }
+                            }
+                        }
                     }
 
                     level.addFreshEntity(entity);
@@ -172,17 +349,13 @@ public class ArenaSession {
     public void KillCurrentWave() {
         for (UUID uuid : activeMobUUIDs) {
             Entity entity = level.getEntity(uuid);
-            if (entity != null) {
-                entity.discard();
-            }
+            if (entity != null) entity.discard();
         }
 
         activeMobUUIDs.clear();
         finished = true;
 
-        if (bossBar != null) {
-            players.forEach(bossBar::removePlayer);
-        }
+        if (bossBar != null) players.forEach(bossBar::removePlayer);
 
         broadcast("§aCurrent wave has been discarded and the arena stopped!");
     }

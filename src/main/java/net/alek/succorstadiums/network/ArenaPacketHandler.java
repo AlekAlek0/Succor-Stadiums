@@ -72,7 +72,15 @@ public class ArenaPacketHandler {
                 MobArena arena = MobArenaManager.getArena(p.arenaName());
                 if (arena != null) {
                     Wave wave = arena.getWave(p.waveNumber());
-                    if (wave != null) { wave.addMob(p.mobType(), p.count()); MobArenaManager.save(); }
+                    if (wave != null) {
+                        wave.addMob(
+                                p.mobType(), p.count(),
+                                p.ridingMob(), p.mainHandItem(), p.offHandItem(), p.armorItems(),
+                                p.potionEffects().isEmpty() ? null : p.potionEffects(),
+                                p.enchantments().isEmpty()  ? null : p.enchantments()
+                        );
+                        MobArenaManager.save();
+                    }
                 }
                 sendData(player);
             }
