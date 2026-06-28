@@ -2,5 +2,9 @@
   "aqua_staff_use": {
     "subtitle": "sound.succorstadiums.aqua_staff_use",
     "sounds": ["succorstadiums:aqua_staff_use"]
+  },
+  "fire_staff_use": {
+    "subtitle": "sound.succorstadiums.fire_staff_use",
+    "sounds": ["succorstadiums:fire_staff_use"]
   }
 }
