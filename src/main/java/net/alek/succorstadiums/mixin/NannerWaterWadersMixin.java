@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+// Mixin to handle special logic for Nanner Water Waders speed boost on certain blocks
 @Mixin(Player.class)
 public class NannerWaterWadersMixin {
 
