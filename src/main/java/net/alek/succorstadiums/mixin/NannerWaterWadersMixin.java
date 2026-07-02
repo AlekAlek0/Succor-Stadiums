@@ -26,6 +26,7 @@ public class NannerWaterWadersMixin {
 
     // Helper method to get the block under the player
     @Unique
+    @SuppressWarnings("resource")
     private Block getGroundBlock(Player player) {
 
         // Get the pos of the players feet and the pos below them
@@ -45,15 +46,15 @@ public class NannerWaterWadersMixin {
         return belowBlock;
     }
 
-    // Inject custom logic for nanner water waders when player is traveling
+    // Inject custom logic for nanner water waders when player is traveling at location tail
     @Inject(method = "travel", at = @At("TAIL"))
     private void onTravel(Vec3 input, CallbackInfo ci) {
         Player self = (Player)(Object)this;
 
-        // If player is not wearing nanner water waders do nothing
+        // If self is not wearing nanner water waders do nothing
         if (!isWearingWaders(self)) return;
 
-        // If player is underwater increase velocity by 5%
+        // If self is underwater increase velocity by 5%
         if (self.isUnderWater()) {
             Vec3 vel = self.getDeltaMovement();
             self.setDeltaMovement(vel.x * 1.05, vel.y, vel.z * 1.05);
