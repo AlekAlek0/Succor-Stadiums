@@ -31,6 +31,7 @@ import java.util.UUID;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
 
+// Arena session class
 public class ArenaSession {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -48,12 +49,14 @@ public class ArenaSession {
 
     private ServerBossEvent bossBar;
 
+    // Constructor to create an arena session
     public ArenaSession(MobArena arena, ServerLevel level, List<ServerPlayer> players) {
         this.arena = arena;
         this.level = level;
         this.players = players;
     }
 
+    // Arena start method
     public void start() {
         bossBar = new ServerBossEvent(
                 java.util.UUID.randomUUID(),
@@ -67,6 +70,7 @@ public class ArenaSession {
         spawnCurrentWave();
     }
 
+    // Arena tick method
     public void tick() {
         if (finished) return;
 
@@ -118,6 +122,7 @@ public class ArenaSession {
         }
     }
 
+    // Helper method to spawn current wave in arena
     private void spawnCurrentWave() {
         Wave wave = arena.getWaves().get(currentWaveIndex);
         broadcast("§c--- Wave " + wave.getWaveNumber() + " / " + arena.getWaveCount() + " ---");
@@ -346,6 +351,7 @@ public class ArenaSession {
         }
     }
 
+    // Helper method to kill current wave in arena
     public void KillCurrentWave() {
         for (UUID uuid : activeMobUUIDs) {
             Entity entity = level.getEntity(uuid);
@@ -360,6 +366,7 @@ public class ArenaSession {
         broadcast("§aCurrent wave has been discarded and the arena stopped!");
     }
 
+    // Helper method to generate a random position in the arena radius
     private Vec3 randomPositionInRadius() {
         double angle = level.getRandom().nextDouble() * 2 * Math.PI;
         double actualRadius = arena.getRadius() / 2.0;
@@ -373,10 +380,12 @@ public class ArenaSession {
         return new Vec3(x, surfaceY, z);
     }
 
+    // Helper method to broadcast a given message to all players in arena
     private void broadcast(String message) {
         players.forEach(p -> p.sendSystemMessage(Component.literal(message)));
     }
 
-    public boolean isFinished() { return finished; }
+    // Accessor methods to get arena and finished state
     public MobArena getArena() { return arena; }
+    public boolean isFinished() { return finished; }
 }
