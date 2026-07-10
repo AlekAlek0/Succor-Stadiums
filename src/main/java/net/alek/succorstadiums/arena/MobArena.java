@@ -46,7 +46,7 @@ public class MobArena {
         this.name = name;
     }
 
-    // Set the center of the Mob arena
+    // Mutator method to set the center of an existing mob arena
     public void setCenter(double x, double y, double z) {
         this.centerX = x;
         this.centerY = y;
