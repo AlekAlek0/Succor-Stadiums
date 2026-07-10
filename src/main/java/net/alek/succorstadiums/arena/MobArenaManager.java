@@ -19,6 +19,7 @@ import java.util.Map;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
 
+// Mob arena manager class
 public class MobArenaManager {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -42,42 +43,37 @@ public class MobArenaManager {
         load();
     }
 
-    // Create a MobArena with the given name, center position, radius, and wave delay
-    public static boolean createArena(String name, double x, double y, double z, int radius, int delayBetweenWaves) {
-        if (arenas.containsKey(name)) return false;
+    // Constructor to create a mob arena with the given name, center position, radius, and wave delay
+    public static void createArena(String name, double x, double y, double z, int radius, int delayBetweenWaves) {
+        if (arenas.containsKey(name)) return;
         arenas.put(name, new MobArena(name, x, y, z, radius, delayBetweenWaves));
         save();
-        return true;
     }
 
-    // Remove a given MobArena
-    public static boolean removeArena(String name) {
+    // Mutator method to remove an existing mob arena
+    public static void removeArena(String name) {
         boolean removed = arenas.remove(name) != null;
         if (removed) save();
-        return removed;
     }
 
-    // Get a given MobArena
+    // Accessor method to get a given mob arena
     public static MobArena getArena(String name) {
-
         return arenas.get(name);
     }
 
-    // Get all MobArenas
+    // Accessor method to get all created mob arenas
     public static Collection<MobArena> getAllArenas() {
-
         return arenas.values();
     }
 
-    // Rename a given MobArena
-    public static boolean renameArena(String oldName, String newName) {
-        if (!arenas.containsKey(oldName)) return false;
-        if (arenas.containsKey(newName)) return false;
+    // Mutator method to rename an existing mob arena
+    public static void renameArena(String oldName, String newName) {
+        if (!arenas.containsKey(oldName)) return;
+        if (arenas.containsKey(newName)) return;
         MobArena arena = arenas.remove(oldName);
         arena.setName(newName);
         arenas.put(newName, arena);
         save();
-        return true;
     }
 
     // Save the MobArena info to a JSON file
