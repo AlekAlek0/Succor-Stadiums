@@ -3,8 +3,10 @@ package net.alek.succorstadiums.arena;
 import java.util.ArrayList;
 import java.util.List;
 
+// Wave class
 public class Wave {
 
+    // Variables to track wave number and list of wave mobs
     private int waveNumber;
     private final List<WaveMob> mobs;
 
@@ -13,10 +15,16 @@ public class Wave {
         this.mobs = new ArrayList<>();
     }
 
+    // Accessor method to get the wave number
     public int getWaveNumber() { return waveNumber; }
+
+    // Mutator method to set the wave number
     public void setWaveNumber(int waveNumber) { this.waveNumber = waveNumber; }
+
+    // Accessor method to get the mobs in a wave
     public List<WaveMob> getMobs() { return mobs; }
 
+    // Method to add a mob to a wave
     public void addMob(String mobType, int count, String ridingMob, String mainHandItem,
                        String offHandItem, List<String> armorItems,
                        String potionEffects, String enchantments) {
@@ -38,6 +46,7 @@ public class Wave {
         }
     }
 
+    // Method to remove a mob from a wave
     public int removeMob(String mobType, int count) {
         for (WaveMob mob : mobs) {
             if (mob.getMobType().equalsIgnoreCase(mobType)) {
@@ -55,6 +64,7 @@ public class Wave {
         return 0;
     }
 
+    // Accessor method to get total mob count in a wave
     public int getTotalMobCount() {
         return mobs.stream().mapToInt(WaveMob::getCount).sum();
     }
