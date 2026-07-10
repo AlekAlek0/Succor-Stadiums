@@ -25,7 +25,7 @@ public class MobArena {
         this.delayBetweenWaves = delayBetweenWaves;
     }
 
-    // Accessor methods to get name, center positions, radius, delay, and waves of a mob arena
+    // Accessor methods to get name, center coordinates, radius, delay, waves of a mob arena, and wave count of an existing mob arena
     public String getName() { return name; }
     public double getCenterX() { return centerX; }
     public double getCenterY() { return centerY; }
@@ -33,6 +33,13 @@ public class MobArena {
     public int getRadius() { return radius; }
     public int getDelayBetweenWaves() { return delayBetweenWaves; }
     public List<Wave> getWaves() { return waves; }
+    public int getWaveCount() { return waves.size(); }
+
+    // Accessor method to get the specific wave by its number (1-indexed)
+    public Wave getWave(int waveNumber) {
+        if (waveNumber < 1 || waveNumber > waves.size()) return null;
+        return waves.get(waveNumber - 1);
+    }
 
     // Mutator method to set name of an existing mob arena
     public void setName(String name) {
@@ -61,15 +68,6 @@ public class MobArena {
         Wave wave = new Wave(waves.size() + 1);
         waves.add(wave);
     }
-
-    // Accessor method to get the specific wave by its number (1-indexed)
-    public Wave getWave(int waveNumber) {
-        if (waveNumber < 1 || waveNumber > waves.size()) return null;
-        return waves.get(waveNumber - 1);
-    }
-
-    // Accessor method to get the wave count of an existing mob arena
-    public int getWaveCount() { return waves.size(); }
 
     // Mutator method to remove a wave by number and re-numbers the remaining waves
     public void removeWave(int waveNumber) {
