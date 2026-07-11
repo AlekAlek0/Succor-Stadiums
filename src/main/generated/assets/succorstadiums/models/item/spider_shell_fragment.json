@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "succorstadiums:item/spider_shell_fragment"
-  }
-}

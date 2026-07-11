@@ -6,5 +6,9 @@
   "fire_staff_use": {
     "subtitle": "sound.succorstadiums.fire_staff_use",
     "sounds": ["succorstadiums:fire_staff_use"]
+  },
+  "arachno_carapace_armor_equip": {
+    "subtitle": "sound.succorstadiums.arachno_carapace_armor_equip",
+    "sounds": ["succorstadiums:arachno_carapace_armor_equip"]
   }
 }

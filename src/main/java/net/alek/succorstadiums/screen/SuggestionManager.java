@@ -161,11 +161,6 @@ public class SuggestionManager {
         return suggestionScrollOffset;
     }
 
-    public boolean isCommaSeparated() {
-        return isCommaSeparated;
-    }
-
-    // Public getter for filteredSuggestions
     public List<String> getFilteredSuggestions() {
         return filteredSuggestions;
     }

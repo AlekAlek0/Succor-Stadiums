@@ -3,8 +3,6 @@ package net.alek.succorstadiums.item;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.ToolMaterial;
 
-import static net.alek.succorstadiums.tags.ModTags.Items.*;
-
 public class ModToolMaterials {
 
     public static final ToolMaterial BEAN_POLE_TOOL_MATERIAL = new ToolMaterial(
@@ -12,8 +10,8 @@ public class ModToolMaterials {
             160,
             0F,
             0F,
-            22,
-            BEAN_POLE_REPAIR
+            99,
+            null
     );
 
     public static final ToolMaterial BONE_DAGGER_TOOL_MATERIAL = new ToolMaterial(
@@ -21,8 +19,8 @@ public class ModToolMaterials {
             128,
             0F,
             0F,
-            22,
-            BONE_DAGGER_REPAIR
+            99,
+            null
     );
 
     public static final ToolMaterial BANANNER_BLADE_TOOL_MATERIAL = new ToolMaterial(
@@ -30,8 +28,8 @@ public class ModToolMaterials {
             300,
             0F,
             0F,
-            22,
-            BANANNER_BLADE_REPAIR
+            99,
+            null
     );
 
     public static final ToolMaterial FUMBLEBRINGER_FORK_TOOL_MATERIAL = new ToolMaterial(
@@ -39,11 +37,7 @@ public class ModToolMaterials {
             256,
             0F,
             0F,
-            22,
-            FUMBLEBRINGER_FORK_REPAIR
+            99,
+            null
     );
-
-
-
-
 }

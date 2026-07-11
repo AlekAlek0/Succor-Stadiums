@@ -1,10 +1,10 @@
 package net.alek.succorstadiums.datagen;
 
-import net.alek.succorstadiums.creativemodetab.ModCreativeModeTabs;
-import net.alek.succorstadiums.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
+
+import net.alek.succorstadiums.item.ModItems;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -16,6 +16,10 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(HolderLookup.Provider holderLookup, FabricLanguageProvider.TranslationBuilder translationBuilder) {
+
+        // Spacer translation
+        translationBuilder.add("item.succorstadiums.spacer", "");
+
 
         // Creative Mode Tab translations
         translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_items", "Succor Stadium Items");
@@ -32,46 +36,43 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.SILK_SPOOL, "Silk Spool");
         translationBuilder.add(ModItems.SILK_WEAVE, "Silk Weave");
         translationBuilder.add(ModItems.BONE_BROTH, "Bone Broth");
-        translationBuilder.add(ModItems.SPIDER_SHELL_FRAGMENT, "Spider Shell Fragment");
+        translationBuilder.add(ModItems.SPIDER_CARAPACE, "Spider Carapace");
 
         // Armor translations
-
-        translationBuilder.add(ModItems.BALE_HELMET, "Bale Bucket");
-        translationBuilder.add(ModItems.BALE_CHESTPLATE, "Bale Target");
-        translationBuilder.add(ModItems.BALE_LEGGINGS, "Bale Leggings");
-        translationBuilder.add(ModItems.BALE_BOOTS, "Bale Boots");
+        translationBuilder.add(ModItems.BALE_HELMET, "§fBale Bucket");
+        translationBuilder.add(ModItems.BALE_CHESTPLATE, "§fBale Target");
+        translationBuilder.add(ModItems.BALE_LEGGINGS, "§fBale Leggings");
+        translationBuilder.add(ModItems.BALE_BOOTS, "§fBale Boots");
+        translationBuilder.add(ModItems.ARACHNO_CARAPACE_HELMET, "§4Arachno Carapace Helmet");
+        translationBuilder.add(ModItems.ARACHNO_CARAPACE_CHESTPLATE, "§4Arachno Carapace Chestplate");
+        translationBuilder.add(ModItems.ARACHNO_CARAPACE_LEGGINGS, "§4Arachno Carapace Leggings");
+        translationBuilder.add(ModItems.ARACHNO_CARAPACE_BOOTS, "§4Arachno Carapace Boots");
         translationBuilder.add(ModItems.NANNER_WATER_WADERS, "Nanner Water Waders");
 
-
         // Melee Weapon translations
-
         translationBuilder.add(ModItems.BEAN_POLE, "10ft Beanpole");
         translationBuilder.add(ModItems.BONE_DAGGER, "Bone Dagger");
         translationBuilder.add(ModItems.BANANNER_BLADE, "Bananner Blade");
         translationBuilder.add(ModItems.FUMBLEBRINGER_FORK, "Fumblebringer Fork");
 
         // Magic Weapon translations
-
         translationBuilder.add(ModItems.FIRE_STAFF, "§4Firecharged Cane");
         translationBuilder.add(ModItems.AQUA_STAFF, "§3Aquaonduit");
 
         // Ranged Weapon translations
-
         translationBuilder.add(ModItems.BOWNANA, "§eBownana");
+        translationBuilder.add(ModItems.ARACHNO_CROSSBOW, "§4Arachno Crossbow");
 
         // Food translations
-
         translationBuilder.add(ModItems.GRAMBLE_BAPPLE, "Ghramble Bapple");
         translationBuilder.add(ModItems.ROTTEN_STEW, "Rotten Stew");
 
         // Trinket translations
-
         translationBuilder.add(ModItems.FLINT_CHARM, "Flint Charm");
         translationBuilder.add(ModItems.RESURRECTION_AMULET, "Resurrection Amulet");
         translationBuilder.add(ModItems.DOG_WHISTLE, "Dog Whistle");
 
         // Enchantment translations
-
         translationBuilder.add("enchantment.succorstadiums.viper_bite", "Viper Bite");
 
 
@@ -86,14 +87,22 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.silk_spool.tooltip", "Used to make the Spider Silk Bow and Silkweave.");
         translationBuilder.add("item.succorstadiums.silk_weave.tooltip", "Used to make the Silkweave armor set.");
         translationBuilder.add("item.succorstadiums.bone_broth.tooltip", "Looks inedible, but may have a use...");
-        translationBuilder.add("item.succorstadiums.spider_shell_fragment.tooltip", "Part of a Spiders tough exterior, the possible applications for such an item are endless.");
+        translationBuilder.add("item.succorstadiums.spider_carapace.tooltip", "Part of a Spiders tough exterior, the possible applications for such an item are endless.");
 
         // Armor Tooltip translations
         translationBuilder.add("item.succorstadiums.bale_helmet.tooltip", "Why a bale bucket you may ask... well it sounded nice.");
         translationBuilder.add("item.succorstadiums.bale_chestplate.tooltip", "Aim for the target.");
         translationBuilder.add("item.succorstadiums.bale_leggings.tooltip", "All sneaky beaky like.");
         translationBuilder.add("item.succorstadiums.bale_boots.tooltip", "Good for a short fall.");
-        translationBuilder.add("item.succorstadiums.nanner_water_waders.tooltip_0", "Helps you traverse mucky terrain with the greatest of ease");
+
+        translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_0", "Full Set Bonus:");
+        translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_1", "+1 Mid-air Jump");
+        translationBuilder.add("item.succorstadiums.arachno_carapace_helmet.tooltip", "These Eyes have seen a lot.");
+        translationBuilder.add("item.succorstadiums.arachno_carapace_chestplate.tooltip", "Made of 100% unethically sourced Spider Carapace.");
+        translationBuilder.add("item.succorstadiums.arachno_carapace_leggings.tooltip", "Spiderlegs would have been a cooler name... just sayin.");
+        translationBuilder.add("item.succorstadiums.arachno_carapace_boots.tooltip", "Spider Boots? But spiders don't wear boots!");
+
+        translationBuilder.add("item.succorstadiums.nanner_water_waders.tooltip_0", "Helps you traverse mucky terrain with the greatest of ease.");
         translationBuilder.add("item.succorstadiums.nanner_water_waders.tooltip_1", "Increased Speed on Soul Sand / Soil, Mud and Underwater.");
 
         // Melee Weapon Tooltip translations
@@ -108,6 +117,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
         // Ranged Weapon Tooltip translations
         translationBuilder.add("item.succorstadiums.bownana.tooltip", "Nana Nana.");
+        translationBuilder.add("item.succorstadiums.arachno_crossbow.tooltip", "Slow but powerful, a promising ranged option.");
 
         // Food Tooltip translations
         translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_0", "Ghramble is my favorite bapple.");
@@ -124,9 +134,23 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.resurrection_amulet.tooltip", "I mean the name tells you all you need to know.");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip", "Summons 4 doggies to help you fight!");
 
+
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        // Entity translations
+        translationBuilder.add("entity.succorstadiums.mashed_banana_slime", "Mashed Banana Slime");
+
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+        // Mod Sounds Subtitle translations
+        translationBuilder.add("sound.succorstadiums.aqua_staff_use", "§3Aquaonduit used");
+        translationBuilder.add("sound.succorstadiums.fire_staff_use", "§4Firecharged Cane used");
+        translationBuilder.add("sound.succorstadiums.arachno_carapace_armor_equip", "§4Arachno Carpace Armor equips");
+
     }
-
-
-
-
 }

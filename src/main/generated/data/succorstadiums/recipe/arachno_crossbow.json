@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "b": "minecraft:crossbow",
+    "c": "succorstadiums:spider_carapace",
+    "e": "minecraft:spider_eye",
+    "s": "succorstadiums:silk_spool"
+  },
+  "pattern": [
+    "cec",
+    "sbs",
+    " c "
+  ],
+  "result": {
+    "id": "succorstadiums:arachno_crossbow"
+  }
+}

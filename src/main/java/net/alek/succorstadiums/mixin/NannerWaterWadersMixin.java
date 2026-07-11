@@ -25,7 +25,7 @@ public class NannerWaterWadersMixin {
         return player.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof NannerWaterWadersItem;
     }
 
-    // Helper method to get the block under the player
+    // Helper method to get the block under the player, and suppress level resource warning
     @Unique
     @SuppressWarnings("resource")
     private Block getGroundBlock(Player player) {
@@ -69,11 +69,11 @@ public class NannerWaterWadersMixin {
         Block block = getGroundBlock(self);
         Vec3 vel = self.getDeltaMovement();
 
-        // if Block is soul sand under them multiply velocity by 330%
+        // If Block is soul sand under them multiply velocity by 330%
         if (block == Blocks.SOUL_SAND) {
             self.setDeltaMovement(vel.x * 3.3, vel.y, vel.z * 3.3);
         }
-        // if Block is soul soil or mud under them multiply velocity by 30%
+        // If Block is soul soil or mud under them multiply velocity by 30%
         else if (block == Blocks.SOUL_SOIL || block == Blocks.MUD) {
             self.setDeltaMovement(vel.x * 1.3, vel.y, vel.z * 1.3);
         }

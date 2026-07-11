@@ -1,0 +1,19 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "succorstadiums:arachno_carapace_armor"
+      }
+    ],
+    "humanoid_baby": [
+      {
+        "texture": "succorstadiums:arachno_carapace_armor"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "succorstadiums:arachno_carapace_armor"
+      }
+    ]
+  }
+}

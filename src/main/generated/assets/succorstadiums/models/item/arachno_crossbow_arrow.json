@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/crossbow",
+  "textures": {
+    "layer0": "succorstadiums:item/arachno_crossbow_arrow"
+  }
+}

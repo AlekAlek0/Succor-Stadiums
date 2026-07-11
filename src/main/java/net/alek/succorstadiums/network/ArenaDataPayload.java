@@ -115,7 +115,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                         mob.getRidingMob(),
                         mob.getMainHandItem(),
                         mob.getOffHandItem(),
-                        mob.getArmorItems(),
+                        mob.getArmorItems() != null ? mob.getArmorItems() : Collections.emptyList(),
                         mob.getPotionEffects(),
                         mob.getEnchantments()
                 )));

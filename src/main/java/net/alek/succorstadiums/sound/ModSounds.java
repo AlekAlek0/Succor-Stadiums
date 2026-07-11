@@ -11,6 +11,8 @@ public class ModSounds {
     public static final SoundEvent AQUA_ROD_USE = registerSound("aqua_staff_use");
     public static final SoundEvent FIRE_STAFF_USE = registerSound("fire_staff_use");
 
+    public static final SoundEvent ARACHNO_CARAPACE_ARMOR_EQUIP = registerSound("arachno_carapace_armor_equip");
+
     private static SoundEvent registerSound(String id) {
         Identifier identifier = Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, id);
         return Registry.register(BuiltInRegistries.SOUND_EVENT, identifier, SoundEvent.createVariableRangeEvent(identifier));

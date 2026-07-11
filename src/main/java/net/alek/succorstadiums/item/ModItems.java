@@ -1,21 +1,32 @@
 package net.alek.succorstadiums.item;
 
-import net.alek.succorstadiums.SuccorStadiums;
-import net.alek.succorstadiums.food.ModFoods;
-import net.alek.succorstadiums.item.armor.NannerWaterWadersItem;
-import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
-import net.alek.succorstadiums.item.trinkets.FlintCharmItem;
-import net.alek.succorstadiums.item.weapons.*;
-import net.alek.succorstadiums.item.trinkets.ResurrectionAmuletItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.equipment.ArmorType;
 import java.util.function.Function;
 
+import net.alek.succorstadiums.SuccorStadiums;
+import net.alek.succorstadiums.food.ModFoods;
+import net.alek.succorstadiums.item.armor.ArachnoCarapaceArmorItem;
+import net.alek.succorstadiums.item.armor.NannerWaterWadersItem;
+import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
+import net.alek.succorstadiums.item.trinkets.FlintCharmItem;
+import net.alek.succorstadiums.item.trinkets.ResurrectionAmuletItem;
+import net.alek.succorstadiums.item.weapons.magic.AquaStaffItem;
+import net.alek.succorstadiums.item.weapons.magic.FireStaffItem;
+import net.alek.succorstadiums.item.weapons.melee.BannanerBladeItem;
+import net.alek.succorstadiums.item.weapons.melee.BeanPoleItem;
+import net.alek.succorstadiums.item.weapons.melee.BoneDaggerItem;
+import net.alek.succorstadiums.item.weapons.melee.FumblebringerForkItem;
+import net.alek.succorstadiums.item.weapons.ranged.ArachnoCrossbowItem;
+import net.alek.succorstadiums.item.weapons.ranged.BownanaItem;
+
+import static net.alek.succorstadiums.item.ModArmorMaterials.*;
 import static net.alek.succorstadiums.item.ModToolMaterials.*;
 
 public class ModItems {
@@ -25,34 +36,58 @@ public class ModItems {
     public static final Item SILK_SPOOL = registerItem("silk_spool", Item::new);
     public static final Item SILK_WEAVE = registerItem("silk_weave", Item::new);
     public static final Item BONE_BROTH = registerItem("bone_broth", Item::new);
-    public static final Item SPIDER_SHELL_FRAGMENT = registerItem("spider_shell_fragment", Item::new);
+    public static final Item SPIDER_CARAPACE = registerItem("spider_carapace", Item::new);
 
     public static final Item BALE_HELMET = registerItem("bale_helmet", properties -> new Item(
-                    properties.humanoidArmor(ModArmorMaterials.BALE_ARMOR_MATERIAL, ArmorType.HELMET)
+                    properties.humanoidArmor(BALE_ARMOR_MATERIAL, ArmorType.HELMET)
                             .durability(128)
             )
     );
 
     public static final Item BALE_CHESTPLATE = registerItem("bale_chestplate", properties -> new Item(
-                    properties.humanoidArmor(ModArmorMaterials.BALE_ARMOR_MATERIAL, ArmorType.CHESTPLATE)
+                    properties.humanoidArmor(BALE_ARMOR_MATERIAL, ArmorType.CHESTPLATE)
                             .durability(160)
             )
     );
 
     public static final Item BALE_LEGGINGS = registerItem("bale_leggings", properties -> new Item(
-            properties.humanoidArmor(ModArmorMaterials.BALE_ARMOR_MATERIAL, ArmorType.LEGGINGS)
+            properties.humanoidArmor(BALE_ARMOR_MATERIAL, ArmorType.LEGGINGS)
                             .durability(144)
             )
     );
 
     public static final Item BALE_BOOTS = registerItem("bale_boots", properties -> new Item(
-            properties.humanoidArmor(ModArmorMaterials.BALE_ARMOR_MATERIAL, ArmorType.BOOTS)
+            properties.humanoidArmor(BALE_ARMOR_MATERIAL, ArmorType.BOOTS)
                             .durability(112)
             )
     );
 
+    public static final Item ARACHNO_CARAPACE_HELMET = registerItem("arachno_carapace_helmet", properties -> new ArachnoCarapaceArmorItem(
+                    properties.humanoidArmor(ARACHNO_CARAPACE_ARMOR_MATERIAL, ArmorType.HELMET)
+                            .durability(256)
+            )
+    );
+
+    public static final Item ARACHNO_CARAPACE_CHESTPLATE = registerItem("arachno_carapace_chestplate", properties -> new ArachnoCarapaceArmorItem(
+                    properties.humanoidArmor(ARACHNO_CARAPACE_ARMOR_MATERIAL, ArmorType.CHESTPLATE)
+                            .durability(364)
+            )
+    );
+
+    public static final Item ARACHNO_CARAPACE_LEGGINGS = registerItem("arachno_carapace_leggings", properties -> new ArachnoCarapaceArmorItem(
+                    properties.humanoidArmor(ARACHNO_CARAPACE_ARMOR_MATERIAL, ArmorType.LEGGINGS)
+                            .durability(300)
+            )
+    );
+
+    public static final Item ARACHNO_CARAPACE_BOOTS = registerItem("arachno_carapace_boots", properties -> new ArachnoCarapaceArmorItem(
+                    properties.humanoidArmor(ARACHNO_CARAPACE_ARMOR_MATERIAL, ArmorType.BOOTS)
+                            .durability(256)
+            )
+    );
+
     public static final Item NANNER_WATER_WADERS = registerItem("nanner_water_waders", properties -> new NannerWaterWadersItem(
-                    properties.humanoidArmor(ModArmorMaterials.NANNER_WADERS_MATERIAL , ArmorType.BOOTS)
+                    properties.humanoidArmor(NANNER_WADERS_MATERIAL , ArmorType.BOOTS)
                             .durability(100)
             )
     );
@@ -63,7 +98,7 @@ public class ModItems {
                     0F)
     ));
 
-    public static final Item BONE_DAGGER = registerItem("bone_dagger", properties -> new BannanerBladeItem(
+    public static final Item BONE_DAGGER = registerItem("bone_dagger", properties -> new BoneDaggerItem(
             properties.sword(BONE_DAGGER_TOOL_MATERIAL,
                     0F,
                     0F)
@@ -76,7 +111,7 @@ public class ModItems {
     ));
 
     public static final Item FUMBLEBRINGER_FORK = registerItem("fumblebringer_fork", properties -> new FumblebringerForkItem(
-            properties.spear(ModToolMaterials.FUMBLEBRINGER_FORK_TOOL_MATERIAL,
+            properties.spear(FUMBLEBRINGER_FORK_TOOL_MATERIAL,
             0.65F,
             0.50F,
             0.6F,
@@ -88,10 +123,11 @@ public class ModItems {
             4.6F)
     ));
 
-    public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties.durability(50)));
-    public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaStaffItem(properties.durability(50)));
+    public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties.durability(300)));
+    public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaStaffItem(properties.durability(300)));
 
     public static final Item BOWNANA = registerItem("bownana", properties -> new BownanaItem(properties.durability(384)));
+    public static final Item ARACHNO_CROSSBOW = registerItem("arachno_crossbow", properties -> new ArachnoCrossbowItem(properties.durability(300)));
 
     public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
             .useCooldown(5)));

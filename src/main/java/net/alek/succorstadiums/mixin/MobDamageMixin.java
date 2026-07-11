@@ -7,6 +7,7 @@ import net.minecraft.world.entity.monster.skeleton.Skeleton;
 import net.minecraft.world.entity.monster.spider.Spider;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 
+import net.minecraft.world.entity.monster.zombie.ZombieVillager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,7 +24,8 @@ public class MobDamageMixin {
     private static final Map<Class<?>, Double> MOB_DAMAGE = new HashMap<>();
 
     static {
-        MOB_DAMAGE.put(Zombie.class,   0.5);
+        MOB_DAMAGE.put(Zombie.class,   1.0);         // Half a heart
+        MOB_DAMAGE.put(ZombieVillager.class, 2.0);   // One Heart
         MOB_DAMAGE.put(Spider.class,   0.5);
         MOB_DAMAGE.put(Skeleton.class, 0.5);
     }

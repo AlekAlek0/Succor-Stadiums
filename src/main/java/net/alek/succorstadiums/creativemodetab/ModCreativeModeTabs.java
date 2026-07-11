@@ -24,7 +24,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.SILK_WEAVE);
                         output.accept(ModItems.SILK_SPOOL);
                         output.accept(ModItems.BONE_BROTH);
-                        output.accept(ModItems.SPIDER_SHELL_FRAGMENT);
+                        output.accept(ModItems.SPIDER_CARAPACE);
 
 
 
@@ -60,7 +60,12 @@ public class ModCreativeModeTabs {
                         boots.enchant(enchantments.getOrThrow(Enchantments.PROJECTILE_PROTECTION), 1);
                         output.accept(boots);
 
+                        output.accept(ModItems.ARACHNO_CARAPACE_HELMET);
+                        output.accept(ModItems.ARACHNO_CARAPACE_CHESTPLATE);
+                        output.accept(ModItems.ARACHNO_CARAPACE_LEGGINGS);
+                        output.accept(ModItems.ARACHNO_CARAPACE_BOOTS);
                         output.accept(ModItems.NANNER_WATER_WADERS);
+
 
 
                     }).build());
@@ -84,8 +89,14 @@ public class ModCreativeModeTabs {
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BOWNANA))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_ranged"))
                     .displayItems((parameters, output) -> {
+
+                        var enchantments = parameters.holders().lookupOrThrow(Registries.ENCHANTMENT);
+
                         output.accept(ModItems.BOWNANA);
 
+                        ItemStack arachno_crossbow = new ItemStack(ModItems.ARACHNO_CROSSBOW);
+                        arachno_crossbow.enchant(enchantments.getOrThrow(Enchantments.PIERCING), 2);
+                        output.accept(arachno_crossbow);
 
 
                     }).build());

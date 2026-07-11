@@ -15,12 +15,16 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
 
 /**
  * MobArenaScreen is the main client-side GUI for managing Mob Arenas.
@@ -34,6 +38,8 @@ import java.util.stream.Collectors;
  * the server sends back, and sends action packets for every change.
  */
 public class MobArenaScreen extends Screen {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     // ── Layout constants ─────────────────────────────────────────────────────
 
@@ -890,6 +896,7 @@ public class MobArenaScreen extends Screen {
         EditBox field = new EditBox(font, x, screenY, w, h, Component.literal(hint));
         field.setHint(Component.literal(hint));
         field.setBordered(true);
+        field.setMaxLength(64);
         if (screenY + h > scrollTop && screenY < scrollBottom) {
             addRenderableWidget(field);
         }
@@ -1586,7 +1593,7 @@ public class MobArenaScreen extends Screen {
             PREFS_FILE.getParentFile().mkdirs();
             java.nio.file.Files.writeString(PREFS_FILE.toPath(), "{\"darkMode\":" + darkMode + "}");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("", e);
         }
     }
 

@@ -4,6 +4,8 @@ import net.alek.succorstadiums.arena.ArenaSessionManager;
 import net.alek.succorstadiums.arena.MobArenaManager;
 import net.alek.succorstadiums.command.ModCommands;
 import net.alek.succorstadiums.creativemodetab.ModCreativeModeTabs;
+import net.alek.succorstadiums.entity.ModEntityAttributes;
+import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
 import net.alek.succorstadiums.network.*;
@@ -25,24 +27,38 @@ import java.util.UUID;
 
 // Mod Initializer
 public class SuccorStadiums implements ModInitializer {
+
+	// Define mod id and logger
 	public static final String MOD_ID = "succorstadiums";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
+	// Initialize mod
 	@Override
 	public void onInitialize() {
 
+
+		// Register mod content
 		ModCreativeModeTabs.registerModCreativeModeTabs();
 		ModCommands.registerModCommands();
-		ModItems.registerModItems();
 		ModSounds.registerModSounds();
+		ModItems.registerModItems();
 
+		// Register mod entity types
+		ModEntityTypes.registerModEntityTypes();
+		ModEntityAttributes.register();
+
+		// Register item network packets
 		PayloadTypeRegistry.clientboundPlay().register(ResurrectionAmuletPayload.TYPE, ResurrectionAmuletPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(ArachnoDoubleJumpPayload.TYPE, ArachnoDoubleJumpPayload.CODEC);
+		ArachnoDoubleJumpHandler.register();
 
+		// Register mob arena network packets
 		PayloadTypeRegistry.clientboundPlay().register(OpenMobArenaPayload.TYPE, OpenMobArenaPayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(ArenaActionPayload.TYPE, ArenaActionPayload.CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(ArenaDataPayload.TYPE, ArenaDataPayload.CODEC);
 		ArenaPacketHandler.register();
 
+		// Start Mob arenas on server start
 		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
 			MobArenaManager.init(server);
 			ArenaSessionManager.init();
@@ -63,7 +79,6 @@ public class SuccorStadiums implements ModInitializer {
 						toRemove.add(entry.getKey());
 					}
 				}
-
 				toRemove.forEach(DogWhistleItem.SUMMONED_WOLVES.keySet()::remove);
 			}
 		});

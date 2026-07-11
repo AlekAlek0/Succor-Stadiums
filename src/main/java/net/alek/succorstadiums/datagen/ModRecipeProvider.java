@@ -34,6 +34,23 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .unlockedBy(getHasName(ModItems.SILK_SPOOL), has(ModItems.SILK_SPOOL))
                         .save(output);
 
+
+                // Arachno Crossbow Recipe
+
+                shaped(RecipeCategory.COMBAT, ModItems.ARACHNO_CROSSBOW, 1)
+                        .pattern("cec")
+                        .pattern("sbs")
+                        .pattern(" c ")
+                        .define('c', ModItems.SPIDER_CARAPACE)
+                        .define('s', ModItems.SILK_SPOOL)
+                        .define('e', Items.SPIDER_EYE)
+                        .define('b', Items.CROSSBOW)
+                        .unlockedBy(getHasName(ModItems.SPIDER_CARAPACE), has(ModItems.SPIDER_CARAPACE))
+                        .unlockedBy(getHasName(ModItems.SILK_SPOOL), has(ModItems.SILK_SPOOL))
+                        .unlockedBy(getHasName(Items.SPIDER_EYE), has(Items.SPIDER_EYE))
+                        .unlockedBy(getHasName(Items.CROSSBOW), has(Items.CROSSBOW))
+                        .save(output);
+
                 // Bone Broth Recipe
                 shaped(RecipeCategory.FOOD, ModItems.BONE_BROTH, 2)
                         .pattern("xxx")
