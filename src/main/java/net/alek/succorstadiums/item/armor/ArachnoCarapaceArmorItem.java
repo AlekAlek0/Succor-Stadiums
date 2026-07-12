@@ -9,16 +9,20 @@ import net.minecraft.resources.Identifier;
 
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
+// Arachno carapace armor class
 public class ArachnoCarapaceArmorItem extends Item {
 
+    // Define the step height, jump strength, and movement ids
     private static final Identifier STEP_HEIGHT_ID = Identifier.withDefaultNamespace("arachno_step_height");
-    private static final Identifier JUMP_STRENGTH = Identifier.withDefaultNamespace("arachno_jump_strength");
+    private static final Identifier JUMP_STRENGTH_ID = Identifier.withDefaultNamespace("arachno_jump_strength");
     private static final Identifier MOVEMENT_SPEED_ID = Identifier.withDefaultNamespace("arachno_movement_speed");
 
 
     public ArachnoCarapaceArmorItem(Item.Properties properties) {
         super(properties.component(
                 DataComponents.ATTRIBUTE_MODIFIERS,
+
+                // Modify the item attributes for step height, jump strength, and movement speed by the added values given
                 ItemAttributeModifiers.builder()
                         .add(
                                 Attributes.STEP_HEIGHT,
@@ -41,7 +45,7 @@ public class ArachnoCarapaceArmorItem extends Item {
                         .add(
                                 Attributes.JUMP_STRENGTH,
                                 new AttributeModifier(
-                                        JUMP_STRENGTH,
+                                        JUMP_STRENGTH_ID,
                                         -0.10,
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
