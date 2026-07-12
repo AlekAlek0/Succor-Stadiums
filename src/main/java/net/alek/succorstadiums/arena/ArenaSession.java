@@ -7,7 +7,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.BossEvent;
@@ -188,7 +187,7 @@ public class ArenaSession {
                                     );
                         }
 
-                        // ── Off hand item ─────────────────────────────────────
+                        // ── Offhand item ─────────────────────────────────────
                         if (waveMob.getOffHandItem() != null && !waveMob.getOffHandItem().isEmpty()) {
                             BuiltInRegistries.ITEM.getOptional(Identifier.parse(waveMob.getOffHandItem()))
                                     .ifPresentOrElse(
