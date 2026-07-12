@@ -7,13 +7,16 @@ import net.minecraft.world.item.component.Consumable;
 import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
 
+// Mod foods class
 public class ModFoods {
 
+    // Create a new food called ghramble bapple with the following nutrition and saturation
     public static final FoodProperties GHRAMBLE_BAPPLE = new FoodProperties.Builder()
             .nutrition(4)
             .saturationModifier(0.3f)
             .build();
 
+    // Create the consumable for the ghramble bapple with the consume duration and status effects
     public static final Consumable GHRAMBLE_BAPPLE_CONSUMABLE = Consumables.defaultFood()
             .consumeSeconds(1.6f)
 
@@ -33,11 +36,13 @@ public class ModFoods {
                     new MobEffectInstance(MobEffects.WEAKNESS, 160, 0), 0.75f))
             .build();
 
+    // Create a new food called rotten stew with the following nutrition and saturation
     public static final FoodProperties ROTTEN_STEW = new FoodProperties.Builder()
             .nutrition(6)
             .saturationModifier(1.2f)
             .build();
 
+    // Create the consumable for the rotten stew with the consume duration and status effect
     public static final Consumable ROTTEN_STEW_CONSUMABLE = Consumables.defaultFood()
             .consumeSeconds(2.2f)
 
