@@ -12,7 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 // Mod commands class
 public class ModCommands {
 
-    // Register method for mod commands
+    // Register method for the mod commands
     public static void registerModCommands() {
 
         // Register the mob arena gui command

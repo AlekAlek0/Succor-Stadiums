@@ -12,10 +12,14 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 
+// Mod creative mode tabs class
 public class ModCreativeModeTabs {
 
+    // Create a new creative mode tab for succor stadium items with the given namespace identifier
     public static final CreativeModeTab SUCCOR_STADIUM_ITEM_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_items"),
+
+            // Set the icon, title, and items for the creative tab menu
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BRENNON_ORE))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_items"))
                     .displayItems((parameters, output) -> {
@@ -30,8 +34,11 @@ public class ModCreativeModeTabs {
 
                     }).build());
 
+    // Create a new creative mode tab for succor stadium armor with the given namespace identifier
     public static final CreativeModeTab SUCCOR_STADIUM_ARMOR_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_armor"),
+
+            // Set the icon, title, and items for the creative tab menu
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BALE_CHESTPLATE))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_armor"))
                     .displayItems((parameters, output) -> {
@@ -70,8 +77,11 @@ public class ModCreativeModeTabs {
 
                     }).build());
 
+    // Create a new creative mode tab for succor stadium melee weapons with the given namespace identifier
     public static final CreativeModeTab SUCCOR_STADIUM_MELEE_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_melee"),
+
+            // Set the icon, title, and items for the creative tab menu
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BEAN_POLE))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_melee"))
                     .displayItems((parameters, output) -> {
@@ -84,8 +94,11 @@ public class ModCreativeModeTabs {
 
                     }).build());
 
+    // Create a new creative mode tab for succor stadium ranged weapons with the given namespace identifier
     public static final CreativeModeTab SUCCOR_STADIUM_RANGED_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_ranged"),
+
+            // Set the icon, title, and items for the creative tab menu
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BOWNANA))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_ranged"))
                     .displayItems((parameters, output) -> {
@@ -99,10 +112,14 @@ public class ModCreativeModeTabs {
                         output.accept(arachno_crossbow);
 
 
+
                     }).build());
 
+    // Create a new creative mode tab for succor stadium magic weapons with the given namespace identifier
     public static final CreativeModeTab SUCCOR_STADIUM_MAGIC_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_magic"),
+
+            // Set the icon, title, and items for the creative tab menu
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.AQUA_STAFF))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_magic"))
                     .displayItems((parameters, output) -> {
@@ -112,9 +129,11 @@ public class ModCreativeModeTabs {
 
 
                     }).build());
-
+    // Create a new creative mode tab for succor stadium trinkets with the given namespace identifier
     public static final CreativeModeTab SUCCOR_STADIUM_TRINKET_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_trinkets"),
+
+            // Set the icon, title, and items for the creative tab menu
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.FLINT_CHARM))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_trinkets"))
                     .displayItems((parameters, output) -> {
@@ -123,10 +142,14 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.DOG_WHISTLE);
 
 
+
                     }).build());
 
+    // Create a new creative mode tab for succor stadium foods with the given namespace identifier
     public static final CreativeModeTab SUCCOR_STADIUM_FOOD_TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_foods"),
+
+            // Set the icon, title, and items for the creative tab menu
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.GRAMBLE_BAPPLE))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_foods"))
                     .displayItems((parameters, output) -> {
@@ -135,9 +158,9 @@ public class ModCreativeModeTabs {
 
 
 
-
                     }).build());
 
+    // Register method for the mod creative mode tabs
     public static void registerModCreativeModeTabs()
     {
         SuccorStadiums.LOGGER.info("Registering Creative Mode Tabs for " + SuccorStadiums.MOD_ID);
