@@ -36,16 +36,15 @@ public class SuccorStadiums implements ModInitializer {
 	@Override
 	public void onInitialize() {
 
-
 		// Register mod content
 		ModCreativeModeTabs.registerModCreativeModeTabs();
 		ModCommands.registerModCommands();
 		ModSounds.registerModSounds();
 		ModItems.registerModItems();
 
-		// Register mod entity types
-		ModEntityTypes.registerModEntityTypes();
+		// Register mod entity attributes and entity types
 		ModEntityAttributes.register();
+		ModEntityTypes.registerModEntityTypes();
 
 		// Register item network packets
 		PayloadTypeRegistry.clientboundPlay().register(ResurrectionAmuletPayload.TYPE, ResurrectionAmuletPayload.CODEC);

@@ -221,8 +221,8 @@ public class MobArenaScreen extends Screen {
 
     private int guiLeft()  { return (width  - guiWidth())  / 2; }
     private int guiTop()   { return (height - guiHeight()) / 2; }
-    private int guiWidth() { return Math.min(width  - 40, 480); }
-    private int guiHeight(){ return Math.min(height - 40, 300); }
+    private int guiWidth() { return Math.min(width  - 40, 960); }
+    private int guiHeight(){ return Math.min(height - 40, 600); }
     private int sidebarX() { return guiLeft(); }
     private int detailX()  { return guiLeft() + SIDEBAR_W + 1; }
     private int detailW()  { return guiWidth() - SIDEBAR_W - 1; }
@@ -432,34 +432,6 @@ public class MobArenaScreen extends Screen {
                 .bounds(cx, by, 50, BTN_H).build());
     }
 
-    /**
-     * Builds the ADD_MOB form.
-     *
-     * All EditBox fields restore their values from backing String fields (savedMobType,
-     * savedMobCount, savedMainHand, etc.) so that toggling collapsible sections —
-     * which calls rebuildWidgets() — does not wipe the user's typed input.
-     *
-     * FIX SUMMARY (4 bugs addressed):
-     *
-     *   Bug 1 — Values reset on section toggle:
-     *     Every field now has a corresponding saved* String field. The field's
-     *     setResponder writes back to the saved* field on every keystroke. On
-     *     rebuild, setValue() restores from the saved* field. This means
-     *     rebuildWidgets() (triggered by toggles) no longer loses typed data.
-     *
-     *   Bug 2 — Label double-shift:
-     *     drawInlineLabel now stores the UNSCROLLED logical Y (currentY).
-     *     renderDetailPanelBase subtracts addMobScroll once during render.
-     *
-     *   Bug 3 — Widgets bleeding above the header:
-     *     addScrolledWidget / addScrolledField helpers compare the widget's
-     *     scrolled Y against [scrollTop, scrollBottom] and
-     *     only call addRenderableWidget when the widget is within that range.
-     *
-     *   Bug 4 — Max scroll clamped before contentHeight is final:
-     *     addMobScroll is now clamped AFTER all contentHeight += lines, just
-     *     before the pinned buttons are added.
-     */
     private void buildAddMobWidgets() {
         int cx       = detailX() + PANEL_PAD;
         int fw       = detailW() - PANEL_PAD * 2;
@@ -804,6 +776,7 @@ public class MobArenaScreen extends Screen {
             );
             currentY += 18; contentHeight += 18;
 
+            int finalMaxEnchantLevel = maxEnchantLevel;
             addScrolledButton(
                     Component.literal("+ Add Enchant"),
                     btn -> {
@@ -821,10 +794,9 @@ public class MobArenaScreen extends Screen {
 
                         level = Math.max(1, level);
 
-                        // User requested overleveled enchants, so no max level clamping here.
-                        // if (maxEnchantLevel > 0) {
-                        //     level = Math.min(level, maxEnchantLevel);
-                        // }
+                        if (finalMaxEnchantLevel > 0) {
+                            level = Math.min(level, finalMaxEnchantLevel);
+                        }
 
                         enchantmentEntries.add(new String[]{
                                 id,
@@ -939,6 +911,14 @@ public class MobArenaScreen extends Screen {
             if (mob.offHandItem()  != null && !mob.offHandItem().isEmpty())  mobDetailsHeight += DETAIL_LINE_HEIGHT;
             if (mob.armorItems()   != null && !mob.armorItems().isEmpty())   mobDetailsHeight += mob.armorItems().size() * DETAIL_LINE_HEIGHT;
             if (mob.ridingMob()    != null && !mob.ridingMob().isEmpty())    mobDetailsHeight += DETAIL_LINE_HEIGHT;
+            if (mob.potionEffects() != null && !mob.potionEffects().isEmpty()) {
+                mobDetailsHeight += DETAIL_LINE_HEIGHT; // For "Potion Effects:" label
+                mobDetailsHeight += mob.potionEffects().split(",").length * DETAIL_LINE_HEIGHT;
+            }
+            if (mob.enchantments() != null && !mob.enchantments().isEmpty()) {
+                mobDetailsHeight += DETAIL_LINE_HEIGHT; // For "Enchantments:" label
+                mobDetailsHeight += mob.enchantments().split(",").length * DETAIL_LINE_HEIGHT;
+            }
             mobDetailsHeight += 4;
 
             addRenderableWidget(Button.builder(Component.literal("-1"),
@@ -1232,8 +1212,15 @@ public class MobArenaScreen extends Screen {
                             currentY += DETAIL_LINE_HEIGHT;
                             for (String effect : mob.potionEffects().split(",")) {
                                 String[] parts = effect.split(":");
-                                if (parts.length == 3) {
-                                    g.text(font, "    - " + formatIdentifierForDisplay(parts[0]) + " (" + (("-1".equals(parts[1]) || "0".equals(parts[1])) ? "Infinite" : parts[1] + "s") + ", Amp " + parts[2] + ")",
+                                if (parts.length >= 3) {
+                                    // The last two parts are always duration and amplifier
+                                    String ampStr = parts[parts.length - 1];
+                                    String durStr = parts[parts.length - 2];
+
+                                    // The effectId is everything before the last two parts
+                                    String effectId = String.join(":", Arrays.copyOfRange(parts, 0, parts.length - 2));
+
+                                    g.text(font, "    - " + formatIdentifierForDisplay(effectId) + " (" + (("-1".equals(durStr) || "0".equals(durStr)) ? "Infinite" : durStr + "s") + ", Amp " + ampStr + ")",
                                             dx + PANEL_PAD + 20, currentY + 4, colSubtext(), false);
                                     currentY += DETAIL_LINE_HEIGHT;
                                 }
@@ -1244,12 +1231,21 @@ public class MobArenaScreen extends Screen {
                             currentY += DETAIL_LINE_HEIGHT;
                             for (String enchantment : mob.enchantments().split(",")) {
                                 String[] parts = enchantment.split(":");
-                                if (parts.length == 3) {
-                                    String targetDisplay = parts[0];
+                                // Expected format: "target:enchantId:level"
+                                // enchantId can be "sharpness" or "minecraft:sharpness"
+                                if (parts.length >= 3) { // Changed from == 3 to >= 3
+                                    // The last part is always the level
+                                    String lvlStr = parts[parts.length - 1];
+                                    // The first part is always the target
+                                    String target = parts[0];
+                                    // The enchantId is everything in between
+                                    String enchantId = String.join(":", Arrays.copyOfRange(parts, 1, parts.length - 1));
+
+                                    String targetDisplay = target;
                                     for (int t = 0; t < ENCHANT_TARGET_KEYS.length; t++) {
-                                        if (ENCHANT_TARGET_KEYS[t].equals(parts[0])) { targetDisplay = ENCHANT_TARGETS[t]; break; }
+                                        if (ENCHANT_TARGET_KEYS[t].equals(target)) { targetDisplay = ENCHANT_TARGETS[t]; break; }
                                     }
-                                    g.text(font, "    - " + formatIdentifierForDisplay(parts[1]) + " (Lvl " + parts[2] + ") on " + targetDisplay,
+                                    g.text(font, "    - " + formatIdentifierForDisplay(enchantId) + " (Lvl " + lvlStr + ") on " + targetDisplay,
                                             dx + PANEL_PAD + 20, currentY + 4, colSubtext(), false);
                                     currentY += DETAIL_LINE_HEIGHT;
                                 }
@@ -1329,6 +1325,40 @@ public class MobArenaScreen extends Screen {
                             g.text(font, "  Riding: " + formatIdentifierForDisplay(mob.ridingMob()),
                                     dx + PANEL_PAD + 10, currentDetailY + 4, colSubtext(), false);
                             currentDetailY += DETAIL_LINE_HEIGHT;
+                        }
+                        if (mob.potionEffects() != null && !mob.potionEffects().isEmpty()) {
+                            g.text(font, "  Potion Effects:", dx + PANEL_PAD + 10, currentDetailY + 4, colSubtext(), false);
+                            currentDetailY += DETAIL_LINE_HEIGHT;
+                            for (String effect : mob.potionEffects().split(",")) {
+                                String[] parts = effect.split(":");
+                                if (parts.length >= 3) {
+                                    String ampStr = parts[parts.length - 1];
+                                    String durStr = parts[parts.length - 2];
+                                    String effectId = String.join(":", Arrays.copyOfRange(parts, 0, parts.length - 2));
+                                    g.text(font, "    - " + formatIdentifierForDisplay(effectId) + " (" + (("-1".equals(durStr) || "0".equals(durStr)) ? "Infinite" : durStr + "s") + ", Amp " + ampStr + ")",
+                                            dx + PANEL_PAD + 20, currentDetailY + 4, colSubtext(), false);
+                                    currentDetailY += DETAIL_LINE_HEIGHT;
+                                }
+                            }
+                        }
+                        if (mob.enchantments() != null && !mob.enchantments().isEmpty()) {
+                            g.text(font, "  Enchantments:", dx + PANEL_PAD + 10, currentDetailY + 4, colSubtext(), false);
+                            currentDetailY += DETAIL_LINE_HEIGHT;
+                            for (String enchantment : mob.enchantments().split(",")) {
+                                String[] parts = enchantment.split(":");
+                                if (parts.length >= 3) {
+                                    String lvlStr = parts[parts.length - 1];
+                                    String target = parts[0];
+                                    String enchantId = String.join(":", Arrays.copyOfRange(parts, 1, parts.length - 1));
+                                    String targetDisplay = target;
+                                    for (int t = 0; t < ENCHANT_TARGET_KEYS.length; t++) {
+                                        if (ENCHANT_TARGET_KEYS[t].equals(target)) { targetDisplay = ENCHANT_TARGETS[t]; break; }
+                                    }
+                                    g.text(font, "    - " + formatIdentifierForDisplay(enchantId) + " (Lvl " + lvlStr + ") on " + targetDisplay,
+                                            dx + PANEL_PAD + 20, currentDetailY + 4, colSubtext(), false);
+                                    currentDetailY += DETAIL_LINE_HEIGHT;
+                                }
+                            }
                         }
                         currentY = currentDetailY + 4;
                     }

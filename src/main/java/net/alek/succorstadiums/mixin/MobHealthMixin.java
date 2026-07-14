@@ -5,6 +5,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.skeleton.Skeleton;
+import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.entity.monster.zombie.ZombieVillager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -24,6 +25,7 @@ public class MobHealthMixin {
     static {
         MOB_HEALTH.put(Skeleton.class, 10.0);
         MOB_HEALTH.put(Creeper.class, 8.0);
+        MOB_HEALTH.put(Zombie.class, 14.0);
         MOB_HEALTH.put(ZombieVillager.class, 25.0);
 
     }

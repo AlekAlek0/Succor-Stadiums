@@ -23,10 +23,8 @@ import net.minecraft.core.registries.Registries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
 
@@ -37,14 +35,18 @@ public class ArenaSession {
 
     private final MobArena arena;
     private final ServerLevel level;
-    private final List<ServerPlayer> players;
+    private final List<ServerPlayer> initialPlayers; // All players who started the arena
+    private final Set<UUID> activePlayerUUIDs;       // Players currently alive in the arena
 
     private int currentWaveIndex = 0;
     private int totalMobsInWave = 0;
     private final List<UUID> activeMobUUIDs = new ArrayList<>();
     private boolean waitingForNextWave = false;
     private int delayTicksRemaining = 0;
-    private boolean finished = false;
+
+    // Replaced 'finished' and 'playerLost' with ArenaState
+    private enum ArenaState { RUNNING, WIN, LOSS }
+    private ArenaState state = ArenaState.RUNNING;
 
     private ServerBossEvent bossBar;
 
@@ -52,7 +54,8 @@ public class ArenaSession {
     public ArenaSession(MobArena arena, ServerLevel level, List<ServerPlayer> players) {
         this.arena = arena;
         this.level = level;
-        this.players = players;
+        this.initialPlayers = new ArrayList<>(players);
+        this.activePlayerUUIDs = players.stream().map(ServerPlayer::getUUID).collect(Collectors.toSet());
     }
 
     // Arena start method
@@ -63,7 +66,7 @@ public class ArenaSession {
                 BossEvent.BossBarColor.RED,
                 BossEvent.BossBarOverlay.PROGRESS
         );
-        players.forEach(bossBar::addPlayer);
+        initialPlayers.forEach(bossBar::addPlayer);
 
         broadcast("§6--- " + arena.getName() + " has begun! ---");
         spawnCurrentWave();
@@ -71,7 +74,13 @@ public class ArenaSession {
 
     // Arena tick method
     public void tick() {
-        if (finished) return;
+        if (state != ArenaState.RUNNING) return; // Only tick if running
+
+        // Check if all players are dead
+        if (activePlayerUUIDs.isEmpty()) {
+            endArena(ArenaState.LOSS); // Players lost
+            return;
+        }
 
         if (waitingForNextWave) {
             int secsLeft = (delayTicksRemaining / 20) + 1;
@@ -106,12 +115,7 @@ public class ArenaSession {
             currentWaveIndex++;
 
             if (currentWaveIndex >= arena.getWaves().size()) {
-                finished = true;
-                bossBar.setName(Component.literal("§a All waves complete! You win!"));
-                bossBar.setProgress(1f);
-                bossBar.setColor(BossEvent.BossBarColor.GREEN);
-                players.forEach(bossBar::removePlayer);
-                broadcast("§a-- All waves complete! You win! ---");
+                endArena(ArenaState.WIN); // Players won
             } else {
                 int delaySecs = arena.getDelayBetweenWaves();
                 broadcast("§eWave " + currentWaveIndex + " cleared! Next wave in " + delaySecs + " seconds...");
@@ -225,15 +229,20 @@ public class ArenaSession {
                         if (waveMob.getPotionEffects() != null && !waveMob.getPotionEffects().isEmpty()) {
                             for (String entry : waveMob.getPotionEffects().split(",")) {
                                 String[] parts = entry.trim().split(":");
-                                // parts[0]=namespace, parts[1]=path, parts[2]=duration, parts[3]=amplifier
-                                // e.g. "minecraft:strength:60:1" → 4 parts
-                                if (parts.length < 4) {
-                                    broadcast("§cInvalid potion effect entry '" + entry + "' (expected namespace:id:duration:amplifier)");
+                                // Expected format from client: "effectId:duration:amplifier"
+                                // effectId can be "strength" or "minecraft:strength"
+                                if (parts.length < 3) {
+                                    broadcast("§cInvalid potion effect entry '" + entry + "' (expected effectId:duration:amplifier)");
                                     continue;
                                 }
-                                String effectId  = parts[0] + ":" + parts[1];
-                                String durStr    = parts[2];
-                                String ampStr    = parts[3];
+
+                                // The last two parts are always duration and amplifier
+                                String ampStr = parts[parts.length - 1];
+                                String durStr = parts[parts.length - 2];
+
+                                // The effectId is everything before the last two parts
+                                String effectId = String.join(":", Arrays.copyOfRange(parts, 0, parts.length - 2));
+
                                 try {
                                     int durationTicks = Integer.parseInt(durStr) * 20;
                                     int amplifier     = Integer.parseInt(ampStr);
@@ -276,13 +285,13 @@ public class ArenaSession {
                             for (String entry : waveMob.getEnchantments().split(",")) {
                                 String[] parts = entry.trim().split(":");
                                 // parts[0]=target, parts[1]=namespace, parts[2]=enchant, parts[3]=level
-                                if (parts.length < 4) {
-                                    broadcast("§cInvalid enchantment entry '" + entry + "' (expected target:namespace:id:level)");
+                                if (parts.length < 3) { // Changed from < 4 to < 3, as target:enchantId:level is 3 parts
+                                    broadcast("§cInvalid enchantment entry '" + entry + "' (expected target:enchantId:level)");
                                     continue;
                                 }
                                 String target    = parts[0];
-                                String enchantId = parts[1] + ":" + parts[2];
-                                String lvlStr    = parts[3];
+                                String lvlStr    = parts[parts.length - 1]; // Last part is level
+                                String enchantId = String.join(":", Arrays.copyOfRange(parts, 1, parts.length - 1)); // Middle parts form enchantId
 
                                 EquipmentSlot slot = switch (target.toLowerCase()) {
                                     case "mainhand"   -> EquipmentSlot.MAINHAND;
@@ -358,12 +367,63 @@ public class ArenaSession {
         }
 
         activeMobUUIDs.clear();
-        finished = true;
-
-        if (bossBar != null) players.forEach(bossBar::removePlayer);
-
-        broadcast("§aCurrent wave has been discarded and the arena stopped!");
+        endArena(ArenaState.LOSS); // Force end as a loss if current wave is killed
     }
+
+    /**
+     * Called when a player dies in the arena.
+     * @param player The player who died.
+     */
+    public void onPlayerDeath(ServerPlayer player) {
+        if (activePlayerUUIDs.remove(player.getUUID())) {
+            broadcast("§e" + player.getName().getString() + " has been eliminated!");
+            if (activePlayerUUIDs.isEmpty()) {
+                endArena(ArenaState.LOSS); // All players are dead, arena ends in loss
+            }
+        }
+    }
+
+    /**
+     * Ends the arena session.
+     * @param newState The state the arena should transition to (WIN or LOSS).
+     */
+    private void endArena(ArenaState newState) {
+        // If already in a terminal state (LOSS), or if already WIN and trying to WIN again, do nothing.
+        // A LOSS can always override a WIN.
+        if (this.state == ArenaState.LOSS) {
+            return; // Already lost, cannot change outcome
+        }
+        if (this.state == ArenaState.WIN && newState == ArenaState.WIN) {
+            return; // Already won, and trying to win again, do nothing
+        }
+
+        this.state = newState; // Update the state
+
+        // Clear any remaining mobs
+        for (UUID uuid : activeMobUUIDs) {
+            Entity entity = level.getEntity(uuid);
+            if (entity != null) entity.discard();
+        }
+        activeMobUUIDs.clear();
+
+        if (bossBar != null) {
+            initialPlayers.forEach(bossBar::removePlayer);
+            if (this.state == ArenaState.LOSS) {
+                bossBar.setName(Component.literal("§cYou lost! Arena failed."));
+                bossBar.setProgress(0f);
+                bossBar.setColor(BossEvent.BossBarColor.RED);
+                broadcast("§c--- " + arena.getName() + " failed! All players eliminated. ---");
+            } else if (this.state == ArenaState.WIN) {
+                bossBar.setName(Component.literal("§aAll waves complete! You win!"));
+                bossBar.setProgress(1f);
+                bossBar.setColor(BossEvent.BossBarColor.GREEN);
+                broadcast("§a--- All waves complete! You win! ---");
+            }
+        }
+        // Deregister this session
+        ArenaSessionManager.stopSession(arena.getName());
+    }
+
 
     // Helper method to generate a random position in the arena radius
     private Vec3 randomPositionInRadius() {
@@ -381,10 +441,11 @@ public class ArenaSession {
 
     // Helper method to broadcast a given message to all players in arena
     private void broadcast(String message) {
-        players.forEach(p -> p.sendSystemMessage(Component.literal(message)));
+        initialPlayers.forEach(p -> p.sendSystemMessage(Component.literal(message)));
     }
 
     // Accessor methods to get arena and finished state
     public MobArena getArena() { return arena; }
-    public boolean isFinished() { return finished; }
+    public boolean isFinished() { return state != ArenaState.RUNNING; }
+    public boolean hasPlayer(UUID playerUUID) { return activePlayerUUIDs.contains(playerUUID); }
 }
