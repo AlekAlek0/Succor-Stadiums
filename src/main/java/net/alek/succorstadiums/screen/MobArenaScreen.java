@@ -111,11 +111,11 @@ public class MobArenaScreen extends Screen {
     // ADD_MOB core
     private String savedMobType    = "";
     private String savedMobCount   = "";
-    private String savedMobSize    = ""; // Now stores string like "small", "baby", etc.
+    private String savedMobVariant = ""; // Renamed from savedMobSize
 
-    // New state variables for size buttons
-    private String selectedSlimeSize = ""; // "small", "medium", "large"
-    private String selectedZombieAge = ""; // "baby", "adult"
+    // New state variables for variant buttons
+    private String selectedSlimeVariant = ""; // Renamed from selectedSlimeSize
+    private String selectedZombieVariant = ""; // Renamed from selectedZombieAge
 
     // ADD_MOB equipment
     private String savedMainHand   = "";
@@ -466,20 +466,20 @@ public class MobArenaScreen extends Screen {
                 mobTypeSuggestionManager.filterSuggestions(text);
 
                 boolean oldIsSlime = oldMobType.equals("minecraft:slime") || oldMobType.equals(MOD_ID + ":mashed_banana_slime");
-                boolean oldIsZombie = oldMobType.equals("minecraft:zombie");
+                boolean oldIsZombieLike = oldMobType.equals("minecraft:zombie") || oldMobType.equals("minecraft:zombie_villager");
 
                 boolean newIsSlime = savedMobType.equals("minecraft:slime") || savedMobType.equals(MOD_ID + ":mashed_banana_slime");
-                boolean newIsZombie = savedMobType.equals("minecraft:zombie");
+                boolean newIsZombieLike = savedMobType.equals("minecraft:zombie") || savedMobType.equals("minecraft:zombie_villager");
 
-                // Rebuild widgets if the type of size options changes
-                if ((oldIsSlime != newIsSlime) || (oldIsZombie != newIsZombie)) {
+                // Rebuild widgets if the type of variant options changes
+                if ((oldIsSlime != newIsSlime) || (oldIsZombieLike != newIsZombieLike)) {
                     rebuildWidgets();
                 }
             });
         }
         currentY += 18; contentHeight += 18;
 
-        // ── Count and Size/Age ────────────────────────────────────────────────────
+        // ── Count and Variant ────────────────────────────────────────────────────
         drawInlineLabel(cx, currentY, "Count");
         int countFieldWidth = fw / 2 - 2;
         mobCountField = addScrolledField(cx, currentY + 10, countFieldWidth, 14, "1", scrollTop, scrollBottom);
@@ -488,53 +488,53 @@ public class MobArenaScreen extends Screen {
             mobCountField.setResponder(text -> savedMobCount = text);
         }
 
-        // Conditional Size/Age buttons
+        // Conditional Variant buttons
         String currentMobType = mobTypeField != null ? mobTypeField.getValue().trim() : savedMobType;
         boolean isSlime = currentMobType.equals("minecraft:slime") || currentMobType.equals(MOD_ID + ":mashed_banana_slime");
-        boolean isZombie = currentMobType.equals("minecraft:zombie");
+        boolean isZombieLike = currentMobType.equals("minecraft:zombie") || currentMobType.equals("minecraft:zombie_villager");
 
         if (isSlime) {
-            drawInlineLabel(cx + countFieldWidth + 4, currentY, "Size");
+            drawInlineLabel(cx + countFieldWidth + 4, currentY, "Variant"); // Changed label
             int buttonWidth = (fw - countFieldWidth - 4 - 4) / 3; // 3 buttons, 2 gaps
             int buttonX = cx + countFieldWidth + 4;
 
             addScrolledButton(
-                    Component.literal("Small" + (selectedSlimeSize.equals("small") ? " ✔" : "")),
-                    btn -> { selectedSlimeSize = "small"; savedMobSize = "small"; rebuildWidgets(); },
+                    Component.literal("Small" + (selectedSlimeVariant.equals("small") ? " ✔" : "")), // Renamed variable
+                    btn -> { selectedSlimeVariant = "small"; savedMobVariant = "small"; rebuildWidgets(); }, // Renamed variable
                     buttonX, currentY + 10, buttonWidth, BTN_H, scrollTop, scrollBottom
             );
             addScrolledButton(
-                    Component.literal("Medium" + (selectedSlimeSize.equals("medium") ? " ✔" : "")),
-                    btn -> { selectedSlimeSize = "medium"; savedMobSize = "medium"; rebuildWidgets(); },
+                    Component.literal("Medium" + (selectedSlimeVariant.equals("medium") ? " ✔" : "")), // Renamed variable
+                    btn -> { selectedSlimeVariant = "medium"; savedMobVariant = "medium"; rebuildWidgets(); }, // Renamed variable
                     buttonX + buttonWidth + 2, currentY + 10, buttonWidth, BTN_H, scrollTop, scrollBottom
             );
             addScrolledButton(
-                    Component.literal("Large" + (selectedSlimeSize.equals("large") ? " ✔" : "")),
-                    btn -> { selectedSlimeSize = "large"; savedMobSize = "large"; rebuildWidgets(); },
+                    Component.literal("Large" + (selectedSlimeVariant.equals("large") ? " ✔" : "")), // Renamed variable
+                    btn -> { selectedSlimeVariant = "large"; savedMobVariant = "large"; rebuildWidgets(); }, // Renamed variable
                     buttonX + (buttonWidth + 2) * 2, currentY + 10, buttonWidth, BTN_H, scrollTop, scrollBottom
             );
             currentY += 10 + BTN_H + 4; contentHeight += 10 + BTN_H + 4;
-        } else if (isZombie) {
-            drawInlineLabel(cx + countFieldWidth + 4, currentY, "Age");
+        } else if (isZombieLike) { // Changed condition to isZombieLike
+            drawInlineLabel(cx + countFieldWidth + 4, currentY, "Variant"); // Changed label
             int buttonWidth = (fw - countFieldWidth - 4 - 2) / 2; // 2 buttons, 1 gap
             int buttonX = cx + countFieldWidth + 4;
 
             addScrolledButton(
-                    Component.literal("Baby" + (selectedZombieAge.equals("baby") ? " ✔" : "")),
-                    btn -> { selectedZombieAge = "baby"; savedMobSize = "baby"; rebuildWidgets(); },
+                    Component.literal("Baby" + (selectedZombieVariant.equals("baby") ? " ✔" : "")), // Renamed variable
+                    btn -> { selectedZombieVariant = "baby"; savedMobVariant = "baby"; rebuildWidgets(); }, // Renamed variable
                     buttonX, currentY + 10, buttonWidth, BTN_H, scrollTop, scrollBottom
             );
             addScrolledButton(
-                    Component.literal("Adult" + (selectedZombieAge.equals("adult") ? " ✔" : "")),
-                    btn -> { selectedZombieAge = "adult"; savedMobSize = "adult"; rebuildWidgets(); },
+                    Component.literal("Adult" + (selectedZombieVariant.equals("adult") ? " ✔" : "")), // Renamed variable
+                    btn -> { selectedZombieVariant = "adult"; savedMobVariant = "adult"; rebuildWidgets(); }, // Renamed variable
                     buttonX + buttonWidth + 2, currentY + 10, buttonWidth, BTN_H, scrollTop, scrollBottom
             );
             currentY += 10 + BTN_H + 4; contentHeight += 10 + BTN_H + 4;
         } else {
-            // If no special size, ensure savedMobSize is cleared and maintain spacing
-            savedMobSize = "";
-            selectedSlimeSize = "";
-            selectedZombieAge = "";
+            // If no special variant, ensure savedMobVariant is cleared and maintain spacing
+            savedMobVariant = ""; // Renamed variable
+            selectedSlimeVariant = ""; // Renamed variable
+            selectedZombieVariant = ""; // Renamed variable
             currentY += 10 + 18; contentHeight += 10 + 18; // Maintain spacing
         }
 
@@ -973,6 +973,7 @@ public class MobArenaScreen extends Screen {
         for (int i = 0; i < wave.mobs().size(); i++) {
             ArenaDataPayload.MobEntry mob = wave.mobs().get(i);
 
+            // Calculate total height for this mob entry (buttons, name, all details, and padding)
             int mobEntryTotalHeight = ROW_H; // Base height for the main line (buttons + mob name)
             if (mob.mainHandItem() != null && !mob.mainHandItem().isEmpty()) mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
             if (mob.offHandItem()  != null && !mob.offHandItem().isEmpty())  mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
@@ -1124,17 +1125,17 @@ public class MobArenaScreen extends Screen {
             String offHandItem  = savedOffHand;
             Integer size = null;
 
-            // Convert savedMobSize string to Integer for the payload
-            if (savedMobSize.equals("small")) {
+            // Convert savedMobVariant string to Integer for the payload
+            if (savedMobVariant.equals("small")) {
                 size = 1;
-            } else if (savedMobSize.equals("medium")) {
+            } else if (savedMobVariant.equals("medium")) {
                 size = 2;
-            } else if (savedMobSize.equals("large")) {
+            } else if (savedMobVariant.equals("large")) {
                 size = 4;
-            } else if (savedMobSize.equals("baby")) {
-                size = -1; // Special value for baby zombie
-            } else if (savedMobSize.equals("adult")) {
-                size = 0; // Special value for adult zombie
+            } else if (savedMobVariant.equals("baby")) {
+                size = -1; // Special value for baby zombie/zombie villager
+            } else if (savedMobVariant.equals("adult")) {
+                size = 0; // Special value for adult zombie/zombie villager
             }
 
 
@@ -1190,9 +1191,9 @@ public class MobArenaScreen extends Screen {
         // Clear saved field values
         savedMobType    = "";
         savedMobCount   = "";
-        savedMobSize    = ""; // Clear savedMobSize
-        selectedSlimeSize = ""; // Clear new state variables
-        selectedZombieAge = ""; // Clear new state variables
+        savedMobVariant = ""; // Renamed from savedMobSize
+        selectedSlimeVariant = ""; // Renamed from selectedSlimeSize
+        selectedZombieVariant = ""; // Renamed from selectedZombieAge
         savedMainHand   = "";
         savedOffHand    = "";
         savedHelmet     = "";
@@ -1273,19 +1274,19 @@ public class MobArenaScreen extends Screen {
                         if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + ROW_H, darkMode ? 0x15FFFFFF : 0x11000000);
                         String mobDisplay = mob.count() + "x  " + formatIdentifierForDisplay(mob.mobType());
                         if (mob.size() != null && mob.size() != 0) {
-                            String sizeDisplay = "";
+                            String variantDisplay = ""; // Renamed variable
                             if (mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":mashed_banana_slime")) {
-                                if (mob.size() == 1) sizeDisplay = "Small";
-                                else if (mob.size() == 2) sizeDisplay = "Medium";
-                                else if (mob.size() == 4) sizeDisplay = "Large";
-                            } else if (mob.mobType().equals("minecraft:zombie")) {
-                                if (mob.size() == -1) sizeDisplay = "Baby";
-                                else if (mob.size() == 0) sizeDisplay = "Adult";
+                                if (mob.size() == 1) variantDisplay = "Small";
+                                else if (mob.size() == 2) variantDisplay = "Medium";
+                                else if (mob.size() == 4) variantDisplay = "Large";
+                            } else if (mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager")) { // Added zombie_villager
+                                if (mob.size() == -1) variantDisplay = "Baby";
+                                else if (mob.size() == 0) variantDisplay = "Adult";
                             }
-                            if (!sizeDisplay.isEmpty()) {
-                                mobDisplay += " (" + sizeDisplay + ")";
+                            if (!variantDisplay.isEmpty()) { // Renamed variable
+                                mobDisplay += " (" + variantDisplay + ")"; // Renamed variable
                             } else {
-                                mobDisplay += " (Size: " + mob.size() + ")";
+                                mobDisplay += " (Variant: " + mob.size() + ")"; // Changed label
                             }
                         }
                         g.text(font, mobDisplay, dx + PANEL_PAD, currentY + 4, colText(), false);
@@ -1428,19 +1429,19 @@ public class MobArenaScreen extends Screen {
 
                         String display = formatIdentifierForDisplay(mob.mobType()); // Use helper for formatting
                         if (mob.size() != null && mob.size() != 0) {
-                            String sizeDisplay = "";
+                            String variantDisplay = ""; // Renamed variable
                             if (mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":mashed_banana_slime")) {
-                                if (mob.size() == 1) sizeDisplay = "Small";
-                                else if (mob.size() == 2) sizeDisplay = "Medium";
-                                else if (mob.size() == 4) sizeDisplay = "Large";
-                            } else if (mob.mobType().equals("minecraft:zombie")) {
-                                if (mob.size() == -1) sizeDisplay = "Baby";
-                                else if (mob.size() == 0) sizeDisplay = "Adult";
+                                if (mob.size() == 1) variantDisplay = "Small";
+                                else if (mob.size() == 2) variantDisplay = "Medium";
+                                else if (mob.size() == 4) variantDisplay = "Large";
+                            } else if (mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager")) { // Added zombie_villager
+                                if (mob.size() == -1) variantDisplay = "Baby";
+                                else if (mob.size() == 0) variantDisplay = "Adult";
                             }
-                            if (!sizeDisplay.isEmpty()) {
-                                display += " (" + sizeDisplay + ")";
+                            if (!variantDisplay.isEmpty()) { // Renamed variable
+                                display += " (" + variantDisplay + ")"; // Renamed variable
                             } else {
-                                display += " (Size: " + mob.size() + ")";
+                                display += " (Variant: " + mob.size() + ")"; // Changed label
                             }
                         }
                         g.text(font, mob.count() + "x  " + display, dx + PANEL_PAD + 162, currentY + 4, colText(), false);
@@ -1650,7 +1651,7 @@ public class MobArenaScreen extends Screen {
                 // Recompute contentHeight for max scroll (mirrors buildAddMobWidgets accumulation)
                 int contentHeight = 0;
                 contentHeight += 10 + 18; // Mob Type
-                contentHeight += 10 + 18; // Count and Size (they share a row)
+                contentHeight += 10 + 18; // Count and Variant (they share a row) // Changed label
                 contentHeight += BTN_H + 4; // Equipment toggle
                 if (showEquipmentFields) {
                     contentHeight += (10 + 18) * 6;

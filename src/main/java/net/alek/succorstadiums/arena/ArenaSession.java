@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.arena;
 
+import net.alek.succorstadiums.SuccorStadiumsConstants; // Import the new constants class
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -20,6 +21,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +52,8 @@ public class ArenaSession {
     private ArenaState state = ArenaState.RUNNING;
 
     private ServerBossEvent bossBar;
+
+    // Removed the local CUSTOM_MOB_HEALTH map and its static initializer
 
     // Constructor to create an arena session
     public ArenaSession(MobArena arena, ServerLevel level, List<ServerPlayer> players) {
@@ -162,12 +167,22 @@ public class ArenaSession {
                                 null
                         );
 
-                        // Apply size/age for slimes and zombies
+                        // Apply custom health from shared constants if applicable, AFTER finalizeSpawn
+                        if (SuccorStadiumsConstants.MOB_HEALTH_OVERRIDES.containsKey(entityType)) {
+                            AttributeInstance maxHealthAttribute = mob.getAttribute(Attributes.MAX_HEALTH);
+                            if (maxHealthAttribute != null) {
+                                double customHealth = SuccorStadiumsConstants.MOB_HEALTH_OVERRIDES.get(entityType);
+                                maxHealthAttribute.setBaseValue(customHealth);
+                                mob.setHealth((float) customHealth); // Set current health to new max
+                            }
+                        }
+
+                        // Apply size/age for slimes and zombies/zombie villagers
                         if (waveMob.getSize() != null) {
                             if (entityType == EntityType.SLIME) {
                                 // Slime size: 1 (small), 2 (medium), 4 (large)
                                 ((net.minecraft.world.entity.monster.Slime) mob).setSize(waveMob.getSize(), true);
-                            } else if (entityType == EntityType.ZOMBIE) {
+                            } else if (entityType == EntityType.ZOMBIE || entityType == EntityType.ZOMBIE_VILLAGER) {
                                 // Zombie age: -1 (baby), 0 (adult)
                                 if (waveMob.getSize() == -1) {
                                     mob.setBaby(true);
@@ -230,8 +245,6 @@ public class ArenaSession {
                                                 mob.setItemSlot(EquipmentSlot.LEGS, stack);
                                             } else if (id.contains("boots")) {
                                                 mob.setItemSlot(EquipmentSlot.FEET, stack);
-                                            } else if (id.contains("skull") || id.contains("head") || id.contains("pumpkin")) {
-                                                mob.setItemSlot(EquipmentSlot.HEAD, stack);
                                             } else {
                                                 broadcast("§cUnknown armor slot for '" + armorItemId + "'");
                                             }

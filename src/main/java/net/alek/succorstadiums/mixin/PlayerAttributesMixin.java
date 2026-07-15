@@ -1,6 +1,6 @@
 package net.alek.succorstadiums.mixin;
 
-import net.minecraft.resources.Identifier;
+import net.alek.succorstadiums.SuccorStadiumsConstants; // Import the new constants class
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Player.class)
 public class PlayerAttributesMixin {
 
-    private static final Identifier FIST_RANGE_ID = Identifier.withDefaultNamespace("player_fist_range");
+    // Removed the local FIST_RANGE_ID, now using the one from constants
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void setMaxHealth(CallbackInfo ci) {
@@ -21,11 +21,11 @@ public class PlayerAttributesMixin {
 
         AttributeInstance maxHealth = self.getAttribute(Attributes.MAX_HEALTH);
         if (maxHealth != null) {
-            maxHealth.setBaseValue(6.0);
+            maxHealth.setBaseValue(SuccorStadiumsConstants.PLAYER_MAX_HEALTH); // Use constant
         }
 
-        if (self.getHealth() > 6.0f) {
-            self.setHealth(6.0f);
+        if (self.getHealth() > SuccorStadiumsConstants.PLAYER_MAX_HEALTH) { // Use constant
+            self.setHealth((float) SuccorStadiumsConstants.PLAYER_MAX_HEALTH); // Use constant
         }
     }
 
@@ -39,17 +39,17 @@ public class PlayerAttributesMixin {
         boolean isHoldingFist = self.getMainHandItem().isEmpty();
 
         if (isHoldingFist) {
-            if (attackRange.getModifier(FIST_RANGE_ID) == null) {
+            if (attackRange.getModifier(SuccorStadiumsConstants.PLAYER_FIST_RANGE_ID) == null) { // Use constant
                 attackRange.addPermanentModifier(
                         new AttributeModifier(
-                                FIST_RANGE_ID,
-                                -0.6,
+                                SuccorStadiumsConstants.PLAYER_FIST_RANGE_ID, // Use constant
+                                SuccorStadiumsConstants.PLAYER_FIST_RANGE_MODIFIER, // Use constant
                                 AttributeModifier.Operation.ADD_VALUE
                         )
                 );
             }
         } else {
-            attackRange.removeModifier(FIST_RANGE_ID);
+            attackRange.removeModifier(SuccorStadiumsConstants.PLAYER_FIST_RANGE_ID); // Use constant
         }
     }
 }

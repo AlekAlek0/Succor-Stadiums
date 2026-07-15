@@ -7,7 +7,7 @@ public class WaveMob {
 
     private String mobType;
     private int count;
-    private Integer size; // New field for mob size
+    private Integer size;
     private String ridingMob;
     private String mainHandItem;
     private String offHandItem;
