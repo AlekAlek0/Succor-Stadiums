@@ -7,25 +7,31 @@ public class WaveMob {
 
     private String mobType;
     private int count;
+    private Integer size; // New field for mob size
     private String ridingMob;
     private String mainHandItem;
     private String offHandItem;
     private List<String> armorItems;
-    private String potionEffects; // New field
-    private String enchantments;  // New field
+    private String potionEffects;
+    private String enchantments;
 
     // Constructor to create a waveMob with given mobType and count.
     public WaveMob(String mobType, int count) {
-        this(mobType, count, null, null, null, new ArrayList<>(), null, null);
+        this(mobType, count, null, null, null, null, new ArrayList<>(), null, null);
+    }
+
+    public WaveMob(String mobType, int count, Integer size) {
+        this(mobType, count, size, null, null, null, new ArrayList<>(), null, null);
     }
 
     public WaveMob(String mobType, int count, String ridingMob, String mainHandItem, String offHandItem, List<String> armorItems) {
-        this(mobType, count, ridingMob, mainHandItem, offHandItem, armorItems, null, null);
+        this(mobType, count, null, ridingMob, mainHandItem, offHandItem, armorItems, null, null);
     }
 
-    public WaveMob(String mobType, int count, String ridingMob, String mainHandItem, String offHandItem, List<String> armorItems, String potionEffects, String enchantments) {
+    public WaveMob(String mobType, int count, Integer size, String ridingMob, String mainHandItem, String offHandItem, List<String> armorItems, String potionEffects, String enchantments) {
         this.mobType = mobType;
         this.count = count;
+        this.size = size;
         this.ridingMob = ridingMob;
         this.mainHandItem = mainHandItem;
         this.offHandItem = offHandItem;
@@ -42,6 +48,11 @@ public class WaveMob {
     // Get mob count of the waveMob
     public int getCount() {
         return count;
+    }
+
+    // Get mob size
+    public Integer getSize() {
+        return size;
     }
 
     // Get the riding mob type
@@ -81,6 +92,9 @@ public class WaveMob {
 
     // Set the mob count of the waveMob
     public void setCount(int count) { this.count = count; }
+
+    // Set the mob size
+    public void setSize(Integer size) { this.size = size; }
 
     // Set the riding mob type
     public void setRidingMob(String ridingMob) {

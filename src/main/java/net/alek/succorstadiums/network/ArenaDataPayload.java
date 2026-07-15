@@ -27,12 +27,13 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
     public record MobEntry(
             String mobType,
             int count,
+            Integer size, // Added size field
             String ridingMob,
             String mainHandItem,
             String offHandItem,
             List<String> armorItems,
-            String potionEffects, // New field
-            String enchantments   // New field
+            String potionEffects,
+            String enchantments
     ) {}
 
     public static final StreamCodec<FriendlyByteBuf, ArenaDataPayload> CODEC = StreamCodec.of(
@@ -53,12 +54,17 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                         for (MobEntry mob : wave.mobs()) {
                             buf.writeUtf(mob.mobType());
                             buf.writeInt(mob.count());
+                            // Write size
+                            buf.writeBoolean(mob.size() != null);
+                            if (mob.size() != null) {
+                                buf.writeInt(mob.size());
+                            }
                             buf.writeUtf(mob.ridingMob() == null ? "" : mob.ridingMob());
                             buf.writeUtf(mob.mainHandItem() == null ? "" : mob.mainHandItem());
                             buf.writeUtf(mob.offHandItem() == null ? "" : mob.offHandItem());
                             buf.writeCollection(mob.armorItems(), FriendlyByteBuf::writeUtf);
-                            buf.writeUtf(mob.potionEffects() == null ? "" : mob.potionEffects()); // New
-                            buf.writeUtf(mob.enchantments() == null ? "" : mob.enchantments());   // New
+                            buf.writeUtf(mob.potionEffects() == null ? "" : mob.potionEffects());
+                            buf.writeUtf(mob.enchantments() == null ? "" : mob.enchantments());
                         }
                     }
                 }
@@ -78,15 +84,30 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                         int mobCount = buf.readInt();
                         List<MobEntry> mobs = new ArrayList<>();
                         for (int m = 0; m < mobCount; m++) {
+                            String mobType = buf.readUtf();
+                            int count = buf.readInt();
+                            // Read size
+                            Integer size = null;
+                            if (buf.readBoolean()) {
+                                size = buf.readInt();
+                            }
+                            String ridingMob = buf.readUtf();
+                            String mainHandItem = buf.readUtf();
+                            String offHandItem = buf.readUtf();
+                            List<String> armorItems = buf.readCollection(ArrayList::new, FriendlyByteBuf::readUtf);
+                            String potionEffects = buf.readUtf();
+                            String enchantments = buf.readUtf();
+
                             mobs.add(new MobEntry(
-                                    buf.readUtf(),
-                                    buf.readInt(),
-                                    buf.readUtf(),
-                                    buf.readUtf(),
-                                    buf.readUtf(),
-                                    buf.readCollection(ArrayList::new, FriendlyByteBuf::readUtf),
-                                    buf.readUtf(), // New
-                                    buf.readUtf()  // New
+                                    mobType,
+                                    count,
+                                    size, // Added size here
+                                    ridingMob.isEmpty() ? null : ridingMob,
+                                    mainHandItem.isEmpty() ? null : mainHandItem,
+                                    offHandItem.isEmpty() ? null : offHandItem,
+                                    armorItems,
+                                    potionEffects.isEmpty() ? null : potionEffects,
+                                    enchantments.isEmpty() ? null : enchantments
                             ));
                         }
                         waves.add(new WaveEntry(waveNum, mobs));
@@ -112,6 +133,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                 wave.getMobs().forEach(mob -> mobs.add(new MobEntry(
                         mob.getMobType(),
                         mob.getCount(),
+                        mob.getSize(), // Added size here
                         mob.getRidingMob(),
                         mob.getMainHandItem(),
                         mob.getOffHandItem(),

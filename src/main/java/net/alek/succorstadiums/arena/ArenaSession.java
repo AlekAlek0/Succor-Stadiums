@@ -162,6 +162,21 @@ public class ArenaSession {
                                 null
                         );
 
+                        // Apply size/age for slimes and zombies
+                        if (waveMob.getSize() != null) {
+                            if (entityType == EntityType.SLIME) {
+                                // Slime size: 1 (small), 2 (medium), 4 (large)
+                                ((net.minecraft.world.entity.monster.Slime) mob).setSize(waveMob.getSize(), true);
+                            } else if (entityType == EntityType.ZOMBIE) {
+                                // Zombie age: -1 (baby), 0 (adult)
+                                if (waveMob.getSize() == -1) {
+                                    mob.setBaby(true);
+                                } else if (waveMob.getSize() == 0) {
+                                    mob.setBaby(false);
+                                }
+                            }
+                        }
+
                         // ── Riding mob ────────────────────────────────────────
                         if (waveMob.getRidingMob() != null && !waveMob.getRidingMob().isEmpty()) {
                             Optional<EntityType<?>> ridingEntityTypeOpt = BuiltInRegistries.ENTITY_TYPE

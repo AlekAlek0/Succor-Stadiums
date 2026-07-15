@@ -74,10 +74,10 @@ public class ArenaPacketHandler {
                     Wave wave = arena.getWave(p.waveNumber());
                     if (wave != null) {
                         wave.addMob(
-                                p.mobType(), p.count(),
+                                p.mobType(), p.count(), p.size(),
                                 p.ridingMob(), p.mainHandItem(), p.offHandItem(), p.armorItems(),
-                                p.potionEffects().isEmpty() ? null : p.potionEffects(),
-                                p.enchantments().isEmpty()  ? null : p.enchantments()
+                                p.potionEffects() == null || p.potionEffects().isEmpty() ? null : p.potionEffects(),
+                                p.enchantments() == null || p.enchantments().isEmpty()  ? null : p.enchantments()
                         );
                         MobArenaManager.save();
                     }

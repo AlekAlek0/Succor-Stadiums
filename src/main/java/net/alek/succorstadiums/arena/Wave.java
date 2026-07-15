@@ -25,8 +25,8 @@ public class Wave {
     public List<WaveMob> getMobs() { return mobs; }
 
     // Method to add a mob to a wave
-    public void addMob(String mobType, int count, String ridingMob, String mainHandItem,
-                       String offHandItem, List<String> armorItems,
+    public void addMob(String mobType, int count, Integer size, String ridingMob, // Added size parameter
+                       String mainHandItem, String offHandItem, List<String> armorItems,
                        String potionEffects, String enchantments) {
 
         WaveMob existingMob = mobs.stream()
@@ -34,14 +34,15 @@ public class Wave {
                         (ridingMob == null || ridingMob.equals(mob.getRidingMob())) &&
                         (mainHandItem == null || mainHandItem.equals(mob.getMainHandItem())) &&
                         (offHandItem == null || offHandItem.equals(mob.getOffHandItem())) &&
-                        (armorItems.isEmpty() || armorItems.equals(mob.getArmorItems())))
+                        (armorItems.isEmpty() || armorItems.equals(mob.getArmorItems())) &&
+                        (size == null || size.equals(mob.getSize()))) // Added size to filter
                 .findFirst()
                 .orElse(null);
 
         if (existingMob != null) {
             existingMob.setCount(existingMob.getCount() + count);
         } else {
-            mobs.add(new WaveMob(mobType, count, ridingMob, mainHandItem, offHandItem,
+            mobs.add(new WaveMob(mobType, count, size, ridingMob, mainHandItem, offHandItem,
                     armorItems, potionEffects, enchantments));
         }
     }
