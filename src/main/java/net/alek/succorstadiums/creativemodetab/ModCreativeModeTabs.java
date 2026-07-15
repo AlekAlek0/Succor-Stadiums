@@ -29,6 +29,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.SILK_SPOOL);
                         output.accept(ModItems.BONE_BROTH);
                         output.accept(ModItems.SPIDER_CARAPACE);
+                        output.accept(ModItems.BANANA_SLIME_BALL);
 
 
 

@@ -2,6 +2,7 @@ package net.alek.succorstadiums;
 
 import net.alek.succorstadiums.arena.ArenaSessionManager;
 import net.alek.succorstadiums.arena.MobArenaManager;
+import net.alek.succorstadiums.client.ModKeyBindings;
 import net.alek.succorstadiums.command.ModCommands;
 import net.alek.succorstadiums.creativemodetab.ModCreativeModeTabs;
 import net.alek.succorstadiums.entity.ModEntityAttributes;
@@ -53,6 +54,7 @@ public class SuccorStadiums implements ModInitializer {
 
 		// Register mob arena network packets
 		PayloadTypeRegistry.clientboundPlay().register(OpenMobArenaPayload.TYPE, OpenMobArenaPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(OpenMobArenaRequestPayload.TYPE, OpenMobArenaRequestPayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(ArenaActionPayload.TYPE, ArenaActionPayload.CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(ArenaDataPayload.TYPE, ArenaDataPayload.CODEC);
 		ArenaPacketHandler.register();

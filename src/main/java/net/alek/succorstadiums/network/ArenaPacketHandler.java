@@ -13,10 +13,24 @@ public class ArenaPacketHandler {
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger("SuccorStadiums/Packets");
 
     public static void register() {
+
         ServerPlayNetworking.registerGlobalReceiver(ArenaActionPayload.TYPE, (payload, context) -> {
             context.server().execute(() -> {
                 ServerPlayer player = context.player();
                 handle(payload, player, context.server());
+            });
+        });
+
+        ServerPlayNetworking.registerGlobalReceiver(OpenMobArenaRequestPayload.TYPE, (payload, context) -> {
+            context.server().execute(() -> {
+
+                ServerPlayer player = context.player();
+
+                ServerPlayNetworking.send(
+                        player,
+                        new OpenMobArenaPayload()
+                );
+
             });
         });
     }

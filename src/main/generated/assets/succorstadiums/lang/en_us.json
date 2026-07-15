@@ -30,6 +30,7 @@
   "item.succorstadiums.bale_helmet.tooltip": "Why a bale bucket you may ask... well it sounded nice.",
   "item.succorstadiums.bale_leggings": "§fBale Leggings",
   "item.succorstadiums.bale_leggings.tooltip": "All sneaky beaky like.",
+  "item.succorstadiums.banana_slime_ball": "Banana Slime Ball",
   "item.succorstadiums.bananner_blade": "Bananner Blade",
   "item.succorstadiums.bananner_blade.tooltip": "All though it resembles the banana fruit this sturdy blade is actually made of from Baldnana wood.",
   "item.succorstadiums.bean_pole": "10ft Beanpole",
@@ -74,6 +75,9 @@
   "item.succorstadiums.spacer": "",
   "item.succorstadiums.spider_carapace": "Spider Carapace",
   "item.succorstadiums.spider_carapace.tooltip": "Part of a Spiders tough exterior, the possible applications for such an item are endless.",
+  "key.category.succorstadiums.general": "Succor Stadiums",
+  "key.succorstadiums.open_backpack": "Open Backpack",
+  "key.succorstadiums.open_mob_arena": "Open Mob Arena GUI",
   "sound.succorstadiums.aqua_staff_use": "§3Aquaonduit used",
   "sound.succorstadiums.arachno_carapace_armor_equip": "§4Arachno Carpace Armor equips",
   "sound.succorstadiums.fire_staff_use": "§4Firecharged Cane used"

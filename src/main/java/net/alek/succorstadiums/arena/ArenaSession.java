@@ -14,6 +14,7 @@ import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -180,8 +181,9 @@ public class ArenaSession {
                         // Apply size/age for slimes and zombies/zombie villagers
                         if (waveMob.getSize() != null) {
                             if (entityType == EntityType.SLIME) {
+                                LOGGER.info("Attempting to set Slime size to: " + waveMob.getSize());
                                 // Slime size: 1 (small), 2 (medium), 4 (large)
-                                ((net.minecraft.world.entity.monster.Slime) mob).setSize(waveMob.getSize(), true);
+                                ((Slime) mob).setSize(waveMob.getSize(), true);
                             } else if (entityType == EntityType.ZOMBIE || entityType == EntityType.ZOMBIE_VILLAGER) {
                                 // Zombie age: -1 (baby), 0 (adult)
                                 if (waveMob.getSize() == -1) {

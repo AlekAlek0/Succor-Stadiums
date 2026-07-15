@@ -30,6 +30,9 @@ public class SuccorStadiumsClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
+        ModKeyBindings.registerKeyBindings();
+        KeyInputHandler.register();
+
         EntityRenderers.register(
                 ModEntityTypes.MASHED_BANANA_SLIME,
                 MashedBananaSlimeRenderer::new

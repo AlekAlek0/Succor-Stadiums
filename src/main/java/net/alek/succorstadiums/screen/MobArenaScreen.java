@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.screen;
 
+import net.alek.succorstadiums.client.ModKeyBindings;
 import net.alek.succorstadiums.network.ArenaActionPayload;
 import net.alek.succorstadiums.network.ArenaDataPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -1604,6 +1605,13 @@ public class MobArenaScreen extends Screen {
 
     @Override
     public boolean keyPressed(KeyEvent event) {
+
+        // Close Mob Arena with the same keybind
+        if (ModKeyBindings.OPEN_MOB_ARENA_GUI.matches(event)) {
+            Minecraft.getInstance().setScreen(null);
+            return true;
+        }
+
         if (detailView == DetailView.ADD_MOB) {
             for (SuggestionManager manager : buildSuggestionManagerList()) {
                 if (manager != null && manager.getEditBox().isFocused() && manager.hasSuggestions()) {
@@ -1613,6 +1621,7 @@ public class MobArenaScreen extends Screen {
                 }
             }
         }
+
         return super.keyPressed(event);
     }
 

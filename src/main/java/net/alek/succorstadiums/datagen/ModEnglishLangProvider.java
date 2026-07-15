@@ -37,6 +37,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.SILK_WEAVE, "Silk Weave");
         translationBuilder.add(ModItems.BONE_BROTH, "Bone Broth");
         translationBuilder.add(ModItems.SPIDER_CARAPACE, "Spider Carapace");
+        translationBuilder.add(ModItems.BANANA_SLIME_BALL, "Banana Slime Ball");
 
         // Armor translations
         translationBuilder.add(ModItems.BALE_HELMET, "§fBale Bucket");
@@ -146,11 +147,20 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+        // Mod Keybindings translations
+
+        translationBuilder.add("key.category.succorstadiums.general", "Succor Stadiums");
+        translationBuilder.add("key.succorstadiums.open_backpack", "Open Backpack");
+        translationBuilder.add("key.succorstadiums.open_mob_arena", "Open Mob Arena GUI");
+
 
         // Mod Sounds Subtitle translations
         translationBuilder.add("sound.succorstadiums.aqua_staff_use", "§3Aquaonduit used");
         translationBuilder.add("sound.succorstadiums.fire_staff_use", "§4Firecharged Cane used");
         translationBuilder.add("sound.succorstadiums.arachno_carapace_armor_equip", "§4Arachno Carpace Armor equips");
+
+
+
 
     }
 }
