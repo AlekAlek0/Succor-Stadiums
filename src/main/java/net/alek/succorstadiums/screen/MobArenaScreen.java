@@ -230,8 +230,8 @@ public class MobArenaScreen extends Screen {
 
         // Theme toggle
         addRenderableWidget(Button.builder(
-                Component.literal(theme.isDarkMode() ? "☀ Light" : "☾ Dark"),
-                btn -> { theme.toggle(); rebuildWidgets(); }
+                Component.literal("Theme: " + theme.getThemeName()),
+                btn -> { theme.nextTheme(); rebuildWidgets(); }
         ).bounds(sidebarX(), guiTop() - 14, SIDEBAR_W, 12).build());
 
         buildSidebarButtons();
@@ -1248,7 +1248,7 @@ public class MobArenaScreen extends Screen {
                     int currentY = guiTop() + 24;
                     for (int i = 0; i < wave.mobs().size(); i++) {
                         ArenaDataPayload.MobEntry mob = wave.mobs().get(i);
-                        if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + ROW_H, theme.isDarkMode() ? 0x15FFFFFF : 0x11000000);
+                        if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + ROW_H, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
                         String mobDisplay = mob.count() + "x  " + formatIdentifierForDisplay(mob.mobType());
                         if (mob.size() != null && mob.size() != 0) {
                             String variantDisplay = ""; // Renamed variable
@@ -1402,7 +1402,7 @@ public class MobArenaScreen extends Screen {
                         mobEntryTotalHeight += 4; // Extra padding at the end of a mob block
 
                         // Fill background for the entire mob entry block
-                        if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + mobEntryTotalHeight, theme.isDarkMode() ? 0x15FFFFFF : 0x11000000);
+                        if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + mobEntryTotalHeight, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
 
                         String display = formatIdentifierForDisplay(mob.mobType()); // Use helper for formatting
                         if (mob.size() != null && mob.size() != 0) {
@@ -1511,7 +1511,7 @@ public class MobArenaScreen extends Screen {
         g.text(font, "Radius: " + arena.radius() + "  Delay: " + arena.delaySeconds() + "s",
                 dx + PANEL_PAD, dt + 30, theme.subtext(), false);
 
-        g.fill(dx, dt + 42, dx + dw - 3, dt + 54, theme.isDarkMode() ? 0xFF313244 : 0xFFEEEEEE);
+        g.fill(dx, dt + 42, dx + dw - 3, dt + 54, theme.getTheme() != Theme.LIGHT ? 0xFF313244 : 0xFFEEEEEE);
         g.text(font, "Waves (" + arena.waves().size() + ")", dx + PANEL_PAD, dt + 45, theme.header(), false);
 
         int waveAreaY = guiTop() + 56;
@@ -1519,7 +1519,7 @@ public class MobArenaScreen extends Screen {
         for (int i = waveScroll; i < Math.min(arena.waves().size(), waveScroll + maxWaves); i++) {
             ArenaDataPayload.WaveEntry wave = arena.waves().get(i);
             int ry = waveAreaY + (i - waveScroll) * ROW_H;
-            if (i % 2 == 0) g.fill(dx, ry, dx + dw - 3, ry + ROW_H, theme.isDarkMode() ? 0x15FFFFFF : 0x11000000);
+            if (i % 2 == 0) g.fill(dx, ry, dx + dw - 3, ry + ROW_H, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
             g.text(font, "Wave " + wave.waveNumber(), dx + PANEL_PAD, ry + 4, theme.text(), false);
         }
     }

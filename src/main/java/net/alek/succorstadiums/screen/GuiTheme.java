@@ -9,66 +9,108 @@ import java.nio.file.Files;
 
 public class GuiTheme {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("SuccorStadiums/GuiTheme");
-
-    private static final int LIGHT_BG      = 0xFFF0F0F0;
-    private static final int LIGHT_SIDEBAR = 0xFFDDDDDD;
-    private static final int LIGHT_PANEL   = 0xFFFFFFFF;
-    private static final int LIGHT_BORDER  = 0xFFAAAAAA;
-    private static final int LIGHT_HEADER  = 0xFF333333;
-    private static final int LIGHT_TEXT    = 0xFF222222;
-    private static final int LIGHT_SUBTEXT = 0xFF666666;
-
-    private static final int DARK_BG      = 0xFF1E1E2E;
-    private static final int DARK_SIDEBAR = 0xFF181825;
-    private static final int DARK_PANEL   = 0xFF242436;
-    private static final int DARK_BORDER  = 0xFF44445A;
-    private static final int DARK_HEADER  = 0xFFCDD6F4;
-    private static final int DARK_TEXT    = 0xFFCDD6F4;
-    private static final int DARK_SUBTEXT = 0xFF9399B2;
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger("SuccorStadiums/GuiTheme");
 
     private static final File PREFS_FILE = new File(
             FabricLoader.getInstance().getConfigDir().toFile(),
             "succorstadiums/gui_prefs.json"
     );
 
-    private boolean darkMode;
+    private Theme theme;
 
     public GuiTheme() {
-        this.darkMode = loadDarkMode();
+        theme = loadTheme();
     }
 
-    public boolean isDarkMode() { return darkMode; }
-
-    public void toggle() {
-        darkMode = !darkMode;
-        saveDarkMode(darkMode);
+    public Theme getTheme() {
+        return theme;
     }
 
-    public int bg()      { return darkMode ? DARK_BG      : LIGHT_BG; }
-    public int sidebar()  { return darkMode ? DARK_SIDEBAR : LIGHT_SIDEBAR; }
-    public int panel()   { return darkMode ? DARK_PANEL   : LIGHT_PANEL; }
-    public int border()  { return darkMode ? DARK_BORDER  : LIGHT_BORDER; }
-    public int header()  { return darkMode ? DARK_HEADER  : LIGHT_HEADER; }
-    public int text()    { return darkMode ? DARK_TEXT     : LIGHT_TEXT; }
-    public int subtext() { return darkMode ? DARK_SUBTEXT  : LIGHT_SUBTEXT; }
+    public String getThemeName() {
+        return theme.name();
+    }
 
-    private static void saveDarkMode(boolean darkMode) {
+    public void setTheme(Theme theme) {
+        this.theme = theme;
+        saveTheme(theme);
+    }
+
+    public void nextTheme() {
+        theme = theme.next();
+        saveTheme(theme);
+    }
+
+    public void previousTheme() {
+        theme = theme.previous();
+        saveTheme(theme);
+    }
+
+    public int bg() {
+        return theme.bg;
+    }
+
+    public int sidebar() {
+        return theme.sidebar;
+    }
+
+    public int panel() {
+        return theme.panel;
+    }
+
+    public int border() {
+        return theme.border;
+    }
+
+    public int header() {
+        return theme.header;
+    }
+
+    public int text() {
+        return theme.text;
+    }
+
+    public int subtext() {
+        return theme.subtext;
+    }
+
+    private static void saveTheme(Theme theme) {
         try {
             PREFS_FILE.getParentFile().mkdirs();
-            Files.writeString(PREFS_FILE.toPath(), "{\"darkMode\":" + darkMode + "}");
+
+            String json = """
+                    {
+                      "theme": "%s"
+                    }
+                    """.formatted(theme.name());
+
+            Files.writeString(PREFS_FILE.toPath(), json);
+
         } catch (Exception e) {
-            LOGGER.error("", e);
+            LOGGER.error("Failed to save GUI theme.", e);
         }
     }
 
-    private static boolean loadDarkMode() {
+    private static Theme loadTheme() {
+
         try {
-            if (!PREFS_FILE.exists()) return false;
-            String json = new String(Files.readAllBytes(PREFS_FILE.toPath()));
-            return json.contains("\"darkMode\":true");
+
+            if (!PREFS_FILE.exists()) {
+                return Theme.DARK;
+            }
+
+            String json = Files.readString(PREFS_FILE.toPath());
+
+            for (Theme theme : Theme.values()) {
+                if (json.contains("\"theme\": \"" + theme.name() + "\"")) {
+                    return theme;
+                }
+            }
+
         } catch (Exception e) {
-            return false;
+            LOGGER.error("Failed to load GUI theme.", e);
         }
+
+        return Theme.DARK;
     }
 }
