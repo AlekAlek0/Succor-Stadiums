@@ -43,9 +43,9 @@ public class SuccorStadiums implements ModInitializer {
 		ModSounds.registerModSounds();
 		ModItems.registerModItems();
 
-		// Register mod entity attributes and entity types
-		ModEntityAttributes.register();
+		// Register mod entity types and attributes
 		ModEntityTypes.registerModEntityTypes();
+		ModEntityAttributes.register();
 
 		// Register item network packets
 		PayloadTypeRegistry.clientboundPlay().register(ResurrectionAmuletPayload.TYPE, ResurrectionAmuletPayload.CODEC);

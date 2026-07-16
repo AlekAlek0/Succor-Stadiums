@@ -40,12 +40,12 @@ public class WaveMob {
         this.enchantments = enchantments;
     }
 
-    // Get the mobType of the Wavemob
+    // Get the mobType of the wave mob
     public String getMobType() {
         return mobType;
     }
 
-    // Get mob count of the waveMob
+    // Get mob count of the wave mob
     public int getCount() {
         return count;
     }
@@ -65,7 +65,7 @@ public class WaveMob {
         return mainHandItem;
     }
 
-    // Get the item in the off hand
+    // Get the item in the offhand
     public String getOffHandItem() {
         return offHandItem;
     }
@@ -85,12 +85,12 @@ public class WaveMob {
         return enchantments;
     }
 
-    // Set the wave mobType
+    // Set the wave mob type
     public void setMobType(String mobType) {
         this.mobType = mobType;
     }
 
-    // Set the mob count of the waveMob
+    // Set the mob count of the wave mob
     public void setCount(int count) { this.count = count; }
 
     // Set the mob size

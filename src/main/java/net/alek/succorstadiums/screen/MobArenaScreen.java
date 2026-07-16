@@ -50,33 +50,9 @@ public class MobArenaScreen extends Screen {
     private static final int ROW_H            = 18;
     private static final int DETAIL_LINE_HEIGHT = 12;
 
-    // ── Theme ─────────────────────────────────────────────────────────────────
+    // ── Theme ─────────────────────────────────────────────────────
 
-    private boolean darkMode = loadDarkMode();
-
-    private static final int LIGHT_BG      = 0xFFF0F0F0;
-    private static final int LIGHT_SIDEBAR = 0xFFDDDDDD;
-    private static final int LIGHT_PANEL   = 0xFFFFFFFF;
-    private static final int LIGHT_BORDER  = 0xFFAAAAAA;
-    private static final int LIGHT_HEADER  = 0xFF333333;
-    private static final int LIGHT_TEXT    = 0xFF222222;
-    private static final int LIGHT_SUBTEXT = 0xFF666666;
-
-    private static final int DARK_BG      = 0xFF1E1E2E;
-    private static final int DARK_SIDEBAR = 0xFF181825;
-    private static final int DARK_PANEL   = 0xFF242436;
-    private static final int DARK_BORDER  = 0xFF44445A;
-    private static final int DARK_HEADER  = 0xFFCDD6F4;
-    private static final int DARK_TEXT    = 0xFFCDD6F4;
-    private static final int DARK_SUBTEXT = 0xFF9399B2;
-
-    private int colBg()      { return darkMode ? DARK_BG      : LIGHT_BG; }
-    private int colSidebar() { return darkMode ? DARK_SIDEBAR : LIGHT_SIDEBAR; }
-    private int colPanel()   { return darkMode ? DARK_PANEL   : LIGHT_PANEL; }
-    private int colBorder()  { return darkMode ? DARK_BORDER  : LIGHT_BORDER; }
-    private int colHeader()  { return darkMode ? DARK_HEADER  : LIGHT_HEADER; }
-    private int colText()    { return darkMode ? DARK_TEXT     : LIGHT_TEXT; }
-    private int colSubtext() { return darkMode ? DARK_SUBTEXT  : LIGHT_SUBTEXT; }
+    private final GuiTheme theme = new GuiTheme();
 
     // ── UI state ─────────────────────────────────────────────────────────────
 
@@ -254,8 +230,8 @@ public class MobArenaScreen extends Screen {
 
         // Theme toggle
         addRenderableWidget(Button.builder(
-                Component.literal(darkMode ? "☀ Light" : "☾ Dark"),
-                btn -> { darkMode = !darkMode; saveDarkMode(darkMode); rebuildWidgets(); }
+                Component.literal(theme.isDarkMode() ? "☀ Light" : "☾ Dark"),
+                btn -> { theme.toggle(); rebuildWidgets(); }
         ).bounds(sidebarX(), guiTop() - 14, SIDEBAR_W, 12).build());
 
         buildSidebarButtons();
@@ -1210,11 +1186,11 @@ public class MobArenaScreen extends Screen {
     public void extractRenderState(GuiGraphicsExtractor g, int mx, int my, float delta) {
         int gl = guiLeft(), gt = guiTop(), gw = guiWidth(), gh = guiHeight();
 
-        g.fill(gl, gt, gl + gw, gt + gh, colBg());
-        g.fill(sidebarX(), gt, sidebarX() + SIDEBAR_W, gt + gh, colSidebar());
-        g.fill(sidebarX() + SIDEBAR_W, gt, sidebarX() + SIDEBAR_W + 1, gt + gh, colBorder());
-        g.fill(detailX(), gt, detailX() + detailW(), gt + gh, colPanel());
-        g.outline(gl, gt, gw, gh, colBorder());
+        g.fill(gl, gt, gl + gw, gt + gh, theme.bg());
+        g.fill(sidebarX(), gt, sidebarX() + SIDEBAR_W, gt + gh,theme.sidebar());
+        g.fill(sidebarX() + SIDEBAR_W, gt, sidebarX() + SIDEBAR_W + 1, gt + gh, theme.border());
+        g.fill(detailX(), gt, detailX() + detailW(), gt + gh, theme.panel());
+        g.outline(gl, gt, gw, gh, theme.border());
         g.fill(sidebarX(), gt, sidebarX() + SIDEBAR_W, gt + 16, 0xFF888888);
         g.text(font, "Arenas", sidebarX() + PANEL_PAD, gt + 4, 0xFFFFFFFF, false);
 
@@ -1241,9 +1217,9 @@ public class MobArenaScreen extends Screen {
         if (detailView == DetailView.ADD_ARENA) {
             g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
             g.text(font, "New Arena",          dx + PANEL_PAD, dt + 4,   0xFFFFFFFF, false);
-            g.text(font, "Name",               dx + PANEL_PAD, dt + 20,  colSubtext(), false);
-            g.text(font, "Position",           dx + PANEL_PAD, dt + 60,  colSubtext(), false);
-            g.text(font, "Radius / Delay (s)", dx + PANEL_PAD, dt + 100, colSubtext(), false);
+            g.text(font, "Name",               dx + PANEL_PAD, dt + 20, theme.subtext(), false);
+            g.text(font, "Position",           dx + PANEL_PAD, dt + 60, theme.subtext(), false);
+            g.text(font, "Radius / Delay (s)", dx + PANEL_PAD, dt + 100, theme.subtext(), false);
             return;
         }
 
@@ -1253,9 +1229,9 @@ public class MobArenaScreen extends Screen {
             ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
             g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
             g.text(font, "Edit Arena: " + arena.name(), dx + PANEL_PAD, dt + 4,   0xFFFFFFFF, false);
-            g.text(font, "Name",                        dx + PANEL_PAD, dt + 20,  colSubtext(), false);
-            g.text(font, "Position",                    dx + PANEL_PAD, dt + 60,  colSubtext(), false);
-            g.text(font, "Radius / Delay (s)",          dx + PANEL_PAD, dt + 100, colSubtext(), false);
+            g.text(font, "Name",                        dx + PANEL_PAD, dt + 20, theme.subtext(), false);
+            g.text(font, "Position",                    dx + PANEL_PAD, dt + 60,  theme.subtext(), false);
+            g.text(font, "Radius / Delay (s)",          dx + PANEL_PAD, dt + 100, theme.subtext(), false);
             return;
         }
 
@@ -1272,7 +1248,7 @@ public class MobArenaScreen extends Screen {
                     int currentY = guiTop() + 24;
                     for (int i = 0; i < wave.mobs().size(); i++) {
                         ArenaDataPayload.MobEntry mob = wave.mobs().get(i);
-                        if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + ROW_H, darkMode ? 0x15FFFFFF : 0x11000000);
+                        if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + ROW_H, theme.isDarkMode() ? 0x15FFFFFF : 0x11000000);
                         String mobDisplay = mob.count() + "x  " + formatIdentifierForDisplay(mob.mobType());
                         if (mob.size() != null && mob.size() != 0) {
                             String variantDisplay = ""; // Renamed variable
@@ -1290,34 +1266,34 @@ public class MobArenaScreen extends Screen {
                                 mobDisplay += " (Variant: " + mob.size() + ")"; // Changed label
                             }
                         }
-                        g.text(font, mobDisplay, dx + PANEL_PAD, currentY + 4, colText(), false);
+                        g.text(font, mobDisplay, dx + PANEL_PAD, currentY + 4, theme.text(), false);
                         currentY += ROW_H;
 
                         if (mob.mainHandItem() != null && !mob.mainHandItem().isEmpty()) {
                             g.text(font, "  Main Hand: " + formatIdentifierForDisplay(mob.mainHandItem()),
-                                    dx + PANEL_PAD + 10, currentY + 4, colSubtext(), false);
+                                    dx + PANEL_PAD + 10, currentY + 4, theme.subtext(), false);
                             currentY += DETAIL_LINE_HEIGHT;
                         }
                         if (mob.offHandItem() != null && !mob.offHandItem().isEmpty()) {
                             g.text(font, "  Off Hand: " + formatIdentifierForDisplay(mob.offHandItem()),
-                                    dx + PANEL_PAD + 10, currentY + 4, colSubtext(), false);
+                                    dx + PANEL_PAD + 10, currentY + 4, theme.subtext(), false);
                             currentY += DETAIL_LINE_HEIGHT;
                         }
                         if (mob.armorItems() != null && !mob.armorItems().isEmpty()) {
                             String[] slots = {"Helmet", "Chestplate", "Leggings", "Boots"};
                             for (int s = 0; s < Math.min(mob.armorItems().size(), 4); s++) {
                                 g.text(font, "  " + slots[s] + ": " + formatIdentifierForDisplay(mob.armorItems().get(s)),
-                                        dx + PANEL_PAD + 10, currentY + 4, colSubtext(), false);
+                                        dx + PANEL_PAD + 10, currentY + 4, theme.subtext(), false);
                                 currentY += DETAIL_LINE_HEIGHT;
                             }
                         }
                         if (mob.ridingMob() != null && !mob.ridingMob().isEmpty()) {
                             g.text(font, "  Riding: " + formatIdentifierForDisplay(mob.ridingMob()),
-                                    dx + PANEL_PAD + 10, currentY + 4, colSubtext(), false);
+                                    dx + PANEL_PAD + 10, currentY + 4, theme.subtext(), false);
                             currentY += DETAIL_LINE_HEIGHT;
                         }
                         if (mob.potionEffects() != null && !mob.potionEffects().isEmpty()) {
-                            g.text(font, "  Potion Effects:", dx + PANEL_PAD + 10, currentY + 4, colSubtext(), false);
+                            g.text(font, "  Potion Effects:", dx + PANEL_PAD + 10, currentY + 4, theme.subtext(), false);
                             currentY += DETAIL_LINE_HEIGHT;
                             for (String effect : mob.potionEffects().split(",")) {
                                 String[] parts = effect.split(":");
@@ -1330,13 +1306,13 @@ public class MobArenaScreen extends Screen {
                                     String effectId = String.join(":", Arrays.copyOfRange(parts, 0, parts.length - 2));
 
                                     g.text(font, "    - " + formatIdentifierForDisplay(effectId) + " (" + (("-1".equals(durStr) || "0".equals(durStr)) ? "Infinite" : durStr + "s") + ", Amp " + ampStr + ")",
-                                            dx + PANEL_PAD + 20, currentY + 4, colSubtext(), false);
+                                            dx + PANEL_PAD + 20, currentY + 4, theme.subtext(), false);
                                     currentY += DETAIL_LINE_HEIGHT;
                                 }
                             }
                         }
                         if (mob.enchantments() != null && !mob.enchantments().isEmpty()) {
-                            g.text(font, "  Enchantments:", dx + PANEL_PAD + 10, currentY + 4, colSubtext(), false);
+                            g.text(font, "  Enchantments:", dx + PANEL_PAD + 10, currentY + 4, theme.subtext(), false);
                             currentY += DETAIL_LINE_HEIGHT;
                             for (String enchantment : mob.enchantments().split(",")) {
                                 String[] parts = enchantment.split(":");
@@ -1355,7 +1331,7 @@ public class MobArenaScreen extends Screen {
                                         if (ENCHANT_TARGET_KEYS[t].equals(target)) { targetDisplay = ENCHANT_TARGETS[t]; break; }
                                     }
                                     g.text(font, "    - " + formatIdentifierForDisplay(enchantId) + " (Lvl " + lvlStr + ") on " + targetDisplay,
-                                            dx + PANEL_PAD + 20, currentY + 4, colSubtext(), false);
+                                            dx + PANEL_PAD + 20, currentY + 4, theme.subtext(), false);
                                     currentY += DETAIL_LINE_HEIGHT;
                                 }
                             }
@@ -1363,7 +1339,7 @@ public class MobArenaScreen extends Screen {
                         currentY += 4;
                     }
                 } else {
-                    g.text(font, "No mobs in this wave.", dx + PANEL_PAD, guiTop() + 28, colSubtext(), false);
+                    g.text(font, "No mobs in this wave.", dx + PANEL_PAD, guiTop() + 28, theme.subtext(), false);
                 }
             }
             return;
@@ -1385,7 +1361,7 @@ public class MobArenaScreen extends Screen {
                 int labelY = pos[1] - addMobScroll;
                 // Only draw if inside the scissored area
                 if (labelY >= scissorTop && labelY < scissorBottom) {
-                    g.text(font, inlineLabelTexts.get(i), pos[0], labelY, colSubtext(), false);
+                    g.text(font, inlineLabelTexts.get(i), pos[0], labelY, theme.subtext(), false);
                 }
             }
             g.disableScissor();
@@ -1426,7 +1402,7 @@ public class MobArenaScreen extends Screen {
                         mobEntryTotalHeight += 4; // Extra padding at the end of a mob block
 
                         // Fill background for the entire mob entry block
-                        if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + mobEntryTotalHeight, darkMode ? 0x15FFFFFF : 0x11000000);
+                        if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + mobEntryTotalHeight, theme.isDarkMode() ? 0x15FFFFFF : 0x11000000);
 
                         String display = formatIdentifierForDisplay(mob.mobType()); // Use helper for formatting
                         if (mob.size() != null && mob.size() != 0) {
@@ -1445,35 +1421,35 @@ public class MobArenaScreen extends Screen {
                                 display += " (Variant: " + mob.size() + ")"; // Changed label
                             }
                         }
-                        g.text(font, mob.count() + "x  " + display, dx + PANEL_PAD + 162, currentY + 4, colText(), false);
+                        g.text(font, mob.count() + "x  " + display, dx + PANEL_PAD + 162, currentY + 4, theme.text(), false);
                         
                         // Render details, starting after the main line
                         int detailLineY = currentY + ROW_H;
                         if (mob.mainHandItem() != null && !mob.mainHandItem().isEmpty()) {
                             g.text(font, "  Main Hand: " + formatIdentifierForDisplay(mob.mainHandItem()),
-                                    dx + PANEL_PAD + 10, detailLineY + 4, colSubtext(), false);
+                                    dx + PANEL_PAD + 10, detailLineY + 4, theme.subtext(), false);
                             detailLineY += DETAIL_LINE_HEIGHT;
                         }
                         if (mob.offHandItem() != null && !mob.offHandItem().isEmpty()) {
                             g.text(font, "  Off Hand: " + formatIdentifierForDisplay(mob.offHandItem()),
-                                    dx + PANEL_PAD + 10, detailLineY + 4, colSubtext(), false);
+                                    dx + PANEL_PAD + 10, detailLineY + 4, theme.subtext(), false);
                             detailLineY += DETAIL_LINE_HEIGHT;
                         }
                         if (mob.armorItems() != null && !mob.armorItems().isEmpty()) {
                             String[] slots = {"Helmet", "Chestplate", "Leggings", "Boots"};
                             for (int s = 0; s < Math.min(mob.armorItems().size(), 4); s++) {
                                 g.text(font, "  " + slots[s] + ": " + formatIdentifierForDisplay(mob.armorItems().get(s)),
-                                        dx + PANEL_PAD + 10, detailLineY + 4, colSubtext(), false);
+                                        dx + PANEL_PAD + 10, detailLineY + 4, theme.subtext(), false);
                                 detailLineY += DETAIL_LINE_HEIGHT;
                             }
                         }
                         if (mob.ridingMob() != null && !mob.ridingMob().isEmpty()) {
                             g.text(font, "  Riding: " + formatIdentifierForDisplay(mob.ridingMob()),
-                                    dx + PANEL_PAD + 10, detailLineY + 4, colSubtext(), false);
+                                    dx + PANEL_PAD + 10, detailLineY + 4, theme.subtext(), false);
                             detailLineY += DETAIL_LINE_HEIGHT;
                         }
                         if (mob.potionEffects() != null && !mob.potionEffects().isEmpty()) {
-                            g.text(font, "  Potion Effects:", dx + PANEL_PAD + 10, detailLineY + 4, colSubtext(), false);
+                            g.text(font, "  Potion Effects:", dx + PANEL_PAD + 10, detailLineY + 4, theme.subtext(), false);
                             detailLineY += DETAIL_LINE_HEIGHT;
                             for (String effect : mob.potionEffects().split(",")) {
                                 String[] parts = effect.split(":");
@@ -1482,13 +1458,13 @@ public class MobArenaScreen extends Screen {
                                     String durStr = parts[parts.length - 2];
                                     String effectId = String.join(":", Arrays.copyOfRange(parts, 0, parts.length - 2));
                                     g.text(font, "    - " + formatIdentifierForDisplay(effectId) + " (" + (("-1".equals(durStr) || "0".equals(durStr)) ? "Infinite" : durStr + "s") + ", Amp " + ampStr + ")",
-                                            dx + PANEL_PAD + 20, detailLineY + 4, colSubtext(), false);
+                                            dx + PANEL_PAD + 20, detailLineY + 4, theme.subtext(), false);
                                     detailLineY += DETAIL_LINE_HEIGHT;
                                 }
                             }
                         }
                         if (mob.enchantments() != null && !mob.enchantments().isEmpty()) {
-                            g.text(font, "  Enchantments:", dx + PANEL_PAD + 10, detailLineY + 4, colSubtext(), false);
+                            g.text(font, "  Enchantments:", dx + PANEL_PAD + 10, detailLineY + 4, theme.subtext(), false);
                             detailLineY += DETAIL_LINE_HEIGHT;
                             for (String enchantment : mob.enchantments().split(",")) {
                                 String[] parts = enchantment.split(":");
@@ -1501,7 +1477,7 @@ public class MobArenaScreen extends Screen {
                                         if (ENCHANT_TARGET_KEYS[t].equals(target)) { targetDisplay = ENCHANT_TARGETS[t]; break; }
                                     }
                                     g.text(font, "    - " + formatIdentifierForDisplay(enchantId) + " (Lvl " + lvlStr + ") on " + targetDisplay,
-                                            dx + PANEL_PAD + 20, detailLineY + 4, colSubtext(), false);
+                                            dx + PANEL_PAD + 20, detailLineY + 4, theme.subtext(), false);
                                     detailLineY += DETAIL_LINE_HEIGHT;
                                 }
                             }
@@ -1509,7 +1485,7 @@ public class MobArenaScreen extends Screen {
                         currentY += mobEntryTotalHeight; // Correctly advance currentY for the next mob entry
                     }
                     if (wave.mobs().isEmpty()) {
-                        g.text(font, "No mobs in this wave.", dx + PANEL_PAD, guiTop() + 36, colSubtext(), false);
+                        g.text(font, "No mobs in this wave.", dx + PANEL_PAD, guiTop() + 36, theme.subtext(), false);
                     }
                 }
             }
@@ -1518,7 +1494,7 @@ public class MobArenaScreen extends Screen {
 
         // ── OVERVIEW: no selection ──
         if (selectedArena < 0 || selectedArena >= arenas.size()) {
-            g.text(font, "Select an arena or create a new one.", dx + PANEL_PAD, dt + 24, colSubtext(), false);
+            g.text(font, "Select an arena or create a new one.", dx + PANEL_PAD, dt + 24, theme.subtext(), false);
             return;
         }
 
@@ -1531,20 +1507,20 @@ public class MobArenaScreen extends Screen {
         g.text(font, status, dx + dw - font.width(status) - PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
 
         g.text(font, "X:" + (int)arena.x() + " Y:" + (int)arena.y() + " Z:" + (int)arena.z(),
-                dx + PANEL_PAD, dt + 20, colSubtext(), false);
+                dx + PANEL_PAD, dt + 20, theme.subtext(), false);
         g.text(font, "Radius: " + arena.radius() + "  Delay: " + arena.delaySeconds() + "s",
-                dx + PANEL_PAD, dt + 30, colSubtext(), false);
+                dx + PANEL_PAD, dt + 30, theme.subtext(), false);
 
-        g.fill(dx, dt + 42, dx + dw - 3, dt + 54, darkMode ? 0xFF313244 : 0xFFEEEEEE);
-        g.text(font, "Waves (" + arena.waves().size() + ")", dx + PANEL_PAD, dt + 45, colHeader(), false);
+        g.fill(dx, dt + 42, dx + dw - 3, dt + 54, theme.isDarkMode() ? 0xFF313244 : 0xFFEEEEEE);
+        g.text(font, "Waves (" + arena.waves().size() + ")", dx + PANEL_PAD, dt + 45, theme.header(), false);
 
         int waveAreaY = guiTop() + 56;
         int maxWaves  = (guiHeight() - 76) / ROW_H;
         for (int i = waveScroll; i < Math.min(arena.waves().size(), waveScroll + maxWaves); i++) {
             ArenaDataPayload.WaveEntry wave = arena.waves().get(i);
             int ry = waveAreaY + (i - waveScroll) * ROW_H;
-            if (i % 2 == 0) g.fill(dx, ry, dx + dw - 3, ry + ROW_H, darkMode ? 0x15FFFFFF : 0x11000000);
-            g.text(font, "Wave " + wave.waveNumber(), dx + PANEL_PAD, ry + 4, colText(), false);
+            if (i % 2 == 0) g.fill(dx, ry, dx + dw - 3, ry + ROW_H, theme.isDarkMode() ? 0x15FFFFFF : 0x11000000);
+            g.text(font, "Wave " + wave.waveNumber(), dx + PANEL_PAD, ry + 4, theme.text(), false);
         }
     }
 
@@ -1756,31 +1732,7 @@ public class MobArenaScreen extends Screen {
         inlineLabelPositions.add(new int[]{x, y});
         inlineLabelTexts.add(text);
     }
-
-    private static final java.io.File PREFS_FILE = new java.io.File(
-            net.fabricmc.loader.api.FabricLoader.getInstance().getConfigDir().toFile(),
-            "succorstadiums/gui_prefs.json"
-    );
-
-    private static boolean loadDarkMode() {
-        try {
-            if (!PREFS_FILE.exists()) return false;
-            String json = new String(java.nio.file.Files.readAllBytes(PREFS_FILE.toPath()));
-            return json.contains("\"darkMode\":true");
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    private static void saveDarkMode(boolean darkMode) {
-        try {
-            PREFS_FILE.getParentFile().mkdirs();
-            java.nio.file.Files.writeString(PREFS_FILE.toPath(), "{\"darkMode\":" + darkMode + "}");
-        } catch (Exception e) {
-            LOGGER.error("", e);
-        }
-    }
-
+    
     private EditBox makeField(int x, int y, int w, int h, String hint) {
         EditBox field = new EditBox(font, x, y, w, h, Component.literal(hint));
         field.setHint(Component.literal(hint));
