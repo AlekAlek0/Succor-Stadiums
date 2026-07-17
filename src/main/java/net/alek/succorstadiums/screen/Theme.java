@@ -110,8 +110,7 @@ public enum Theme {
     public final int text;
     public final int subtext;
 
-    Theme(int bg, int sidebar, int panel, int border,
-          int header, int text, int subtext) {
+    Theme(int bg, int sidebar, int panel, int border, int header, int text, int subtext) {
         this.bg = bg;
         this.sidebar = sidebar;
         this.panel = panel;

@@ -220,6 +220,44 @@ public class MobArenaScreen extends Screen {
      */
     private int addMobScrollBottom() { return guiTop() + guiHeight() - BTN_H - PANEL_PAD; }
 
+    /**
+     * How tall the ADD_MOB form's scrollable content is right now, given the current
+     * toggle states and entry counts. Single source of truth — both buildAddMobWidgets()
+     * and mouseScrolled() call this instead of each keeping their own copy of the math.
+     */
+    private int computeAddMobContentHeight() {
+        int h = 10 + 18; // Mob Type: label + field
+        h += 10 + 18;    // Count + Variant row
+
+        h += BTN_H + 4;  // Equipment toggle
+        if (showEquipmentFields) {
+            h += (10 + 18) * 6; // 6 fields: main hand, offhand, helmet, chest, legs, boots
+        }
+
+        h += BTN_H + 4;  // Potion Effects toggle
+        if (showPotionEffectsField) {
+            h += potionEffectEntries.size() * 14; // existing entries
+            h += 10;                              // column header labels
+            h += 18;                              // pending-entry input row
+            h += BTN_H + 4;                        // "+ Add Effect" button
+        }
+
+        h += BTN_H + 4;  // Enchantments toggle
+        if (showEnchantmentsField) {
+            h += enchantmentEntries.size() * 14;
+            h += 10;
+            h += 18;
+            h += BTN_H + 4;
+        }
+
+        h += BTN_H + 4;  // Riding Mob toggle
+        if (showRidingMobField) {
+            h += 10 + 18;
+        }
+
+        return h;
+    }
+
     // ── Widget construction ───────────────────────────────────────────────────
 
     @Override
@@ -417,21 +455,16 @@ public class MobArenaScreen extends Screen {
     private void buildAddMobWidgets() {
         int cx       = detailX() + PANEL_PAD;
         int fw       = detailW() - PANEL_PAD * 2;
-        // Logical (unscrolled) Y where scrollable content begins
         int startY   = guiTop() + 20;
         int currentY = startY;
-        // Fixed Y for the pinned Add / Cancel buttons
         int by       = addMobScrollBottom();
 
-        // Visible window for scrolled widgets
         int scrollTop    = addMobScrollTop();
         int scrollBottom = addMobScrollBottom();
 
-        int contentHeight = 0;
-
         // ── Mob Type ──────────────────────────────────────────────────────────
         drawInlineLabel(cx, currentY, "Mob Type");
-        currentY += 10; contentHeight += 10;
+        currentY += 10;
         mobTypeField = addScrolledField(cx, currentY, fw, 14, "e.g. minecraft:zombie", scrollTop, scrollBottom);
         if (mobTypeField != null) {
             mobTypeField.setValue(savedMobType);
@@ -448,13 +481,12 @@ public class MobArenaScreen extends Screen {
                 boolean newIsSlime = savedMobType.equals("minecraft:slime") || savedMobType.equals(MOD_ID + ":mashed_banana_slime");
                 boolean newIsZombieLike = savedMobType.equals("minecraft:zombie") || savedMobType.equals("minecraft:zombie_villager");
 
-                // Rebuild widgets if the type of variant options changes
                 if ((oldIsSlime != newIsSlime) || (oldIsZombieLike != newIsZombieLike)) {
                     rebuildWidgets();
                 }
             });
         }
-        currentY += 18; contentHeight += 18;
+        currentY += 18;
 
         // ── Count and Variant ────────────────────────────────────────────────────
         drawInlineLabel(cx, currentY, "Count");
@@ -465,56 +497,53 @@ public class MobArenaScreen extends Screen {
             mobCountField.setResponder(text -> savedMobCount = text);
         }
 
-        // Conditional Variant buttons
         String currentMobType = mobTypeField != null ? mobTypeField.getValue().trim() : savedMobType;
         boolean isSlime = currentMobType.equals("minecraft:slime") || currentMobType.equals(MOD_ID + ":mashed_banana_slime");
         boolean isZombieLike = currentMobType.equals("minecraft:zombie") || currentMobType.equals("minecraft:zombie_villager");
 
         if (isSlime) {
-            drawInlineLabel(cx + countFieldWidth + 4, currentY, "Variant"); // Changed label
-            int buttonWidth = (fw - countFieldWidth - 4 - 4) / 3; // 3 buttons, 2 gaps
+            drawInlineLabel(cx + countFieldWidth + 4, currentY, "Variant");
+            int buttonWidth = (fw - countFieldWidth - 4 - 4) / 3;
             int buttonX = cx + countFieldWidth + 4;
 
             addScrolledButton(
-                    Component.literal("Small" + (selectedSlimeVariant.equals("small") ? " ✔" : "")), // Renamed variable
-                    btn -> { selectedSlimeVariant = "small"; savedMobVariant = "small"; rebuildWidgets(); }, // Renamed variable
+                    Component.literal("Small" + (selectedSlimeVariant.equals("small") ? " ✔" : "")),
+                    btn -> { selectedSlimeVariant = "small"; savedMobVariant = "small"; rebuildWidgets(); },
                     buttonX, currentY + 10, buttonWidth, BTN_H, scrollTop, scrollBottom
             );
             addScrolledButton(
-                    Component.literal("Medium" + (selectedSlimeVariant.equals("medium") ? " ✔" : "")), // Renamed variable
-                    btn -> { selectedSlimeVariant = "medium"; savedMobVariant = "medium"; rebuildWidgets(); }, // Renamed variable
+                    Component.literal("Medium" + (selectedSlimeVariant.equals("medium") ? " ✔" : "")),
+                    btn -> { selectedSlimeVariant = "medium"; savedMobVariant = "medium"; rebuildWidgets(); },
                     buttonX + buttonWidth + 2, currentY + 10, buttonWidth, BTN_H, scrollTop, scrollBottom
             );
             addScrolledButton(
-                    Component.literal("Large" + (selectedSlimeVariant.equals("large") ? " ✔" : "")), // Renamed variable
-                    btn -> { selectedSlimeVariant = "large"; savedMobVariant = "large"; rebuildWidgets(); }, // Renamed variable
+                    Component.literal("Large" + (selectedSlimeVariant.equals("large") ? " ✔" : "")),
+                    btn -> { selectedSlimeVariant = "large"; savedMobVariant = "large"; rebuildWidgets(); },
                     buttonX + (buttonWidth + 2) * 2, currentY + 10, buttonWidth, BTN_H, scrollTop, scrollBottom
             );
-            currentY += 10 + BTN_H + 4; contentHeight += 10 + BTN_H + 4;
-        } else if (isZombieLike) { // Changed condition to isZombieLike
-            drawInlineLabel(cx + countFieldWidth + 4, currentY, "Variant"); // Changed label
-            int buttonWidth = (fw - countFieldWidth - 4 - 2) / 2; // 2 buttons, 1 gap
+            currentY += 10 + BTN_H + 4;
+        } else if (isZombieLike) {
+            drawInlineLabel(cx + countFieldWidth + 4, currentY, "Variant");
+            int buttonWidth = (fw - countFieldWidth - 4 - 2) / 2;
             int buttonX = cx + countFieldWidth + 4;
 
             addScrolledButton(
-                    Component.literal("Baby" + (selectedZombieVariant.equals("baby") ? " ✔" : "")), // Renamed variable
-                    btn -> { selectedZombieVariant = "baby"; savedMobVariant = "baby"; rebuildWidgets(); }, // Renamed variable
+                    Component.literal("Baby" + (selectedZombieVariant.equals("baby") ? " ✔" : "")),
+                    btn -> { selectedZombieVariant = "baby"; savedMobVariant = "baby"; rebuildWidgets(); },
                     buttonX, currentY + 10, buttonWidth, BTN_H, scrollTop, scrollBottom
             );
             addScrolledButton(
-                    Component.literal("Adult" + (selectedZombieVariant.equals("adult") ? " ✔" : "")), // Renamed variable
-                    btn -> { selectedZombieVariant = "adult"; savedMobVariant = "adult"; rebuildWidgets(); }, // Renamed variable
+                    Component.literal("Adult" + (selectedZombieVariant.equals("adult") ? " ✔" : "")),
+                    btn -> { selectedZombieVariant = "adult"; savedMobVariant = "adult"; rebuildWidgets(); },
                     buttonX + buttonWidth + 2, currentY + 10, buttonWidth, BTN_H, scrollTop, scrollBottom
             );
-            currentY += 10 + BTN_H + 4; contentHeight += 10 + BTN_H + 4;
+            currentY += 10 + BTN_H + 4;
         } else {
-            // If no special variant, ensure savedMobVariant is cleared and maintain spacing
-            savedMobVariant = ""; // Renamed variable
-            selectedSlimeVariant = ""; // Renamed variable
-            selectedZombieVariant = ""; // Renamed variable
-            currentY += 10 + 18; contentHeight += 10 + 18; // Maintain spacing
+            savedMobVariant = "";
+            selectedSlimeVariant = "";
+            selectedZombieVariant = "";
+            currentY += 10 + 18;
         }
-
 
         // ── Equipment toggle ──────────────────────────────────────────────────
         int equipmentCount = 0;
@@ -537,10 +566,10 @@ public class MobArenaScreen extends Screen {
                 },
                 cx, currentY, fw, BTN_H, scrollTop, scrollBottom
         );
-        currentY += BTN_H + 4; contentHeight += BTN_H + 4;
+        currentY += BTN_H + 4;
 
         if (showEquipmentFields) {
-            drawInlineLabel(cx, currentY, "Main Hand Item"); currentY += 10; contentHeight += 10;
+            drawInlineLabel(cx, currentY, "Main Hand Item"); currentY += 10;
             mainHandItemField = addScrolledField(cx, currentY, fw, 14, "e.g. minecraft:diamond_sword", scrollTop, scrollBottom);
             if (mainHandItemField != null) {
                 mainHandItemField.setValue(savedMainHand);
@@ -551,9 +580,9 @@ public class MobArenaScreen extends Screen {
                     mainHandItemSuggestionManager.filterSuggestions(text);
                 });
             }
-            currentY += 18; contentHeight += 18;
+            currentY += 18;
 
-            drawInlineLabel(cx, currentY, "Off Hand Item"); currentY += 10; contentHeight += 10;
+            drawInlineLabel(cx, currentY, "Off Hand Item"); currentY += 10;
             offHandItemField = addScrolledField(cx, currentY, fw, 14, "e.g. minecraft:shield", scrollTop, scrollBottom);
             if (offHandItemField != null) {
                 offHandItemField.setValue(savedOffHand);
@@ -564,9 +593,9 @@ public class MobArenaScreen extends Screen {
                     offHandItemSuggestionManager.filterSuggestions(text);
                 });
             }
-            currentY += 18; contentHeight += 18;
+            currentY += 18;
 
-            drawInlineLabel(cx, currentY, "Helmet"); currentY += 10; contentHeight += 10;
+            drawInlineLabel(cx, currentY, "Helmet"); currentY += 10;
             helmetField = addScrolledField(cx, currentY, fw, 14, "e.g. minecraft:diamond_helmet", scrollTop, scrollBottom);
             if (helmetField != null) {
                 helmetField.setValue(savedHelmet);
@@ -577,9 +606,9 @@ public class MobArenaScreen extends Screen {
                     helmetSuggestionManager.filterSuggestions(text);
                 });
             }
-            currentY += 18; contentHeight += 18;
+            currentY += 18;
 
-            drawInlineLabel(cx, currentY, "Chestplate"); currentY += 10; contentHeight += 10;
+            drawInlineLabel(cx, currentY, "Chestplate"); currentY += 10;
             chestplateField = addScrolledField(cx, currentY, fw, 14, "e.g. minecraft:diamond_chestplate", scrollTop, scrollBottom);
             if (chestplateField != null) {
                 chestplateField.setValue(savedChestplate);
@@ -590,9 +619,9 @@ public class MobArenaScreen extends Screen {
                     chestplateSuggestionManager.filterSuggestions(text);
                 });
             }
-            currentY += 18; contentHeight += 18;
+            currentY += 18;
 
-            drawInlineLabel(cx, currentY, "Leggings"); currentY += 10; contentHeight += 10;
+            drawInlineLabel(cx, currentY, "Leggings"); currentY += 10;
             leggingsField = addScrolledField(cx, currentY, fw, 14, "e.g. minecraft:diamond_leggings", scrollTop, scrollBottom);
             if (leggingsField != null) {
                 leggingsField.setValue(savedLeggings);
@@ -603,9 +632,9 @@ public class MobArenaScreen extends Screen {
                     leggingsSuggestionManager.filterSuggestions(text);
                 });
             }
-            currentY += 18; contentHeight += 18;
+            currentY += 18;
 
-            drawInlineLabel(cx, currentY, "Boots"); currentY += 10; contentHeight += 10;
+            drawInlineLabel(cx, currentY, "Boots"); currentY += 10;
             bootsField = addScrolledField(cx, currentY, fw, 14, "e.g. minecraft:diamond_boots", scrollTop, scrollBottom);
             if (bootsField != null) {
                 bootsField.setValue(savedBoots);
@@ -616,7 +645,7 @@ public class MobArenaScreen extends Screen {
                     bootsSuggestionManager.filterSuggestions(text);
                 });
             }
-            currentY += 18; contentHeight += 18;
+            currentY += 18;
         }
 
         // ── Potion Effects toggle ─────────────────────────────────────────────
@@ -626,7 +655,7 @@ public class MobArenaScreen extends Screen {
                 btn -> { showPotionEffectsField = !showPotionEffectsField; rebuildWidgets(); },
                 cx, currentY, fw, BTN_H, scrollTop, scrollBottom
         );
-        currentY += BTN_H + 4; contentHeight += BTN_H + 4;
+        currentY += BTN_H + 4;
 
         if (showPotionEffectsField) {
             int c0 = (fw - 26) / 2;
@@ -644,13 +673,13 @@ public class MobArenaScreen extends Screen {
                         btn -> { potionEffectEntries.remove(idx); rebuildWidgets(); },
                         cx + fw - 20, currentY - 2, 20, 12, scrollTop, scrollBottom
                 );
-                currentY += 14; contentHeight += 14;
+                currentY += 14;
             }
 
             drawInlineLabel(cx,               currentY, "Effect");
             drawInlineLabel(cx + c0 + 2, currentY, "Duration (s/inf)");
             drawInlineLabel(cx + c0 + c1 + 4, currentY, "Amplifier (0-255)");
-            currentY += 10; contentHeight += 10;
+            currentY += 10;
 
             pendingPotionIdField = addScrolledField(cx, currentY, c0, 14, "e.g. minecraft:strength", scrollTop, scrollBottom);
             if (pendingPotionIdField != null) {
@@ -671,7 +700,7 @@ public class MobArenaScreen extends Screen {
                 pendingPotionAmplifierField.setValue(pendingPotionAmplifier);
                 pendingPotionAmplifierField.setResponder(text -> pendingPotionAmplifier = text);
             }
-            currentY += 18; contentHeight += 18;
+            currentY += 18;
 
             addScrolledButton(
                     Component.literal("+ Add Effect"),
@@ -714,7 +743,7 @@ public class MobArenaScreen extends Screen {
                     },
                     cx, currentY, 82, BTN_H, scrollTop, scrollBottom
             );
-            currentY += BTN_H + 4; contentHeight += BTN_H + 4;
+            currentY += BTN_H + 4;
         }
 
         // ── Enchantments toggle ───────────────────────────────────────────────
@@ -724,7 +753,7 @@ public class MobArenaScreen extends Screen {
                 btn -> { showEnchantmentsField = !showEnchantmentsField; rebuildWidgets(); },
                 cx, currentY, fw, BTN_H, scrollTop, scrollBottom
         );
-        currentY += BTN_H + 4; contentHeight += BTN_H + 4;
+        currentY += BTN_H + 4;
 
         if (showEnchantmentsField) {
             int e0 = (fw - 26) / 2;
@@ -746,7 +775,7 @@ public class MobArenaScreen extends Screen {
                         btn -> { enchantmentEntries.remove(idx); rebuildWidgets(); },
                         cx + fw - 20, currentY - 2, 20, 12, scrollTop, scrollBottom
                 );
-                currentY += 14; contentHeight += 14;
+                currentY += 14;
             }
 
             drawInlineLabel(cx,               currentY, "Enchantment");
@@ -779,7 +808,7 @@ public class MobArenaScreen extends Screen {
             );
 
             drawInlineLabel(cx + e0 + e1 + 4, currentY, "Apply To");
-            currentY += 10; contentHeight += 10;
+            currentY += 10;
 
             assert Minecraft.getInstance().level != null;
             RegistryAccess registryAccess = Minecraft.getInstance().level.registryAccess();
@@ -818,7 +847,7 @@ public class MobArenaScreen extends Screen {
                     btn -> { pendingEnchantTargetIndex = (pendingEnchantTargetIndex + 1) % ENCHANT_TARGETS.length; rebuildWidgets(); },
                     cx + e0 + e1 + 4, currentY, e2, 14, scrollTop, scrollBottom
             );
-            currentY += 18; contentHeight += 18;
+            currentY += 18;
 
             int finalMaxEnchantLevel = maxEnchantLevel;
             addScrolledButton(
@@ -853,7 +882,7 @@ public class MobArenaScreen extends Screen {
                     },
                     cx, currentY, 88, BTN_H, scrollTop, scrollBottom
             );
-            currentY += BTN_H + 4; contentHeight += BTN_H + 4;
+            currentY += BTN_H + 4;
         }
 
         // ── Riding Mob toggle ─────────────────────────────────────────────────
@@ -863,10 +892,10 @@ public class MobArenaScreen extends Screen {
                 btn -> { showRidingMobField = !showRidingMobField; rebuildWidgets(); },
                 cx, currentY, fw, BTN_H, scrollTop, scrollBottom
         );
-        currentY += BTN_H + 4; contentHeight += BTN_H + 4;
+        currentY += BTN_H + 4;
 
         if (showRidingMobField) {
-            drawInlineLabel(cx, currentY, "Riding Mob"); currentY += 10; contentHeight += 10;
+            drawInlineLabel(cx, currentY, "Riding Mob"); currentY += 10;
             ridingMobField = addScrolledField(cx, currentY, fw, 14, "e.g. minecraft:spider", scrollTop, scrollBottom);
             if (ridingMobField != null) {
                 ridingMobField.setValue(savedRidingMob);
@@ -877,15 +906,14 @@ public class MobArenaScreen extends Screen {
                     ridingMobSuggestionManager.filterSuggestions(text);
                 });
             }
-            currentY += 18; contentHeight += 18;
+            currentY += 18;
         }
 
-        // FIX 4: Clamp addMobScroll AFTER contentHeight is fully accumulated.
+        int contentHeight = computeAddMobContentHeight();
         int scrollableAreaHeight = scrollBottom - scrollTop;
         int maxScroll = Math.max(0, contentHeight - scrollableAreaHeight);
         addMobScroll = Math.max(0, Math.min(addMobScroll, maxScroll));
 
-        // ── Add / Cancel — pinned to bottom (always visible, unaffected by scroll) ──
         addRenderableWidget(Button.builder(Component.literal("✔ Add"), btn -> submitAddMob())
                 .bounds(cx, by, 50, BTN_H).build());
         addRenderableWidget(Button.builder(Component.literal("✕ Cancel"),
@@ -899,13 +927,6 @@ public class MobArenaScreen extends Screen {
 
     // ── Scrolled-widget helpers ───────────────────────────────────────────────
 
-    /**
-     * Creates an EditBox at the given LOGICAL (unscrolled) y, offset by addMobScroll,
-     * and only registers it if the resulting screen-space Y is within [scrollTop, scrollBottom].
-     *
-     * Returns the field so callers can attach responders / set values; returns null when
-     * the widget is outside the visible window (callers must null-check).
-     */
     private EditBox addScrolledField(int x, int logicalY, int w, int h, String hint,
                                      int scrollTop, int scrollBottom) {
         int screenY = logicalY - addMobScroll;
@@ -919,10 +940,6 @@ public class MobArenaScreen extends Screen {
         return field;
     }
 
-    /**
-     * Creates a Button at the given LOGICAL (unscrolled) y, offset by addMobScroll,
-     * and only registers it if the resulting screen-space Y is within [scrollTop, scrollBottom].
-     */
     private void addScrolledButton(Component label, Button.OnPress onPress,
                                    int x, int logicalY, int w, int h,
                                    int scrollTop, int scrollBottom) {
@@ -950,26 +967,24 @@ public class MobArenaScreen extends Screen {
         for (int i = 0; i < wave.mobs().size(); i++) {
             ArenaDataPayload.MobEntry mob = wave.mobs().get(i);
 
-            // Calculate total height for this mob entry (buttons, name, all details, and padding)
-            int mobEntryTotalHeight = ROW_H; // Base height for the main line (buttons + mob name)
+            int mobEntryTotalHeight = ROW_H;
             if (mob.mainHandItem() != null && !mob.mainHandItem().isEmpty()) mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
             if (mob.offHandItem()  != null && !mob.offHandItem().isEmpty())  mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
             if (mob.armorItems()   != null && !mob.armorItems().isEmpty())   mobEntryTotalHeight += mob.armorItems().size() * DETAIL_LINE_HEIGHT;
             if (mob.ridingMob()    != null && !mob.ridingMob().isEmpty())    mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
             if (mob.potionEffects() != null && !mob.potionEffects().isEmpty()) {
-                mobEntryTotalHeight += DETAIL_LINE_HEIGHT; // For "Potion Effects:" label
+                mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
                 mobEntryTotalHeight += mob.potionEffects().split(",").length * DETAIL_LINE_HEIGHT;
             }
             if (mob.enchantments() != null && !mob.enchantments().isEmpty()) {
-                mobEntryTotalHeight += DETAIL_LINE_HEIGHT; // For "Enchantments:" label
+                mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
                 mobEntryTotalHeight += mob.enchantments().split(",").length * DETAIL_LINE_HEIGHT;
             }
-            if (mob.size() != null && mob.size() != 0) { // Check for size
+            if (mob.size() != null && mob.size() != 0) {
                 mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
             }
-            mobEntryTotalHeight += 4; // Extra padding at the end of a mob block
+            mobEntryTotalHeight += 4;
 
-            // Adjust button Y to align with the text which starts at currentY + 4
             int buttonY = currentY + 1;
 
             addRenderableWidget(Button.builder(Component.literal("-1"),
@@ -992,7 +1007,7 @@ public class MobArenaScreen extends Screen {
                     btn -> ClientPlayNetworking.send(ArenaActionPayload.removeMob(arena.name(), selectedWave, mob.mobType(), mob.count()))
             ).bounds(cx + 120, buttonY, 36, BTN_H).build());
 
-            currentY += mobEntryTotalHeight; // Advance Y for the next mob's buttons and details
+            currentY += mobEntryTotalHeight;
         }
 
         addRenderableWidget(Button.builder(Component.literal("< Back"),
@@ -1102,7 +1117,6 @@ public class MobArenaScreen extends Screen {
             String offHandItem  = savedOffHand;
             Integer size = null;
 
-            // Convert savedMobVariant string to Integer for the payload
             if (savedMobVariant.equals("small")) {
                 size = 1;
             } else if (savedMobVariant.equals("medium")) {
@@ -1110,11 +1124,10 @@ public class MobArenaScreen extends Screen {
             } else if (savedMobVariant.equals("large")) {
                 size = 4;
             } else if (savedMobVariant.equals("baby")) {
-                size = -1; // Special value for baby zombie/zombie villager
+                size = -1;
             } else if (savedMobVariant.equals("adult")) {
-                size = 0; // Special value for adult zombie/zombie villager
+                size = 0;
             }
-
 
             List<String> armorItems = new ArrayList<>();
             if (!savedHelmet.isEmpty())     armorItems.add(savedHelmet);
@@ -1132,7 +1145,7 @@ public class MobArenaScreen extends Screen {
 
             String arenaName = arenas.get(selectedArena).name();
             ClientPlayNetworking.send(ArenaActionPayload.addMob(
-                    arenaName, selectedWave, mob, count, size, // Added size here
+                    arenaName, selectedWave, mob, count, size,
                     ridingMob.isEmpty()    ? null : ridingMob,
                     mainHandItem.isEmpty() ? null : mainHandItem,
                     offHandItem.isEmpty()  ? null : offHandItem,
@@ -1147,9 +1160,6 @@ public class MobArenaScreen extends Screen {
         } catch (NumberFormatException ignored) {}
     }
 
-    /**
-     * Resets all ADD_MOB transient state — called on successful submit or cancel.
-     */
     private void clearAddMobState() {
         potionEffectEntries.clear();
         enchantmentEntries.clear();
@@ -1159,18 +1169,16 @@ public class MobArenaScreen extends Screen {
         showRidingMobField     = false;
         showPotionEffectsField = false;
         showEnchantmentsField  = false;
-        // Clear pending potion/enchant rows
         pendingPotionId = "";
         pendingPotionDuration = "";
         pendingPotionAmplifier = "";
         pendingEnchantId = "";
         pendingEnchantLevel = "";
-        // Clear saved field values
         savedMobType    = "";
         savedMobCount   = "";
-        savedMobVariant = ""; // Renamed from savedMobSize
-        selectedSlimeVariant = ""; // Renamed from selectedSlimeSize
-        selectedZombieVariant = ""; // Renamed from selectedZombieAge
+        savedMobVariant = "";
+        selectedSlimeVariant = "";
+        selectedZombieVariant = "";
         savedMainHand   = "";
         savedOffHand    = "";
         savedHelmet     = "";
@@ -1206,14 +1214,12 @@ public class MobArenaScreen extends Screen {
         int dt = guiTop();
         int dw = detailW();
 
-        // ── Player picker ──
         if (showPlayerPicker) {
             g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
             g.text(font, "Select Players to Start Arena", dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
             return;
         }
 
-        // ── ADD_ARENA ──
         if (detailView == DetailView.ADD_ARENA) {
             g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
             g.text(font, "New Arena",          dx + PANEL_PAD, dt + 4,   0xFFFFFFFF, false);
@@ -1223,7 +1229,6 @@ public class MobArenaScreen extends Screen {
             return;
         }
 
-        // ── EDIT_ARENA ──
         if (detailView == DetailView.EDIT_ARENA) {
             if (selectedArena < 0 || selectedArena >= arenas.size()) return;
             ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
@@ -1235,7 +1240,6 @@ public class MobArenaScreen extends Screen {
             return;
         }
 
-        // ── VIEW_MOB ──
         if (detailView == DetailView.VIEW_MOB) {
             g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
             g.text(font, "Mobs in Wave " + selectedWave, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
@@ -1251,19 +1255,19 @@ public class MobArenaScreen extends Screen {
                         if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + ROW_H, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
                         String mobDisplay = mob.count() + "x  " + formatIdentifierForDisplay(mob.mobType());
                         if (mob.size() != null && mob.size() != 0) {
-                            String variantDisplay = ""; // Renamed variable
+                            String variantDisplay = "";
                             if (mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":mashed_banana_slime")) {
                                 if (mob.size() == 1) variantDisplay = "Small";
                                 else if (mob.size() == 2) variantDisplay = "Medium";
                                 else if (mob.size() == 4) variantDisplay = "Large";
-                            } else if (mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager")) { // Added zombie_villager
+                            } else if (mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager")) {
                                 if (mob.size() == -1) variantDisplay = "Baby";
                                 else if (mob.size() == 0) variantDisplay = "Adult";
                             }
-                            if (!variantDisplay.isEmpty()) { // Renamed variable
-                                mobDisplay += " (" + variantDisplay + ")"; // Renamed variable
+                            if (!variantDisplay.isEmpty()) {
+                                mobDisplay += " (" + variantDisplay + ")";
                             } else {
-                                mobDisplay += " (Variant: " + mob.size() + ")"; // Changed label
+                                mobDisplay += " (Variant: " + mob.size() + ")";
                             }
                         }
                         g.text(font, mobDisplay, dx + PANEL_PAD, currentY + 4, theme.text(), false);
@@ -1298,13 +1302,9 @@ public class MobArenaScreen extends Screen {
                             for (String effect : mob.potionEffects().split(",")) {
                                 String[] parts = effect.split(":");
                                 if (parts.length >= 3) {
-                                    // The last two parts are always duration and amplifier
                                     String ampStr = parts[parts.length - 1];
                                     String durStr = parts[parts.length - 2];
-
-                                    // The effectId is everything before the last two parts
                                     String effectId = String.join(":", Arrays.copyOfRange(parts, 0, parts.length - 2));
-
                                     g.text(font, "    - " + formatIdentifierForDisplay(effectId) + " (" + (("-1".equals(durStr) || "0".equals(durStr)) ? "Infinite" : durStr + "s") + ", Amp " + ampStr + ")",
                                             dx + PANEL_PAD + 20, currentY + 4, theme.subtext(), false);
                                     currentY += DETAIL_LINE_HEIGHT;
@@ -1316,14 +1316,9 @@ public class MobArenaScreen extends Screen {
                             currentY += DETAIL_LINE_HEIGHT;
                             for (String enchantment : mob.enchantments().split(",")) {
                                 String[] parts = enchantment.split(":");
-                                // Expected format: "target:enchantId:level"
-                                // enchantId can be "sharpness" or "minecraft:sharpness"
-                                if (parts.length >= 3) { // Changed from == 3 to >= 3
-                                    // The last part is always the level
+                                if (parts.length >= 3) {
                                     String lvlStr = parts[parts.length - 1];
-                                    // The first part is always the target
                                     String target = parts[0];
-                                    // The enchantId is everything in between
                                     String enchantId = String.join(":", Arrays.copyOfRange(parts, 1, parts.length - 1));
 
                                     String targetDisplay = target;
@@ -1345,21 +1340,17 @@ public class MobArenaScreen extends Screen {
             return;
         }
 
-        // ── ADD_MOB ──
         if (detailView == DetailView.ADD_MOB) {
             g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
             g.text(font, "Add Mob(s) to Wave " + selectedWave, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
 
-            // Scissor to the scrollable area so labels don't bleed into the header or footer
             int scissorTop    = addMobScrollTop();
             int scissorBottom = addMobScrollBottom();
             g.enableScissor(dx, scissorTop, dx + dw, scissorBottom);
 
-            // Labels were stored at unscrolled Y; subtract addMobScroll once here
             for (int i = 0; i < inlineLabelPositions.size(); i++) {
                 int[] pos = inlineLabelPositions.get(i);
                 int labelY = pos[1] - addMobScroll;
-                // Only draw if inside the scissored area
                 if (labelY >= scissorTop && labelY < scissorBottom) {
                     g.text(font, inlineLabelTexts.get(i), pos[0], labelY, theme.subtext(), false);
                 }
@@ -1368,7 +1359,6 @@ public class MobArenaScreen extends Screen {
             return;
         }
 
-        // ── DEL_MOB ──
         if (detailView == DetailView.DEL_MOB) {
             g.fill(dx, dt, dx + dw, dt + 16, 0xFFAA3333);
             g.text(font, "Remove Mobs from Wave " + selectedWave, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
@@ -1382,48 +1372,45 @@ public class MobArenaScreen extends Screen {
                     for (int i = 0; i < wave.mobs().size(); i++) {
                         ArenaDataPayload.MobEntry mob = wave.mobs().get(i);
 
-                        // Calculate total height for this mob entry (buttons, name, all details, and padding)
-                        int mobEntryTotalHeight = ROW_H; // Base height for the main line (buttons + mob name)
+                        int mobEntryTotalHeight = ROW_H;
                         if (mob.mainHandItem() != null && !mob.mainHandItem().isEmpty()) mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
                         if (mob.offHandItem()  != null && !mob.offHandItem().isEmpty())  mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
                         if (mob.armorItems()   != null && !mob.armorItems().isEmpty())   mobEntryTotalHeight += mob.armorItems().size() * DETAIL_LINE_HEIGHT;
                         if (mob.ridingMob()    != null && !mob.ridingMob().isEmpty())    mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
                         if (mob.potionEffects() != null && !mob.potionEffects().isEmpty()) {
-                            mobEntryTotalHeight += DETAIL_LINE_HEIGHT; // For "Potion Effects:" label
+                            mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
                             mobEntryTotalHeight += mob.potionEffects().split(",").length * DETAIL_LINE_HEIGHT;
                         }
                         if (mob.enchantments() != null && !mob.enchantments().isEmpty()) {
-                            mobEntryTotalHeight += DETAIL_LINE_HEIGHT; // For "Enchantments:" label
+                            mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
                             mobEntryTotalHeight += mob.enchantments().split(",").length * DETAIL_LINE_HEIGHT;
                         }
-                        if (mob.size() != null && mob.size() != 0) { // Check for size
+                        if (mob.size() != null && mob.size() != 0) {
                             mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
                         }
-                        mobEntryTotalHeight += 4; // Extra padding at the end of a mob block
+                        mobEntryTotalHeight += 4;
 
-                        // Fill background for the entire mob entry block
                         if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + mobEntryTotalHeight, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
 
-                        String display = formatIdentifierForDisplay(mob.mobType()); // Use helper for formatting
+                        String display = formatIdentifierForDisplay(mob.mobType());
                         if (mob.size() != null && mob.size() != 0) {
-                            String variantDisplay = ""; // Renamed variable
+                            String variantDisplay = "";
                             if (mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":mashed_banana_slime")) {
                                 if (mob.size() == 1) variantDisplay = "Small";
                                 else if (mob.size() == 2) variantDisplay = "Medium";
                                 else if (mob.size() == 4) variantDisplay = "Large";
-                            } else if (mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager")) { // Added zombie_villager
+                            } else if (mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager")) {
                                 if (mob.size() == -1) variantDisplay = "Baby";
                                 else if (mob.size() == 0) variantDisplay = "Adult";
                             }
-                            if (!variantDisplay.isEmpty()) { // Renamed variable
-                                display += " (" + variantDisplay + ")"; // Renamed variable
+                            if (!variantDisplay.isEmpty()) {
+                                display += " (" + variantDisplay + ")";
                             } else {
-                                display += " (Variant: " + mob.size() + ")"; // Changed label
+                                display += " (Variant: " + mob.size() + ")";
                             }
                         }
                         g.text(font, mob.count() + "x  " + display, dx + PANEL_PAD + 162, currentY + 4, theme.text(), false);
-                        
-                        // Render details, starting after the main line
+
                         int detailLineY = currentY + ROW_H;
                         if (mob.mainHandItem() != null && !mob.mainHandItem().isEmpty()) {
                             g.text(font, "  Main Hand: " + formatIdentifierForDisplay(mob.mainHandItem()),
@@ -1482,7 +1469,7 @@ public class MobArenaScreen extends Screen {
                                 }
                             }
                         }
-                        currentY += mobEntryTotalHeight; // Correctly advance currentY for the next mob entry
+                        currentY += mobEntryTotalHeight;
                     }
                     if (wave.mobs().isEmpty()) {
                         g.text(font, "No mobs in this wave.", dx + PANEL_PAD, guiTop() + 36, theme.subtext(), false);
@@ -1492,13 +1479,11 @@ public class MobArenaScreen extends Screen {
             return;
         }
 
-        // ── OVERVIEW: no selection ──
         if (selectedArena < 0 || selectedArena >= arenas.size()) {
             g.text(font, "Select an arena or create a new one.", dx + PANEL_PAD, dt + 24, theme.subtext(), false);
             return;
         }
 
-        // ── OVERVIEW: arena selected ──
         ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
         int headerColor = arena.running() ? 0xFF43A047 : 0xFFCC2222;
         g.fill(dx, dt, dx + dw, dt + 16, headerColor);
@@ -1524,10 +1509,6 @@ public class MobArenaScreen extends Screen {
         }
     }
 
-    /**
-     * Draws whichever autocomplete dropdown is currently active.
-     * Called last so it renders on top of all widgets.
-     */
     private void renderDropdown(GuiGraphicsExtractor g) {
         if (detailView != DetailView.ADD_MOB) return;
 
@@ -1582,7 +1563,6 @@ public class MobArenaScreen extends Screen {
     @Override
     public boolean keyPressed(KeyEvent event) {
 
-        // Close Mob Arena with the same keybind
         if (ModKeyBindings.OPEN_MOB_ARENA_GUI.matches(event)) {
             Minecraft.getInstance().setScreen(null);
             return true;
@@ -1633,33 +1613,7 @@ public class MobArenaScreen extends Screen {
             int scrollTop    = addMobScrollTop();
             int scrollBottom = addMobScrollBottom();
             if (mx >= detailX() && mx <= detailX() + detailW() && my >= scrollTop && my <= scrollBottom) {
-                // Recompute contentHeight for max scroll (mirrors buildAddMobWidgets accumulation)
-                int contentHeight = 0;
-                contentHeight += 10 + 18; // Mob Type
-                contentHeight += 10 + 18; // Count and Variant (they share a row) // Changed label
-                contentHeight += BTN_H + 4; // Equipment toggle
-                if (showEquipmentFields) {
-                    contentHeight += (10 + 18) * 6;
-                }
-                contentHeight += BTN_H + 4; // Potion Effects toggle
-                if (showPotionEffectsField) {
-                    contentHeight += potionEffectEntries.size() * 14;
-                    contentHeight += 10;
-                    contentHeight += 18;
-                    contentHeight += BTN_H + 4;
-                }
-                contentHeight += BTN_H + 4; // Enchantments toggle
-                if (showEnchantmentsField) {
-                    contentHeight += enchantmentEntries.size() * 14;
-                    contentHeight += 10;
-                    contentHeight += 18;
-                    contentHeight += BTN_H + 4;
-                }
-                contentHeight += BTN_H + 4; // Riding Mob toggle
-                if (showRidingMobField) {
-                    contentHeight += 10 + 18;
-                }
-
+                int contentHeight = computeAddMobContentHeight();
                 int scrollableAreaHeight = scrollBottom - scrollTop;
                 int maxScroll = Math.max(0, contentHeight - scrollableAreaHeight);
                 addMobScroll = (int) Math.max(0, Math.min(addMobScroll - vertical * 10, maxScroll));
@@ -1681,7 +1635,6 @@ public class MobArenaScreen extends Screen {
             }
         }
 
-        // Sidebar scroll
         int maxVisible = (guiHeight() - 40) / ROW_H;
         if (mx >= sidebarX() && mx <= sidebarX() + SIDEBAR_W
                 && my >= guiTop() && my <= guiTop() + guiHeight()) {
@@ -1691,7 +1644,6 @@ public class MobArenaScreen extends Screen {
             return true;
         }
 
-        // Wave list scroll
         if (detailView == DetailView.OVERVIEW
                 && mx >= detailX() && mx <= detailX() + detailW()
                 && my >= guiTop() && my <= guiTop() + guiHeight()) {
@@ -1724,15 +1676,11 @@ public class MobArenaScreen extends Screen {
         return list;
     }
 
-    /**
-     * Registers a label to be drawn during renderDetailPanelBase for the ADD_MOB view.
-     * Stores the UNSCROLLED logical Y; the render pass subtracts addMobScroll.
-     */
     private void drawInlineLabel(int x, int y, String text) {
         inlineLabelPositions.add(new int[]{x, y});
         inlineLabelTexts.add(text);
     }
-    
+
     private EditBox makeField(int x, int y, int w, int h, String hint) {
         EditBox field = new EditBox(font, x, y, w, h, Component.literal(hint));
         field.setHint(Component.literal(hint));

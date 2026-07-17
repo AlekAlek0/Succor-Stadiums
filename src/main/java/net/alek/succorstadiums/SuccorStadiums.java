@@ -2,7 +2,6 @@ package net.alek.succorstadiums;
 
 import net.alek.succorstadiums.arena.ArenaSessionManager;
 import net.alek.succorstadiums.arena.MobArenaManager;
-import net.alek.succorstadiums.client.ModKeyBindings;
 import net.alek.succorstadiums.command.ModCommands;
 import net.alek.succorstadiums.creativemodetab.ModCreativeModeTabs;
 import net.alek.succorstadiums.entity.ModEntityAttributes;
