@@ -8,7 +8,7 @@ public class ModEntityAttributes {
 
     public static void register() {
         FabricDefaultAttributeRegistry.register(
-                ModEntityTypes.MASHED_BANANA_SLIME,
+                ModEntityTypes.BANANA_SLIME,
                 Slime.createMobAttributes().add(Attributes.ATTACK_DAMAGE, 0.0D)
         );
     }

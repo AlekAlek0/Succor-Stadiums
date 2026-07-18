@@ -1,6 +1,6 @@
 package net.alek.succorstadiums.client;
 
-import net.alek.succorstadiums.client.render.entity.MashedBananaSlimeRenderer;
+import net.alek.succorstadiums.client.render.entity.BananaSlimeRenderer;
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.network.ArachnoDoubleJumpPayload;
@@ -34,8 +34,8 @@ public class SuccorStadiumsClient implements ClientModInitializer {
         KeyInputHandler.register();
 
         EntityRenderers.register(
-                ModEntityTypes.MASHED_BANANA_SLIME,
-                MashedBananaSlimeRenderer::new
+                ModEntityTypes.BANANA_SLIME,
+                BananaSlimeRenderer::new
         );
 
         ClientTickEvents.END_CLIENT_TICK.register(SuccorStadiumsClient::handleArachnoDoubleJumpInput);

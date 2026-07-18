@@ -26,7 +26,7 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
     @Override
     public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> exporter) {
 
-        exporter.accept(ModLootTables.MASHED_BANANA_SLIME_LOOT,
+        exporter.accept(ModLootTables.BANANA_SLIME_LOOT,
 
                 LootTable.lootTable()
                         // 10% chance to drop 1 banana branch

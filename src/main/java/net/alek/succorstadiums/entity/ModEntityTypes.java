@@ -12,8 +12,8 @@ import net.minecraft.world.entity.MobCategory;
 
 public class ModEntityTypes {
 
-    public static final EntityType<MashedBananaSlime> MASHED_BANANA_SLIME = registerMob(
-            "mashed_banana_slime", EntityType.Builder.<MashedBananaSlime>of(MashedBananaSlime::new,
+    public static final EntityType<BananaSlime> BANANA_SLIME = registerMob(
+            "banana_slime", EntityType.Builder.<BananaSlime>of(BananaSlime::new,
                     MobCategory.MONSTER).sized(0.75f, 0.75f));
 
 

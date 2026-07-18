@@ -475,10 +475,10 @@ public class MobArenaScreen extends Screen {
                 savedMobType = text;
                 mobTypeSuggestionManager.filterSuggestions(text);
 
-                boolean oldIsSlime = oldMobType.equals("minecraft:slime") || oldMobType.equals(MOD_ID + ":mashed_banana_slime");
+                boolean oldIsSlime = oldMobType.equals("minecraft:slime") || oldMobType.equals(MOD_ID + ":banana_slime");
                 boolean oldIsZombieLike = oldMobType.equals("minecraft:zombie") || oldMobType.equals("minecraft:zombie_villager");
 
-                boolean newIsSlime = savedMobType.equals("minecraft:slime") || savedMobType.equals(MOD_ID + ":mashed_banana_slime");
+                boolean newIsSlime = savedMobType.equals("minecraft:slime") || savedMobType.equals(MOD_ID + ":banana_slime");
                 boolean newIsZombieLike = savedMobType.equals("minecraft:zombie") || savedMobType.equals("minecraft:zombie_villager");
 
                 if ((oldIsSlime != newIsSlime) || (oldIsZombieLike != newIsZombieLike)) {
@@ -498,7 +498,7 @@ public class MobArenaScreen extends Screen {
         }
 
         String currentMobType = mobTypeField != null ? mobTypeField.getValue().trim() : savedMobType;
-        boolean isSlime = currentMobType.equals("minecraft:slime") || currentMobType.equals(MOD_ID + ":mashed_banana_slime");
+        boolean isSlime = currentMobType.equals("minecraft:slime") || currentMobType.equals(MOD_ID + ":banana_slime");
         boolean isZombieLike = currentMobType.equals("minecraft:zombie") || currentMobType.equals("minecraft:zombie_villager");
 
         if (isSlime) {
@@ -1256,7 +1256,7 @@ public class MobArenaScreen extends Screen {
                         String mobDisplay = mob.count() + "x  " + formatIdentifierForDisplay(mob.mobType());
                         if (mob.size() != null && mob.size() != 0) {
                             String variantDisplay = "";
-                            if (mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":mashed_banana_slime")) {
+                            if (mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":banana_slime")) {
                                 if (mob.size() == 1) variantDisplay = "Small";
                                 else if (mob.size() == 2) variantDisplay = "Medium";
                                 else if (mob.size() == 4) variantDisplay = "Large";
@@ -1395,7 +1395,7 @@ public class MobArenaScreen extends Screen {
                         String display = formatIdentifierForDisplay(mob.mobType());
                         if (mob.size() != null && mob.size() != 0) {
                             String variantDisplay = "";
-                            if (mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":mashed_banana_slime")) {
+                            if (mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":banana_slime")) {
                                 if (mob.size() == 1) variantDisplay = "Small";
                                 else if (mob.size() == 2) variantDisplay = "Medium";
                                 else if (mob.size() == 4) variantDisplay = "Large";

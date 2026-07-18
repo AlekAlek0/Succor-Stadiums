@@ -15,10 +15,10 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 
 @Environment(EnvType.CLIENT)
-public class MashedBananaSlimeOuterLayer extends RenderLayer<SlimeRenderState, SlimeModel> {
+public class BananaSlimeOuterLayer extends RenderLayer<SlimeRenderState, SlimeModel> {
     private final SlimeModel model;
 
-    public MashedBananaSlimeOuterLayer(final RenderLayerParent<SlimeRenderState, SlimeModel> renderer, final EntityModelSet modelSet) {
+    public BananaSlimeOuterLayer(final RenderLayerParent<SlimeRenderState, SlimeModel> renderer, final EntityModelSet modelSet) {
         super(renderer);
         this.model = new SlimeModel(modelSet.bakeLayer(ModelLayers.SLIME_OUTER ));
     }
@@ -28,12 +28,12 @@ public class MashedBananaSlimeOuterLayer extends RenderLayer<SlimeRenderState, S
         boolean appearsGlowingWithInvisibility = state.appearsGlowing() && state.isInvisible;
         if (!state.isInvisible || appearsGlowingWithInvisibility) {
             int overlayCoords = LivingEntityRenderer.getOverlayCoords(state, 0.0F);
-            int outlineColor = state.outlineColor; // Correctly handle outlineColor as int
+            int outlineColor = state.outlineColor;
 
             if (appearsGlowingWithInvisibility) {
-                submitNodeCollector.order(1).submitModel(this.model, state, poseStack, RenderTypes.outline(MashedBananaSlimeRenderer.TEXTURE), lightCoords, overlayCoords, outlineColor, (ModelFeatureRenderer.CrumblingOverlay)null);
+                submitNodeCollector.order(1).submitModel(this.model, state, poseStack, RenderTypes.outline(BananaSlimeRenderer.TEXTURE), lightCoords, overlayCoords, outlineColor, (ModelFeatureRenderer.CrumblingOverlay)null);
             } else {
-                submitNodeCollector.order(1).submitModel(this.model, state, poseStack, RenderTypes.entityTranslucent(MashedBananaSlimeRenderer.TEXTURE), lightCoords, overlayCoords, outlineColor, (ModelFeatureRenderer.CrumblingOverlay)null);
+                submitNodeCollector.order(1).submitModel(this.model, state, poseStack, RenderTypes.entityTranslucent(BananaSlimeRenderer.TEXTURE), lightCoords, overlayCoords, outlineColor, (ModelFeatureRenderer.CrumblingOverlay)null);
             }
         }
     }

@@ -6,18 +6,18 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.SlimeRenderState;
 import net.minecraft.resources.Identifier;
 
-public class MashedBananaSlimeRenderer extends SlimeRenderer {
+public class BananaSlimeRenderer extends SlimeRenderer {
 
     public static final Identifier TEXTURE =
             Identifier.fromNamespaceAndPath(
                     SuccorStadiums.MOD_ID,
-                    "textures/entity/mashed_banana_slime/mashed_banana_slime.png"
+                    "textures/entity/banana_slime/banana_slime.png"
             );
 
-    public MashedBananaSlimeRenderer(EntityRendererProvider.Context context) {
+    public BananaSlimeRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.layers.clear();
-        this.addLayer(new MashedBananaSlimeOuterLayer(this, context.getModelSet()));
+        this.addLayer(new BananaSlimeOuterLayer(this, context.getModelSet()));
     }
     @Override
     public Identifier getTextureLocation(SlimeRenderState state) {

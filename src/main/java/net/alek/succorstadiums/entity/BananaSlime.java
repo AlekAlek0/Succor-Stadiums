@@ -9,9 +9,9 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class MashedBananaSlime extends Slime {
+public class BananaSlime extends Slime {
 
-    public MashedBananaSlime(EntityType<? extends Slime> type, Level level) {
+    public BananaSlime(EntityType<? extends Slime> type, Level level) {
         super(type, level);
     }
 
