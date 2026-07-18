@@ -38,6 +38,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.BONE_BROTH, "Bone Broth");
         translationBuilder.add(ModItems.SPIDER_CARAPACE, "Spider Carapace");
         translationBuilder.add(ModItems.BANANA_SLIME_BALL, "Banana Slime Ball");
+        translationBuilder.add(ModItems.BANANA_BRANCH, "Banana Branch");
 
         // Armor translations
         translationBuilder.add(ModItems.BALE_HELMET, "§fBale Bucket");

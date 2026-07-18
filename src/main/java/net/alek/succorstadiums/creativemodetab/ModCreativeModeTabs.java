@@ -30,7 +30,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.BONE_BROTH);
                         output.accept(ModItems.SPIDER_CARAPACE);
                         output.accept(ModItems.BANANA_SLIME_BALL);
-
+                        output.accept(ModItems.BANANA_BRANCH);
 
 
                     }).build());
