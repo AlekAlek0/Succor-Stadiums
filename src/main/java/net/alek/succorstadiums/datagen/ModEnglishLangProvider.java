@@ -69,6 +69,10 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.BOWNANA, "§eBownana");
         translationBuilder.add(ModItems.ARACHNO_CROSSBOW, "§4Arachno Crossbow");
 
+        // Defensive item translations
+        translationBuilder.add(ModItems.CARDBOARD_SHIELD, "Cardboard Shield");
+
+
         // Food translations
         translationBuilder.add(ModItems.GRAMBLE_BAPPLE, "Ghramble Bapple");
         translationBuilder.add(ModItems.ROTTEN_STEW, "Rotten Stew");

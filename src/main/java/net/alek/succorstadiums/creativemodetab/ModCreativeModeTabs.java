@@ -90,6 +90,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.BONE_DAGGER);
                         output.accept(ModItems.BANANNER_BLADE);
                         output.accept(ModItems.FUMBLEBRINGER_FORK);
+                        output.accept(ModItems.CARDBOARD_SHIELD);
 
 
 
