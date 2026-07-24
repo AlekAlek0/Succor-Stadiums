@@ -58,6 +58,11 @@ public class SuccorStadiums implements ModInitializer {
 		PayloadTypeRegistry.clientboundPlay().register(ArenaDataPayload.TYPE, ArenaDataPayload.CODEC);
 		ArenaPacketHandler.register();
 
+		// Register backpack network packet
+		PayloadTypeRegistry.serverboundPlay().register(OpenBackpackPayload.TYPE, OpenBackpackPayload.CODEC);
+		BackpackPacketHandler.register();
+
+
 		// Start Mob arenas on server start
 		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
 			MobArenaManager.init(server);

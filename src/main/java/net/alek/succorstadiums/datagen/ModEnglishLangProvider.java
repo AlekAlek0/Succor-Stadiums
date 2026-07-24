@@ -160,8 +160,9 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("sound.succorstadiums.fire_staff_use", "§4Firecharged Cane used");
         translationBuilder.add("sound.succorstadiums.arachno_carapace_armor_equip", "§4Arachno Carpace Armor equips");
 
+        // Mod Backpack container translations
 
-
+        translationBuilder.add("container.succorstadiums.backpack", "Backpack");
 
     }
 }

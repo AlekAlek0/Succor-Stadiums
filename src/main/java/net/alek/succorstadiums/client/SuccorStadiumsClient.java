@@ -31,6 +31,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
     public void onInitializeClient() {
 
         ModKeyBindings.registerKeyBindings();
+        ScreenCloseHandler.register();
         KeyInputHandler.register();
 
         EntityRenderers.register(

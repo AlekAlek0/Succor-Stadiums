@@ -1562,9 +1562,8 @@ public class MobArenaScreen extends Screen {
 
     @Override
     public boolean keyPressed(KeyEvent event) {
-
         if (ModKeyBindings.OPEN_MOB_ARENA_GUI.matches(event)) {
-            Minecraft.getInstance().setScreen(null);
+            this.onClose();
             return true;
         }
 
