@@ -1,21 +1,25 @@
 package net.alek.succorstadiums.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+
 import net.alek.succorstadiums.item.ModItems;
-
 import java.util.concurrent.CompletableFuture;
+import org.jspecify.annotations.NonNull;
 
+// ModEnglishLangProvider class
 public class ModEnglishLangProvider extends FabricLanguageProvider {
     public ModEnglishLangProvider(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
-        // Specifying en_us is optional, as it's the default language code
+
+        // Specify en_us
         super(dataOutput, "en_us", registryLookup);
     }
 
+    // Generate translations
     @Override
-    public void generateTranslations(HolderLookup.Provider holderLookup, FabricLanguageProvider.TranslationBuilder translationBuilder) {
+    public void generateTranslations(HolderLookup.@NonNull Provider holderLookup, FabricLanguageProvider.TranslationBuilder translationBuilder) {
 
         // Spacer translation
         translationBuilder.add("item.succorstadiums.spacer", "");
