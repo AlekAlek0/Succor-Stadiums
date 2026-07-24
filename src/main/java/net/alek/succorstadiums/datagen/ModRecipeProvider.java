@@ -10,6 +10,7 @@ import net.minecraft.data.recipes.RecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.world.item.Items;
+import org.jspecify.annotations.NonNull;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
     public ModRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
@@ -17,7 +18,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     @Override
-    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup, RecipeOutput exporter) {
+    protected @NonNull RecipeProvider createRecipeProvider(HolderLookup.@NonNull Provider registryLookup, @NonNull RecipeOutput exporter) {
         return new RecipeProvider(registryLookup, exporter) {
             @Override
             public void buildRecipes() {
@@ -34,6 +35,19 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .unlockedBy(getHasName(ModItems.SILK_SPOOL), has(ModItems.SILK_SPOOL))
                         .save(output);
 
+                // Bownana Recipe
+
+                shaped(RecipeCategory.COMBAT, ModItems.BOWNANA, 1)
+                        .pattern("cba")
+                        .pattern("bca")
+                        .pattern("cba")
+                        .define('a', ModItems.SILK_SPOOL)
+                        .define('b', ModItems.BANANA_BRANCH)
+                        .define('c', ModItems.BANANA_SLIME_BALL)
+                        .unlockedBy(getHasName(ModItems.SILK_SPOOL), has(ModItems.SILK_SPOOL))
+                        .unlockedBy(getHasName(ModItems.BANANA_BRANCH), has(ModItems.BANANA_BRANCH))
+                        .unlockedBy(getHasName(ModItems.BANANA_SLIME_BALL), has(ModItems.BANANA_SLIME_BALL))
+                        .save(output);
 
                 // Arachno Crossbow Recipe
 
@@ -76,7 +90,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     @Override
-    public String getName() {
+    public @NonNull String getName() {
         return "ModRecipeProvider";
     }
 }

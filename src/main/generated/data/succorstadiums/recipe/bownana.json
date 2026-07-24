@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "a": "succorstadiums:silk_spool",
+    "b": "succorstadiums:banana_branch",
+    "c": "succorstadiums:banana_slime_ball"
+  },
+  "pattern": [
+    "cba",
+    "bca",
+    "cba"
+  ],
+  "result": {
+    "id": "succorstadiums:bownana"
+  }
+}

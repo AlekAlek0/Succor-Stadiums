@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_banana_branch": {
+      "conditions": {
+        "items": [
+          {
+            "items": "succorstadiums:banana_branch"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_banana_slime_ball": {
+      "conditions": {
+        "items": [
+          {
+            "items": "succorstadiums:banana_slime_ball"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_silk_spool": {
+      "conditions": {
+        "items": [
+          {
+            "items": "succorstadiums:silk_spool"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "succorstadiums:bownana"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_silk_spool",
+      "has_banana_branch",
+      "has_banana_slime_ball"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "succorstadiums:bownana"
+    ]
+  }
+}
