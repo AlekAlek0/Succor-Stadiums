@@ -110,6 +110,18 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
+            if (stack.is(ModItems.BANANA_SLIME_BALL)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.banana_slime_ball.tooltip")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
+            if (stack.is(ModItems.BANANA_BRANCH)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.banana_branch.tooltip")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
             // Armor Tooltips
             if (stack.is(ModItems.BALE_HELMET)) {
                 tooltip.add(1,

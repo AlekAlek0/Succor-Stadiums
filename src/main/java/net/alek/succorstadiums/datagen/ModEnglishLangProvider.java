@@ -98,6 +98,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.silk_weave.tooltip", "Used to make the Silkweave armor set.");
         translationBuilder.add("item.succorstadiums.bone_broth.tooltip", "Looks inedible, but may have a use...");
         translationBuilder.add("item.succorstadiums.spider_carapace.tooltip", "Part of a Spiders tough exterior, the possible applications for such an item are endless.");
+        translationBuilder.add("item.succorstadiums.banana_slime_ball.tooltip", "Ballnana");
+        translationBuilder.add("item.succorstadiums.banana_branch.tooltip", "The Banana must remain unharmed");
 
         // Armor Tooltip translations
         translationBuilder.add("item.succorstadiums.bale_helmet.tooltip", "Why a bale bucket you may ask... well it sounded nice.");
