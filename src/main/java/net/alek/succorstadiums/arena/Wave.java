@@ -51,7 +51,7 @@ public class Wave {
     }
 
     // Mutator method to remove a mob from a wave
-    public int removeMob(String mobType, int count) {
+    public void removeMob(String mobType, int count) {
         for (WaveMob mob : mobs) {
             if (mob.getMobType().equalsIgnoreCase(mobType)) {
                 int available = mob.getCount();
@@ -62,10 +62,9 @@ public class Wave {
                 } else {
                     mob.setCount(newCount);
                 }
-                return toRemove;
+                return;
             }
         }
-        return 0;
     }
 
     // Accessor method to get total mob count in a wave
