@@ -5,6 +5,7 @@
   "mixins": [
     "MobDamageMixin",
     "MobHealthMixin",
+    "MobXpMixin",
     "NannerWaterWadersMixin",
     "PlayerAttributesMixin",
     "ResurrectionAmuletMixin"
