@@ -9,15 +9,11 @@ import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.BossEvent;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.Holder;
@@ -180,11 +176,11 @@ public class ArenaSession {
 
                         // Apply size/age for slimes and zombies/zombie villagers
                         if (waveMob.getSize() != null) {
-                            if (entityType == EntityType.SLIME) {
+                            if (entityType == EntityTypes.SLIME) {
                                 LOGGER.info("Attempting to set Slime size to: " + waveMob.getSize());
                                 // Slime size: 1 (small), 2 (medium), 4 (large)
                                 ((Slime) mob).setSize(waveMob.getSize(), true);
-                            } else if (entityType == EntityType.ZOMBIE || entityType == EntityType.ZOMBIE_VILLAGER) {
+                            } else if (entityType == EntityTypes.ZOMBIE || entityType == EntityTypes.ZOMBIE_VILLAGER) {
                                 // Zombie age: -1 (baby), 0 (adult)
                                 if (waveMob.getSize() == -1) {
                                     mob.setBaby(true);

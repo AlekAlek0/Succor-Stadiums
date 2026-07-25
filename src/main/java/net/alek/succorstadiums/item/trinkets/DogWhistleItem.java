@@ -7,6 +7,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -46,7 +47,7 @@ public class DogWhistleItem extends Item {
 
             for (int i = 0; i < 5; i++) {
                 // Create a new wolf
-                Wolf wolf = EntityType.WOLF.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                Wolf wolf = EntityTypes.WOLF.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
                 
                 // If wolf is not null then set properties for wolf
                 if (wolf != null) {

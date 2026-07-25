@@ -65,7 +65,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
         }));
 
         ClientPlayNetworking.registerGlobalReceiver(OpenMobArenaPayload.TYPE, (payload, context) -> context.client().execute(() -> {
-            Minecraft.getInstance().setScreen(new MobArenaScreen(Component.literal("Mob Arena Manager")));
+            Minecraft.getInstance().gui.setScreen(new MobArenaScreen(Component.literal("Mob Arena Manager")));
         }));
 
         ItemTooltipCallback.EVENT.register((stack, context, type, tooltip) -> {

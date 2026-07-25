@@ -15,7 +15,7 @@ public class ScreenCloseHandler {
                 if (ModKeyBindings.OPEN_BACKPACK.matches(event)
                         && scr instanceof ContainerScreen cs
                         && cs.getTitle().equals(BACKPACK_TITLE)) {
-                    client.setScreen(null);
+                    client.gui.setScreen(null);
                     return false;
                 }
                 return true;

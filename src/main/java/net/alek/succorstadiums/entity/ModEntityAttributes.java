@@ -2,7 +2,7 @@ package net.alek.succorstadiums.entity;
 
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.monster.cubemob.Slime;
 
 public class ModEntityAttributes {
 
