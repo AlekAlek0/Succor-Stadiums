@@ -1,7 +1,6 @@
 package net.alek.succorstadiums.arena;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public class WaveMob {
 
@@ -15,19 +14,7 @@ public class WaveMob {
     private String potionEffects;
     private String enchantments;
 
-    // Constructor to create a waveMob with given mobType and count.
-    public WaveMob(String mobType, int count) {
-        this(mobType, count, null, null, null, null, new ArrayList<>(), null, null);
-    }
-
-    public WaveMob(String mobType, int count, Integer size) {
-        this(mobType, count, size, null, null, null, new ArrayList<>(), null, null);
-    }
-
-    public WaveMob(String mobType, int count, String ridingMob, String mainHandItem, String offHandItem, List<String> armorItems) {
-        this(mobType, count, null, ridingMob, mainHandItem, offHandItem, armorItems, null, null);
-    }
-
+    // Constructor to create a waveMob with given values
     public WaveMob(String mobType, int count, Integer size, String ridingMob, String mainHandItem, String offHandItem, List<String> armorItems, String potionEffects, String enchantments) {
         this.mobType = mobType;
         this.count = count;

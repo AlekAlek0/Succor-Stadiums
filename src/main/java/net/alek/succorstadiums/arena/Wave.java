@@ -10,6 +10,7 @@ public class Wave {
     private int waveNumber;
     private final List<WaveMob> mobs;
 
+    // Constructor to create a wave
     public Wave(int waveNumber) {
         this.waveNumber = waveNumber;
         this.mobs = new ArrayList<>();
@@ -24,21 +25,23 @@ public class Wave {
     // Accessor method to get the mobs in a wave
     public List<WaveMob> getMobs() { return mobs; }
 
-    // Method to add a mob to a wave
-    public void addMob(String mobType, int count, Integer size, String ridingMob, // Added size parameter
+    // Mutator method to add a mob to a wave
+    public void addMob(String mobType, int count, Integer size, String ridingMob,
                        String mainHandItem, String offHandItem, List<String> armorItems,
                        String potionEffects, String enchantments) {
 
+        // Check if a mob with the same type matching passed arguments already exist in the wave
         WaveMob existingMob = mobs.stream()
                 .filter(mob -> mob.getMobType().equalsIgnoreCase(mobType) &&
                         (ridingMob == null || ridingMob.equals(mob.getRidingMob())) &&
                         (mainHandItem == null || mainHandItem.equals(mob.getMainHandItem())) &&
                         (offHandItem == null || offHandItem.equals(mob.getOffHandItem())) &&
                         (armorItems.isEmpty() || armorItems.equals(mob.getArmorItems())) &&
-                        (size == null || size.equals(mob.getSize()))) // Added size to filter
+                        (size == null || size.equals(mob.getSize())))
                 .findFirst()
                 .orElse(null);
 
+        // Check if mob already exists if so add to existing if not create new mob in wave
         if (existingMob != null) {
             existingMob.setCount(existingMob.getCount() + count);
         } else {
@@ -47,7 +50,7 @@ public class Wave {
         }
     }
 
-    // Method to remove a mob from a wave
+    // Mutator method to remove a mob from a wave
     public int removeMob(String mobType, int count) {
         for (WaveMob mob : mobs) {
             if (mob.getMobType().equalsIgnoreCase(mobType)) {
