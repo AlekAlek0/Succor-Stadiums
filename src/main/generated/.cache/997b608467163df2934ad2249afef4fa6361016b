@@ -1,0 +1,13 @@
+// 26.2	-999999999-01-01T00:00:00	Succor Stadiums/ModRecipeProvider
+bfb5b4de27f770ef14c7766191adbe2b22b16a3d data/succorstadiums/advancement/recipes/combat/arachno_crossbow.json
+945ceb1d8cc17d9c37e2a6b11f5fe448953c4f68 data/succorstadiums/advancement/recipes/combat/bownana.json
+b9aa4eba9f3a22546c37d1d7fbbfe774a74a6b6c data/succorstadiums/advancement/recipes/food/bone_broth.json
+f0e04ba29f3046278a44a030de34c90576027470 data/succorstadiums/advancement/recipes/food/rotten_stew.json
+05d83d72a9959f83488fa6e69dc7152bb56d9720 data/succorstadiums/advancement/recipes/misc/silk_spool.json
+e48aff5df835c284ca5e996e27db6f679ae728a0 data/succorstadiums/advancement/recipes/misc/silk_weave.json
+2ac6ad571b59f9f4bf81e14fcaea83e3b7357495 data/succorstadiums/recipe/arachno_crossbow.json
+5825a4569abb000337def3bd3ec259b53710bdea data/succorstadiums/recipe/bone_broth.json
+306851d864da013680344a0e3dfaa0ab667eb308 data/succorstadiums/recipe/bownana.json
+24cb0dc99c74734cb5947cb1294e267472b31d4d data/succorstadiums/recipe/rotten_stew.json
+bb164b6d77c73b58e45f5fcf782100f410082f83 data/succorstadiums/recipe/silk_spool.json
+63d5de34bd1ad2d6a6e82fb968b1e0172f371ecb data/succorstadiums/recipe/silk_weave.json
