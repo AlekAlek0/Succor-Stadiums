@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_spider_carapace": {
+      "conditions": {
+        "items": [
+          {
+            "items": "succorstadiums:spider_carapace"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_spider_eye": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:spider_eye"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_spider_leg": {
+      "conditions": {
+        "items": [
+          {
+            "items": "succorstadiums:spider_leg"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "succorstadiums:arachno_carapace_leggings"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_spider_carapace",
+      "has_spider_leg",
+      "has_spider_eye"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "succorstadiums:arachno_carapace_leggings"
+    ]
+  }
+}

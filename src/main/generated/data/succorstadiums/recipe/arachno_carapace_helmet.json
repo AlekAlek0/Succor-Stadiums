@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "a": "succorstadiums:spider_carapace",
+    "b": "minecraft:spider_eye"
+  },
+  "pattern": [
+    "aaa",
+    "a a",
+    "b b"
+  ],
+  "result": {
+    "id": "succorstadiums:arachno_carapace_helmet"
+  }
+}

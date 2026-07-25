@@ -23,6 +23,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
             @Override
             public void buildRecipes() {
 
+                // Item recipe data gens
+
                 // Silk Spool Recipe
                 shapeless(RecipeCategory.MISC, ModItems.SILK_SPOOL)
                         .requires(Items.STRING, 8)
@@ -35,8 +37,80 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .unlockedBy(getHasName(ModItems.SILK_SPOOL), has(ModItems.SILK_SPOOL))
                         .save(output);
 
-                // Bownana Recipe
+                // Bone Broth Recipe
+                shaped(RecipeCategory.FOOD, ModItems.BONE_BROTH, 2)
+                        .pattern("xxx")
+                        .pattern("xxx")
+                        .pattern(" p ")
+                        .define('x', Items.BONE)
+                        .define('p', Items.BOWL)
+                        .unlockedBy(getHasName(Items.BONE), has(Items.BONE))
+                        .unlockedBy(getHasName(Items.BOWL), has(Items.BOWL))
+                        .save(output);
 
+                // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                // Armor data gens
+
+                // Arachno Helmet Recipe
+                shaped(RecipeCategory.COMBAT, ModItems.ARACHNO_CARAPACE_HELMET, 1)
+                        .pattern("aaa")
+                        .pattern("a a")
+                        .pattern("b b")
+                        .define('a', ModItems.SPIDER_CARAPACE)
+                        .define('b', Items.SPIDER_EYE)
+                        .unlockedBy(getHasName(ModItems.SPIDER_CARAPACE), has(ModItems.SPIDER_CARAPACE))
+                        .unlockedBy(getHasName(Items.SPIDER_EYE), has(Items.SPIDER_EYE))
+                        .save(output);
+
+                // Arachno Chestplate Recipe
+                shaped(RecipeCategory.COMBAT, ModItems.ARACHNO_CARAPACE_CHESTPLATE, 1)
+                        .pattern("aca")
+                        .pattern("bab")
+                        .pattern("aaa")
+                        .define('a', ModItems.SPIDER_CARAPACE)
+                        .define('b', ModItems.SPIDER_LEG)
+                        .define('c', Items.SPIDER_EYE)
+                        .unlockedBy(getHasName(ModItems.SPIDER_CARAPACE), has(ModItems.SPIDER_CARAPACE))
+                        .unlockedBy(getHasName(ModItems.SPIDER_LEG), has(ModItems.SPIDER_LEG))
+                        .unlockedBy(getHasName(Items.SPIDER_EYE), has(Items.SPIDER_EYE))
+                        .save(output);
+
+                // Arachno Leggings Recipe
+                shaped(RecipeCategory.COMBAT, ModItems.ARACHNO_CARAPACE_LEGGINGS, 1)
+                        .pattern("aaa")
+                        .pattern("bcb")
+                        .pattern("b b")
+                        .define('a', ModItems.SPIDER_CARAPACE)
+                        .define('b', ModItems.SPIDER_LEG)
+                        .define('c', Items.SPIDER_EYE)
+                        .unlockedBy(getHasName(ModItems.SPIDER_CARAPACE), has(ModItems.SPIDER_CARAPACE))
+                        .unlockedBy(getHasName(ModItems.SPIDER_LEG), has(ModItems.SPIDER_LEG))
+                        .unlockedBy(getHasName(Items.SPIDER_EYE), has(Items.SPIDER_EYE))
+                        .save(output);
+
+                // Arachno Boots Recipe
+                shaped(RecipeCategory.COMBAT, ModItems.ARACHNO_CARAPACE_BOOTS, 1)
+                        .pattern("c c")
+                        .pattern("a a")
+                        .pattern("b b")
+                        .define('a', ModItems.SPIDER_CARAPACE)
+                        .define('b', ModItems.SPIDER_LEG)
+                        .define('c', Items.SPIDER_EYE)
+                        .unlockedBy(getHasName(ModItems.SPIDER_CARAPACE), has(ModItems.SPIDER_CARAPACE))
+                        .unlockedBy(getHasName(ModItems.SPIDER_LEG), has(ModItems.SPIDER_LEG))
+                        .unlockedBy(getHasName(Items.SPIDER_EYE), has(Items.SPIDER_EYE))
+                        .save(output);
+
+                // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                // Ranged weapon data gens
+
+                // Bownana Recipe
                 shaped(RecipeCategory.COMBAT, ModItems.BOWNANA, 1)
                         .pattern("cba")
                         .pattern("bca")
@@ -50,7 +124,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .save(output);
 
                 // Arachno Crossbow Recipe
-
                 shaped(RecipeCategory.COMBAT, ModItems.ARACHNO_CROSSBOW, 1)
                         .pattern("aba")
                         .pattern("cdc")
@@ -67,16 +140,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .unlockedBy(getHasName(ModItems.SPIDER_CARAPACE), has(ModItems.SPIDER_CARAPACE))
                         .save(output);
 
-                // Bone Broth Recipe
-                shaped(RecipeCategory.FOOD, ModItems.BONE_BROTH, 2)
-                        .pattern("xxx")
-                        .pattern("xxx")
-                        .pattern(" p ")
-                        .define('x', Items.BONE)
-                        .define('p', Items.BOWL)
-                        .unlockedBy(getHasName(Items.BONE), has(Items.BONE))
-                        .unlockedBy(getHasName(Items.BOWL), has(Items.BOWL))
-                        .save(output);
+                // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+                // Food data gens
 
                 // Rotten Stew Recipe
                 shaped(RecipeCategory.FOOD, ModItems.ROTTEN_STEW)
