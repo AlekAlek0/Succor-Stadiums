@@ -8,6 +8,7 @@ import net.alek.succorstadiums.entity.ModEntityAttributes;
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
+import net.alek.succorstadiums.loottable.ModLootTableModifers;
 import net.alek.succorstadiums.network.*;
 import net.alek.succorstadiums.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
@@ -46,6 +47,9 @@ public class SuccorStadiums implements ModInitializer {
 		ModEntityTypes.registerModEntityTypes();
 		ModEntityAttributes.register();
 
+		// Register loot table modifiers for vanilla mobs
+		ModLootTableModifers.register();
+
 		// Register item network packets
 		PayloadTypeRegistry.clientboundPlay().register(ResurrectionAmuletPayload.TYPE, ResurrectionAmuletPayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(ArachnoDoubleJumpPayload.TYPE, ArachnoDoubleJumpPayload.CODEC);
@@ -61,7 +65,6 @@ public class SuccorStadiums implements ModInitializer {
 		// Register backpack network packet
 		PayloadTypeRegistry.serverboundPlay().register(OpenBackpackPayload.TYPE, OpenBackpackPayload.CODEC);
 		BackpackPacketHandler.register();
-
 
 		// Start Mob arenas on server start
 		ServerLifecycleEvents.SERVER_STARTED.register(server -> {

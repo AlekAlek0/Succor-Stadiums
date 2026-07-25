@@ -80,6 +80,8 @@
   "item.succorstadiums.spacer": "",
   "item.succorstadiums.spider_carapace": "Spider Carapace",
   "item.succorstadiums.spider_carapace.tooltip": "Part of a Spiders tough exterior, the possible applications for such an item are endless.",
+  "item.succorstadiums.spider_leg": "Spider Leg",
+  "item.succorstadiums.spider_leg.tooltip": "Still wriggling",
   "key.category.succorstadiums.general": "Succor Stadiums",
   "key.succorstadiums.open_backpack": "Open Backpack",
   "key.succorstadiums.open_mob_arena": "Open Mob Arena GUI",

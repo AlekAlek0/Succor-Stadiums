@@ -110,6 +110,12 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
+            if (stack.is(ModItems.SPIDER_LEG)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.spider_leg.tooltip")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
             if (stack.is(ModItems.BANANA_SLIME_BALL)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.banana_slime_ball.tooltip")

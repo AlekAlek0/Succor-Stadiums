@@ -37,6 +37,7 @@ public class ModItems {
     public static final Item SILK_WEAVE = registerItem("silk_weave", Item::new);
     public static final Item BONE_BROTH = registerItem("bone_broth", Item::new);
     public static final Item SPIDER_CARAPACE = registerItem("spider_carapace", Item::new);
+    public static final Item SPIDER_LEG = registerItem("spider_leg", Item::new);
     public static final Item BANANA_SLIME_BALL = registerItem("banana_slime_ball", Item::new);
     public static final Item BANANA_BRANCH = registerItem("banana_branch", Item::new);
 

@@ -41,6 +41,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.SILK_WEAVE, "Silk Weave");
         translationBuilder.add(ModItems.BONE_BROTH, "Bone Broth");
         translationBuilder.add(ModItems.SPIDER_CARAPACE, "Spider Carapace");
+        translationBuilder.add(ModItems.SPIDER_LEG, "Spider Leg");
         translationBuilder.add(ModItems.BANANA_SLIME_BALL, "Banana Slime Ball");
         translationBuilder.add(ModItems.BANANA_BRANCH, "Banana Branch");
 
@@ -98,6 +99,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.silk_weave.tooltip", "Used to make the Silkweave armor set.");
         translationBuilder.add("item.succorstadiums.bone_broth.tooltip", "Looks inedible, but may have a use...");
         translationBuilder.add("item.succorstadiums.spider_carapace.tooltip", "Part of a Spiders tough exterior, the possible applications for such an item are endless.");
+        translationBuilder.add("item.succorstadiums.spider_leg.tooltip", "Still wriggling");
         translationBuilder.add("item.succorstadiums.banana_slime_ball.tooltip", "Ballnana");
         translationBuilder.add("item.succorstadiums.banana_branch.tooltip", "The Banana must remain unharmed");
 

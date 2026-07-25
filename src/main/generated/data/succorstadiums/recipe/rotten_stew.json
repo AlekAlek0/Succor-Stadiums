@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
   "key": {
     "p": "succorstadiums:bone_broth",
     "x": "minecraft:rotten_flesh"
