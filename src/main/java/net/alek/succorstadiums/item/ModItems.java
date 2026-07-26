@@ -5,6 +5,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -23,7 +24,6 @@ import net.alek.succorstadiums.item.weapons.melee.BannanerBladeItem;
 import net.alek.succorstadiums.item.weapons.melee.BeanPoleItem;
 import net.alek.succorstadiums.item.weapons.melee.BoneDaggerItem;
 import net.alek.succorstadiums.item.weapons.melee.FumblebringerForkItem;
-import net.alek.succorstadiums.item.weapons.ranged.ArachnoCrossbowItem;
 import net.alek.succorstadiums.item.weapons.ranged.BownanaItem;
 
 import static net.alek.succorstadiums.item.ModArmorMaterials.*;
@@ -130,7 +130,7 @@ public class ModItems {
     public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaStaffItem(properties.durability(300)));
 
     public static final Item BOWNANA = registerItem("bownana", properties -> new BownanaItem(properties.durability(384)));
-    public static final Item ARACHNO_CROSSBOW = registerItem("arachno_crossbow", properties -> new ArachnoCrossbowItem(properties.durability(300)));
+    public static final Item ARACHNO_CROSSBOW = registerItem("arachno_crossbow", properties -> new CrossbowItem(properties.durability(300)));
 
     public static final Item CARDBOARD_SHIELD = registerItem("cardboard_shield", properties -> new ShieldItem(properties.stacksTo(16)));
 
