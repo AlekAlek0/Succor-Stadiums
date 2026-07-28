@@ -270,8 +270,10 @@ public class ArenaSession {
                                 String effectId = String.join(":", Arrays.copyOfRange(parts, 0, parts.length - 2));
 
                                 try {
-                                    int durationTicks = Integer.parseInt(durStr) * 20;
-                                    int amplifier     = Integer.parseInt(ampStr);
+                                    int durationTicks = durStr.equals("-1")
+                                            ? Integer.MAX_VALUE
+                                            : Integer.parseInt(durStr) * 20;
+                                    int amplifier     = Math.max(0, Integer.parseInt(ampStr) - 1);
                                     BuiltInRegistries.MOB_EFFECT
                                             .getOptional(Identifier.parse(effectId))
                                             .ifPresentOrElse(

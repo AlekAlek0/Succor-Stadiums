@@ -678,7 +678,7 @@ public class MobArenaScreen extends Screen {
 
             drawInlineLabel(cx,               currentY, "Effect");
             drawInlineLabel(cx + c0 + 2, currentY, "Duration (s/inf)");
-            drawInlineLabel(cx + c0 + c1 + 4, currentY, "Amplifier (0-255)");
+            drawInlineLabel(cx + c0 + c1 + 4, currentY, "Amplifier (1-256)");
             currentY += 10;
 
             pendingPotionIdField = addScrolledField(cx, currentY, c0, 14, "e.g. minecraft:strength", scrollTop, scrollBottom);
@@ -695,7 +695,7 @@ public class MobArenaScreen extends Screen {
                 pendingPotionDurationField.setResponder(text -> pendingPotionDuration = text);
             }
 
-            pendingPotionAmplifierField = addScrolledField(cx + c0 + c1 + 4, currentY, c2, 14, "0 (0-255)", scrollTop, scrollBottom);
+            pendingPotionAmplifierField = addScrolledField(cx + c0 + c1 + 4, currentY, c2, 14, "1 (1-256)", scrollTop, scrollBottom);
             if (pendingPotionAmplifierField != null) {
                 pendingPotionAmplifierField.setValue(pendingPotionAmplifier);
                 pendingPotionAmplifierField.setResponder(text -> pendingPotionAmplifier = text);
@@ -717,18 +717,18 @@ public class MobArenaScreen extends Screen {
                             dur = "-1";
                         }
 
-                        int amplifier = 0;
+                        int amplifier = 1;
 
                         try {
                             amplifier = Integer.parseInt(
                                     pendingPotionAmplifierField != null
                                             ? pendingPotionAmplifierField.getValue().trim()
-                                            : "0"
+                                            : "1"
                             );
                         } catch (Exception ignored) {
                         }
 
-                        amplifier = Math.max(0, Math.min(255, amplifier));
+                        amplifier = Math.max(1, Math.min(256, amplifier));
 
                         potionEffectEntries.add(new String[]{
                                 id,

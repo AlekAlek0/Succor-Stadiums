@@ -133,7 +133,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                 wave.getMobs().forEach(mob -> mobs.add(new MobEntry(
                         mob.getMobType(),
                         mob.getCount(),
-                        mob.getSize(), // Added size here
+                        mob.getSize(),
                         mob.getRidingMob(),
                         mob.getMainHandItem(),
                         mob.getOffHandItem(),
