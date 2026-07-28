@@ -22,7 +22,7 @@ public class ArachnoCarapaceArmorItem extends Item {
         super(properties.component(
                 DataComponents.ATTRIBUTE_MODIFIERS,
 
-                // Modify the item attributes for step height, jump strength, and movement speed by the added values given
+                // Modify the item attributes for step height by the added values given
                 ItemAttributeModifiers.builder()
                         .add(
                                 Attributes.STEP_HEIGHT,
@@ -32,25 +32,6 @@ public class ArachnoCarapaceArmorItem extends Item {
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 EquipmentSlotGroup.ARMOR
-                        )
-                        .add(
-                                Attributes.MOVEMENT_SPEED,
-                                new AttributeModifier(
-                                        MOVEMENT_SPEED_ID,
-                                        -0.04,
-                                        AttributeModifier.Operation.ADD_VALUE
-                                ),
-                                EquipmentSlotGroup.ARMOR
-                        )
-                        .add(
-                                Attributes.JUMP_STRENGTH,
-                                new AttributeModifier(
-                                        JUMP_STRENGTH_ID,
-                                        -0.10,
-                                        AttributeModifier.Operation.ADD_VALUE
-                                ),
-                                EquipmentSlotGroup.ARMOR
-
                         ).build()
         ));
     }
