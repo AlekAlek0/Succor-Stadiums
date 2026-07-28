@@ -19,10 +19,10 @@ public class ModLootTableModifers {
     public static void register() {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             if (source.isBuiltin() && key.equals(SPIDER_LOOT)) {
-                // 40% chance to drop 0-2 spider legs
+                // 20% chance to drop 0-2 spider legs
                 tableBuilder.withPool(
                         LootPool.lootPool()
-                                .when(LootItemRandomChanceCondition.randomChance(0.40f))
+                                .when(LootItemRandomChanceCondition.randomChance(0.20f))
                                 .add(
                                         LootItem.lootTableItem(ModItems.SPIDER_LEG)
                                                 .apply(SetItemCountFunction.setCount(
@@ -30,10 +30,10 @@ public class ModLootTableModifers {
                                 )
                 );
 
-                // 20% chance to drop 2-4 spider carapace
+                // 5% chance to drop 2-4 spider carapace
                 tableBuilder.withPool(
                         LootPool.lootPool()
-                                .when(LootItemRandomChanceCondition.randomChance(0.20f))
+                                .when(LootItemRandomChanceCondition.randomChance(0.05f))
                                 .add(
                                         LootItem.lootTableItem(ModItems.SPIDER_CARAPACE)
                                                 .apply(SetItemCountFunction.setCount(
