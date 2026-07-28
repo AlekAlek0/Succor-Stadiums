@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableSubProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -47,6 +48,41 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
                                                 LootItem.lootTableItem(ModItems.BANANA_SLIME_BALL)
                                                         .apply(SetItemCountFunction.setCount(
                                                                 UniformGenerator.between(1, 3)))
+                                        )
+                        )
+        );
+
+        exporter.accept(ModLootTables.ZOMBIE_FARMER_LOOT,
+
+                LootTable.lootTable()
+                        // 66.6% chance to drop 0-2 rotten flesh
+                        .withPool(
+                                LootPool.lootPool()
+                                        .when(LootItemRandomChanceCondition.randomChance(0.666f))
+                                        .add(
+                                                LootItem.lootTableItem(Items.ROTTEN_FLESH)
+                                                        .apply(SetItemCountFunction.setCount(
+                                                                UniformGenerator.between(0, 2)))
+                                        )
+                        )
+                        // 8% chance to drop 0-2 iron nuggets
+                        .withPool(
+                                LootPool.lootPool()
+                                        .when(LootItemRandomChanceCondition.randomChance(0.08f))
+                                        .add(
+                                                LootItem.lootTableItem(Items.IRON_NUGGET)
+                                                        .apply(SetItemCountFunction.setCount(
+                                                                UniformGenerator.between(0, 2)))
+                                        )
+                        )
+                        // 2% chance to drop 0-2 rotten stew
+                        .withPool(
+                                LootPool.lootPool()
+                                        .when(LootItemRandomChanceCondition.randomChance(0.02f))
+                                        .add(
+                                                LootItem.lootTableItem(ModItems.ROTTEN_STEW)
+                                                        .apply(SetItemCountFunction.setCount(
+                                                                UniformGenerator.between(0, 2)))
                                         )
                         )
         );

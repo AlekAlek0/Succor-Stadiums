@@ -10,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class BananaSlime extends Slime {
-
     public BananaSlime(EntityType<? extends Slime> type, Level level) {
         super(type, level);
     }

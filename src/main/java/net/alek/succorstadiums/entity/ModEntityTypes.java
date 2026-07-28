@@ -16,6 +16,10 @@ public class ModEntityTypes {
             "banana_slime", EntityType.Builder.<BananaSlime>of(BananaSlime::new,
                     MobCategory.MONSTER).sized(0.75f, 0.75f));
 
+    public static final EntityType<ZombieFarmer> ZOMBIE_FARMER = registerMob(
+                "zombie_farmer", EntityType.Builder.<ZombieFarmer>of(ZombieFarmer::new,
+                    MobCategory.MONSTER).sized(0.6f, 1.95f));
+
 
 
     private static <T extends Entity> EntityType<T> registerMob(String name, EntityType.Builder<T> builder) {

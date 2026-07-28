@@ -1,6 +1,7 @@
 package net.alek.succorstadiums.client;
 
 import net.alek.succorstadiums.client.render.entity.BananaSlimeRenderer;
+import net.alek.succorstadiums.client.render.entity.ZombieFarmerRenderer;
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.network.ArachnoDoubleJumpPayload;
@@ -34,10 +35,8 @@ public class SuccorStadiumsClient implements ClientModInitializer {
         ScreenCloseHandler.register();
         KeyInputHandler.register();
 
-        EntityRenderers.register(
-                ModEntityTypes.BANANA_SLIME,
-                BananaSlimeRenderer::new
-        );
+        EntityRenderers.register(ModEntityTypes.BANANA_SLIME, BananaSlimeRenderer::new);
+        EntityRenderers.register(ModEntityTypes.ZOMBIE_FARMER, ZombieFarmerRenderer::new);
 
         ClientTickEvents.END_CLIENT_TICK.register(SuccorStadiumsClient::handleArachnoDoubleJumpInput);
 
@@ -64,9 +63,8 @@ public class SuccorStadiumsClient implements ClientModInitializer {
             }
         }));
 
-        ClientPlayNetworking.registerGlobalReceiver(OpenMobArenaPayload.TYPE, (payload, context) -> context.client().execute(() -> {
-            Minecraft.getInstance().gui.setScreen(new MobArenaScreen(Component.literal("Mob Arena Manager")));
-        }));
+        ClientPlayNetworking.registerGlobalReceiver(OpenMobArenaPayload.TYPE, (payload, context) -> context.client().execute(() ->
+                Minecraft.getInstance().gui.setScreen(new MobArenaScreen(Component.literal("Mob Arena Manager")))));
 
         ItemTooltipCallback.EVENT.register((stack, context, type, tooltip) -> {
 

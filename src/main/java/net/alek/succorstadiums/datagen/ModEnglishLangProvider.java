@@ -151,6 +151,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
         // Entity translations
         translationBuilder.add("entity.succorstadiums.banana_slime", "Banana Slime");
+        translationBuilder.add("entity.succorstadiums.zombie_farmer", "Zombie Farmer");
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
