@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.screen;
+package net.alek.succorstadiums.screen.mobarenagui;
 
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;

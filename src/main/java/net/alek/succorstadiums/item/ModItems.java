@@ -7,7 +7,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.equipment.ArmorType;
 import java.util.function.Function;
 
@@ -124,6 +123,12 @@ public class ModItems {
             5.1F,
             8.0F,
             4.6F)
+    ));
+
+    public static final Item SWORD_OF_THE_FOREST = registerItem("sword_of_the_forest", properties -> new Item(
+            properties.sword(SWORD_OF_THE_FOREST_TOOL_MATERIAL,
+                    2.5F,
+                    0.8F)
     ));
 
     public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties.durability(300)));

@@ -92,6 +92,11 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.BANANNER_BLADE);
                         output.accept(ModItems.FUMBLEBRINGER_FORK);
 
+                        var enchantments = parameters.holders().lookupOrThrow(Registries.ENCHANTMENT);
+                        ItemStack sword_of_the_forest = new ItemStack(ModItems.SWORD_OF_THE_FOREST);
+                        sword_of_the_forest.enchant(enchantments.getOrThrow(Enchantments.SWEEPING_EDGE), 1);
+                        output.accept(sword_of_the_forest);
+
 
 
                     }).build());

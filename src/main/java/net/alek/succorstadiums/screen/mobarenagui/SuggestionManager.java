@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.screen;
+package net.alek.succorstadiums.screen.mobarenagui;
 
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.core.Registry;

@@ -10,13 +10,14 @@ public class ModEntityAttributes {
     public static void register() {
         FabricDefaultAttributeRegistry.register(
                 ModEntityTypes.BANANA_SLIME,
-                Slime.createMobAttributes()
+                Slime.createMobAttributes().add(Attributes.ATTACK_DAMAGE, 0D)
         );
 
         FabricDefaultAttributeRegistry.register(
                 ModEntityTypes.ZOMBIE_FARMER,
                 Zombie.createAttributes()
                         .add(Attributes.MOVEMENT_SPEED, 0.24D)
+                        .add(Attributes.ATTACK_DAMAGE, 1.0D)
                         .add(Attributes.MAX_HEALTH, 12.0D)
                         .add(Attributes.ARMOR, 1.0D)
 

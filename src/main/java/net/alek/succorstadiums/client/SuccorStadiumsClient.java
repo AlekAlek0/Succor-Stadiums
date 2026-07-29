@@ -7,8 +7,8 @@ import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.network.ArachnoDoubleJumpPayload;
 import net.alek.succorstadiums.network.OpenMobArenaPayload;
 import net.alek.succorstadiums.network.ResurrectionAmuletPayload;
-import net.alek.succorstadiums.screen.MobArenaScreen;
-import net.alek.succorstadiums.screen.MobArenaScreenHandler;
+import net.alek.succorstadiums.screen.mobarenagui.MobArenaScreen;
+import net.alek.succorstadiums.screen.mobarenagui.MobArenaScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
@@ -264,7 +264,12 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
-
+            if (stack.is(ModItems.SWORD_OF_THE_FOREST)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.sword_of_the_forest.tooltip")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
             if (stack.is(ModItems.AQUA_STAFF)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.aqua_staff.tooltip")

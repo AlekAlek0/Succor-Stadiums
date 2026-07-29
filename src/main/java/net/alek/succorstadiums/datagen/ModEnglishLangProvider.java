@@ -61,6 +61,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.BONE_DAGGER, "Bone Dagger");
         translationBuilder.add(ModItems.BANANNER_BLADE, "Bananner Blade");
         translationBuilder.add(ModItems.FUMBLEBRINGER_FORK, "Fumblebringer Fork");
+        translationBuilder.add(ModItems.SWORD_OF_THE_FOREST, "Sword of the Forest");
+
 
         // Magic Weapon translations
         translationBuilder.add(ModItems.FIRE_STAFF, "§4Firecharged Cane");
@@ -120,6 +122,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.bone_dagger.tooltip", "3 inches is actually pretty big..");
         translationBuilder.add("item.succorstadiums.bananner_blade.tooltip", "All though it resembles the banana fruit this sturdy blade is actually made of from Baldnana wood.");
         translationBuilder.add("item.succorstadiums.fumblebringer_fork.tooltip", "This weapon was once used to bring apon \"The Great Fumbling\".");
+        translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip", "Recommended for big hoards.");
 
         // Magic Weapon Tooltip translations
         translationBuilder.add("item.succorstadiums.fire_staff.tooltip", "Absolute Flames.");

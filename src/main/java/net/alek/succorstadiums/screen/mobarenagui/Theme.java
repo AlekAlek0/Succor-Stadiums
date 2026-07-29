@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.screen;
+package net.alek.succorstadiums.screen.mobarenagui;
 
 public enum Theme {
 

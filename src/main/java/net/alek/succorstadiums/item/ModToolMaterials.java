@@ -40,4 +40,14 @@ public class ModToolMaterials {
             99,
             null
     );
+
+    public static final ToolMaterial SWORD_OF_THE_FOREST_TOOL_MATERIAL = new ToolMaterial(
+            BlockTags.INCORRECT_FOR_WOODEN_TOOL,
+            86,
+            0,
+            0,
+            99,
+            null
+    );
+
 }

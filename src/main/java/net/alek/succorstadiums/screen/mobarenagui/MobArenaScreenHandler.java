@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.screen;
+package net.alek.succorstadiums.screen.mobarenagui;
 
 import net.alek.succorstadiums.network.ArenaDataPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

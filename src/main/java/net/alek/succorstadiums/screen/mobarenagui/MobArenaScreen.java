@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.screen;
+package net.alek.succorstadiums.screen.mobarenagui;
 
 import net.alek.succorstadiums.client.ModKeyBindings;
 import net.alek.succorstadiums.network.ArenaActionPayload;
@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +36,13 @@ import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
  *
  * All arena data lives on the server. This screen only displays what
  * the server sends back, and sends action packets for every change.
+ *
+ * Most detail-view panels have been extracted into their own classes
+ * (ArenaFormScreen, MobViewScreen, DelMobScreen, PlayerPickerScreen).
+ * ADD_MOB remains inline here — it's a stateful subsystem in its own
+ * right (suggestion managers, scroll state, collapsible sections)
+ * rather than a simple detail view, so it wasn't a clean fit for the
+ * same extraction pattern.
  */
 public class MobArenaScreen extends Screen {
 
@@ -48,7 +54,13 @@ public class MobArenaScreen extends Screen {
     private static final int PANEL_PAD        = 8;
     private static final int BTN_H            = 16;
     private static final int ROW_H            = 18;
-    private static final int DETAIL_LINE_HEIGHT = 12;
+
+    // ── Screens ─────────────────────────────────────────────────────
+
+    private final MobViewScreen mobViewScreen = new MobViewScreen();
+    private final ArenaFormScreen arenaFormScreen = new ArenaFormScreen();
+    private final DelMobScreen delMobScreen = new DelMobScreen();
+    private final PlayerPickerScreen playerPickerScreen = new PlayerPickerScreen();
 
     // ── Theme ─────────────────────────────────────────────────────
 
@@ -77,8 +89,8 @@ public class MobArenaScreen extends Screen {
     /** Each entry: {enchantId, level, targetKey} */
     private final List<String[]> enchantmentEntries  = new ArrayList<>();
 
-    private static final String[] ENCHANT_TARGETS     = {"Main Hand", "Off Hand", "Helmet", "Chestplate", "Leggings", "Boots"};
-    private static final String[] ENCHANT_TARGET_KEYS = {"mainhand",  "offhand",  "helmet", "chestplate", "leggings", "boots"};
+    static final String[] ENCHANT_TARGETS     = {"Main Hand", "Off Hand", "Helmet", "Chestplate", "Leggings", "Boots"};
+    static final String[] ENCHANT_TARGET_KEYS = {"mainhand",  "offhand",  "helmet", "chestplate", "leggings", "boots"};
 
     /** Which target slot the pending-enchant row currently points to. */
     private int pendingEnchantTargetIndex = 0;
@@ -88,11 +100,10 @@ public class MobArenaScreen extends Screen {
     // ADD_MOB core
     private String savedMobType    = "";
     private String savedMobCount   = "";
-    private String savedMobVariant = ""; // Renamed from savedMobSize
+    private String savedMobVariant = "";
 
-    // New state variables for variant buttons
-    private String selectedSlimeVariant = ""; // Renamed from selectedSlimeSize
-    private String selectedZombieVariant = ""; // Renamed from selectedZombieAge
+    private String selectedSlimeVariant = "";
+    private String selectedZombieVariant = "";
 
     // ADD_MOB equipment
     private String savedMainHand   = "";
@@ -107,11 +118,8 @@ public class MobArenaScreen extends Screen {
 
     // ── Input fields ──────────────────────────────────────────────────────────
 
-    // ADD_ARENA / EDIT_ARENA
-    private EditBox nameField, xField, yField, zField, radiusField, delayField;
-
     // ADD_MOB — core
-    private EditBox mobTypeField, mobCountField; // Removed mobSizeField from here
+    private EditBox mobTypeField, mobCountField;
 
     // ADD_MOB — equipment
     private EditBox mainHandItemField, offHandItemField;
@@ -153,7 +161,6 @@ public class MobArenaScreen extends Screen {
 
     // ── Player picker ─────────────────────────────────────────────────────────
 
-    private final List<String> selectedPlayers = new ArrayList<>();
     private boolean showPlayerPicker = false;
 
     // ── Scroll / tick ─────────────────────────────────────────────────────────
@@ -370,86 +377,67 @@ public class MobArenaScreen extends Screen {
     }
 
     private void buildAddArenaWidgets() {
-        int cx   = detailX() + PANEL_PAD;
-        int cy   = guiTop() + 20;
-        int fw   = detailW() - PANEL_PAD * 2;
-        int by   = guiTop() + guiHeight() - BTN_H - PANEL_PAD;
-        int posW = (fw - 54) / 3 - 2;
-
-        nameField   = makeField(cx, cy + 10, fw, 14, "Arena name");
-        xField      = makeField(cx, cy + 50, posW, 14, "X");
-        yField      = makeField(cx + posW + 1, cy + 50, posW, 14, "Y");
-        zField      = makeField(cx + (posW + 1) * 2, cy + 50, posW, 14, "Z");
-        radiusField = makeField(cx, cy + 90, fw / 2 - 2, 14, "Radius");
-        delayField  = makeField(cx + fw / 2 + 2, cy + 90, fw / 2 - 2, 14, "Delay (s)");
-
-        addRenderableWidget(Button.builder(Component.literal("My Pos"),
-                btn -> {
-                    var player = Minecraft.getInstance().player;
-                    if (player != null) {
-                        xField.setValue(String.valueOf((int) player.getX()));
-                        yField.setValue(String.valueOf((int) player.getY()));
-                        zField.setValue(String.valueOf((int) player.getZ()));
-                    }
-                }
-        ).bounds(detailX() + detailW() - PANEL_PAD - 50, cy + 50, 50, BTN_H - 2).build());
-
-        addRenderableWidget(Button.builder(Component.literal("✔ Create"), btn -> submitCreateArena())
-                .bounds(cx, by, 60, BTN_H).build());
-        addRenderableWidget(Button.builder(Component.literal("✕ Cancel"),
-                        btn -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); })
-                .bounds(cx + 64, by, 50, BTN_H).build());
+        arenaFormScreen.buildWidgets(this::addRenderableWidget, font,
+                detailX(), detailW(), guiTop(), guiHeight(), null,
+                (name, x, y, z, radius, delay) -> {
+                    ClientPlayNetworking.send(ArenaActionPayload.createArena(name, x, y, z, radius, delay));
+                    detailView = DetailView.OVERVIEW;
+                    rebuildWidgets();
+                },
+                () -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); });
     }
 
     private void buildEditArenaWidgets() {
         if (selectedArena < 0 || selectedArena >= arenas.size()) return;
         ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
-
-        int cx   = detailX() + PANEL_PAD;
-        int cy   = guiTop() + 20;
-        int fw   = detailW() - PANEL_PAD * 2;
-        int by   = guiTop() + guiHeight() - BTN_H - PANEL_PAD;
-        int posW = (fw - 54) / 3 - 2;
-
-        nameField   = makeField(cx, cy + 10, fw, 14, "Arena name");
-        xField      = makeField(cx, cy + 50, posW, 14, "X");
-        yField      = makeField(cx + posW + 1, cy + 50, posW, 14, "Y");
-        zField      = makeField(cx + (posW + 1) * 2, cy + 50, posW, 14, "Z");
-        radiusField = makeField(cx, cy + 90, fw / 2 - 2, 14, "Radius");
-        delayField  = makeField(cx + fw / 2 + 2, cy + 90, fw / 2 - 2, 14, "Delay (s)");
-
-        addRenderableWidget(Button.builder(Component.literal("My Pos"),
-                btn -> {
-                    var player = Minecraft.getInstance().player;
-                    if (player != null) {
-                        xField.setValue(String.valueOf((int) player.getX()));
-                        yField.setValue(String.valueOf((int) player.getY()));
-                        zField.setValue(String.valueOf((int) player.getZ()));
-                    }
-                }
-        ).bounds(detailX() + detailW() - PANEL_PAD - 50, cy + 50, 50, BTN_H - 2).build());
-
-        nameField.setValue(arena.name());
-        xField.setValue(String.valueOf((int) arena.x()));
-        yField.setValue(String.valueOf((int) arena.y()));
-        zField.setValue(String.valueOf((int) arena.z()));
-        radiusField.setValue(String.valueOf(arena.radius()));
-        delayField.setValue(String.valueOf(arena.delaySeconds()));
-
-        addRenderableWidget(Button.builder(Component.literal("✔ Save"), btn -> submitEditArena())
-                .bounds(cx, by, 50, BTN_H).build());
-        addRenderableWidget(Button.builder(Component.literal("✕ Cancel"),
-                        btn -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); })
-                .bounds(cx + 54, by, 50, BTN_H).build());
+        arenaFormScreen.buildWidgets(this::addRenderableWidget, font,
+                detailX(), detailW(), guiTop(), guiHeight(), arena,
+                (newName, x, y, z, radius, delay) -> {
+                    ClientPlayNetworking.send(ArenaActionPayload.editArena(arena.name(), newName, x, y, z, radius, delay));
+                    detailView = DetailView.OVERVIEW;
+                    rebuildWidgets();
+                },
+                () -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); });
     }
 
     private void buildViewMobWidgets() {
-        int cx = detailX() + PANEL_PAD;
-        int by = guiTop() + guiHeight() - BTN_H - PANEL_PAD;
+        mobViewScreen.buildWidgets(
+                this::addRenderableWidget,
+                detailX(), guiTop(), guiHeight(), BTN_H,
+                () -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); }
+        );
+    }
 
-        addRenderableWidget(Button.builder(Component.literal("< Back"),
-                        btn -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); })
-                .bounds(cx, by, 50, BTN_H).build());
+    private void buildDelMobWidgets() {
+        if (selectedArena < 0 || selectedArena >= arenas.size()) return;
+        ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
+        ArenaDataPayload.WaveEntry wave = arena.waves().stream()
+                .filter(w -> w.waveNumber() == selectedWave).findFirst().orElse(null);
+
+        delMobScreen.buildWidgets(this::addRenderableWidget,
+                detailX(), guiTop(), guiHeight(), wave,
+                (mobType, count) -> {
+                    if (wave != null) {
+                        ClientPlayNetworking.send(ArenaActionPayload.removeMob(arena.name(), selectedWave, mobType, count));
+                    }
+                },
+                () -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); });
+    }
+
+    private void buildPlayerPickerButtons() {
+        playerPickerScreen.buildWidgets(this::addRenderableWidget,
+                detailX(), detailW(), guiTop(), guiHeight(),
+                this::rebuildWidgets,
+                () -> { showPlayerPicker = false; playerPickerScreen.clearSelection(); rebuildWidgets(); },
+                () -> {
+                    List<String> selected = playerPickerScreen.getSelectedPlayers();
+                    if (!selected.isEmpty() && selectedArena >= 0) {
+                        ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
+                        ClientPlayNetworking.send(ArenaActionPayload.startArena(arena.name(), selected));
+                    }
+                    showPlayerPicker = false;
+                    rebuildWidgets();
+                });
     }
 
     private void buildAddMobWidgets() {
@@ -950,160 +938,7 @@ public class MobArenaScreen extends Screen {
         }
     }
 
-    // ── Remaining widget builders ─────────────────────────────────────────────
-
-    private void buildDelMobWidgets() {
-        if (selectedArena < 0 || selectedArena >= arenas.size()) return;
-        ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
-
-        ArenaDataPayload.WaveEntry wave = arena.waves().stream()
-                .filter(w -> w.waveNumber() == selectedWave).findFirst().orElse(null);
-        if (wave == null) return;
-
-        int cx       = detailX() + PANEL_PAD;
-        int currentY = guiTop() + 36;
-        int by       = guiTop() + guiHeight() - BTN_H - PANEL_PAD;
-
-        for (int i = 0; i < wave.mobs().size(); i++) {
-            ArenaDataPayload.MobEntry mob = wave.mobs().get(i);
-
-            int mobEntryTotalHeight = ROW_H;
-            if (mob.mainHandItem() != null && !mob.mainHandItem().isEmpty()) mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
-            if (mob.offHandItem()  != null && !mob.offHandItem().isEmpty())  mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
-            if (mob.armorItems()   != null && !mob.armorItems().isEmpty())   mobEntryTotalHeight += mob.armorItems().size() * DETAIL_LINE_HEIGHT;
-            if (mob.ridingMob()    != null && !mob.ridingMob().isEmpty())    mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
-            if (mob.potionEffects() != null && !mob.potionEffects().isEmpty()) {
-                mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
-                mobEntryTotalHeight += mob.potionEffects().split(",").length * DETAIL_LINE_HEIGHT;
-            }
-            if (mob.enchantments() != null && !mob.enchantments().isEmpty()) {
-                mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
-                mobEntryTotalHeight += mob.enchantments().split(",").length * DETAIL_LINE_HEIGHT;
-            }
-            if (mob.size() != null && mob.size() != 0) {
-                mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
-            }
-            mobEntryTotalHeight += 4;
-
-            int buttonY = currentY + 1;
-
-            addRenderableWidget(Button.builder(Component.literal("-1"),
-                    btn -> ClientPlayNetworking.send(ArenaActionPayload.removeMob(arena.name(), selectedWave, mob.mobType(), 1))
-            ).bounds(cx, buttonY, 24, BTN_H).build());
-
-            addRenderableWidget(Button.builder(Component.literal("-5"),
-                    btn -> ClientPlayNetworking.send(ArenaActionPayload.removeMob(arena.name(), selectedWave, mob.mobType(), 5))
-            ).bounds(cx + 28, buttonY, 24, BTN_H).build());
-
-            addRenderableWidget(Button.builder(Component.literal("-10"),
-                    btn -> ClientPlayNetworking.send(ArenaActionPayload.removeMob(arena.name(), selectedWave, mob.mobType(), 10))
-            ).bounds(cx + 56, buttonY, 28, BTN_H).build());
-
-            addRenderableWidget(Button.builder(Component.literal("-20"),
-                    btn -> ClientPlayNetworking.send(ArenaActionPayload.removeMob(arena.name(), selectedWave, mob.mobType(), 20))
-            ).bounds(cx + 88, buttonY, 28, BTN_H).build());
-
-            addRenderableWidget(Button.builder(Component.literal("✕ All"),
-                    btn -> ClientPlayNetworking.send(ArenaActionPayload.removeMob(arena.name(), selectedWave, mob.mobType(), mob.count()))
-            ).bounds(cx + 120, buttonY, 36, BTN_H).build());
-
-            currentY += mobEntryTotalHeight;
-        }
-
-        addRenderableWidget(Button.builder(Component.literal("< Back"),
-                        btn -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); })
-                .bounds(cx, by, 50, BTN_H).build());
-    }
-
-    private void buildPlayerPickerButtons() {
-        List<String> online = new ArrayList<>();
-        var conn = Minecraft.getInstance().getConnection();
-        if (conn != null) {
-            conn.getOnlinePlayers().forEach(p -> online.add(p.getProfile().name()));
-        }
-
-        int cx = detailX() + PANEL_PAD;
-        int cy = guiTop() + 36;
-        int fw = detailW() - PANEL_PAD * 2;
-
-        for (int i = 0; i < Math.min(online.size(), 8); i++) {
-            final String pName = online.get(i);
-            boolean sel = selectedPlayers.contains(pName);
-            addRenderableWidget(Button.builder(
-                    Component.literal((sel ? "☑ " : "☐ ") + pName),
-                    btn -> {
-                        if (selectedPlayers.contains(pName)) selectedPlayers.remove(pName);
-                        else selectedPlayers.add(pName);
-                        rebuildWidgets();
-                    }
-            ).bounds(cx, cy + i * ROW_H, fw - 74, BTN_H).build());
-        }
-
-        int by = guiTop() + guiHeight() - BTN_H - PANEL_PAD;
-
-        boolean allSelected = !online.isEmpty() && new HashSet<>(selectedPlayers).containsAll(online);
-        addRenderableWidget(Button.builder(
-                Component.literal(allSelected ? "☐ Deselect All" : "☑ Select All"),
-                btn -> {
-                    if (allSelected) selectedPlayers.clear();
-                    else { selectedPlayers.clear(); selectedPlayers.addAll(online); }
-                    rebuildWidgets();
-                }
-        ).bounds(detailX() + PANEL_PAD, by, 80, BTN_H).build());
-
-        addRenderableWidget(Button.builder(Component.literal("✕ Cancel"),
-                btn -> { showPlayerPicker = false; selectedPlayers.clear(); rebuildWidgets(); }
-        ).bounds(detailX() + detailW() - PANEL_PAD - 134, by, 50, BTN_H).build());
-
-        addRenderableWidget(Button.builder(Component.literal("▶ Confirm"),
-                btn -> {
-                    if (!selectedPlayers.isEmpty() && selectedArena >= 0) {
-                        ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
-                        ClientPlayNetworking.send(ArenaActionPayload.startArena(arena.name(), selectedPlayers));
-                    }
-                    showPlayerPicker = false;
-                    rebuildWidgets();
-                }
-        ).bounds(detailX() + detailW() - PANEL_PAD - 80, by, 80, BTN_H).build());
-    }
-
     // ── Form submission ───────────────────────────────────────────────────────
-
-    private void submitCreateArena() {
-        try {
-            if (nameField == null || xField == null || yField == null ||
-                    zField == null || radiusField == null || delayField == null) return;
-            String name = nameField.getValue().trim();
-            if (name.isEmpty()) return;
-            double x  = Double.parseDouble(xField.getValue().trim());
-            double y  = Double.parseDouble(yField.getValue().trim());
-            double z  = Double.parseDouble(zField.getValue().trim());
-            int radius = Integer.parseInt(radiusField.getValue().trim());
-            int delay  = Integer.parseInt(delayField.getValue().trim());
-            ClientPlayNetworking.send(ArenaActionPayload.createArena(name, x, y, z, radius, delay));
-            detailView = DetailView.OVERVIEW;
-            rebuildWidgets();
-        } catch (NumberFormatException ignored) {}
-    }
-
-    private void submitEditArena() {
-        try {
-            if (nameField == null || xField == null || yField == null || zField == null ||
-                    radiusField == null || delayField == null) return;
-            if (selectedArena < 0 || selectedArena >= arenas.size()) return;
-            String oldName = arenas.get(selectedArena).name();
-            String newName = nameField.getValue().trim();
-            if (newName.isEmpty()) return;
-            double x  = Double.parseDouble(xField.getValue().trim());
-            double y  = Double.parseDouble(yField.getValue().trim());
-            double z  = Double.parseDouble(zField.getValue().trim());
-            int radius = Integer.parseInt(radiusField.getValue().trim());
-            int delay  = Integer.parseInt(delayField.getValue().trim());
-            ClientPlayNetworking.send(ArenaActionPayload.editArena(oldName, newName, x, y, z, radius, delay));
-            detailView = DetailView.OVERVIEW;
-            rebuildWidgets();
-        } catch (NumberFormatException ignored) {}
-    }
 
     private void submitAddMob() {
         try {
@@ -1215,128 +1050,31 @@ public class MobArenaScreen extends Screen {
         int dw = detailW();
 
         if (showPlayerPicker) {
-            g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
-            g.text(font, "Select Players to Start Arena", dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
+            playerPickerScreen.renderHeader(g, font, dx, dt, dw);
             return;
         }
 
         if (detailView == DetailView.ADD_ARENA) {
-            g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
-            g.text(font, "New Arena",          dx + PANEL_PAD, dt + 4,   0xFFFFFFFF, false);
-            g.text(font, "Name",               dx + PANEL_PAD, dt + 20, theme.subtext(), false);
-            g.text(font, "Position",           dx + PANEL_PAD, dt + 60, theme.subtext(), false);
-            g.text(font, "Radius / Delay (s)", dx + PANEL_PAD, dt + 100, theme.subtext(), false);
+            arenaFormScreen.render(g, font, theme, dx, dt, "New Arena");
             return;
         }
 
         if (detailView == DetailView.EDIT_ARENA) {
             if (selectedArena < 0 || selectedArena >= arenas.size()) return;
             ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
-            g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
-            g.text(font, "Edit Arena: " + arena.name(), dx + PANEL_PAD, dt + 4,   0xFFFFFFFF, false);
-            g.text(font, "Name",                        dx + PANEL_PAD, dt + 20, theme.subtext(), false);
-            g.text(font, "Position",                    dx + PANEL_PAD, dt + 60,  theme.subtext(), false);
-            g.text(font, "Radius / Delay (s)",          dx + PANEL_PAD, dt + 100, theme.subtext(), false);
+            arenaFormScreen.render(g, font, theme, dx, dt, "Edit Arena: " + arena.name());
             return;
         }
 
         if (detailView == DetailView.VIEW_MOB) {
-            g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
-            g.text(font, "Mobs in Wave " + selectedWave, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
-
+            ArenaDataPayload.WaveEntry wave = null;
             if (selectedArena >= 0 && selectedArena < arenas.size()) {
                 ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
-                ArenaDataPayload.WaveEntry wave = arena.waves().stream()
-                        .filter(w -> w.waveNumber() == selectedWave).findFirst().orElse(null);
-                if (wave != null && !wave.mobs().isEmpty()) {
-                    int currentY = guiTop() + 24;
-                    for (int i = 0; i < wave.mobs().size(); i++) {
-                        ArenaDataPayload.MobEntry mob = wave.mobs().get(i);
-                        if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + ROW_H, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
-                        String mobDisplay = mob.count() + "x  " + formatIdentifierForDisplay(mob.mobType());
-                        if (mob.size() != null && mob.size() != 0) {
-                            String variantDisplay = "";
-                            if (mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":banana_slime")) {
-                                if (mob.size() == 1) variantDisplay = "Small";
-                                else if (mob.size() == 2) variantDisplay = "Medium";
-                                else if (mob.size() == 4) variantDisplay = "Large";
-                            } else if (mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager")) {
-                                if (mob.size() == -1) variantDisplay = "Baby";
-                                else if (mob.size() == 0) variantDisplay = "Adult";
-                            }
-                            if (!variantDisplay.isEmpty()) {
-                                mobDisplay += " (" + variantDisplay + ")";
-                            } else {
-                                mobDisplay += " (Variant: " + mob.size() + ")";
-                            }
-                        }
-                        g.text(font, mobDisplay, dx + PANEL_PAD, currentY + 4, theme.text(), false);
-                        currentY += ROW_H;
-
-                        if (mob.mainHandItem() != null && !mob.mainHandItem().isEmpty()) {
-                            g.text(font, "  Main Hand: " + formatIdentifierForDisplay(mob.mainHandItem()),
-                                    dx + PANEL_PAD + 10, currentY + 4, theme.subtext(), false);
-                            currentY += DETAIL_LINE_HEIGHT;
-                        }
-                        if (mob.offHandItem() != null && !mob.offHandItem().isEmpty()) {
-                            g.text(font, "  Off Hand: " + formatIdentifierForDisplay(mob.offHandItem()),
-                                    dx + PANEL_PAD + 10, currentY + 4, theme.subtext(), false);
-                            currentY += DETAIL_LINE_HEIGHT;
-                        }
-                        if (mob.armorItems() != null && !mob.armorItems().isEmpty()) {
-                            String[] slots = {"Helmet", "Chestplate", "Leggings", "Boots"};
-                            for (int s = 0; s < Math.min(mob.armorItems().size(), 4); s++) {
-                                g.text(font, "  " + slots[s] + ": " + formatIdentifierForDisplay(mob.armorItems().get(s)),
-                                        dx + PANEL_PAD + 10, currentY + 4, theme.subtext(), false);
-                                currentY += DETAIL_LINE_HEIGHT;
-                            }
-                        }
-                        if (mob.ridingMob() != null && !mob.ridingMob().isEmpty()) {
-                            g.text(font, "  Riding: " + formatIdentifierForDisplay(mob.ridingMob()),
-                                    dx + PANEL_PAD + 10, currentY + 4, theme.subtext(), false);
-                            currentY += DETAIL_LINE_HEIGHT;
-                        }
-                        if (mob.potionEffects() != null && !mob.potionEffects().isEmpty()) {
-                            g.text(font, "  Potion Effects:", dx + PANEL_PAD + 10, currentY + 4, theme.subtext(), false);
-                            currentY += DETAIL_LINE_HEIGHT;
-                            for (String effect : mob.potionEffects().split(",")) {
-                                String[] parts = effect.split(":");
-                                if (parts.length >= 3) {
-                                    String ampStr = parts[parts.length - 1];
-                                    String durStr = parts[parts.length - 2];
-                                    String effectId = String.join(":", Arrays.copyOfRange(parts, 0, parts.length - 2));
-                                    g.text(font, "    - " + formatIdentifierForDisplay(effectId) + " (" + (("-1".equals(durStr) || "0".equals(durStr)) ? "Infinite" : durStr + "s") + ", Amp " + ampStr + ")",
-                                            dx + PANEL_PAD + 20, currentY + 4, theme.subtext(), false);
-                                    currentY += DETAIL_LINE_HEIGHT;
-                                }
-                            }
-                        }
-                        if (mob.enchantments() != null && !mob.enchantments().isEmpty()) {
-                            g.text(font, "  Enchantments:", dx + PANEL_PAD + 10, currentY + 4, theme.subtext(), false);
-                            currentY += DETAIL_LINE_HEIGHT;
-                            for (String enchantment : mob.enchantments().split(",")) {
-                                String[] parts = enchantment.split(":");
-                                if (parts.length >= 3) {
-                                    String lvlStr = parts[parts.length - 1];
-                                    String target = parts[0];
-                                    String enchantId = String.join(":", Arrays.copyOfRange(parts, 1, parts.length - 1));
-
-                                    String targetDisplay = target;
-                                    for (int t = 0; t < ENCHANT_TARGET_KEYS.length; t++) {
-                                        if (ENCHANT_TARGET_KEYS[t].equals(target)) { targetDisplay = ENCHANT_TARGETS[t]; break; }
-                                    }
-                                    g.text(font, "    - " + formatIdentifierForDisplay(enchantId) + " (Lvl " + lvlStr + ") on " + targetDisplay,
-                                            dx + PANEL_PAD + 20, currentY + 4, theme.subtext(), false);
-                                    currentY += DETAIL_LINE_HEIGHT;
-                                }
-                            }
-                        }
-                        currentY += 4;
-                    }
-                } else {
-                    g.text(font, "No mobs in this wave.", dx + PANEL_PAD, guiTop() + 28, theme.subtext(), false);
-                }
+                wave = arena.waves().stream()
+                        .filter(w -> w.waveNumber() == selectedWave)
+                        .findFirst().orElse(null);
             }
+            mobViewScreen.render(g, font, theme, dx, dt, dw, guiTop(), selectedWave, wave);
             return;
         }
 
@@ -1360,122 +1098,13 @@ public class MobArenaScreen extends Screen {
         }
 
         if (detailView == DetailView.DEL_MOB) {
-            g.fill(dx, dt, dx + dw, dt + 16, 0xFFAA3333);
-            g.text(font, "Remove Mobs from Wave " + selectedWave, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
-
+            ArenaDataPayload.WaveEntry wave = null;
             if (selectedArena >= 0 && selectedArena < arenas.size()) {
                 ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
-                ArenaDataPayload.WaveEntry wave = arena.waves().stream()
+                wave = arena.waves().stream()
                         .filter(w -> w.waveNumber() == selectedWave).findFirst().orElse(null);
-                if (wave != null) {
-                    int currentY = guiTop() + 36;
-                    for (int i = 0; i < wave.mobs().size(); i++) {
-                        ArenaDataPayload.MobEntry mob = wave.mobs().get(i);
-
-                        int mobEntryTotalHeight = ROW_H;
-                        if (mob.mainHandItem() != null && !mob.mainHandItem().isEmpty()) mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
-                        if (mob.offHandItem()  != null && !mob.offHandItem().isEmpty())  mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
-                        if (mob.armorItems()   != null && !mob.armorItems().isEmpty())   mobEntryTotalHeight += mob.armorItems().size() * DETAIL_LINE_HEIGHT;
-                        if (mob.ridingMob()    != null && !mob.ridingMob().isEmpty())    mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
-                        if (mob.potionEffects() != null && !mob.potionEffects().isEmpty()) {
-                            mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
-                            mobEntryTotalHeight += mob.potionEffects().split(",").length * DETAIL_LINE_HEIGHT;
-                        }
-                        if (mob.enchantments() != null && !mob.enchantments().isEmpty()) {
-                            mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
-                            mobEntryTotalHeight += mob.enchantments().split(",").length * DETAIL_LINE_HEIGHT;
-                        }
-                        if (mob.size() != null && mob.size() != 0) {
-                            mobEntryTotalHeight += DETAIL_LINE_HEIGHT;
-                        }
-                        mobEntryTotalHeight += 4;
-
-                        if (i % 2 == 0) g.fill(dx, currentY, dx + dw, currentY + mobEntryTotalHeight, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
-
-                        String display = formatIdentifierForDisplay(mob.mobType());
-                        if (mob.size() != null && mob.size() != 0) {
-                            String variantDisplay = "";
-                            if (mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":banana_slime")) {
-                                if (mob.size() == 1) variantDisplay = "Small";
-                                else if (mob.size() == 2) variantDisplay = "Medium";
-                                else if (mob.size() == 4) variantDisplay = "Large";
-                            } else if (mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager")) {
-                                if (mob.size() == -1) variantDisplay = "Baby";
-                                else if (mob.size() == 0) variantDisplay = "Adult";
-                            }
-                            if (!variantDisplay.isEmpty()) {
-                                display += " (" + variantDisplay + ")";
-                            } else {
-                                display += " (Variant: " + mob.size() + ")";
-                            }
-                        }
-                        g.text(font, mob.count() + "x  " + display, dx + PANEL_PAD + 162, currentY + 4, theme.text(), false);
-
-                        int detailLineY = currentY + ROW_H;
-                        if (mob.mainHandItem() != null && !mob.mainHandItem().isEmpty()) {
-                            g.text(font, "  Main Hand: " + formatIdentifierForDisplay(mob.mainHandItem()),
-                                    dx + PANEL_PAD + 10, detailLineY + 4, theme.subtext(), false);
-                            detailLineY += DETAIL_LINE_HEIGHT;
-                        }
-                        if (mob.offHandItem() != null && !mob.offHandItem().isEmpty()) {
-                            g.text(font, "  Off Hand: " + formatIdentifierForDisplay(mob.offHandItem()),
-                                    dx + PANEL_PAD + 10, detailLineY + 4, theme.subtext(), false);
-                            detailLineY += DETAIL_LINE_HEIGHT;
-                        }
-                        if (mob.armorItems() != null && !mob.armorItems().isEmpty()) {
-                            String[] slots = {"Helmet", "Chestplate", "Leggings", "Boots"};
-                            for (int s = 0; s < Math.min(mob.armorItems().size(), 4); s++) {
-                                g.text(font, "  " + slots[s] + ": " + formatIdentifierForDisplay(mob.armorItems().get(s)),
-                                        dx + PANEL_PAD + 10, detailLineY + 4, theme.subtext(), false);
-                                detailLineY += DETAIL_LINE_HEIGHT;
-                            }
-                        }
-                        if (mob.ridingMob() != null && !mob.ridingMob().isEmpty()) {
-                            g.text(font, "  Riding: " + formatIdentifierForDisplay(mob.ridingMob()),
-                                    dx + PANEL_PAD + 10, detailLineY + 4, theme.subtext(), false);
-                            detailLineY += DETAIL_LINE_HEIGHT;
-                        }
-                        if (mob.potionEffects() != null && !mob.potionEffects().isEmpty()) {
-                            g.text(font, "  Potion Effects:", dx + PANEL_PAD + 10, detailLineY + 4, theme.subtext(), false);
-                            detailLineY += DETAIL_LINE_HEIGHT;
-                            for (String effect : mob.potionEffects().split(",")) {
-                                String[] parts = effect.split(":");
-                                if (parts.length >= 3) {
-                                    String ampStr = parts[parts.length - 1];
-                                    String durStr = parts[parts.length - 2];
-                                    String effectId = String.join(":", Arrays.copyOfRange(parts, 0, parts.length - 2));
-                                    g.text(font, "    - " + formatIdentifierForDisplay(effectId) + " (" + (("-1".equals(durStr) || "0".equals(durStr)) ? "Infinite" : durStr + "s") + ", Amp " + ampStr + ")",
-                                            dx + PANEL_PAD + 20, detailLineY + 4, theme.subtext(), false);
-                                    detailLineY += DETAIL_LINE_HEIGHT;
-                                }
-                            }
-                        }
-                        if (mob.enchantments() != null && !mob.enchantments().isEmpty()) {
-                            g.text(font, "  Enchantments:", dx + PANEL_PAD + 10, detailLineY + 4, theme.subtext(), false);
-                            detailLineY += DETAIL_LINE_HEIGHT;
-                            for (String enchantment : mob.enchantments().split(",")) {
-                                String[] parts = enchantment.split(":");
-                                if (parts.length >= 3) {
-                                    String lvlStr = parts[parts.length - 1];
-                                    String target = parts[0];
-                                    String enchantId = String.join(":", Arrays.copyOfRange(parts, 1, parts.length - 1));
-                                    String targetDisplay = target;
-                                    for (int t = 0; t < ENCHANT_TARGET_KEYS.length; t++) {
-                                        if (ENCHANT_TARGET_KEYS[t].equals(target)) { targetDisplay = ENCHANT_TARGETS[t]; break; }
-                                    }
-                                    g.text(font, "    - " + formatIdentifierForDisplay(enchantId) + " (Lvl " + lvlStr + ") on " + targetDisplay,
-                                            dx + PANEL_PAD + 20, detailLineY + 4, theme.subtext(), false);
-                                    detailLineY += DETAIL_LINE_HEIGHT;
-                                }
-                            }
-                        }
-                        currentY += mobEntryTotalHeight;
-                    }
-                    if (wave.mobs().isEmpty()) {
-                        g.text(font, "No mobs in this wave.", dx + PANEL_PAD, guiTop() + 36, theme.subtext(), false);
-                    }
-                }
             }
+            delMobScreen.render(g, font, theme, dx, dt, dw, guiTop(), selectedWave, wave);
             return;
         }
 
@@ -1678,14 +1307,6 @@ public class MobArenaScreen extends Screen {
     private void drawInlineLabel(int x, int y, String text) {
         inlineLabelPositions.add(new int[]{x, y});
         inlineLabelTexts.add(text);
-    }
-
-    private EditBox makeField(int x, int y, int w, int h, String hint) {
-        EditBox field = new EditBox(font, x, y, w, h, Component.literal(hint));
-        field.setHint(Component.literal(hint));
-        field.setBordered(true);
-        addRenderableWidget(field);
-        return field;
     }
 
     private static String formatIdentifierForDisplay(String identifier) {
