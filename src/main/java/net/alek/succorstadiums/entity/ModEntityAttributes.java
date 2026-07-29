@@ -2,6 +2,7 @@ package net.alek.succorstadiums.entity;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 
@@ -23,7 +24,10 @@ public class ModEntityAttributes {
 
         );
 
-
-
+        FabricDefaultAttributeRegistry.register(
+                ModEntityTypes.GRASS_CREEPER,
+                Creeper.createAttributes()
+                        .add(Attributes.MAX_HEALTH, 10D)
+        );
     }
 }

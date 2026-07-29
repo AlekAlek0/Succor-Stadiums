@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.client.render.entity;
+package net.alek.succorstadiums.client.render.entity.monsters;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;

@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.entity;
+package net.alek.succorstadiums.entity.monsters;
 
 import net.alek.succorstadiums.item.ModItems;
 import net.minecraft.util.RandomSource;

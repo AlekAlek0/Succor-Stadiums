@@ -1,7 +1,7 @@
-package net.alek.succorstadiums.client.render.entity;
+package net.alek.succorstadiums.client.render.entity.monsters;
 
 import net.alek.succorstadiums.SuccorStadiums;
-import net.alek.succorstadiums.entity.ZombieFarmer;
+import net.alek.succorstadiums.entity.monsters.ZombieFarmer;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.monster.zombie.BabyZombieModel;

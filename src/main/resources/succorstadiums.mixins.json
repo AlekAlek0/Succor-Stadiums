@@ -3,6 +3,7 @@
   "package": "net.alek.succorstadiums.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
+    "CreeperMixin",
     "MobDamageMixin",
     "MobHealthMixin",
     "MobXpMixin",

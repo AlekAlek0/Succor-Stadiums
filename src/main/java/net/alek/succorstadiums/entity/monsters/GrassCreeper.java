@@ -1,0 +1,85 @@
+package net.alek.succorstadiums.entity.monsters;
+
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.feline.Cat;
+import net.minecraft.world.entity.animal.feline.Ocelot;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+
+import java.lang.reflect.Field;
+
+public class GrassCreeper extends Creeper {
+
+    public static final float DIRECT_DAMAGE = 2.0F;
+    public static final double ATTACK_RADIUS = 4.5D;
+    public static final int RING_DURATION_TICKS = 8 * 20; // 8 sec
+    private static final int FUSE_TICKS = 24; // 1.2s @ 20 tps (vanilla default is 30)
+
+    public GrassCreeper(EntityType<? extends Creeper> type, Level level) {
+        super(type, level);
+        trySetFuseTime();
+    }
+
+    private void trySetFuseTime() {
+        try {
+            Field maxSwellField = Creeper.class.getDeclaredField("maxSwell");
+            maxSwellField.setAccessible(true);
+            maxSwellField.setInt(this, FUSE_TICKS);
+        } catch (Exception e) {
+            // Falls back to vanilla 1.5s fuse if the field name doesn't match your version.
+        }
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(2, new SwellGoal(this));
+        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Ocelot.class, 6.0F, 1.0D, 1.2D));
+        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Cat.class, 6.0F, 1.0D, 1.2D));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0D, false));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8D));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
+    }
+
+    /**
+     * Invoked by CreeperMixin in place of vanilla's private explodeCreeper().
+     * Public so the mixin (operating on Creeper, not GrassCreeper) can call it
+     * after an instanceof check + cast.
+     */
+    public void customExplode() {
+        if (this.level().isClientSide()) return;
+
+        ServerLevel serverLevel = (ServerLevel) this.level();
+        double x = this.getX();
+        double y = this.getY();
+        double z = this.getZ();
+
+        serverLevel.playSound(null, x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE,
+                2.0F, 1.0F + (serverLevel.getRandom().nextFloat() - serverLevel.getRandom().nextFloat()) * 0.2F);
+        serverLevel.sendParticles(ParticleTypes.EXPLOSION, x, y, z, 1, 0.0, 0.0, 0.0, 0.0);
+
+        DamageSource explosionDamage = this.damageSources().explosion(this, this);
+        for (Player player : serverLevel.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(ATTACK_RADIUS))) {
+            if (this.distanceTo(player) <= ATTACK_RADIUS) {
+                player.hurtServer(serverLevel, explosionDamage, DIRECT_DAMAGE);
+            }
+        }
+
+        GrassCreeperCloud cloud = new GrassCreeperCloud(serverLevel, x, y, z);
+        serverLevel.addFreshEntity(cloud);
+
+        this.discard();
+    }
+}
