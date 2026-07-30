@@ -34,7 +34,7 @@ public class GrassCreeperCloud extends AreaEffectCloud {
             DamageSource magic = this.damageSources().magic();
             for (Player player : serverLevel.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(this.getRadius()))) {
                 if (this.distanceTo(player) <= this.getRadius()) {
-                    player.hurtServer(serverLevel, magic, 0.25F);
+                    player.hurtServer(serverLevel, magic, 0.75F);
                     player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 40, 0, false, true));
                 }
             }

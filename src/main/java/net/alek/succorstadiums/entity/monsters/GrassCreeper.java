@@ -21,8 +21,12 @@ public class GrassCreeper extends Creeper {
 
     public static final float DIRECT_DAMAGE = 2.0F;
     public static final double ATTACK_RADIUS = 4.5D;
-    public static final int RING_DURATION_TICKS = 8 * 20; // 8 sec
-    private static final int FUSE_TICKS = 24; // 1.2s @ 20 tps (vanilla default is 30)
+    public static final int RING_DURATION_TICKS = 13 * 20;
+    private static final int FUSE_TICKS = 24;
+
+    public static final float RING_WIDTH_BLOCKS = 1.0F;
+    public static final float GREEN_RING_OUTER_RADIUS = (float) ATTACK_RADIUS + RING_WIDTH_BLOCKS;
+    public static final float GREEN_CLOUD_DAMAGE = 0.5F;
 
     public GrassCreeper(EntityType<? extends Creeper> type, Level level) {
         super(type, level);
@@ -79,6 +83,9 @@ public class GrassCreeper extends Creeper {
 
         GrassCreeperCloud cloud = new GrassCreeperCloud(serverLevel, x, y, z);
         serverLevel.addFreshEntity(cloud);
+
+        GrassCreeperGreenRingCloud greenRing = new GrassCreeperGreenRingCloud(serverLevel, x, y, z);
+        serverLevel.addFreshEntity(greenRing);
 
         this.discard();
     }
