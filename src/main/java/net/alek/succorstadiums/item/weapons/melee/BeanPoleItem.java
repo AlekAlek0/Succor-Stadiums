@@ -33,6 +33,15 @@ public class BeanPoleItem extends Item {
                                 EquipmentSlotGroup.MAINHAND
                         )
                         .add(
+                                Attributes.ATTACK_KNOCKBACK,
+                                new AttributeModifier(
+                                        Identifier.withDefaultNamespace("bean_pole_knockback"),
+                                        0.5,
+                                        AttributeModifier.Operation.ADD_VALUE
+                                ),
+                                EquipmentSlotGroup.MAINHAND
+                        )
+                        .add(
                                 Attributes.ENTITY_INTERACTION_RANGE,
                                 new AttributeModifier(
                                         Identifier.withDefaultNamespace("bean_pole_range"),
