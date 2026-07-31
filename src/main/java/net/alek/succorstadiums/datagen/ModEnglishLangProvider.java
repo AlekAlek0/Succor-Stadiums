@@ -132,9 +132,14 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
         // Magic Weapon Lore translations
         translationBuilder.add("item.succorstadiums.fire_staff.lore", "Absolute Flames.");
-        translationBuilder.add("item.succorstadiums.aqua_staff.lore", "A staff that shoots out a circle inflicting slowness and slow falling.");
+        translationBuilder.add("item.succorstadiums.aqua_staff.lore", "A staff that shoots out a ring inflicting slowness and slow falling.");
 
         // Magic Weapon Tooltip translations
+        translationBuilder.add("item.succorstadiums.fire_staff.tooltip_0", "When Used:");
+        translationBuilder.add("item.succorstadiums.fire_staff.tooltip_1", "⏳ Cooldown: 00:05");
+        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_0", "When Used:");
+        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_1", "⏳ Cooldown: 00:12");
+        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_2", "⌚ Ring Duration: 00:03");
         //--------------------------
 
         // Ranged Weapon Lore translations

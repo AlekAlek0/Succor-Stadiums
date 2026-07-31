@@ -168,10 +168,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_1")
                                 .withStyle(ChatFormatting.BLUE)
                 );
-                tooltip.add(5,
-                        Component.translatable("item.succorstadiums.spacer")
-                                .withStyle(ChatFormatting.BLUE)
-                );
+                tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
             }
             if (stack.is(ModItems.ARACHNO_CARAPACE_CHESTPLATE)) {
                 tooltip.add(1,
@@ -187,10 +184,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_1")
                                 .withStyle(ChatFormatting.BLUE)
                 );
-                tooltip.add(5,
-                        Component.translatable("item.succorstadiums.spacer")
-                                .withStyle(ChatFormatting.BLUE)
-                );
+                tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
             }
             if (stack.is(ModItems.ARACHNO_CARAPACE_LEGGINGS)) {
                 tooltip.add(1,
@@ -206,10 +200,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_1")
                                 .withStyle(ChatFormatting.BLUE)
                 );
-                tooltip.add(5,
-                        Component.translatable("item.succorstadiums.spacer")
-                                .withStyle(ChatFormatting.BLUE)
-                );
+                tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
             }
             if (stack.is(ModItems.ARACHNO_CARAPACE_BOOTS)) {
                 tooltip.add(1,
@@ -225,10 +216,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_1")
                                 .withStyle(ChatFormatting.BLUE)
                 );
-                tooltip.add(5,
-                        Component.translatable("item.succorstadiums.spacer")
-                                .withStyle(ChatFormatting.BLUE)
-                );
+                tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
             }
             if (stack.is(ModItems.NANNER_WATER_WADERS)) {
                 tooltip.add(1,
@@ -273,16 +261,38 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
+            if (stack.is(ModItems.FIRE_STAFF)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.fire_staff.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.fire_staff.tooltip_0")
+                                .withStyle(ChatFormatting.GRAY)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.fire_staff.tooltip_1")
+                                .withStyle(ChatFormatting.AQUA)
+                );
+            }
             if (stack.is(ModItems.AQUA_STAFF)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.aqua_staff.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
-            }
-            if (stack.is(ModItems.FIRE_STAFF)) {
-                tooltip.add(1,
-                        Component.translatable("item.succorstadiums.fire_staff.lore")
-                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.aqua_staff.tooltip_0")
+                                .withStyle(ChatFormatting.GRAY)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.aqua_staff.tooltip_1")
+                                .withStyle(ChatFormatting.AQUA)
+                );
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.aqua_staff.tooltip_2")
+                                .withStyle(ChatFormatting.AQUA)
                 );
             }
             if (stack.is(ModItems.BOWNANA)) {
@@ -355,23 +365,24 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.dog_whistle.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
-                tooltip.add(2,
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
                         Component.translatable("item.succorstadiums.dog_whistle.tooltip_0")
                                 .withStyle(ChatFormatting.GRAY)
                 );
-                tooltip.add(3,
+                tooltip.add(4,
                         Component.translatable("item.succorstadiums.dog_whistle.tooltip_1")
                                 .withStyle(ChatFormatting.AQUA)
                 );
-                tooltip.add(4,
+                tooltip.add(5,
                         Component.translatable("item.succorstadiums.dog_whistle.tooltip_2")
                                 .withStyle(ChatFormatting.AQUA)
                 );
-                tooltip.add(5,
+                tooltip.add(6,
                         Component.translatable("item.succorstadiums.dog_whistle.tooltip_3")
                                 .withStyle(ChatFormatting.RED)
                 );
-                tooltip.add(6,
+                tooltip.add(7,
                         Component.translatable("item.succorstadiums.dog_whistle.tooltip_4")
                                 .withStyle(ChatFormatting.RED)
                 );
