@@ -14,10 +14,16 @@ import net.minecraft.world.entity.animal.feline.Ocelot;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 
+import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
+
 public class GrassCreeper extends Creeper {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static final float DIRECT_DAMAGE = 2.0F;
     public static final double ATTACK_RADIUS = 4.5D;
@@ -39,7 +45,7 @@ public class GrassCreeper extends Creeper {
             maxSwellField.setAccessible(true);
             maxSwellField.setInt(this, FUSE_TICKS);
         } catch (Exception e) {
-            // Falls back to vanilla 1.5s fuse if the field name doesn't match your version.
+            LOGGER.error("Failed to set fuse time for grass creeper:", e);
         }
     }
 
@@ -57,23 +63,23 @@ public class GrassCreeper extends Creeper {
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
     }
 
-    /**
-     * Invoked by CreeperMixin in place of vanilla's private explodeCreeper().
-     * Public so the mixin (operating on Creeper, not GrassCreeper) can call it
-     * after an instanceof check + cast.
-     */
     public void customExplode() {
+
+        // If client side do nothing
         if (this.level().isClientSide()) return;
 
+        // Set server level and x, y, and z positions
         ServerLevel serverLevel = (ServerLevel) this.level();
         double x = this.getX();
         double y = this.getY();
         double z = this.getZ();
 
+        // Play sound and send particles
         serverLevel.playSound(null, x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE,
                 2.0F, 1.0F + (serverLevel.getRandom().nextFloat() - serverLevel.getRandom().nextFloat()) * 0.2F);
         serverLevel.sendParticles(ParticleTypes.EXPLOSION, x, y, z, 1, 0.0, 0.0, 0.0, 0.0);
 
+        // Create a damage source and calculate if player is in the range if so take damage
         DamageSource explosionDamage = this.damageSources().explosion(this, this);
         for (Player player : serverLevel.getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(ATTACK_RADIUS))) {
             if (this.distanceTo(player) <= ATTACK_RADIUS) {
@@ -81,10 +87,10 @@ public class GrassCreeper extends Creeper {
             }
         }
 
+        // Summon new particle effects
         GrassCreeperCloud cloud = new GrassCreeperCloud(serverLevel, x, y, z);
-        serverLevel.addFreshEntity(cloud);
-
         GrassCreeperGreenRingCloud greenRing = new GrassCreeperGreenRingCloud(serverLevel, x, y, z);
+        serverLevel.addFreshEntity(cloud);
         serverLevel.addFreshEntity(greenRing);
 
         this.discard();

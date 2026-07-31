@@ -10,9 +10,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 public class GrassCreeperCloud extends AreaEffectCloud {
+
+    // Define dirt dust particle and damage cooldown
     private static final DustParticleOptions DIRT_DUST = new DustParticleOptions(0x8B5A2B, 1.3F);
     private int damageCooldown = 0;
 
+    // Constructor for creating a grass creeper cloud
     public GrassCreeperCloud(Level level, double x, double y, double z) {
         super(level, x, y, z);
         this.setRadius((float) GrassCreeper.ATTACK_RADIUS);
@@ -22,6 +25,7 @@ public class GrassCreeperCloud extends AreaEffectCloud {
         this.setCustomParticle(DIRT_DUST);
     }
 
+    // Tick method
     @Override
     public void tick() {
         super.tick();
