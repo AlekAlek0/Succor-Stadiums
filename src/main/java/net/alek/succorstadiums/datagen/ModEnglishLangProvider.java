@@ -124,7 +124,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.bean_pole.lore", "I wouldn't even touch you with a...");
         translationBuilder.add("item.succorstadiums.bone_dagger.lore", "3 inches is actually pretty big..");
         translationBuilder.add("item.succorstadiums.bananner_blade.lore", "All though it resembles the banana fruit this sturdy blade is actually made of from Baldnana wood.");
-        translationBuilder.add("item.succorstadiums.fumblebringer_fork.lore", "This weapon was once used to bring apon \"The Great Fumbling\".");
+        translationBuilder.add("item.succorstadiums.fumblebringer_fork.lore", "This weapon was once used to bring upon \"The Great Fumbling\".");
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.lore", "Recommended for big hoards.");
 
         // Melee Weapon Tooltip translations

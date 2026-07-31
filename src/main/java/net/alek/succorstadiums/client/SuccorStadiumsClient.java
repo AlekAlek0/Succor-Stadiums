@@ -74,89 +74,89 @@ public class SuccorStadiumsClient implements ClientModInitializer {
             // Item Tooltips
             if (stack.is(ModItems.BRENNON_ORE)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.brennon_ore.tooltip")
+                        Component.translatable("item.succorstadiums.brennon_ore.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.SILVER_INGOT)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.silver_ingot.tooltip")
+                        Component.translatable("item.succorstadiums.silver_ingot.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
 
                 );
             }
             if (stack.is(ModItems.SILK_SPOOL)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.silk_spool.tooltip")
+                        Component.translatable("item.succorstadiums.silk_spool.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
 
                 );
             }
             if (stack.is(ModItems.SILK_WEAVE)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.silk_weave.tooltip")
+                        Component.translatable("item.succorstadiums.silk_weave.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
 
                 );
             }
             if (stack.is(ModItems.BONE_BROTH)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.bone_broth.tooltip")
+                        Component.translatable("item.succorstadiums.bone_broth.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.SPIDER_CARAPACE)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.spider_carapace.tooltip")
+                        Component.translatable("item.succorstadiums.spider_carapace.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.SPIDER_LEG)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.spider_leg.tooltip")
+                        Component.translatable("item.succorstadiums.spider_leg.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.BANANA_SLIME_BALL)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.banana_slime_ball.tooltip")
+                        Component.translatable("item.succorstadiums.banana_slime_ball.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.BANANA_BRANCH)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.banana_branch.tooltip")
+                        Component.translatable("item.succorstadiums.banana_branch.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             // Armor Tooltips
             if (stack.is(ModItems.BALE_HELMET)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.bale_helmet.tooltip")
+                        Component.translatable("item.succorstadiums.bale_helmet.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.BALE_CHESTPLATE)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.bale_chestplate.tooltip")
+                        Component.translatable("item.succorstadiums.bale_chestplate.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.BALE_LEGGINGS)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.bale_leggings.tooltip")
+                        Component.translatable("item.succorstadiums.bale_leggings.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.BALE_BOOTS)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.bale_boots.tooltip")
+                        Component.translatable("item.succorstadiums.bale_boots.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.ARACHNO_CARAPACE_HELMET)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.arachno_carapace_helmet.tooltip")
+                        Component.translatable("item.succorstadiums.arachno_carapace_helmet.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
                 tooltip.add(3,
@@ -175,7 +175,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
             }
             if (stack.is(ModItems.ARACHNO_CARAPACE_CHESTPLATE)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.arachno_carapace_chestplate.tooltip")
+                        Component.translatable("item.succorstadiums.arachno_carapace_chestplate.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
                 tooltip.add(3,
@@ -194,7 +194,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
             }
             if (stack.is(ModItems.ARACHNO_CARAPACE_LEGGINGS)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.arachno_carapace_leggings.tooltip")
+                        Component.translatable("item.succorstadiums.arachno_carapace_leggings.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
                 tooltip.add(3,
@@ -213,7 +213,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
             }
             if (stack.is(ModItems.ARACHNO_CARAPACE_BOOTS)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.arachno_carapace_boots.tooltip")
+                        Component.translatable("item.succorstadiums.arachno_carapace_boots.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
                 tooltip.add(3,
@@ -232,11 +232,11 @@ public class SuccorStadiumsClient implements ClientModInitializer {
             }
             if (stack.is(ModItems.NANNER_WATER_WADERS)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.nanner_water_waders.tooltip_0")
+                        Component.translatable("item.succorstadiums.nanner_water_waders.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
                 tooltip.add(4,
-                        Component.translatable("item.succorstadiums.nanner_water_waders.tooltip_1")
+                        Component.translatable("item.succorstadiums.nanner_water_waders.tooltip")
                                 .withStyle(ChatFormatting.BLUE)
                 );
             }
@@ -244,56 +244,56 @@ public class SuccorStadiumsClient implements ClientModInitializer {
             // Weapon Tooltips
             if (stack.is(ModItems.BEAN_POLE)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.bean_pole.tooltip")
+                        Component.translatable("item.succorstadiums.bean_pole.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.BONE_DAGGER)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.bone_dagger.tooltip")
+                        Component.translatable("item.succorstadiums.bone_dagger.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.BANANNER_BLADE)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.bananner_blade.tooltip")
+                        Component.translatable("item.succorstadiums.bananner_blade.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
 
             if (stack.is(ModItems.FUMBLEBRINGER_FORK)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.fumblebringer_fork.tooltip")
+                        Component.translatable("item.succorstadiums.fumblebringer_fork.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.SWORD_OF_THE_FOREST)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.sword_of_the_forest.tooltip")
+                        Component.translatable("item.succorstadiums.sword_of_the_forest.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.AQUA_STAFF)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.aqua_staff.tooltip")
+                        Component.translatable("item.succorstadiums.aqua_staff.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.FIRE_STAFF)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.fire_staff.tooltip")
+                        Component.translatable("item.succorstadiums.fire_staff.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.BOWNANA)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.bownana.tooltip")
+                        Component.translatable("item.succorstadiums.bownana.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.ARACHNO_CROSSBOW)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.arachno_crossbow.tooltip")
+                        Component.translatable("item.succorstadiums.arachno_crossbow.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
@@ -301,38 +301,38 @@ public class SuccorStadiumsClient implements ClientModInitializer {
             // Food Tooltips
             if (stack.is(ModItems.GRAMBLE_BAPPLE)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_0")
+                        Component.translatable("item.succorstadiums.ghramble_bapple.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
                 tooltip.add(2,
-                        Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_1")
+                        Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_0")
                                 .withStyle(ChatFormatting.GREEN)
                 );
                 tooltip.add(3,
-                        Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_2")
+                        Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_1")
                                 .withStyle(ChatFormatting.GREEN)
                 );
                 tooltip.add(4,
-                        Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_3")
+                        Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_2")
                                 .withStyle(ChatFormatting.GREEN)
                 );
                 tooltip.add(5,
-                        Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_4")
+                        Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_3")
                                 .withStyle(ChatFormatting.RED)
                 );
                 tooltip.add(6,
-                        Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_5")
+                        Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_4")
                                 .withStyle(ChatFormatting.RED)
                 );
             }
 
             if (stack.is(ModItems.ROTTEN_STEW)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.rotten_stew.tooltip_0")
+                        Component.translatable("item.succorstadiums.rotten_stew.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
                 tooltip.add(2,
-                        Component.translatable("item.succorstadiums.rotten_stew.tooltip_1").withStyle(ChatFormatting.RED)
+                        Component.translatable("item.succorstadiums.rotten_stew.tooltip").withStyle(ChatFormatting.RED)
                 );
             }
 
@@ -340,19 +340,19 @@ public class SuccorStadiumsClient implements ClientModInitializer {
             // Trinket Tooltips
             if (stack.is(ModItems.FLINT_CHARM)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.flint_charm.tooltip")
+                        Component.translatable("item.succorstadiums.flint_charm.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.RESURRECTION_AMULET)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.resurrection_amulet.tooltip")
+                        Component.translatable("item.succorstadiums.resurrection_amulet.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.DOG_WHISTLE)) {
                 tooltip.add(1,
-                        Component.translatable("item.succorstadiums.dog_whistle.tooltip")
+                        Component.translatable("item.succorstadiums.dog_whistle.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
