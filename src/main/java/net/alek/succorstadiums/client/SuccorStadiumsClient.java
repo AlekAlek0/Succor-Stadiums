@@ -355,6 +355,26 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.dog_whistle.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
+                tooltip.add(2,
+                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_0")
+                                .withStyle(ChatFormatting.GRAY)
+                );
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_1")
+                                .withStyle(ChatFormatting.AQUA)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_2")
+                                .withStyle(ChatFormatting.AQUA)
+                );
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_3")
+                                .withStyle(ChatFormatting.RED)
+                );
+                tooltip.add(6,
+                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_4")
+                                .withStyle(ChatFormatting.RED)
+                );
             }
         });
     }

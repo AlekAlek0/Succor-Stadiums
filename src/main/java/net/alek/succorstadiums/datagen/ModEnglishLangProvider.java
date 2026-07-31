@@ -162,7 +162,11 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.dog_whistle.lore", "Summons 5 doggies to help you fight!");
 
         // Trinket Tooltip translations
-        //--------------------------
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_0", "When Used:");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_1", "⏳ Cooldown: 0:35");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", "⌚ Despawn: 0:20");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_3", "❤ Health: 2.5 ");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_4", "⚔ Damage: 1 ");
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -182,7 +186,6 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("key.category.succorstadiums.general", "Succor Stadiums");
         translationBuilder.add("key.succorstadiums.open_backpack", "Open Backpack");
         translationBuilder.add("key.succorstadiums.open_mob_arena", "Open Mob Arena GUI");
-
 
         // Mod Sounds Subtitle translations
         translationBuilder.add("sound.succorstadiums.aqua_staff_use", "§3Aquaonduit used");
