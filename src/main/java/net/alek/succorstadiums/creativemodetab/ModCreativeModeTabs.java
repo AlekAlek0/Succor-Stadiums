@@ -91,9 +91,7 @@ public class ModCreativeModeTabs {
                         var enchantments = parameters.holders().lookupOrThrow(Registries.ENCHANTMENT);
 
 
-                        ItemStack bean_pole = new ItemStack(ModItems.BEAN_POLE);
-                        bean_pole.enchant(enchantments.getOrThrow(Enchantments.KNOCKBACK), 1);
-                        output.accept(bean_pole);
+                        output.accept(ModItems.BEAN_POLE);
                         output.accept(ModItems.BONE_DAGGER);
                         output.accept(ModItems.BANANNER_BLADE);
                         output.accept(ModItems.FUMBLEBRINGER_FORK);
