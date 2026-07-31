@@ -31,8 +31,11 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_melee", "Succor Stadium Melee");
         translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_ranged", "Succor Stadium Ranged");
         translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_magic", "Succor Stadium Magic");
-        translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_foods", "Succor Stadium Food");
         translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_trinkets", "Succor Stadium Trinkets");
+        translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_foods", "Succor Stadium Food");
+        translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_equipment", "Succor Stadium Equipment");
+        translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_summons", "Succor Stadium Summons");
+
 
         // Item translations
         translationBuilder.add(ModItems.BRENNON_ORE, "Brennon Ore");

@@ -1,11 +1,13 @@
 {
   "container.succorstadiums.backpack": "Backpack",
   "creativemodetab.succorstadiums.succor_stadium_armor": "Succor Stadium Armor",
+  "creativemodetab.succorstadiums.succor_stadium_equipment": "Succor Stadium Equipment",
   "creativemodetab.succorstadiums.succor_stadium_foods": "Succor Stadium Food",
   "creativemodetab.succorstadiums.succor_stadium_items": "Succor Stadium Items",
   "creativemodetab.succorstadiums.succor_stadium_magic": "Succor Stadium Magic",
   "creativemodetab.succorstadiums.succor_stadium_melee": "Succor Stadium Melee",
   "creativemodetab.succorstadiums.succor_stadium_ranged": "Succor Stadium Ranged",
+  "creativemodetab.succorstadiums.succor_stadium_summons": "Succor Stadium Summons",
   "creativemodetab.succorstadiums.succor_stadium_trinkets": "Succor Stadium Trinkets",
   "enchantment.succorstadiums.viper_bite": "Viper Bite",
   "entity.succorstadiums.banana_slime": "Banana Slime",
