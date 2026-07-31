@@ -90,63 +90,79 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+        // Item Lore translations
+        translationBuilder.add("item.succorstadiums.brennon_ore.lore", "Finally!");
+        translationBuilder.add("item.succorstadiums.silver_ingot.lore", "Shiny!");
+        translationBuilder.add("item.succorstadiums.silk_spool.lore", "Used to make the Spider Silk Bow and Silkweave.");
+        translationBuilder.add("item.succorstadiums.silk_weave.lore", "Used to make the Silkweave armor set.");
+        translationBuilder.add("item.succorstadiums.bone_broth.lore", "Looks inedible, but may have a use...");
+        translationBuilder.add("item.succorstadiums.spider_carapace.lore", "Part of a Spiders tough exterior, the possible applications for such an item are endless.");
+        translationBuilder.add("item.succorstadiums.spider_leg.lore", "Still wriggling");
+        translationBuilder.add("item.succorstadiums.banana_slime_ball.lore", "Ballnana");
+        translationBuilder.add("item.succorstadiums.banana_branch.lore", "The Banana must remain unharmed");
+
         // Item Tooltip translations
-        translationBuilder.add("item.succorstadiums.brennon_ore.tooltip", "Finally!");
-        translationBuilder.add("item.succorstadiums.silver_ingot.tooltip", "Shiny!");
-        translationBuilder.add("item.succorstadiums.silk_spool.tooltip", "Used to make the Spider Silk Bow and Silkweave.");
-        translationBuilder.add("item.succorstadiums.silk_weave.tooltip", "Used to make the Silkweave armor set.");
-        translationBuilder.add("item.succorstadiums.bone_broth.tooltip", "Looks inedible, but may have a use...");
-        translationBuilder.add("item.succorstadiums.spider_carapace.tooltip", "Part of a Spiders tough exterior, the possible applications for such an item are endless.");
-        translationBuilder.add("item.succorstadiums.spider_leg.tooltip", "Still wriggling");
-        translationBuilder.add("item.succorstadiums.banana_slime_ball.tooltip", "Ballnana");
-        translationBuilder.add("item.succorstadiums.banana_branch.tooltip", "The Banana must remain unharmed");
+        //--------------------------
+
+        // Armor Lore translations
+        translationBuilder.add("item.succorstadiums.bale_helmet.lore", "Why a bale bucket you may ask... well it sounded nice.");
+        translationBuilder.add("item.succorstadiums.bale_chestplate.lore", "Aim for the target.");
+        translationBuilder.add("item.succorstadiums.bale_leggings.lore", "All sneaky beaky like.");
+        translationBuilder.add("item.succorstadiums.bale_boots.lore", "Good for a short fall.");
+        translationBuilder.add("item.succorstadiums.arachno_carapace_helmet.lore", "These Eyes have seen a lot.");
+        translationBuilder.add("item.succorstadiums.arachno_carapace_chestplate.lore", "Made of 100% unethically sourced Spider Carapace.");
+        translationBuilder.add("item.succorstadiums.arachno_carapace_leggings.lore", "Spiderlegs would have been a cooler name... just sayin.");
+        translationBuilder.add("item.succorstadiums.arachno_carapace_boots.lore", "Spider Boots? But spiders don't wear boots!");
+        translationBuilder.add("item.succorstadiums.nanner_water_waders.lore", "Helps you traverse mucky terrain with the greatest of ease.");
 
         // Armor Tooltip translations
-        translationBuilder.add("item.succorstadiums.bale_helmet.tooltip", "Why a bale bucket you may ask... well it sounded nice.");
-        translationBuilder.add("item.succorstadiums.bale_chestplate.tooltip", "Aim for the target.");
-        translationBuilder.add("item.succorstadiums.bale_leggings.tooltip", "All sneaky beaky like.");
-        translationBuilder.add("item.succorstadiums.bale_boots.tooltip", "Good for a short fall.");
-
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_0", "Full Set Bonus:");
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_1", "+1 Mid-air Jump");
-        translationBuilder.add("item.succorstadiums.arachno_carapace_helmet.tooltip", "These Eyes have seen a lot.");
-        translationBuilder.add("item.succorstadiums.arachno_carapace_chestplate.tooltip", "Made of 100% unethically sourced Spider Carapace.");
-        translationBuilder.add("item.succorstadiums.arachno_carapace_leggings.tooltip", "Spiderlegs would have been a cooler name... just sayin.");
-        translationBuilder.add("item.succorstadiums.arachno_carapace_boots.tooltip", "Spider Boots? But spiders don't wear boots!");
+        translationBuilder.add("item.succorstadiums.nanner_water_waders.tooltip", "Increased Speed on Soul Sand / Soil, Mud and Underwater.");
 
-        translationBuilder.add("item.succorstadiums.nanner_water_waders.tooltip_0", "Helps you traverse mucky terrain with the greatest of ease.");
-        translationBuilder.add("item.succorstadiums.nanner_water_waders.tooltip_1", "Increased Speed on Soul Sand / Soil, Mud and Underwater.");
+        // Melee Weapon Lore translations
+        translationBuilder.add("item.succorstadiums.bean_pole.lore", "I wouldn't even touch you with a...");
+        translationBuilder.add("item.succorstadiums.bone_dagger.lore", "3 inches is actually pretty big..");
+        translationBuilder.add("item.succorstadiums.bananner_blade.lore", "All though it resembles the banana fruit this sturdy blade is actually made of from Baldnana wood.");
+        translationBuilder.add("item.succorstadiums.fumblebringer_fork.lore", "This weapon was once used to bring apon \"The Great Fumbling\".");
+        translationBuilder.add("item.succorstadiums.sword_of_the_forest.lore", "Recommended for big hoards.");
 
         // Melee Weapon Tooltip translations
-        translationBuilder.add("item.succorstadiums.bean_pole.tooltip", "I wouldn't even touch you with a...");
-        translationBuilder.add("item.succorstadiums.bone_dagger.tooltip", "3 inches is actually pretty big..");
-        translationBuilder.add("item.succorstadiums.bananner_blade.tooltip", "All though it resembles the banana fruit this sturdy blade is actually made of from Baldnana wood.");
-        translationBuilder.add("item.succorstadiums.fumblebringer_fork.tooltip", "This weapon was once used to bring apon \"The Great Fumbling\".");
-        translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip", "Recommended for big hoards.");
+        //--------------------------
+
+        // Magic Weapon Lore translations
+        translationBuilder.add("item.succorstadiums.fire_staff.lore", "Absolute Flames.");
+        translationBuilder.add("item.succorstadiums.aqua_staff.lore", "A staff that shoots out a circle inflicting slowness and slow falling.");
 
         // Magic Weapon Tooltip translations
-        translationBuilder.add("item.succorstadiums.fire_staff.tooltip", "Absolute Flames.");
-        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip", "A staff that shoots out a circle inflicting slowness and slow falling.");
+        //--------------------------
+
+        // Ranged Weapon Lore translations
+        translationBuilder.add("item.succorstadiums.bownana.lore", "Nana Nana.");
+        translationBuilder.add("item.succorstadiums.arachno_crossbow.lore", "Slow but powerful, a promising ranged option.");
 
         // Ranged Weapon Tooltip translations
-        translationBuilder.add("item.succorstadiums.bownana.tooltip", "Nana Nana.");
-        translationBuilder.add("item.succorstadiums.arachno_crossbow.tooltip", "Slow but powerful, a promising ranged option.");
+        //--------------------------
+
+        // Food Lore translations
+        translationBuilder.add("item.succorstadiums.ghramble_bapple.lore", "Ghramble is my favorite bapple.");
+        translationBuilder.add("item.succorstadiums.rotten_stew.lore", "Cafeteria slop.");
 
         // Food Tooltip translations
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_0", "Ghramble is my favorite bapple.");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_1", "+ Resistance II | 0:45 | 30%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_2", "+ Regeneration I | 0:15 | 85%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_3", "+ Health Boost I | 0:15 | 5%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_4", "- Weakness I | 0:08 | 75%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_5", "- Slowness IV | 0:10 | 35%");
-        translationBuilder.add("item.succorstadiums.rotten_stew.tooltip_0", "Cafeteria slop.");
-        translationBuilder.add("item.succorstadiums.rotten_stew.tooltip_1", "- Hunger II | 0:20 | 30%");
+        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_0", "+ Resistance II | 0:45 | 30%");
+        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_1", "+ Regeneration I | 0:15 | 85%");
+        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_2", "+ Health Boost I | 0:15 | 5%");
+        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_3", "- Weakness I | 0:08 | 75%");
+        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_4", "- Slowness IV | 0:10 | 35%");
+        translationBuilder.add("item.succorstadiums.rotten_stew.tooltip", "- Hunger II | 0:20 | 30%");
+
+        // Trinket Lore translations
+        translationBuilder.add("item.succorstadiums.flint_charm.lore", "Flint Charm? I just don't see it.");
+        translationBuilder.add("item.succorstadiums.resurrection_amulet.lore", "I mean the name tells you all you need to know.");
+        translationBuilder.add("item.succorstadiums.dog_whistle.lore", "Summons 5 doggies to help you fight!");
 
         // Trinket Tooltip translations
-        translationBuilder.add("item.succorstadiums.flint_charm.tooltip", "Flint Charm? I just don't see it.");
-        translationBuilder.add("item.succorstadiums.resurrection_amulet.tooltip", "I mean the name tells you all you need to know.");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip", "Summons 5 doggies to help you fight!");
-
+        //--------------------------
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
