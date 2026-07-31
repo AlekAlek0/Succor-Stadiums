@@ -8,6 +8,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -18,6 +19,7 @@ import org.jspecify.annotations.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 // Dog Whistle Item
@@ -27,8 +29,8 @@ public class DogWhistleItem extends Item {
     }
 
     // Ticks for cooldown and despawn timers
-    private static final int COOLDOWN_TICKS = 3900;
-    private static final int DESPAWN_TICKS = 900;
+    private static final int COOLDOWN_TICKS = 700; // 35 seconds
+    private static final int DESPAWN_TICKS = 400; // 20 seconds
 
     // Tracks wolves and the game time they should despawn at
     public static final Map<UUID, Long> SUMMONED_WOLVES = new HashMap<>();
@@ -59,10 +61,16 @@ public class DogWhistleItem extends Item {
                     // Set wolf position to the user x, y and z, with offsets
                     wolf.setPos(userPos.x + offsetX, userPos.y, userPos.z + offsetZ);
 
-                    // Set the wolf owner, tamed state, and target to null
+                    // Set the wolf owner, tamed state, hp to 2 1/2 hearts, and target to null
                     wolf.setOwner(user);
                     wolf.setTame(true, false);
+                    wolf.setHealth(4.5F);
                     wolf.setTarget(null);
+
+                    // Set wolf attack damage to half a heart (1.0 damage point)
+                    if (wolf.getAttribute(Attributes.ATTACK_DAMAGE) != null) {
+                        Objects.requireNonNull(wolf.getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(1.0);
+                    }
 
                     // Add the wolf to the level
                     serverLevel.addFreshEntity(wolf);
