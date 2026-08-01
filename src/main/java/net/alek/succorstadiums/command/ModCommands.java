@@ -35,6 +35,11 @@ public class ModCommands {
                                                 .executes(ModCommands::executeSummonOl)
                                         )
                                 )
+                                .then(Commands.literal("villagers")
+                                        .then(Commands.literal("Marvin")
+                                                .executes(ModCommands::executeSummonMarvin)
+                                        )
+                                )
                 )
         );
     }
@@ -71,6 +76,19 @@ public class ModCommands {
         CustomVillagerSpawner.spawnOl(level, pos, yaw);
 
         source.sendSuccess(() -> Component.literal("Spawned Ol"), true);
+        return 1;
+    }
+
+    // Helper method for the villagers marvin command
+    private static int executeSummonMarvin(CommandContext<CommandSourceStack> ctx) {
+        CommandSourceStack source = ctx.getSource();
+        ServerLevel level = source.getLevel();
+        Vec3 pos = source.getPosition();
+        float yaw = source.getEntity() instanceof ServerPlayer player ? player.getYRot() : source.getRotation().x;
+
+        CustomVillagerSpawner.spawnMarvin(level, pos, yaw);
+
+        source.sendSuccess(() -> Component.literal("Spawned Marvin Malarkey"), true);
         return 1;
     }
 
