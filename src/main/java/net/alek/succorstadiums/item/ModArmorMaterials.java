@@ -22,14 +22,14 @@ public class ModArmorMaterials {
 
     public static final ArmorMaterial BALE_ARMOR_MATERIAL = new ArmorMaterial(0,
             ArmorMaterials.makeDefense(1,2,2,1,6),
-            99, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, null, BALE_ARMOR_KEY);
+            25, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, null, BALE_ARMOR_KEY);
 
     public static final ArmorMaterial ARACHNO_CARAPACE_ARMOR_MATERIAL = new ArmorMaterial(0,
             ArmorMaterials.makeDefense(1,2,2,1,6),
-            99, Holder.direct(ModSounds.ARACHNO_CARAPACE_ARMOR_EQUIP), 0.0F, 0.1F, null, ARACHNO_CARAPACE_ARMOR_KEY);
+            25, Holder.direct(ModSounds.ARACHNO_CARAPACE_ARMOR_EQUIP), 0.0F, 0.1F, null, ARACHNO_CARAPACE_ARMOR_KEY);
 
     public static final ArmorMaterial NANNER_WADERS_MATERIAL = new ArmorMaterial(0,
             ArmorMaterials.makeDefense(0,0,0,0,0),
-            99, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, null, NANNER_WADERS_KEY);
+            25, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, null, NANNER_WADERS_KEY);
 
 }

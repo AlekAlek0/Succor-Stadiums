@@ -10,7 +10,7 @@ public class ModToolMaterials {
             160,
             0F,
             0F,
-            99,
+            25,
             null
     );
 
@@ -19,7 +19,7 @@ public class ModToolMaterials {
             128,
             0F,
             0F,
-            99,
+            25,
             null
     );
 
@@ -28,7 +28,7 @@ public class ModToolMaterials {
             300,
             0F,
             0F,
-            99,
+            25,
             null
     );
 
@@ -37,7 +37,7 @@ public class ModToolMaterials {
             256,
             0F,
             0F,
-            99,
+            25,
             null
     );
 
@@ -46,7 +46,7 @@ public class ModToolMaterials {
             86,
             0,
             0,
-            99,
+            25,
             null
     );
 
