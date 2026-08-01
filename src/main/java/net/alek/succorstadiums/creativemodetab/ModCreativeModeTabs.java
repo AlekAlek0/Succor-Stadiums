@@ -5,13 +5,11 @@ import net.alek.succorstadiums.item.ModItems;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantments;
 
 // Mod creative mode tabs class
 public class ModCreativeModeTabs {
@@ -45,31 +43,10 @@ public class ModCreativeModeTabs {
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BALE_CHESTPLATE))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_armor"))
                     .displayItems((parameters, output) -> {
-
-                        var enchantments = parameters.holders().lookupOrThrow(Registries.ENCHANTMENT);
-
-                        // Helmet - Projectile Protection 2
-                        ItemStack helmet = new ItemStack(ModItems.BALE_HELMET);
-                        helmet.enchant(enchantments.getOrThrow(Enchantments.PROJECTILE_PROTECTION), 2);
-                        output.accept(helmet);
-
-                        // Chestplate - Projectile Protection 2
-                        ItemStack chestplate = new ItemStack(ModItems.BALE_CHESTPLATE);
-                        chestplate.enchant(enchantments.getOrThrow(Enchantments.PROJECTILE_PROTECTION), 2);
-                        output.accept(chestplate);
-
-                        // Leggings - Swift Sneak 1, Projectile Protection 1
-                        ItemStack leggings = new ItemStack(ModItems.BALE_LEGGINGS);
-                        leggings.enchant(enchantments.getOrThrow(Enchantments.SWIFT_SNEAK), 1);
-                        leggings.enchant(enchantments.getOrThrow(Enchantments.PROJECTILE_PROTECTION), 1);
-                        output.accept(leggings);
-
-                        // Boots - Feather Falling 2, Projectile Protection 1
-                        ItemStack boots = new ItemStack(ModItems.BALE_BOOTS);
-                        boots.enchant(enchantments.getOrThrow(Enchantments.FEATHER_FALLING), 2);
-                        boots.enchant(enchantments.getOrThrow(Enchantments.PROJECTILE_PROTECTION), 1);
-                        output.accept(boots);
-
+                        output.accept(ModItems.BALE_HELMET);
+                        output.accept(ModItems.BALE_CHESTPLATE);
+                        output.accept(ModItems.BALE_LEGGINGS);
+                        output.accept(ModItems.BALE_BOOTS);
                         output.accept(ModItems.ARACHNO_CARAPACE_HELMET);
                         output.accept(ModItems.ARACHNO_CARAPACE_CHESTPLATE);
                         output.accept(ModItems.ARACHNO_CARAPACE_LEGGINGS);

@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.item;
 
+import net.alek.succorstadiums.item.armor.BaleArmorItem;
 import net.alek.succorstadiums.item.weapons.melee.*;
 import net.alek.succorstadiums.item.weapons.ranged.ArachnoCrossbowItem;
 import net.minecraft.core.Registry;
@@ -38,29 +39,17 @@ public class ModItems {
     public static final Item BANANA_SLIME_BALL = registerItem("banana_slime_ball", Item::new);
     public static final Item BANANA_BRANCH = registerItem("banana_branch", Item::new);
 
-    public static final Item BALE_HELMET = registerItem("bale_helmet", properties -> new Item(
-                    properties.humanoidArmor(BALE_ARMOR_MATERIAL, ArmorType.HELMET)
-                            .durability(128)
-            )
-    );
+    public static final Item BALE_HELMET = registerItem("bale_helmet",
+            (properties) -> new BaleArmorItem(BALE_ARMOR_MATERIAL, ArmorType.HELMET, properties));
 
-    public static final Item BALE_CHESTPLATE = registerItem("bale_chestplate", properties -> new Item(
-                    properties.humanoidArmor(BALE_ARMOR_MATERIAL, ArmorType.CHESTPLATE)
-                            .durability(160)
-            )
-    );
+    public static final Item BALE_CHESTPLATE = registerItem("bale_chestplate",
+            (properties) -> new BaleArmorItem(BALE_ARMOR_MATERIAL, ArmorType.CHESTPLATE, properties));
 
-    public static final Item BALE_LEGGINGS = registerItem("bale_leggings", properties -> new Item(
-            properties.humanoidArmor(BALE_ARMOR_MATERIAL, ArmorType.LEGGINGS)
-                            .durability(144)
-            )
-    );
+    public static final Item BALE_LEGGINGS = registerItem("bale_leggings",
+            (properties) -> new BaleArmorItem(BALE_ARMOR_MATERIAL, ArmorType.LEGGINGS, properties));
 
-    public static final Item BALE_BOOTS = registerItem("bale_boots", properties -> new Item(
-            properties.humanoidArmor(BALE_ARMOR_MATERIAL, ArmorType.BOOTS)
-                            .durability(112)
-            )
-    );
+    public static final Item BALE_BOOTS = registerItem("bale_boots",
+            (properties) -> new BaleArmorItem(BALE_ARMOR_MATERIAL, ArmorType.BOOTS, properties));
 
     public static final Item ARACHNO_CARAPACE_HELMET = registerItem("arachno_carapace_helmet", properties -> new ArachnoCarapaceArmorItem(
                     properties.humanoidArmor(ARACHNO_CARAPACE_ARMOR_MATERIAL, ArmorType.HELMET)
