@@ -35,12 +35,12 @@
           "min_amplifier": {
             "type": "minecraft:lookup",
             "values": [0, 0, 0, 1, 1],
-            "fallback": 1
+            "fallback": 0
           },
           "max_amplifier": {
             "type": "minecraft:lookup",
             "values": [0, 0, 0, 1, 1],
-            "fallback": 1
+            "fallback": 0
           }
         }
       }
