@@ -14,8 +14,7 @@ public class ArachnoCarapaceArmorItem extends Item {
 
     // Define the step height, jump strength, and movement ids
     private static final Identifier STEP_HEIGHT_ID = Identifier.withDefaultNamespace("arachno_step_height");
-    private static final Identifier JUMP_STRENGTH_ID = Identifier.withDefaultNamespace("arachno_jump_strength");
-    private static final Identifier MOVEMENT_SPEED_ID = Identifier.withDefaultNamespace("arachno_movement_speed");
+    private static final Identifier SAFE_FALL_DISTANCE_ID = Identifier.withDefaultNamespace("arachno_safe_fall_distance");
 
 
     public ArachnoCarapaceArmorItem(Item.Properties properties) {
@@ -29,6 +28,15 @@ public class ArachnoCarapaceArmorItem extends Item {
                                 new AttributeModifier(
                                         STEP_HEIGHT_ID,
                                         0.9,
+                                        AttributeModifier.Operation.ADD_VALUE
+                                ),
+                                EquipmentSlotGroup.ARMOR
+                        )
+                        .add(
+                                Attributes.SAFE_FALL_DISTANCE,
+                                new AttributeModifier(
+                                        SAFE_FALL_DISTANCE_ID,
+                                        1,
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 EquipmentSlotGroup.ARMOR

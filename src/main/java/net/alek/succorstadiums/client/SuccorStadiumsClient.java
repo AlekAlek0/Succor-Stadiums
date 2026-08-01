@@ -21,7 +21,6 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -161,7 +160,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(3,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_0")
-                                .withStyle(ChatFormatting.GRAY)
+                                .withStyle(ChatFormatting.DARK_PURPLE)
                 );
 
                 tooltip.add(4,
@@ -177,7 +176,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(3,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_0")
-                                .withStyle(ChatFormatting.GRAY)
+                                .withStyle(ChatFormatting.DARK_PURPLE)
                 );
 
                 tooltip.add(4,
@@ -193,7 +192,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(3,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_0")
-                                .withStyle(ChatFormatting.GRAY)
+                                .withStyle(ChatFormatting.DARK_PURPLE)
                 );
 
                 tooltip.add(4,
@@ -209,7 +208,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(3,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_0")
-                                .withStyle(ChatFormatting.GRAY)
+                                .withStyle(ChatFormatting.DARK_PURPLE)
                 );
 
                 tooltip.add(4,
@@ -392,7 +391,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
 
     private static void handleArachnoDoubleJumpInput(Minecraft client) {
         LocalPlayer player = client.player;
-        if (player == null || client.options == null) return;
+        if (player == null) return;
 
         if (isDoubleJumpBlocked(player)) {
             canDoubleJump = false;
