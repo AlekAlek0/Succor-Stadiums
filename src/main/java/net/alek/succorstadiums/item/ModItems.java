@@ -1,6 +1,7 @@
 package net.alek.succorstadiums.item;
 
 import net.alek.succorstadiums.item.weapons.melee.*;
+import net.alek.succorstadiums.item.weapons.ranged.ArachnoCrossbowItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -132,7 +133,7 @@ public class ModItems {
     public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaStaffItem(properties.durability(300)));
 
     public static final Item BOWNANA = registerItem("bownana", properties -> new BownanaItem(properties.durability(384)));
-    public static final Item ARACHNO_CROSSBOW = registerItem("arachno_crossbow", properties -> new CrossbowItem(properties.durability(300)));
+    public static final Item ARACHNO_CROSSBOW = registerItem("arachno_crossbow", properties -> new ArachnoCrossbowItem(properties.durability(300)));
 
     public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
             .useCooldown(5)));

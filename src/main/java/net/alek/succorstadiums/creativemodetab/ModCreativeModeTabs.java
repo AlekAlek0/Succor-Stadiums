@@ -106,14 +106,8 @@ public class ModCreativeModeTabs {
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BOWNANA))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_ranged"))
                     .displayItems((parameters, output) -> {
-
-                        var enchantments = parameters.holders().lookupOrThrow(Registries.ENCHANTMENT);
-
                         output.accept(ModItems.BOWNANA);
-
-                        ItemStack arachno_crossbow = new ItemStack(ModItems.ARACHNO_CROSSBOW);
-                        arachno_crossbow.enchant(enchantments.getOrThrow(Enchantments.PIERCING), 2);
-                        output.accept(arachno_crossbow);
+                        output.accept(ModItems.ARACHNO_CROSSBOW);
 
 
 
