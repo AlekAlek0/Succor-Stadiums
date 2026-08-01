@@ -8,7 +8,7 @@ import net.alek.succorstadiums.entity.ModEntityAttributes;
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
-import net.alek.succorstadiums.loottable.ModLootTableModifers;
+import net.alek.succorstadiums.loottable.ModLootTableModifiers;
 import net.alek.succorstadiums.network.*;
 import net.alek.succorstadiums.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
@@ -48,7 +48,7 @@ public class SuccorStadiums implements ModInitializer {
 		ModEntityAttributes.register();
 
 		// Register loot table modifiers for vanilla mobs
-		ModLootTableModifers.register();
+		ModLootTableModifiers.register();
 
 		// Register item network packets
 		PayloadTypeRegistry.clientboundPlay().register(ResurrectionAmuletPayload.TYPE, ResurrectionAmuletPayload.CODEC);

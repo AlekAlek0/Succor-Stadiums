@@ -5,7 +5,6 @@ import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -14,7 +13,7 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
-public class ModLootTableModifers {
+public class ModLootTableModifiers {
 
     private static final ResourceKey<LootTable> SPIDER_LOOT =
             ResourceKey.create(Registries.LOOT_TABLE, Identifier.withDefaultNamespace("entities/spider"));
