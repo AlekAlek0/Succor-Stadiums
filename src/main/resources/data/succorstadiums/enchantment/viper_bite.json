@@ -24,13 +24,13 @@
           "to_apply": "minecraft:poison",
           "min_duration": {
             "type": "minecraft:lookup",
-            "values": [40, 60, 100, 20, 40],
-            "fallback": 40
+            "values": [2, 3, 5, 1, 2],
+            "fallback": 2
           },
           "max_duration": {
             "type": "minecraft:lookup",
-            "values": [40, 60, 100, 20, 40],
-            "fallback": 40
+            "values": [2, 3, 5, 1, 2],
+            "fallback": 2
           },
           "min_amplifier": {
             "type": "minecraft:lookup",
