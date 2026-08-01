@@ -39,7 +39,7 @@ public class ModFoods {
     // Create a new food called rotten stew with the following nutrition and saturation
     public static final FoodProperties ROTTEN_STEW = new FoodProperties.Builder()
             .nutrition(6)
-            .saturationModifier(1.2f)
+            .saturationModifier(5f / 6f)
             .build();
 
     // Create the consumable for the rotten stew with the consume duration and status effect
