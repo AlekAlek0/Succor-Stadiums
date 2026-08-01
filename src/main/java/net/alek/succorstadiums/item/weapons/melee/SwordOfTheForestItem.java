@@ -14,10 +14,6 @@ public class SwordOfTheForestItem extends Item {
             mutable.set(context.getOrThrow(Enchantments.SWEEPING_EDGE), 1);
             return mutable.toImmutable();
         }));
-
-
-
-
     }
 
     // Remove enchantment glint from item
