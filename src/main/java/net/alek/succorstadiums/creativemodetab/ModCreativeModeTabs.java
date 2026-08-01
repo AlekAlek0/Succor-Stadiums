@@ -139,10 +139,10 @@ public class ModCreativeModeTabs {
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_summons"),
 
             // Set the icon, title, and items for the creative tab menu
-            FabricCreativeModeTab.builder().icon(() -> new ItemStack(Items.BARRIER))
+            FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.DOG_WHISTLE))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_summons"))
                     .displayItems((parameters, output) -> {
-                        output.accept(Items.BARRIER);
+                        output.accept(ModItems.DOG_WHISTLE);
 
                     }).build());
 

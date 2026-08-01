@@ -6,7 +6,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.wolf.Wolf;
@@ -30,7 +29,7 @@ public class DogWhistleItem extends Item {
 
     // Ticks for cooldown and despawn timers
     private static final int COOLDOWN_TICKS = 700; // 35 seconds
-    private static final int DESPAWN_TICKS = 400; // 20 seconds
+    private static final int DESPAWN_TICKS = 600; // 30 seconds
 
     // Tracks wolves and the game time they should despawn at
     public static final Map<UUID, Long> SUMMONED_WOLVES = new HashMap<>();
