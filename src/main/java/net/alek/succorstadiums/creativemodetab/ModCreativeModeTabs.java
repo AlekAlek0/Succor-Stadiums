@@ -88,18 +88,11 @@ public class ModCreativeModeTabs {
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BEAN_POLE))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_melee"))
                     .displayItems((parameters, output) -> {
-                        var enchantments = parameters.holders().lookupOrThrow(Registries.ENCHANTMENT);
-
-
                         output.accept(ModItems.BEAN_POLE);
                         output.accept(ModItems.BONE_DAGGER);
                         output.accept(ModItems.BANANNER_BLADE);
                         output.accept(ModItems.FUMBLEBRINGER_FORK);
-
-
-                        ItemStack sword_of_the_forest = new ItemStack(ModItems.SWORD_OF_THE_FOREST);
-                        sword_of_the_forest.enchant(enchantments.getOrThrow(Enchantments.SWEEPING_EDGE), 1);
-                        output.accept(sword_of_the_forest);
+                        output.accept(ModItems.SWORD_OF_THE_FOREST);
 
 
 

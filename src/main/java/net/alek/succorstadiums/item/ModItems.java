@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.item;
 
+import net.alek.succorstadiums.item.weapons.melee.*;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -19,10 +20,6 @@ import net.alek.succorstadiums.item.trinkets.FlintCharmItem;
 import net.alek.succorstadiums.item.trinkets.ResurrectionAmuletItem;
 import net.alek.succorstadiums.item.weapons.magic.AquaStaffItem;
 import net.alek.succorstadiums.item.weapons.magic.FireStaffItem;
-import net.alek.succorstadiums.item.weapons.melee.BannanerBladeItem;
-import net.alek.succorstadiums.item.weapons.melee.BeanPoleItem;
-import net.alek.succorstadiums.item.weapons.melee.BoneDaggerItem;
-import net.alek.succorstadiums.item.weapons.melee.FumblebringerForkItem;
 import net.alek.succorstadiums.item.weapons.ranged.BownanaItem;
 
 import static net.alek.succorstadiums.item.ModArmorMaterials.*;
@@ -125,7 +122,7 @@ public class ModItems {
             4.6F)
     ));
 
-    public static final Item SWORD_OF_THE_FOREST = registerItem("sword_of_the_forest", properties -> new Item(
+    public static final Item SWORD_OF_THE_FOREST = registerItem("sword_of_the_forest", properties -> new SwordOfTheForestItem(
             properties.sword(SWORD_OF_THE_FOREST_TOOL_MATERIAL,
                     1.5F,
                     -3.2F)
