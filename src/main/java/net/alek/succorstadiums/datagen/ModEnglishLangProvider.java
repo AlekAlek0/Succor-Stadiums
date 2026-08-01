@@ -172,7 +172,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Trinket Tooltip translations
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_0", "When Used:");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_1", "⏳ Cooldown: 0:35");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", "⌚ Despawn: 0:20");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", "⌚ Despawn: 0:30");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_3", "❤ Health: 2.5 ");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_4", "⚔ Damage: 1 ");
 
