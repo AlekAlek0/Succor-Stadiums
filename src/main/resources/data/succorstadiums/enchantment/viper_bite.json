@@ -8,7 +8,7 @@
   "primary_items": [
     "succorstadiums:bone_dagger"
   ],
-  "weight": 10,
+  "weight": 5,
   "max_level": 5,
   "min_cost": { "base": 15, "per_level_above_first": 9 },
   "max_cost": { "base": 65, "per_level_above_first": 9 },
