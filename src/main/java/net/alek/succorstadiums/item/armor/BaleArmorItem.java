@@ -2,6 +2,7 @@ package net.alek.succorstadiums.item.armor;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
@@ -31,5 +32,11 @@ public class BaleArmorItem extends Item {
 
             return mutable.toImmutable();
         });
+    }
+
+    // Remove enchantment glint from item
+    @Override
+    public boolean isFoil(ItemStack itemStack) {
+        return false;
     }
 }
