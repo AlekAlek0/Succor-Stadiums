@@ -36,7 +36,7 @@ public class BeanPoleItem extends Item {
                                 Attributes.ATTACK_KNOCKBACK,
                                 new AttributeModifier(
                                         Identifier.withDefaultNamespace("bean_pole_knockback"),
-                                        0.5,
+                                        0.75,
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 EquipmentSlotGroup.MAINHAND

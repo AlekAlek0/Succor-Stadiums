@@ -65,14 +65,14 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
                                                                 UniformGenerator.between(0, 2)))
                                         )
                         )
-                        // 8% chance to drop 0-2 iron nuggets
+                        // 8% chance to drop 1-2 poisonous potatoes
                         .withPool(
                                 LootPool.lootPool()
                                         .when(LootItemRandomChanceCondition.randomChance(0.08f))
                                         .add(
-                                                LootItem.lootTableItem(Items.IRON_NUGGET)
+                                                LootItem.lootTableItem(Items.POISONOUS_POTATO)
                                                         .apply(SetItemCountFunction.setCount(
-                                                                UniformGenerator.between(0, 2)))
+                                                                UniformGenerator.between(1, 2)))
                                         )
                         )
                         // 2% chance to drop 0-2 rotten stew
