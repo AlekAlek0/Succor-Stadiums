@@ -7,9 +7,13 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.phys.Vec3;
 
 // Mod commands class
@@ -38,6 +42,12 @@ public class ModCommands {
                                 .then(Commands.literal("villagers")
                                         .then(Commands.literal("Marvin")
                                                 .executes(ModCommands::executeSummonMarvin)
+                                        )
+                                )
+                                // Dev subcommand group
+                                .then(Commands.literal("dev")
+                                        .then(Commands.literal("disenchant")
+                                                .executes(ModCommands::executeDisenchant)
                                         )
                                 )
                 )
@@ -89,6 +99,28 @@ public class ModCommands {
         CustomVillagerSpawner.spawnMarvin(level, pos, yaw);
 
         source.sendSuccess(() -> Component.literal("Spawned Marvin Malarkey"), true);
+        return 1;
+    }
+
+    // Helper method for the dev disenchant command
+    private static int executeDisenchant(CommandContext<CommandSourceStack> ctx) {
+        CommandSourceStack source = ctx.getSource();
+
+        if (!(source.getEntity() instanceof ServerPlayer player)) {
+            source.sendFailure(Component.literal("Only players can use this command."));
+            return 0;
+        }
+
+        ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
+
+        if (stack.isEmpty()) {
+            source.sendFailure(Component.literal("You're not holding an item."));
+            return 0;
+        }
+
+        stack.set(DataComponents.ENCHANTMENTS, ItemEnchantments.EMPTY);
+
+        source.sendSuccess(() -> Component.literal("Disenchanted your item."), true);
         return 1;
     }
 
