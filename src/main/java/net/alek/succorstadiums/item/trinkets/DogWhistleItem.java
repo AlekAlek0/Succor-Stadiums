@@ -11,6 +11,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -37,7 +38,7 @@ public class DogWhistleItem extends Item {
     // Override the use method in Item
     @Override
     @NonNull
-    public InteractionResult use(Level level, @NonNull Player user, @NonNull InteractionHand usedHand) {
+    public InteractionResult use(Level level, @NonNull Player user, @NonNull InteractionHand hand) {
 
         // Check to see if level is not client sided
         if (!level.isClientSide()) {
@@ -45,6 +46,9 @@ public class DogWhistleItem extends Item {
             // Create a new server level and get user position as a vector
             ServerLevel serverLevel = (ServerLevel) level;
             Vec3 userPos = user.position();
+
+            // Get the item in user hand as itemStack
+            ItemStack itemStack = user.getItemInHand(hand);
 
             for (int i = 0; i < 5; i++) {
                 // Create a new wolf
@@ -78,6 +82,12 @@ public class DogWhistleItem extends Item {
                     SUMMONED_WOLVES.put(wolf.getUUID(), serverLevel.getGameTime() + DESPAWN_TICKS);
                 }
             }
+
+            // Damage the item by 1 durability if damageable
+            if (itemStack.isDamageableItem()) {
+                itemStack.hurtAndBreak(1, user, hand);
+            }
+
 
             // Play the wolf growl sound and set a cooldown
             level.playSound(null, userPos.x, userPos.y, userPos.z, SoundEvents.WOLF_GROWL_BABY, SoundSource.PLAYERS, 1.0F, 1.0F);
