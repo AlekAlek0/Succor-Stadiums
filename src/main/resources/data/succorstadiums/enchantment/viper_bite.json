@@ -25,22 +25,22 @@
           "min_duration": {
             "type": "minecraft:lookup",
             "values": [40, 60, 100, 20, 40],
-            "fallback": { "type": "minecraft:constant", "value": 40 }
+            "fallback": 40
           },
           "max_duration": {
             "type": "minecraft:lookup",
             "values": [40, 60, 100, 20, 40],
-            "fallback": { "type": "minecraft:constant", "value": 40 }
+            "fallback": 40
           },
           "min_amplifier": {
             "type": "minecraft:lookup",
             "values": [0, 0, 0, 1, 1],
-            "fallback": { "type": "minecraft:constant", "value": 1 }
+            "fallback": 1
           },
           "max_amplifier": {
             "type": "minecraft:lookup",
             "values": [0, 0, 0, 1, 1],
-            "fallback": { "type": "minecraft:constant", "value": 1 }
+            "fallback": 1
           }
         }
       }
