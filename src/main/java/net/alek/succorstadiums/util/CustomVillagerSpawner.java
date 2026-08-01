@@ -63,19 +63,13 @@ public class CustomVillagerSpawner {
 
         offers.add(new MerchantOffer(
                 new ItemCost(Items.ROTTEN_FLESH, 16),
-                new ItemStack(Items.COPPER_NUGGET, 2),
-                9999999, 0, 0.0F
-        ));
-
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.POISONOUS_POTATO, 3),
                 new ItemStack(Items.COPPER_NUGGET, 3),
                 9999999, 0, 0.0F
         ));
 
         offers.add(new MerchantOffer(
                 new ItemCost(Items.BONE, 8),
-                new ItemStack(Items.COPPER_NUGGET, 3),
+                new ItemStack(Items.COPPER_NUGGET, 2),
                 9999999, 0, 0.0F
         ));
 
@@ -88,10 +82,27 @@ public class CustomVillagerSpawner {
         offers.add(new MerchantOffer(
                 new ItemCost(Items.ROTTEN_FLESH, 16),
                 Optional.of(new ItemCost(Items.BONE, 8)),
-                new ItemStack(Items.COPPER_NUGGET, 6),
+                new ItemStack(Items.COPPER_NUGGET, 12),
                 9999999, 0, 0.0F
         ));
 
+        offers.add(new MerchantOffer(
+                new ItemCost(Items.LAPIS_LAZULI, 8),
+                new ItemStack(Items.COPPER_NUGGET, 1),
+                9999999, 0, 0.0F
+        ));
+
+        offers.add(new MerchantOffer(
+                new ItemCost(Items.COPPER_NUGGET, 8),
+                new ItemStack(Items.LAPIS_LAZULI, 16),
+                9999999, 0, 0.0F
+        ));
+
+        offers.add(new MerchantOffer(
+                new ItemCost(Items.POISONOUS_POTATO, 2),
+                new ItemStack(Items.COPPER_NUGGET, 4),
+                9999999, 0, 0.0F
+        ));
 
         level.addFreshEntity(villager);
     }
