@@ -134,8 +134,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         //--------------------------
 
         // Magic Weapon Lore translations
-        translationBuilder.add("item.succorstadiums.fire_staff.lore", "Absolute Flames.");
-        translationBuilder.add("item.succorstadiums.aqua_staff.lore", "A staff that shoots out a ring inflicting slowness and slow falling.");
+        translationBuilder.add("item.succorstadiums.fire_staff.lore", "Fireball.");
+        translationBuilder.add("item.succorstadiums.aqua_staff.lore", "Slows both movement and fall speed.");
 
         // Magic Weapon Tooltip translations
         translationBuilder.add("item.succorstadiums.fire_staff.tooltip_0", "When Used:");
