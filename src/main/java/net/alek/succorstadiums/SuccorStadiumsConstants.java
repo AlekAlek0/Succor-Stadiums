@@ -13,7 +13,7 @@ public class SuccorStadiumsConstants {
     public static final Map<EntityType<?>, Double> MOB_HEALTH_OVERRIDES;
     public static final Map<EntityType<?>, Double> MOB_DAMAGE_OVERRIDES;
 
-    public static final double PLAYER_MAX_HEALTH = 6.0;
+    public static final double PLAYER_MAX_HEALTH = 10.0;
 
     public static final double PLAYER_FIST_RANGE_MODIFIER = -0.6;
     public static final Identifier PLAYER_FIST_RANGE_ID = Identifier.withDefaultNamespace("player_fist_range");
