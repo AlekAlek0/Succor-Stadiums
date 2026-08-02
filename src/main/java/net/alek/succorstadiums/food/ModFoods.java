@@ -40,6 +40,7 @@ public class ModFoods {
     public static final FoodProperties CREEPER_SALVE = new FoodProperties.Builder()
             .nutrition(0)
             .saturationModifier(0)
+            .alwaysEdible()
             .build();
 
     // Create the consumable for the rotten stew with the consume duration and heal consume effect
@@ -53,6 +54,7 @@ public class ModFoods {
     public static final FoodProperties PLANT_POWDER = new FoodProperties.Builder()
             .nutrition(0)
             .saturationModifier(0)
+            .alwaysEdible()
             .build();
 
     public static final Consumable PLANT_POWDER_CONSUMABLE = Consumables.defaultFood()
