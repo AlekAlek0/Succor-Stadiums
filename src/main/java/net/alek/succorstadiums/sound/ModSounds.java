@@ -20,7 +20,7 @@ public class ModSounds {
 
     public static void registerModSounds() {
 
-        SuccorStadiums.LOGGER.info("Registering Mod Items for " + SuccorStadiums.MOD_ID);
+        SuccorStadiums.LOGGER.info("Registering Mod Sounds for " + SuccorStadiums.MOD_ID);
 
     }
 }
