@@ -87,6 +87,12 @@ public class CustomVillagerSpawner {
         ));
 
         offers.add(new MerchantOffer(
+                new ItemCost(ModItems.PLANT_POWDER, 8),
+                new ItemStack(Items.COPPER_NUGGET, 3),
+                9999999, 0, 0.0F
+        ));
+
+        offers.add(new MerchantOffer(
                 new ItemCost(Items.POISONOUS_POTATO, 2),
                 new ItemStack(Items.COPPER_NUGGET, 4),
                 9999999, 0, 0.0F
@@ -213,6 +219,13 @@ public class CustomVillagerSpawner {
         offers.add(new MerchantOffer(
                 new ItemCost(Items.COPPER_NUGGET, 4),
                 new ItemStack(ModItems.ROTTEN_STEW, 16),
+                9999999, 0, 0.0F
+        ));
+
+        offers.add(new MerchantOffer(
+                new ItemCost(ModItems.PLANT_POWDER, 6),
+                Optional.of(new ItemCost(Items.COPPER_NUGGET, 4)),
+                new ItemStack(ModItems.CREEPER_SALVE, 4),
                 9999999, 0, 0.0F
         ));
 

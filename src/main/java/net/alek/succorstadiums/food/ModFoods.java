@@ -42,12 +42,23 @@ public class ModFoods {
             .saturationModifier(0)
             .build();
 
-    // Heals 1.5 hearts (3 HP) instantly — INSTANT_HEALTH can only do whole hearts
-    // (4 * 2^amplifier), so this uses a custom ConsumeEffect instead.
+    // Create the consumable for the rotten stew with the consume duration and heal consume effect
     public static final Consumable CREEPER_SALVE_CONSUMABLE = Consumables.defaultFood()
             .consumeSeconds(0.2f)
 
             .onConsume(new HealConsumeEffect(3.0f))
+
+            .build();
+
+    public static final FoodProperties PLANT_POWDER = new FoodProperties.Builder()
+            .nutrition(0)
+            .saturationModifier(0)
+            .build();
+
+    public static final Consumable PLANT_POWDER_CONSUMABLE = Consumables.defaultFood()
+            .consumeSeconds(1.6f)
+
+            .onConsume(new ExplodeConsumeEffect())
 
             .build();
 

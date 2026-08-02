@@ -20,11 +20,12 @@ public class SuccorStadiumsDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ModItemTagProvider::new);
 		pack.addProvider(ModEnchantmentGenerator::new);
 		pack.addProvider(ModEnchantmentTagProvider::new);
+		pack.addProvider(ModDamageTypeProvider::new);
 	}
-
 
 	@Override
 	public void buildRegistry(RegistrySetBuilder registryBuilder) {
+		registryBuilder.add(Registries.DAMAGE_TYPE, ModDamageTypeProvider::bootstrap);
 		registryBuilder.add(Registries.ENCHANTMENT, ModEnchantmentGenerator::bootstrap);
 	}
 }

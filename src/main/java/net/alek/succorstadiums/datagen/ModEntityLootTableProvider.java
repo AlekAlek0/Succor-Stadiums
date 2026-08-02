@@ -28,7 +28,6 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
     public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> exporter) {
 
         exporter.accept(ModLootTables.BANANA_SLIME_LOOT,
-
                 LootTable.lootTable()
                         // 10% chance to drop 1 banana branch
                         .withPool(
@@ -53,7 +52,6 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
         );
 
         exporter.accept(ModLootTables.ZOMBIE_FARMER_LOOT,
-
                 LootTable.lootTable()
                         // 66.6% chance to drop 0-2 rotten flesh
                         .withPool(
@@ -83,6 +81,22 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
                                                 LootItem.lootTableItem(ModItems.ROTTEN_STEW)
                                                         .apply(SetItemCountFunction.setCount(
                                                                 UniformGenerator.between(0, 2)))
+                                        )
+                        )
+        );
+
+        exporter.accept(ModLootTables.GRASS_CREEPER_LOOT,
+                LootTable.lootTable()
+                        // 100% chance to drop 0-3 plant powder
+                        .withPool(
+                                LootPool.lootPool()
+                                        .when(LootItemRandomChanceCondition.randomChance(1f))
+                                        .add(
+                                                LootItem.lootTableItem(ModItems.PLANT_POWDER)
+                                                        .apply(SetItemCountFunction.setCount(
+                                                                UniformGenerator.between(0, 3)
+                                                        )
+                                                )
                                         )
                         )
         );

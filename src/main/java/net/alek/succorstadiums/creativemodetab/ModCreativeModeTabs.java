@@ -156,6 +156,7 @@ public class ModCreativeModeTabs {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.GRAMBLE_BAPPLE);
                         output.accept(ModItems.CREEPER_SALVE);
+                        output.accept(ModItems.PLANT_POWDER);
                         output.accept(ModItems.ROTTEN_STEW);
 
 

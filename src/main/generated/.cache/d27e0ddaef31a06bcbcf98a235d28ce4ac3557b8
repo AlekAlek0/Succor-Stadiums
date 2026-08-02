@@ -1,3 +1,4 @@
 // 26.2	-999999999-01-01T00:00:00	Succor Stadiums/minecraft:entity Loot Table
 d0c138ab63fc3b7c9ed82fbfe5161cb378790ed5 data/succorstadiums/loot_table/entities/banana_slime.json
+c647b81ebfa49a50bb5819678dacafa152cc521b data/succorstadiums/loot_table/entities/grass_creeper.json
 590cad053802c134acfd2adb5d11c87e0e136cc0 data/succorstadiums/loot_table/entities/zombie_farmer.json

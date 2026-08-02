@@ -334,7 +334,12 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.RED)
                 );
             }
-
+            if (stack.is(ModItems.PLANT_POWDER)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.plant_powder.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
             if (stack.is(ModItems.ROTTEN_STEW)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.rotten_stew.lore")
