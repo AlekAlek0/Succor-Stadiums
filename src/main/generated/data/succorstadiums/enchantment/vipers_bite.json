@@ -1,0 +1,76 @@
+{
+  "anvil_cost": 4,
+  "description": {
+    "translate": "enchantment.succorstadiums.vipers_bite"
+  },
+  "effects": {
+    "minecraft:post_attack": [
+      {
+        "affected": "victim",
+        "effect": {
+          "type": "minecraft:apply_mob_effect",
+          "max_amplifier": {
+            "type": "minecraft:lookup",
+            "fallback": 0.0,
+            "values": [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ]
+          },
+          "max_duration": {
+            "type": "minecraft:lookup",
+            "fallback": 2.0,
+            "values": [
+              2.0,
+              3.0,
+              5.0,
+              1.0,
+              2.0
+            ]
+          },
+          "min_amplifier": {
+            "type": "minecraft:lookup",
+            "fallback": 0.0,
+            "values": [
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ]
+          },
+          "min_duration": {
+            "type": "minecraft:lookup",
+            "fallback": 2.0,
+            "values": [
+              2.0,
+              3.0,
+              5.0,
+              1.0,
+              2.0
+            ]
+          },
+          "to_apply": "minecraft:poison"
+        },
+        "enchanted": "attacker"
+      }
+    ]
+  },
+  "max_cost": {
+    "base": 1,
+    "per_level_above_first": 2
+  },
+  "max_level": 5,
+  "min_cost": {
+    "base": 1,
+    "per_level_above_first": 2
+  },
+  "slots": [
+    "hand"
+  ],
+  "supported_items": "#succorstadiums:bone_daggers",
+  "weight": 5
+}

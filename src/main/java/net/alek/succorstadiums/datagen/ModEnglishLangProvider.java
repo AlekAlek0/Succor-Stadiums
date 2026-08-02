@@ -85,7 +85,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.DOG_WHISTLE, "Dog Whistle");
 
         // Enchantment translations
-        translationBuilder.add("enchantment.succorstadiums.viper_bite", "Viper Bite");
+        translationBuilder.add("enchantment.succorstadiums.vipers_bite", "Vipers Bite");
 
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
