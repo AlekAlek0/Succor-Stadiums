@@ -155,6 +155,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_foods"))
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.GRAMBLE_BAPPLE);
+                        output.accept(ModItems.CREEPER_SALVE);
                         output.accept(ModItems.ROTTEN_STEW);
 
 

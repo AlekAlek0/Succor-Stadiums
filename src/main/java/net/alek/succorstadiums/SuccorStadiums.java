@@ -6,6 +6,7 @@ import net.alek.succorstadiums.command.ModCommands;
 import net.alek.succorstadiums.creativemodetab.ModCreativeModeTabs;
 import net.alek.succorstadiums.entity.ModEntityAttributes;
 import net.alek.succorstadiums.entity.ModEntityTypes;
+import net.alek.succorstadiums.food.ModConsumeEffects;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
 import net.alek.succorstadiums.loottable.ModLootTableModifiers;
@@ -42,6 +43,7 @@ public class SuccorStadiums implements ModInitializer {
 		ModCommands.registerModCommands();
 		ModSounds.registerModSounds();
 		ModItems.registerModItems();
+		ModConsumeEffects.register();
 
 		// Register mod entity types and attributes
 		ModEntityTypes.registerModEntityTypes();

@@ -126,6 +126,9 @@ public class ModItems {
 
     public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
             .useCooldown(5)));
+    public static final Item CREEPER_SALVE = registerItem("creeper_salve", properties -> new Item(properties.food(ModFoods.CREEPER_SALVE, ModFoods.CREEPER_SALVE_CONSUMABLE)
+            .useCooldown(12)
+            .stacksTo(8)));
     public static final Item ROTTEN_STEW = registerItem("rotten_stew", properties -> new Item(properties.food(ModFoods.ROTTEN_STEW, ModFoods.ROTTEN_STEW_CONSUMABLE)
             .stacksTo(16)));
 

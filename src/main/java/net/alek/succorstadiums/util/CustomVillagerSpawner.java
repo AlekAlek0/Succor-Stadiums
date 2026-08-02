@@ -20,7 +20,7 @@ import java.util.Optional;
 
 public class CustomVillagerSpawner {
 
-    public static void spawnYe(ServerLevel level, Vec3 pos, float yaw) {
+    public static void spawnYeBuy(ServerLevel level, Vec3 pos, float yaw) {
         Villager villager = new Villager(EntityTypes.VILLAGER, level);
 
         villager.setPos(pos.x, pos.y, pos.z);
@@ -55,7 +55,7 @@ public class CustomVillagerSpawner {
         villager.setPersistenceRequired();
         villager.setSilent(true);
         villager.setNoAi(true);
-        villager.setCustomName(Component.literal("Ye"));
+        villager.setCustomName(Component.literal("Ye Buy"));
 
         // Build trades
         MerchantOffers offers = villager.getOffers();
@@ -87,18 +87,6 @@ public class CustomVillagerSpawner {
         ));
 
         offers.add(new MerchantOffer(
-                new ItemCost(Items.LAPIS_LAZULI, 8),
-                new ItemStack(Items.COPPER_NUGGET, 1),
-                9999999, 0, 0.0F
-        ));
-
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 8),
-                new ItemStack(Items.LAPIS_LAZULI, 16),
-                9999999, 0, 0.0F
-        ));
-
-        offers.add(new MerchantOffer(
                 new ItemCost(Items.POISONOUS_POTATO, 2),
                 new ItemStack(Items.COPPER_NUGGET, 4),
                 9999999, 0, 0.0F
@@ -107,7 +95,7 @@ public class CustomVillagerSpawner {
         level.addFreshEntity(villager);
     }
 
-    public static void spawnOl(ServerLevel level, Vec3 pos, float yaw) {
+    public static void spawnOlSell(ServerLevel level, Vec3 pos, float yaw) {
         Villager villager = new Villager(EntityTypes.VILLAGER, level);
 
         villager.setPos(pos.x, pos.y, pos.z);
@@ -142,7 +130,7 @@ public class CustomVillagerSpawner {
         villager.setPersistenceRequired();
         villager.setSilent(true);
         villager.setNoAi(true);
-        villager.setCustomName(Component.literal("Ol'"));
+        villager.setCustomName(Component.literal("Ol' Sell"));
 
         // Build trades
         MerchantOffers offers = villager.getOffers();

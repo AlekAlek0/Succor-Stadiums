@@ -65,6 +65,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         // Food datagen
         itemModelGenerators.generateFlatItem(ModItems.GRAMBLE_BAPPLE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.CREEPER_SALVE, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.ROTTEN_STEW, ModelTemplates.FLAT_ITEM);
 
         // Trinket datagen

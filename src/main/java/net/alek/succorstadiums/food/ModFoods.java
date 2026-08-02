@@ -36,6 +36,21 @@ public class ModFoods {
                     new MobEffectInstance(MobEffects.WEAKNESS, 160, 0), 0.75f))
             .build();
 
+    // Create a new food called creeper salve with the following nutrition and saturation
+    public static final FoodProperties CREEPER_SALVE = new FoodProperties.Builder()
+            .nutrition(0)
+            .saturationModifier(0)
+            .build();
+
+    // Heals 1.5 hearts (3 HP) instantly — INSTANT_HEALTH can only do whole hearts
+    // (4 * 2^amplifier), so this uses a custom ConsumeEffect instead.
+    public static final Consumable CREEPER_SALVE_CONSUMABLE = Consumables.defaultFood()
+            .consumeSeconds(0.2f)
+
+            .onConsume(new HealConsumeEffect(3.0f))
+
+            .build();
+
     // Create a new food called rotten stew with the following nutrition and saturation
     public static final FoodProperties ROTTEN_STEW = new FoodProperties.Builder()
             .nutrition(6)

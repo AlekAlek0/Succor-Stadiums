@@ -70,7 +70,7 @@ public class ModCommands {
         Vec3 pos = source.getPosition();
         float yaw = source.getEntity() instanceof ServerPlayer player ? player.getYRot() : source.getRotation().x;
 
-        CustomVillagerSpawner.spawnYe(level, pos, yaw);
+        CustomVillagerSpawner.spawnYeBuy(level, pos, yaw);
 
         source.sendSuccess(() -> Component.literal("Spawned Ye"), true);
         return 1;
@@ -83,7 +83,7 @@ public class ModCommands {
         Vec3 pos = source.getPosition();
         float yaw = source.getEntity() instanceof ServerPlayer player ? player.getYRot() : source.getRotation().x;
 
-        CustomVillagerSpawner.spawnOl(level, pos, yaw);
+        CustomVillagerSpawner.spawnOlSell(level, pos, yaw);
 
         source.sendSuccess(() -> Component.literal("Spawned Ol"), true);
         return 1;
