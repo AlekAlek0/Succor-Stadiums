@@ -45,7 +45,7 @@ public class ModFoods {
 
     // Create the consumable for the rotten stew with the consume duration and heal consume effect
     public static final Consumable CREEPER_SALVE_CONSUMABLE = Consumables.defaultFood()
-            .consumeSeconds(0.2f)
+            .consumeSeconds(0.4f)
 
             .onConsume(new HealConsumeEffect(3.0f))
 
@@ -58,7 +58,7 @@ public class ModFoods {
             .build();
 
     public static final Consumable PLANT_POWDER_CONSUMABLE = Consumables.defaultFood()
-            .consumeSeconds(1.6f)
+            .consumeSeconds(0.8f)
 
             .onConsume(new ExplodeConsumeEffect())
 
