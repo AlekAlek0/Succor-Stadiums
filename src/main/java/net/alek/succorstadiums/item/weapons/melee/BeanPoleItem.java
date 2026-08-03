@@ -18,7 +18,7 @@ public class BeanPoleItem extends Item {
                                 Attributes.ATTACK_DAMAGE,
                                 new AttributeModifier(
                                         Item.BASE_ATTACK_DAMAGE_ID,
-                                        1.5,
+                                        2,
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 EquipmentSlotGroup.MAINHAND
