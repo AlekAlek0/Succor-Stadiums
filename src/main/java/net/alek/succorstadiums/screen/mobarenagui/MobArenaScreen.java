@@ -16,6 +16,7 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -467,10 +468,10 @@ public class MobArenaScreen extends Screen {
                 mobTypeSuggestionManager.filterSuggestions(text);
 
                 boolean oldIsSlime = oldMobType.equals("minecraft:slime") || oldMobType.equals(MOD_ID + ":banana_slime");
-                boolean oldIsZombieLike = oldMobType.equals("minecraft:zombie") || oldMobType.equals("minecraft:zombie_villager");
+                boolean oldIsZombieLike = oldMobType.equals("minecraft:zombie") || oldMobType.equals("minecraft:zombie_villager") || oldMobType.equals(MOD_ID + ":zombie_farmer");
 
                 boolean newIsSlime = savedMobType.equals("minecraft:slime") || savedMobType.equals(MOD_ID + ":banana_slime");
-                boolean newIsZombieLike = savedMobType.equals("minecraft:zombie") || savedMobType.equals("minecraft:zombie_villager");
+                boolean newIsZombieLike = savedMobType.equals("minecraft:zombie") || savedMobType.equals("minecraft:zombie_villager") || savedMobType.equals(MOD_ID + ":zombie_farmer");
 
                 if ((oldIsSlime != newIsSlime) || (oldIsZombieLike != newIsZombieLike)) {
                     rebuildWidgets();
@@ -490,7 +491,7 @@ public class MobArenaScreen extends Screen {
 
         String currentMobType = mobTypeField != null ? mobTypeField.getValue().trim() : savedMobType;
         boolean isSlime = currentMobType.equals("minecraft:slime") || currentMobType.equals(MOD_ID + ":banana_slime");
-        boolean isZombieLike = currentMobType.equals("minecraft:zombie") || currentMobType.equals("minecraft:zombie_villager");
+        boolean isZombieLike = currentMobType.equals("minecraft:zombie") || currentMobType.equals("minecraft:zombie_villager") || currentMobType.equals(MOD_ID + ":zombie_farmer");
 
         if (isSlime) {
             drawInlineLabel(cx + countFieldWidth + 4, currentY, "Variant");
@@ -719,7 +720,7 @@ public class MobArenaScreen extends Screen {
                         } catch (Exception ignored) {
                         }
 
-                        amplifier = Math.max(1, Math.min(256, amplifier));
+                        amplifier = Math.clamp(amplifier, 1, 256);
 
                         potionEffectEntries.add(new String[]{
                                 id,
@@ -986,7 +987,7 @@ public class MobArenaScreen extends Screen {
         }
 
         boolean isSlime = mob.equals("minecraft:slime") || mob.equals(MOD_ID + ":banana_slime");
-        boolean isZombieLike = mob.equals("minecraft:zombie") || mob.equals("minecraft:zombie_villager");
+        boolean isZombieLike = mob.equals("minecraft:zombie") || mob.equals("minecraft:zombie_villager") || mob.equals(MOD_ID + ":zombie_farmer");
 
         if (isSlime && selectedSlimeVariant.isEmpty()) {
             addMobValidationError = "Please select a slime size (Small/Medium/Large).";
@@ -1154,9 +1155,6 @@ public class MobArenaScreen extends Screen {
             }
             g.disableScissor();
 
-            // Validation error — pinned to a fixed screen coordinate (NOT scrolled logical
-            // space) so it always renders regardless of addMobScroll, and stays outside
-            // the scissor region so it can never get clipped by scrolling.
             if (!addMobValidationError.isEmpty()) {
                 g.text(font, addMobValidationError, dx + PANEL_PAD,
                         guiTop() + guiHeight() - BTN_H - PANEL_PAD - 12, 0xFFFF5555, false);
@@ -1257,7 +1255,7 @@ public class MobArenaScreen extends Screen {
     // ── Input handling ────────────────────────────────────────────────────────
 
     @Override
-    public boolean keyPressed(KeyEvent event) {
+    public boolean keyPressed(@NonNull KeyEvent event) {
         if (ModKeyBindings.OPEN_MOB_ARENA_GUI.matches(event)) {
             this.onClose();
             return true;
@@ -1277,7 +1275,7 @@ public class MobArenaScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(MouseButtonEvent event, boolean bl) {
+    public boolean mouseClicked(@NonNull MouseButtonEvent event, boolean bl) {
         if (detailView == DetailView.ADD_MOB) {
             for (SuggestionManager manager : buildSuggestionManagerList()) {
                 if (manager != null && manager.getEditBox().isFocused() && manager.hasSuggestions()) {

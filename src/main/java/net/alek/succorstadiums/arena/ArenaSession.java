@@ -1,6 +1,7 @@
 package net.alek.succorstadiums.arena;
 
 import net.alek.succorstadiums.SuccorStadiumsConstants; // Import the new constants class
+import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -164,11 +165,11 @@ public class ArenaSession {
                                 null
                         );
 
-                        if (entityType == EntityTypes.SLIME) {
+                        if (entityType == EntityTypes.SLIME || entityType == ModEntityTypes.BANANA_SLIME) {
                             if (waveMob.getSize() != null) {
                                 ((Slime) mob).setSize(waveMob.getSize(), true);
                             }
-                        } else if (entityType == EntityTypes.ZOMBIE || entityType == EntityTypes.ZOMBIE_VILLAGER) {
+                        } else if (entityType == EntityTypes.ZOMBIE || entityType == EntityTypes.ZOMBIE_VILLAGER || entityType == ModEntityTypes.ZOMBIE_FARMER) {
                             mob.setBaby(waveMob.getSize() != null && waveMob.getSize() == -1);
                         }
 
