@@ -104,6 +104,7 @@ public class MobArenaScreen extends Screen {
 
     private String selectedSlimeVariant = "";
     private String selectedZombieVariant = "";
+    private String addMobValidationError = "";
 
     // ADD_MOB equipment
     private String savedMainHand   = "";
@@ -121,6 +122,7 @@ public class MobArenaScreen extends Screen {
     // ADD_MOB — core
     private EditBox mobTypeField, mobCountField;
 
+
     // ADD_MOB — equipment
     private EditBox mainHandItemField, offHandItemField;
     private EditBox helmetField, chestplateField, leggingsField, bootsField;
@@ -133,6 +135,7 @@ public class MobArenaScreen extends Screen {
     private String pendingPotionId = "";
     private String pendingPotionDuration = "";
     private String pendingPotionAmplifier = "";
+
 
     // ADD_MOB — pending enchant row
     private EditBox pendingEnchantIdField, pendingEnchantLevelField;
@@ -766,7 +769,7 @@ public class MobArenaScreen extends Screen {
                 currentY += 14;
             }
 
-            drawInlineLabel(cx,               currentY, "Enchantment");
+            drawInlineLabel(cx, currentY, "Enchantment");
 
             int maxEnchantLevel = -1;
 
@@ -941,12 +944,64 @@ public class MobArenaScreen extends Screen {
     // ── Form submission ───────────────────────────────────────────────────────
 
     private void submitAddMob() {
-        try {
-            if (mobTypeField == null || mobCountField == null) return;
-            String mob   = mobTypeField.getValue().trim();
-            int    count = Integer.parseInt(mobCountField.getValue().trim());
-            if (mob.isEmpty() || count < 1 || selectedArena < 0 || selectedArena >= arenas.size()) return;
+        if (mobTypeField == null || mobCountField == null) return;
 
+        String mob = mobTypeField.getValue().trim();
+        if (mob.isEmpty()) {
+            addMobValidationError = "Please enter a mob type.";
+            rebuildWidgets();
+            return;
+        }
+
+        boolean validMobId;
+        try {
+            validMobId = BuiltInRegistries.ENTITY_TYPE.getOptional(Identifier.parse(mob)).isPresent();
+        } catch (Exception e) {
+            validMobId = false;
+        }
+        if (!validMobId) {
+            addMobValidationError = "Unknown mob type '" + mob + "'.";
+            rebuildWidgets();
+            return;
+        }
+
+        int count;
+        try {
+            count = Integer.parseInt(mobCountField.getValue().trim());
+        } catch (NumberFormatException e) {
+            addMobValidationError = "Count must be a whole number.";
+            rebuildWidgets();
+            return;
+        }
+        if (count < 1) {
+            addMobValidationError = "Count must be at least 1.";
+            rebuildWidgets();
+            return;
+        }
+
+        if (selectedArena < 0 || selectedArena >= arenas.size()) {
+            addMobValidationError = "No arena selected.";
+            rebuildWidgets();
+            return;
+        }
+
+        boolean isSlime = mob.equals("minecraft:slime") || mob.equals(MOD_ID + ":banana_slime");
+        boolean isZombieLike = mob.equals("minecraft:zombie") || mob.equals("minecraft:zombie_villager");
+
+        if (isSlime && selectedSlimeVariant.isEmpty()) {
+            addMobValidationError = "Please select a slime size (Small/Medium/Large).";
+            rebuildWidgets();
+            return;
+        }
+        if (isZombieLike && selectedZombieVariant.isEmpty()) {
+            addMobValidationError = "Please select Baby or Adult.";
+            rebuildWidgets();
+            return;
+        }
+
+        addMobValidationError = "";
+
+        try {
             String ridingMob    = savedRidingMob;
             String mainHandItem = savedMainHand;
             String offHandItem  = savedOffHand;
@@ -992,7 +1047,10 @@ public class MobArenaScreen extends Screen {
             clearAddMobState();
             detailView = DetailView.OVERVIEW;
             rebuildWidgets();
-        } catch (NumberFormatException ignored) {}
+        } catch (Exception e) {
+            addMobValidationError = "Unexpected error: " + e.getMessage();
+            rebuildWidgets();
+        }
     }
 
     private void clearAddMobState() {
@@ -1014,6 +1072,7 @@ public class MobArenaScreen extends Screen {
         savedMobVariant = "";
         selectedSlimeVariant = "";
         selectedZombieVariant = "";
+        addMobValidationError = "";
         savedMainHand   = "";
         savedOffHand    = "";
         savedHelmet     = "";
@@ -1094,6 +1153,14 @@ public class MobArenaScreen extends Screen {
                 }
             }
             g.disableScissor();
+
+            // Validation error — pinned to a fixed screen coordinate (NOT scrolled logical
+            // space) so it always renders regardless of addMobScroll, and stays outside
+            // the scissor region so it can never get clipped by scrolling.
+            if (!addMobValidationError.isEmpty()) {
+                g.text(font, addMobValidationError, dx + PANEL_PAD,
+                        guiTop() + guiHeight() - BTN_H - PANEL_PAD - 12, 0xFFFF5555, false);
+            }
             return;
         }
 

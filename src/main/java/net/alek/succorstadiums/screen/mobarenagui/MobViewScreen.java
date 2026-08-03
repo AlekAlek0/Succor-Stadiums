@@ -57,7 +57,7 @@ public class MobViewScreen {
 
             String mobDisplay = mob.count() + "x  " + formatIdentifierForDisplay(mob.mobType());
             String variantDisplay = variantDisplayFor(mob);
-            if (mob.size() != null && mob.size() != 0) {
+            if (mob.size() != null) {
                 mobDisplay += variantDisplay.isEmpty()
                         ? " (Variant: " + mob.size() + ")"
                         : " (" + variantDisplay + ")";
@@ -147,7 +147,7 @@ public class MobViewScreen {
             h += DETAIL_LINE_HEIGHT;
             h += mob.enchantments().split(",").length * DETAIL_LINE_HEIGHT;
         }
-        if (mob.size() != null && mob.size() != 0) {
+        if (mob.size() != null) {
             h += DETAIL_LINE_HEIGHT;
         }
         return h + 4;

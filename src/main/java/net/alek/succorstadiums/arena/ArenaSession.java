@@ -164,29 +164,20 @@ public class ArenaSession {
                                 null
                         );
 
-                        // Apply custom health from shared constants if applicable, AFTER finalizeSpawn
+                        if (entityType == EntityTypes.SLIME) {
+                            if (waveMob.getSize() != null) {
+                                ((Slime) mob).setSize(waveMob.getSize(), true);
+                            }
+                        } else if (entityType == EntityTypes.ZOMBIE || entityType == EntityTypes.ZOMBIE_VILLAGER) {
+                            mob.setBaby(waveMob.getSize() != null && waveMob.getSize() == -1);
+                        }
+
                         if (SuccorStadiumsConstants.MOB_HEALTH_OVERRIDES.containsKey(entityType)) {
                             AttributeInstance maxHealthAttribute = mob.getAttribute(Attributes.MAX_HEALTH);
                             if (maxHealthAttribute != null) {
                                 double customHealth = SuccorStadiumsConstants.MOB_HEALTH_OVERRIDES.get(entityType);
                                 maxHealthAttribute.setBaseValue(customHealth);
-                                mob.setHealth((float) customHealth); // Set current health to new max
-                            }
-                        }
-
-                        // Apply size/age for slimes and zombies/zombie villagers
-                        if (waveMob.getSize() != null) {
-                            if (entityType == EntityTypes.SLIME) {
-                                LOGGER.info("Attempting to set Slime size to: " + waveMob.getSize());
-                                // Slime size: 1 (small), 2 (medium), 4 (large)
-                                ((Slime) mob).setSize(waveMob.getSize(), true);
-                            } else if (entityType == EntityTypes.ZOMBIE || entityType == EntityTypes.ZOMBIE_VILLAGER) {
-                                // Zombie age: -1 (baby), 0 (adult)
-                                if (waveMob.getSize() == -1) {
-                                    mob.setBaby(true);
-                                } else if (waveMob.getSize() == 0) {
-                                    mob.setBaby(false);
-                                }
+                                mob.setHealth((float) customHealth);
                             }
                         }
 
