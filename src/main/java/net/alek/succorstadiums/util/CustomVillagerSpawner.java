@@ -223,8 +223,8 @@ public class CustomVillagerSpawner {
         ));
 
         offers.add(new MerchantOffer(
-                new ItemCost(ModItems.PLANT_POWDER, 6),
-                Optional.of(new ItemCost(Items.COPPER_NUGGET, 4)),
+                new ItemCost(Items.COPPER_NUGGET, 4),
+                Optional.of(new ItemCost(ModItems.PLANT_POWDER, 6)),
                 new ItemStack(ModItems.CREEPER_SALVE, 4),
                 9999999, 0, 0.0F
         ));
