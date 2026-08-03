@@ -176,7 +176,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Trinket Lore translations
         translationBuilder.add("item.succorstadiums.flint_charm.lore", "Flint Charm? I just don't see it.");
         translationBuilder.add("item.succorstadiums.resurrection_amulet.lore", "I mean the name tells you all you need to know.");
-        translationBuilder.add("item.succorstadiums.dog_whistle.lore", "Summons 5 doggies to help you fight!");
+        translationBuilder.add("item.succorstadiums.dog_whistle.lore", "Summons 3 doggies to help you fight!");
 
         // Trinket Tooltip translations
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_0", "When Used:");

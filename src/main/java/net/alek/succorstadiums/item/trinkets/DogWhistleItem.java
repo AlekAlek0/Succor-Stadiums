@@ -50,7 +50,8 @@ public class DogWhistleItem extends Item {
             // Get the item in user hand as itemStack
             ItemStack itemStack = user.getItemInHand(hand);
 
-            for (int i = 0; i < 5; i++) {
+            int WOLF_COUNT = 3;
+            for (int i = 0; i < WOLF_COUNT; i++) {
                 // Create a new wolf
                 Wolf wolf = EntityTypes.WOLF.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
                 
