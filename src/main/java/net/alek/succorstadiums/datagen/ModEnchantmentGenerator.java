@@ -52,7 +52,7 @@ public class ModEnchantmentGenerator extends FabricDynamicRegistryProvider {
                                 5, // Max Level
                                 Enchantment.dynamicCost(1, 2), // Min cost configuration
                                 Enchantment.dynamicCost(1, 2), // Max cost configuration
-                                4, // Anvil cost
+                                0, // Anvil cost
                                 EquipmentSlotGroup.HAND
                         )
                 ).withEffect(
@@ -61,21 +61,74 @@ public class ModEnchantmentGenerator extends FabricDynamicRegistryProvider {
                         EnchantmentTarget.VICTIM,
                         new ApplyMobEffect(
                                 HolderSet.direct(MobEffects.POISON),
+
+                                // Duration: L1=2s, L2=3s, L3=5s, L4=1s, L5=2s
                                 LevelBasedValue.lookup(
                                         List.of(2F, 3F, 5F, 1F, 2F),
-                                        LevelBasedValue.constant(2)
+                                        LevelBasedValue.constant(2) // Fallback
                                 ),
-                                LevelBasedValue.lookup(
-                                        List.of(2F, 3F, 5F, 1F, 2F),
-                                        LevelBasedValue.constant(2)
-                                ),
+
+                                // Amplifier: L1=Poison I, L2=Poison I, L3=Poison I, L4=Poison II, L5=Poison II
                                 LevelBasedValue.lookup(
                                         List.of(0F, 0F, 0F, 1F, 1F),
-                                        LevelBasedValue.constant(0)
+                                        LevelBasedValue.constant(0) // Fallback
                                 ),
+
+                                // Delay
                                 LevelBasedValue.lookup(
-                                        List.of(0F, 0F, 0F, 1F, 1F),
-                                        LevelBasedValue.constant(0)
+                                        List.of(0F, 0F, 0F, 0F, 0F),
+                                        LevelBasedValue.constant(0) // Fallback
+                                ),
+
+                                // Extra duration/randomness
+                                LevelBasedValue.lookup(
+                                        List.of(0F, 0F, 0F, 0F, 0F),
+                                        LevelBasedValue.constant(0) // Fallback
+                                )
+                        )
+                )
+        );
+
+        register(context, ModEnchantments.ROSE_THORN,
+                Enchantment.enchantment(
+                        Enchantment.definition(
+                                itemLookup.getOrThrow(ModItemTagProvider.BONE_DAGGERS),
+                                5, // Weight
+                                3, // Max Level
+                                Enchantment.dynamicCost(1, 2), // Min cost configuration
+                                Enchantment.dynamicCost(1, 2), // Max cost configuration
+                                0, // Anvil cost
+                                EquipmentSlotGroup.HAND
+                        )
+                ).withEffect(
+                        EnchantmentEffectComponents.POST_ATTACK,
+                        EnchantmentTarget.ATTACKER,
+                        EnchantmentTarget.VICTIM,
+                        new ApplyMobEffect(
+                                HolderSet.direct(MobEffects.REGENERATION),
+
+                                // Duration: L1 = 2s, L2 = 3s, L3 = 1s
+                                LevelBasedValue.lookup(
+                                        List.of(2F, 3F, 1F),
+                                        LevelBasedValue.constant(2) // Fallback
+                                ),
+
+                                // Amplifier: L1 = Regen I, L2 = Regen I, L3 = Regen II
+                                LevelBasedValue.lookup(
+                                        List.of(0F, 0F, 1F),
+                                        LevelBasedValue.constant(0) // Fallback
+                                ),
+
+                                // Delay
+                                LevelBasedValue.lookup(
+                                        List.of(0F, 0F, 0F),
+                                        LevelBasedValue.constant(0) // Fallback
+                                ),
+
+                                // Extra duration/randomness
+                                LevelBasedValue.lookup(
+                                        List.of(0F, 0F, 0F),
+                                        LevelBasedValue.constant(0) // Fallback
                                 )
                         )
                 )

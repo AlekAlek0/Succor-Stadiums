@@ -1,7 +1,7 @@
 {
   "anvil_cost": 0,
   "description": {
-    "translate": "enchantment.succorstadiums.vipers_bite"
+    "translate": "enchantment.succorstadiums.rose_thorn"
   },
   "effects": {
     "minecraft:post_attack": [
@@ -15,8 +15,6 @@
             "values": [
               0.0,
               0.0,
-              0.0,
-              0.0,
               0.0
             ]
           },
@@ -26,8 +24,6 @@
             "values": [
               0.0,
               0.0,
-              0.0,
-              1.0,
               1.0
             ]
           },
@@ -35,8 +31,6 @@
             "type": "minecraft:lookup",
             "fallback": 0.0,
             "values": [
-              0.0,
-              0.0,
               0.0,
               0.0,
               0.0
@@ -48,12 +42,10 @@
             "values": [
               2.0,
               3.0,
-              5.0,
-              1.0,
-              2.0
+              1.0
             ]
           },
-          "to_apply": "minecraft:poison"
+          "to_apply": "minecraft:regeneration"
         },
         "enchanted": "attacker"
       }
@@ -63,7 +55,7 @@
     "base": 1,
     "per_level_above_first": 2
   },
-  "max_level": 5,
+  "max_level": 3,
   "min_cost": {
     "base": 1,
     "per_level_above_first": 2
