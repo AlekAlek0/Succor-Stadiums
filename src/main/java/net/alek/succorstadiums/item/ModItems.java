@@ -1,6 +1,7 @@
 package net.alek.succorstadiums.item;
 
 import net.alek.succorstadiums.item.armor.BaleArmorItem;
+import net.alek.succorstadiums.item.foods.CreeperSalveItem;
 import net.alek.succorstadiums.item.weapons.melee.*;
 import net.alek.succorstadiums.item.weapons.ranged.ArachnoCrossbowItem;
 import net.minecraft.core.Registry;
@@ -125,7 +126,7 @@ public class ModItems {
 
     public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
             .useCooldown(5)));
-    public static final Item CREEPER_SALVE = registerItem("creeper_salve", properties -> new Item(properties.food(ModFoods.CREEPER_SALVE, ModFoods.CREEPER_SALVE_CONSUMABLE)
+    public static final Item CREEPER_SALVE = registerItem("creeper_salve", properties -> new CreeperSalveItem(properties.food(ModFoods.CREEPER_SALVE, ModFoods.CREEPER_SALVE_CONSUMABLE)
             .useCooldown(12)
             .stacksTo(8)));
     public static final Item PLANT_POWDER = registerItem("plant_powder", properties -> new Item(properties.food(ModFoods.PLANT_POWDER, ModFoods.PLANT_POWDER_CONSUMABLE)));
