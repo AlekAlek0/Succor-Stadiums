@@ -4,7 +4,6 @@ import net.alek.succorstadiums.client.ModKeyBindings;
 import net.alek.succorstadiums.network.ArenaActionPayload;
 import net.alek.succorstadiums.network.ArenaDataPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -128,7 +127,6 @@ public class MobArenaScreen extends Screen {
     private int sidebarX() { return guiLeft(); }
     private int detailX()  { return guiLeft() + SIDEBAR_W + 1; }
     private int detailW()  { return guiWidth() - SIDEBAR_W - 1; }
-    private int detailH()  { return guiHeight(); }
 
     // ── Widget construction ───────────────────────────────────────────────────
 
