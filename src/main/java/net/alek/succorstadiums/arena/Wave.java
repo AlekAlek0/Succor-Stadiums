@@ -38,7 +38,10 @@ public class Wave {
                         ridingMob,
                         mainHandItem,
                         offHandItem,
-                        armorItems))
+                        armorItems,
+                        potionEffects,
+                        enchantments
+                ))
                 .findFirst()
                 .orElse(null);
 
@@ -53,8 +56,8 @@ public class Wave {
 
     // Mutator method to remove a mob from a wave
     public void removeMob(String mobType, int count, Integer size, String ridingMob,
-                          String mainHandItem, String offHandItem,
-                          List<String> armorItems) {
+                          String mainHandItem, String offHandItem, List<String> armorItems,
+                          String potionEffects, String enchantments) {
 
         for (WaveMob mob : mobs) {
             if (mob.matches(
@@ -63,7 +66,10 @@ public class Wave {
                     ridingMob,
                     mainHandItem,
                     offHandItem,
-                    armorItems)) {
+                    armorItems,
+                    potionEffects,
+                    enchantments
+            )) {
 
                 int available = mob.getCount();
                 int toRemove = count == -1 ? available : Math.min(count, available);

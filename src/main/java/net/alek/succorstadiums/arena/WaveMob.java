@@ -30,14 +30,17 @@ public class WaveMob {
 
     public boolean matches(String mobType, Integer size, String ridingMob,
                            String mainHandItem, String offHandItem,
-                           List<String> armorItems) {
+                           List<String> armorItems, String potionEffects,
+                           String enchantments) {
 
         return this.mobType.equalsIgnoreCase(mobType) &&
                 Objects.equals(this.size, size) &&
                 Objects.equals(this.ridingMob, ridingMob) &&
                 Objects.equals(this.mainHandItem, mainHandItem) &&
                 Objects.equals(this.offHandItem, offHandItem) &&
-                Objects.equals(this.armorItems, armorItems);
+                Objects.equals(this.armorItems, armorItems) &&
+                Objects.equals(this.potionEffects, potionEffects) &&
+                Objects.equals(this.enchantments, enchantments);
     }
 
     // Get the mobType of the wave mob

@@ -14,25 +14,21 @@ public class ArenaPacketHandler {
 
     public static void register() {
 
-        ServerPlayNetworking.registerGlobalReceiver(ArenaActionPayload.TYPE, (payload, context) -> {
-            context.server().execute(() -> {
-                ServerPlayer player = context.player();
-                handle(payload, player, context.server());
-            });
-        });
+        ServerPlayNetworking.registerGlobalReceiver(ArenaActionPayload.TYPE, (payload, context) -> context.server().execute(() -> {
+            ServerPlayer player = context.player();
+            handle(payload, player, context.server());
+        }));
 
-        ServerPlayNetworking.registerGlobalReceiver(OpenMobArenaRequestPayload.TYPE, (payload, context) -> {
-            context.server().execute(() -> {
+        ServerPlayNetworking.registerGlobalReceiver(OpenMobArenaRequestPayload.TYPE, (payload, context) -> context.server().execute(() -> {
 
-                ServerPlayer player = context.player();
+            ServerPlayer player = context.player();
 
-                ServerPlayNetworking.send(
-                        player,
-                        new OpenMobArenaPayload()
-                );
+            ServerPlayNetworking.send(
+                    player,
+                    new OpenMobArenaPayload()
+            );
 
-            });
-        });
+        }));
     }
 
     private static void handle(ArenaActionPayload p, ServerPlayer player, MinecraftServer server) {
@@ -110,7 +106,9 @@ public class ArenaPacketHandler {
                                 p.ridingMob(),
                                 p.mainHandItem(),
                                 p.offHandItem(),
-                                p.armorItems()
+                                p.armorItems(),
+                                p.potionEffects(),
+                                p.enchantments()
                         );
                         MobArenaManager.save();
                     }
