@@ -12,13 +12,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Mob.class)
 public class MobDamageMixin {
 
-    // Removed the local MOB_DAMAGE map and its static initializer
-
     @Inject(method = "<init>", at = @At("TAIL"))
     private void setBaseDamage(CallbackInfo ci) {
         Mob self = (Mob) (Object) this;
 
-        // Use the shared MOB_DAMAGE_OVERRIDES map from SuccorStadiumsConstants
         Double damage = SuccorStadiumsConstants.MOB_DAMAGE_OVERRIDES.get(self.getType());
 
         if (damage == null) return;
