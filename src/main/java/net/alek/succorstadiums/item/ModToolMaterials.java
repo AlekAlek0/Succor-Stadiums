@@ -7,7 +7,7 @@ public class ModToolMaterials {
 
     public static final ToolMaterial BEAN_POLE_TOOL_MATERIAL = new ToolMaterial(
             BlockTags.INCORRECT_FOR_WOODEN_TOOL,
-            160,
+            320,
             0F,
             0F,
             25,
@@ -16,7 +16,7 @@ public class ModToolMaterials {
 
     public static final ToolMaterial BONE_DAGGER_TOOL_MATERIAL = new ToolMaterial(
             BlockTags.INCORRECT_FOR_WOODEN_TOOL,
-            128,
+            256,
             0F,
             0F,
             25,
@@ -34,7 +34,7 @@ public class ModToolMaterials {
 
     public static final ToolMaterial FUMBLEBRINGER_FORK_TOOL_MATERIAL = new ToolMaterial(
             BlockTags.INCORRECT_FOR_WOODEN_TOOL,
-            256,
+            512,
             0F,
             0F,
             25,
@@ -43,7 +43,7 @@ public class ModToolMaterials {
 
     public static final ToolMaterial SWORD_OF_THE_FOREST_TOOL_MATERIAL = new ToolMaterial(
             BlockTags.INCORRECT_FOR_WOODEN_TOOL,
-            86,
+            72,
             0,
             0,
             25,

@@ -118,11 +118,15 @@ public class ModItems {
                     -3.2F)
     ));
 
-    public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties.durability(300)));
-    public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaStaffItem(properties.durability(300)));
+    public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties
+            .durability(300)));
+    public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaStaffItem(properties
+            .durability(300)));
 
-    public static final Item BOWNANA = registerItem("bownana", properties -> new BownanaItem(properties.durability(384)));
-    public static final Item ARACHNO_CROSSBOW = registerItem("arachno_crossbow", properties -> new ArachnoCrossbowItem(properties.durability(300)));
+    public static final Item BOWNANA = registerItem("bownana", properties -> new BownanaItem(properties
+            .durability(384)));
+    public static final Item ARACHNO_CROSSBOW = registerItem("arachno_crossbow", properties -> new ArachnoCrossbowItem(properties
+            .durability(450)));
 
     public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
             .useCooldown(5)));
@@ -133,9 +137,13 @@ public class ModItems {
     public static final Item ROTTEN_STEW = registerItem("rotten_stew", properties -> new Item(properties.food(ModFoods.ROTTEN_STEW, ModFoods.ROTTEN_STEW_CONSUMABLE)
             .stacksTo(16)));
 
-    public static final Item FLINT_CHARM = registerItem("flint_charm", properties -> new FlintCharmItem(properties.stacksTo(1)));
-    public static final Item RESURRECTION_AMULET = registerItem("resurrection_amulet", properties -> new ResurrectionAmuletItem(properties.stacksTo(1)));
-    public static final Item DOG_WHISTLE = registerItem("dog_whistle", properties -> new DogWhistleItem(properties.durability(24).stacksTo(1)));
+    public static final Item FLINT_CHARM = registerItem("flint_charm", properties -> new FlintCharmItem(properties
+            .stacksTo(1)));
+    public static final Item RESURRECTION_AMULET = registerItem("resurrection_amulet", properties -> new ResurrectionAmuletItem(properties
+            .stacksTo(1)));
+    public static final Item DOG_WHISTLE = registerItem("dog_whistle", properties -> new DogWhistleItem(properties
+            .durability(48)
+            .stacksTo(1)));
 
     private static Item registerItem(String name, Function<Item.Properties, Item> function) {
         return Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, name),
