@@ -4,6 +4,7 @@ import net.alek.succorstadiums.network.ArenaDataPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
@@ -32,18 +33,18 @@ public class ArenaFormScreen {
                              ArenaDataPayload.ArenaEntry existing,
                              Submit onSubmit, Runnable onCancel) {
 
-        int cx   = detailX + PANEL_PAD;
-        int cy   = guiTop + 20;
-        int fw   = detailW - PANEL_PAD * 2;
-        int by   = guiTop + guiHeight - BTN_H - PANEL_PAD;
+        int cx = detailX + PANEL_PAD;
+        int cy = guiTop + 20;
+        int fw = detailW - PANEL_PAD * 2;
+        int by = guiTop + guiHeight - BTN_H - PANEL_PAD;
         int posW = (fw - 54) / 3 - 2;
 
-        nameField   = makeField(addRenderableWidget, font, cx, cy + 10, fw, 14, "Arena name");
-        xField      = makeField(addRenderableWidget, font, cx, cy + 50, posW, 14, "X");
-        yField      = makeField(addRenderableWidget, font, cx + posW + 1, cy + 50, posW, 14, "Y");
-        zField      = makeField(addRenderableWidget, font, cx + (posW + 1) * 2, cy + 50, posW, 14, "Z");
-        radiusField = makeField(addRenderableWidget, font, cx, cy + 90, fw / 2 - 2, 14, "Radius");
-        delayField  = makeField(addRenderableWidget, font, cx + fw / 2 + 2, cy + 90, fw / 2 - 2, 14, "Delay (s)");
+        nameField = makeField(addRenderableWidget, font, cx, cy + 10, fw, "Arena name");
+        xField = makeField(addRenderableWidget, font, cx, cy + 50, posW, "X");
+        yField = makeField(addRenderableWidget, font, cx + posW + 1, cy + 50, posW, "Y");
+        zField = makeField(addRenderableWidget, font, cx + (posW + 1) * 2, cy + 50, posW, "Z");
+        radiusField = makeField(addRenderableWidget, font, cx, cy + 90, fw / 2 - 2, "Radius");
+        delayField = makeField(addRenderableWidget, font, cx + fw / 2 + 2, cy + 90, fw / 2 - 2, "Delay (s)");
 
         addRenderableWidget.accept(Button.builder(Component.literal("My Pos"),
                 btn -> {
@@ -79,27 +80,27 @@ public class ArenaFormScreen {
                     zField == null || radiusField == null || delayField == null) return;
             String name = nameField.getValue().trim();
             if (name.isEmpty()) return;
-            double x  = Double.parseDouble(xField.getValue().trim());
-            double y  = Double.parseDouble(yField.getValue().trim());
-            double z  = Double.parseDouble(zField.getValue().trim());
+            double x = Double.parseDouble(xField.getValue().trim());
+            double y = Double.parseDouble(yField.getValue().trim());
+            double z = Double.parseDouble(zField.getValue().trim());
             int radius = Integer.parseInt(radiusField.getValue().trim());
-            int delay  = Integer.parseInt(delayField.getValue().trim());
+            int delay = Integer.parseInt(delayField.getValue().trim());
             onSubmit.submit(name, x, y, z, radius, delay);
         } catch (NumberFormatException ignored) {}
     }
 
     public void render(GuiGraphicsExtractor g, Font font, GuiTheme theme,
                        int dx, int dt, String headerTitle) {
-        g.fill(dx, dt, dx + 1000, dt + 16, 0xFF5C7ABA); // caller clips via detailW in practice
-        g.text(font, headerTitle,          dx + PANEL_PAD, dt + 4,   0xFFFFFFFF, false);
-        g.text(font, "Name",               dx + PANEL_PAD, dt + 20,  theme.subtext(), false);
-        g.text(font, "Position",           dx + PANEL_PAD, dt + 60,  theme.subtext(), false);
+        g.fill(dx, dt, dx + 1000,dt + 16, 0xFF5C7ABA);
+        g.text(font, headerTitle, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
+        g.text(font, "Name", dx + PANEL_PAD, dt + 20, theme.subtext(), false);
+        g.text(font, "Position", dx + PANEL_PAD, dt + 60,  theme.subtext(), false);
         g.text(font, "Radius / Delay (s)", dx + PANEL_PAD, dt + 100, theme.subtext(), false);
     }
 
-    private static EditBox makeField(Consumer<net.minecraft.client.gui.components.AbstractWidget> addRenderableWidget,
-                                     Font font, int x, int y, int w, int h, String hint) {
-        EditBox field = new EditBox(font, x, y, w, h, Component.literal(hint));
+    private static EditBox makeField(Consumer<AbstractWidget> addRenderableWidget,
+                                     Font font, int x, int y, int w, String hint) {
+        EditBox field = new EditBox(font, x, y, w, 14, Component.literal(hint));
         field.setHint(Component.literal(hint));
         field.setBordered(true);
         addRenderableWidget.accept(field);
