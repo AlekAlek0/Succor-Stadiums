@@ -36,22 +36,22 @@ public class ArenaSession {
 
     private final MobArena arena;
     private final ServerLevel level;
-    private final List<ServerPlayer> initialPlayers; // All players who started the arena
-    private final Set<UUID> activePlayerUUIDs;       // Players currently alive in the arena
+
+    // All players who started the arena and players currently alive in the arena
+    private final List<ServerPlayer> initialPlayers;
+    private final Set<UUID> activePlayerUUIDs;
 
     private int currentWaveIndex = 0;
     private int totalMobsInWave = 0;
     private final List<UUID> activeMobUUIDs = new ArrayList<>();
+    private boolean firstWave = true;
     private boolean waitingForNextWave = false;
     private int delayTicksRemaining = 0;
 
-    // Replaced 'finished' and 'playerLost' with ArenaState
     private enum ArenaState { RUNNING, WIN, LOSS }
     private ArenaState state = ArenaState.RUNNING;
 
     private ServerBossEvent bossBar;
-
-    // Removed the local CUSTOM_MOB_HEALTH map and its static initializer
 
     // Constructor to create an arena session
     public ArenaSession(MobArena arena, ServerLevel level, List<ServerPlayer> players) {
@@ -66,36 +66,63 @@ public class ArenaSession {
         bossBar = new ServerBossEvent(
                 java.util.UUID.randomUUID(),
                 Component.literal("Starting..."),
-                BossEvent.BossBarColor.RED,
+                BossEvent.BossBarColor.YELLOW,
                 BossEvent.BossBarOverlay.PROGRESS
         );
-        initialPlayers.forEach(bossBar::addPlayer);
+
+        // Teleport all selected players to the arena position
+        initialPlayers.forEach(player -> {
+            bossBar.addPlayer(player);
+
+            player.teleportTo(
+                    arena.getCenterX(),
+                    arena.getCenterY(),
+                    arena.getCenterZ()
+            );
+        });
 
         broadcast("§6--- " + arena.getName() + " has begun! ---");
-        spawnCurrentWave();
+
+        // Wait the same amount of time as the delay between waves
+        delayTicksRemaining = arena.getDelayBetweenWaves() * 20;
+        waitingForNextWave = true;
     }
 
     // Arena tick method
     public void tick() {
-        if (state != ArenaState.RUNNING) return; // Only tick if running
+        if (state != ArenaState.RUNNING) return;
 
         // Check if all players are dead
         if (activePlayerUUIDs.isEmpty()) {
-            endArena(ArenaState.LOSS); // Players lost
+            endArena(ArenaState.LOSS);
             return;
         }
 
         if (waitingForNextWave) {
             int secsLeft = (delayTicksRemaining / 20) + 1;
-            bossBar.setName(Component.literal("§eNext wave in " + secsLeft + "s..."));
-            bossBar.setProgress((float) delayTicksRemaining / (arena.getDelayBetweenWaves() * 20));
+
+            bossBar.setName(Component.literal(
+                    (firstWave
+                            ? "§eFirst wave in " + secsLeft + "s..."
+                            : "§eNext wave in " + secsLeft + "s...")
+                            + " §f| §aPlayers: " + activePlayerUUIDs.size()
+            ));
+
+            bossBar.setProgress(
+                    (float) delayTicksRemaining /
+                            (arena.getDelayBetweenWaves() * 20)
+            );
+
             bossBar.setColor(BossEvent.BossBarColor.YELLOW);
 
             delayTicksRemaining--;
+
             if (delayTicksRemaining <= 0) {
                 waitingForNextWave = false;
+                firstWave = false;
                 spawnCurrentWave();
             }
+
             return;
         }
 
@@ -108,7 +135,10 @@ public class ArenaSession {
         int waveNum = currentWaveIndex + 1;
         int totalWaves = arena.getWaveCount();
         bossBar.setName(Component.literal(
-                "§6" + arena.getName() + " §f- §bWave: " + waveNum + "/" + totalWaves + "§f - §cEnemies Remaining: " + remaining
+                "§6" + arena.getName()
+                        + " §f- §bWave: " + waveNum + "/" + totalWaves
+                        + " §f- §cEnemies Remaining: " + remaining
+                        + " §f- §aPlayers: " + activePlayerUUIDs.size()
         ));
         float progress = totalMobsInWave > 0 ? (float) remaining / totalMobsInWave : 0f;
         bossBar.setProgress(Math.clamp(progress, 0f, 1f));
@@ -356,6 +386,7 @@ public class ArenaSession {
                                 }
                             }
                         }
+                        LOGGER.info("Arena spawn: {} | MaxHealth={} | Health={}", entityType, mob.getMaxHealth(), mob.getHealth());
                     }
 
                     level.addFreshEntity(entity);
@@ -368,7 +399,10 @@ public class ArenaSession {
             bossBar.setColor(BossEvent.BossBarColor.RED);
             bossBar.setProgress(1f);
             bossBar.setName(Component.literal(
-                    "Wave " + wave.getWaveNumber() + "/" + arena.getWaveCount() + " — " + totalMobsInWave + " mobs remaining"
+                    "§6" + arena.getName()
+                            + " §f- §bWave: " + wave.getWaveNumber() + "/" + arena.getWaveCount()
+                            + " §f- §cEnemies Remaining: " + totalMobsInWave
+                            + " §f- §aPlayers: " + activePlayerUUIDs.size()
             ));
 
             broadcast("§cSurvive! " + totalMobsInWave + " mobs spawned.");
