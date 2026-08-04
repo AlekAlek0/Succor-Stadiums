@@ -1,6 +1,5 @@
 package net.alek.succorstadiums.arena;
 
-import net.alek.succorstadiums.SuccorStadiumsConstants; // Import the new constants class
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -10,7 +9,6 @@ import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.monster.cubemob.Slime;
@@ -20,8 +18,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -164,28 +160,7 @@ public class ArenaSession {
         Wave wave = arena.getWaves().get(currentWaveIndex);
         broadcast("§c--- Wave " + wave.getWaveNumber() + " / " + arena.getWaveCount() + " ---");
 
-        // Brief invulnerability when the wave starts
-        MobEffectInstance waveStartResistance = new MobEffectInstance(
-                MobEffects.RESISTANCE,
-                7,
-                254,
-                false,
-                false,
-                true
-        );
 
-        for (ServerPlayer player : initialPlayers) {
-            if (activePlayerUUIDs.contains(player.getUUID())) {
-                player.addEffect(new MobEffectInstance(
-                        MobEffects.RESISTANCE,
-                        4,
-                        254,
-                        false,
-                        false,
-                        true
-                ));
-            }
-        }
 
 
         try {
@@ -220,16 +195,6 @@ public class ArenaSession {
                                 null
                         );
 
-                        // Brief invulnerability when the wave starts
-                        mob.addEffect(new MobEffectInstance(
-                                MobEffects.RESISTANCE,
-                                7,
-                                254,
-                                false,
-                                false,
-                                true
-                        ));
-
                         if (entityType == EntityTypes.SLIME || entityType == ModEntityTypes.BANANA_SLIME) {
                             if (waveMob.getSize() != null) {
                                 ((Slime) mob).setSize(waveMob.getSize(), true);
@@ -244,16 +209,6 @@ public class ArenaSession {
                                     .getOptional(Identifier.parse(waveMob.getRidingMob()));
                             if (ridingEntityTypeOpt.isPresent()) {Entity ridingEntity = ridingEntityTypeOpt.get().create(level, EntitySpawnReason.COMMAND);
                                 if (ridingEntity != null) {ridingEntity.snapTo(spawnPos.x, spawnPos.y, spawnPos.z, level.getRandom().nextFloat() * 360f, 0f);
-                                    if (ridingEntity instanceof Mob ridingMob) {ridingMob.addEffect(new MobEffectInstance(
-                                                MobEffects.RESISTANCE,
-                                                7,
-                                                254,
-                                                false,
-                                                false,
-                                                true
-                                        ));
-                                    }
-
                                     level.addFreshEntity(ridingEntity);
                                     entity.startRiding(ridingEntity);
                                     activeMobUUIDs.add(ridingEntity.getUUID());
