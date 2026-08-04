@@ -170,16 +170,16 @@ public class MobViewScreen {
         return "";
     }
 
-     private static String targetDisplayFor(String targetKey) {
-        for (int t = 0; t < MobArenaScreen.ENCHANT_TARGET_KEYS.length; t++) {
-            if (MobArenaScreen.ENCHANT_TARGET_KEYS[t].equals(targetKey)) {
-                return MobArenaScreen.ENCHANT_TARGETS[t];
+    private static String targetDisplayFor(String targetKey) {
+        for (int t = 0; t < AddMobScreen.ENCHANT_TARGET_KEYS.length; t++) {
+            if (AddMobScreen.ENCHANT_TARGET_KEYS[t].equals(targetKey)) {
+                return AddMobScreen.ENCHANT_TARGETS[t];
             }
         }
         return targetKey;
     }
 
-     static String formatIdentifierForDisplay(String identifier) {
+    static String formatIdentifierForDisplay(String identifier) {
         if (identifier == null || identifier.isEmpty()) return "";
         String path = identifier.contains(":") ? identifier.substring(identifier.indexOf(":") + 1) : identifier;
         return Arrays.stream(path.split("_"))

@@ -27,7 +27,7 @@ public class ArenaFormScreen {
      * @param onSubmit   called with parsed field values when Create/Save is pressed
      * @param onCancel   called when Cancel is pressed
      */
-    public void buildWidgets(Consumer<net.minecraft.client.gui.components.AbstractWidget> addRenderableWidget,
+    public void buildWidgets(Consumer<AbstractWidget> addRenderableWidget,
                              Font font,
                              int detailX, int detailW, int guiTop, int guiHeight,
                              ArenaDataPayload.ArenaEntry existing,
