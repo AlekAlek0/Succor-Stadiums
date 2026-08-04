@@ -1268,9 +1268,13 @@ public class MobArenaScreen extends Screen {
 
     @Override
     public boolean keyPressed(@NonNull KeyEvent event) {
-        if (ModKeyBindings.OPEN_MOB_ARENA_GUI.matches(event)) {
-            this.onClose();
-            return true;
+
+        // Don't let keybind fire if typing in a text box
+        if (!(this.getFocused() instanceof net.minecraft.client.gui.components.EditBox)) {
+            if (ModKeyBindings.OPEN_MOB_ARENA_GUI.matches(event)) {
+                this.onClose();
+                return true;
+            }
         }
 
         if (detailView == DetailView.ADD_MOB) {
