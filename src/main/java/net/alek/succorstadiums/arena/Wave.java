@@ -32,12 +32,13 @@ public class Wave {
 
         // Check if a mob with the same type matching passed arguments already exist in the wave
         WaveMob existingMob = mobs.stream()
-                .filter(mob -> mob.getMobType().equalsIgnoreCase(mobType) &&
-                        (ridingMob == null || ridingMob.equals(mob.getRidingMob())) &&
-                        (mainHandItem == null || mainHandItem.equals(mob.getMainHandItem())) &&
-                        (offHandItem == null || offHandItem.equals(mob.getOffHandItem())) &&
-                        (armorItems.isEmpty() || armorItems.equals(mob.getArmorItems())) &&
-                        (size == null || size.equals(mob.getSize())))
+                .filter(mob -> mob.matches(
+                        mobType,
+                        size,
+                        ridingMob,
+                        mainHandItem,
+                        offHandItem,
+                        armorItems))
                 .findFirst()
                 .orElse(null);
 
@@ -51,12 +52,23 @@ public class Wave {
     }
 
     // Mutator method to remove a mob from a wave
-    public void removeMob(String mobType, int count) {
+    public void removeMob(String mobType, int count, Integer size, String ridingMob,
+                          String mainHandItem, String offHandItem,
+                          List<String> armorItems) {
+
         for (WaveMob mob : mobs) {
-            if (mob.getMobType().equalsIgnoreCase(mobType)) {
+            if (mob.matches(
+                    mobType,
+                    size,
+                    ridingMob,
+                    mainHandItem,
+                    offHandItem,
+                    armorItems)) {
+
                 int available = mob.getCount();
                 int toRemove = count == -1 ? available : Math.min(count, available);
                 int newCount = available - toRemove;
+
                 if (newCount <= 0) {
                     mobs.remove(mob);
                 } else {

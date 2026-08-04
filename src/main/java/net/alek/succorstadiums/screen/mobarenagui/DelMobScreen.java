@@ -16,7 +16,7 @@ public class DelMobScreen {
     private static final int BTN_H = 16;
 
     public interface RemoveMob {
-        void remove(String mobType, int count);
+        void remove(ArenaDataPayload.MobEntry mob, int count);
     }
 
     public void buildWidgets(Consumer<net.minecraft.client.gui.components.AbstractWidget> addRenderableWidget,
@@ -33,23 +33,23 @@ public class DelMobScreen {
                 int buttonY = currentY + 1;
 
                 addRenderableWidget.accept(Button.builder(Component.literal("-1"),
-                        btn -> onRemove.remove(mob.mobType(), 1)
+                        btn -> onRemove.remove(mob, 1)
                 ).bounds(cx, buttonY, 24, BTN_H).build());
 
                 addRenderableWidget.accept(Button.builder(Component.literal("-5"),
-                        btn -> onRemove.remove(mob.mobType(), 5)
+                        btn -> onRemove.remove(mob, 5)
                 ).bounds(cx + 28, buttonY, 24, BTN_H).build());
 
                 addRenderableWidget.accept(Button.builder(Component.literal("-10"),
-                        btn -> onRemove.remove(mob.mobType(), 10)
+                        btn -> onRemove.remove(mob, 10)
                 ).bounds(cx + 56, buttonY, 28, BTN_H).build());
 
                 addRenderableWidget.accept(Button.builder(Component.literal("-20"),
-                        btn -> onRemove.remove(mob.mobType(), 20)
+                        btn -> onRemove.remove(mob, 20)
                 ).bounds(cx + 88, buttonY, 28, BTN_H).build());
 
                 addRenderableWidget.accept(Button.builder(Component.literal("✕ All"),
-                        btn -> onRemove.remove(mob.mobType(), mob.count())
+                        btn -> onRemove.remove(mob, mob.count())
                 ).bounds(cx + 120, buttonY, 36, BTN_H).build());
 
                 currentY += MobViewScreen.computeMobEntryHeight(mob);

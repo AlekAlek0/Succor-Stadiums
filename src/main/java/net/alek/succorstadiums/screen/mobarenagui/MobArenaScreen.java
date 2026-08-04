@@ -420,9 +420,21 @@ public class MobArenaScreen extends Screen {
 
         delMobScreen.buildWidgets(this::addRenderableWidget,
                 detailX(), guiTop(), guiHeight(), wave,
-                (mobType, count) -> {
+                (mob, count) -> {
                     if (wave != null) {
-                        ClientPlayNetworking.send(ArenaActionPayload.removeMob(arena.name(), selectedWave, mobType, count));
+                        ClientPlayNetworking.send(
+                                ArenaActionPayload.removeMob(
+                                        arena.name(),
+                                        selectedWave,
+                                        mob.mobType(),
+                                        count,
+                                        mob.size(),
+                                        mob.ridingMob(),
+                                        mob.mainHandItem(),
+                                        mob.offHandItem(),
+                                        mob.armorItems()
+                                )
+                        );
                     }
                 },
                 () -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); });

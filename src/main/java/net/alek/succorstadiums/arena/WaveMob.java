@@ -1,6 +1,7 @@
 package net.alek.succorstadiums.arena;
 
 import java.util.List;
+import java.util.Objects;
 
 public class WaveMob {
 
@@ -25,6 +26,18 @@ public class WaveMob {
         this.armorItems = armorItems;
         this.potionEffects = potionEffects;
         this.enchantments = enchantments;
+    }
+
+    public boolean matches(String mobType, Integer size, String ridingMob,
+                           String mainHandItem, String offHandItem,
+                           List<String> armorItems) {
+
+        return this.mobType.equalsIgnoreCase(mobType) &&
+                Objects.equals(this.size, size) &&
+                Objects.equals(this.ridingMob, ridingMob) &&
+                Objects.equals(this.mainHandItem, mainHandItem) &&
+                Objects.equals(this.offHandItem, offHandItem) &&
+                Objects.equals(this.armorItems, armorItems);
     }
 
     // Get the mobType of the wave mob

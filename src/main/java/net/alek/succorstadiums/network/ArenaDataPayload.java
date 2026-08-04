@@ -27,7 +27,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
     public record MobEntry(
             String mobType,
             int count,
-            Integer size, // Added size field
+            Integer size,
             String ridingMob,
             String mainHandItem,
             String offHandItem,

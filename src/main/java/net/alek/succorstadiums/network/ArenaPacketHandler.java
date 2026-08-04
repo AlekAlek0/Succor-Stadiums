@@ -102,7 +102,18 @@ public class ArenaPacketHandler {
                 MobArena arena = MobArenaManager.getArena(p.arenaName());
                 if (arena != null) {
                     Wave wave = arena.getWave(p.waveNumber());
-                    if (wave != null) { wave.removeMob(p.mobType(), p.count()); MobArenaManager.save(); }
+                    if (wave != null) {
+                        wave.removeMob(
+                                p.mobType(),
+                                p.count(),
+                                p.size(),
+                                p.ridingMob(),
+                                p.mainHandItem(),
+                                p.offHandItem(),
+                                p.armorItems()
+                        );
+                        MobArenaManager.save();
+                    }
                 }
                 sendData(player);
             }

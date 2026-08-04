@@ -115,8 +115,8 @@ public record ArenaActionPayload(Action action, String arenaName, String newName
     public static ArenaActionPayload addMob(String arena, int wave, String mob, int count, Integer size, String ridingMob, String mainHandItem, String offHandItem, List<String> armorItems, String potionEffects, String enchantments) {
         return new ArenaActionPayload(Action.ADD_MOB, arena, "", wave, mob, count, size, ridingMob, mainHandItem, offHandItem, armorItems, potionEffects, enchantments, 0, 0, 0, 0, 0, List.of());
     }
-    public static ArenaActionPayload removeMob(String arena, int wave, String mob, int count) {
-        return new ArenaActionPayload(Action.REMOVE_MOB, arena, "", wave, mob, count, null, "", "", "", List.of(), "", "", 0, 0, 0, 0, 0, List.of());
+    public static ArenaActionPayload removeMob(String arena, int wave, String mob, int count, Integer size, String ridingMob, String mainHandItem, String offHandItem, List<String> armorItems) {
+        return new ArenaActionPayload(Action.REMOVE_MOB, arena, "", wave, mob, count, size, ridingMob, mainHandItem, offHandItem, armorItems, "", "", 0, 0, 0, 0, 0, List.of());
     }
     public static ArenaActionPayload startArena(String arena, List<String> playerNames) {
         return new ArenaActionPayload(Action.START_ARENA, arena, "", 0, "", 0, null, "", "", "", List.of(), "", "", 0, 0, 0, 0, 0, playerNames);
