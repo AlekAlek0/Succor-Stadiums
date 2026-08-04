@@ -419,7 +419,6 @@ public class ArenaSession {
                                 }
                             }
                         }
-                        LOGGER.info("Arena spawn: {} | MaxHealth={} | Health={}", entityType, mob.getMaxHealth(), mob.getHealth());
                     }
 
                     level.addFreshEntity(entity);
