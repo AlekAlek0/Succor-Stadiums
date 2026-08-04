@@ -238,15 +238,6 @@ public class ArenaSession {
                             mob.setBaby(waveMob.getSize() != null && waveMob.getSize() == -1);
                         }
 
-                        if (SuccorStadiumsConstants.MOB_HEALTH_OVERRIDES.containsKey(entityType)) {
-                            AttributeInstance maxHealthAttribute = mob.getAttribute(Attributes.MAX_HEALTH);
-                            if (maxHealthAttribute != null) {
-                                double customHealth = SuccorStadiumsConstants.MOB_HEALTH_OVERRIDES.get(entityType);
-                                maxHealthAttribute.setBaseValue(customHealth);
-                                mob.setHealth((float) customHealth);
-                            }
-                        }
-
                         // ── Riding mob ────────────────────────────────────────
                         if (waveMob.getRidingMob() != null && !waveMob.getRidingMob().isEmpty()) {
                             Optional<EntityType<?>> ridingEntityTypeOpt = BuiltInRegistries.ENTITY_TYPE
