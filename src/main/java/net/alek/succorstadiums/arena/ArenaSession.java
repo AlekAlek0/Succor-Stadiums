@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.entity.monster.cubemob.Slime;
@@ -163,6 +164,30 @@ public class ArenaSession {
         Wave wave = arena.getWaves().get(currentWaveIndex);
         broadcast("§c--- Wave " + wave.getWaveNumber() + " / " + arena.getWaveCount() + " ---");
 
+        // Brief invulnerability when the wave starts
+        MobEffectInstance waveStartResistance = new MobEffectInstance(
+                MobEffects.RESISTANCE,
+                7,
+                254,
+                false,
+                false,
+                true
+        );
+
+        for (ServerPlayer player : initialPlayers) {
+            if (activePlayerUUIDs.contains(player.getUUID())) {
+                player.addEffect(new MobEffectInstance(
+                        MobEffects.RESISTANCE,
+                        4,
+                        254,
+                        false,
+                        false,
+                        true
+                ));
+            }
+        }
+
+
         try {
             for (WaveMob waveMob : wave.getMobs()) {
                 Optional<EntityType<?>> entityTypeOpt = BuiltInRegistries.ENTITY_TYPE
@@ -195,6 +220,16 @@ public class ArenaSession {
                                 null
                         );
 
+                        // Brief invulnerability when the wave starts
+                        mob.addEffect(new MobEffectInstance(
+                                MobEffects.RESISTANCE,
+                                7,
+                                254,
+                                false,
+                                false,
+                                true
+                        ));
+
                         if (entityType == EntityTypes.SLIME || entityType == ModEntityTypes.BANANA_SLIME) {
                             if (waveMob.getSize() != null) {
                                 ((Slime) mob).setSize(waveMob.getSize(), true);
@@ -216,11 +251,18 @@ public class ArenaSession {
                         if (waveMob.getRidingMob() != null && !waveMob.getRidingMob().isEmpty()) {
                             Optional<EntityType<?>> ridingEntityTypeOpt = BuiltInRegistries.ENTITY_TYPE
                                     .getOptional(Identifier.parse(waveMob.getRidingMob()));
-                            if (ridingEntityTypeOpt.isPresent()) {
-                                Entity ridingEntity = ridingEntityTypeOpt.get().create(level, EntitySpawnReason.COMMAND);
-                                if (ridingEntity != null) {
-                                    ridingEntity.snapTo(spawnPos.x, spawnPos.y, spawnPos.z,
-                                            level.getRandom().nextFloat() * 360f, 0f);
+                            if (ridingEntityTypeOpt.isPresent()) {Entity ridingEntity = ridingEntityTypeOpt.get().create(level, EntitySpawnReason.COMMAND);
+                                if (ridingEntity != null) {ridingEntity.snapTo(spawnPos.x, spawnPos.y, spawnPos.z, level.getRandom().nextFloat() * 360f, 0f);
+                                    if (ridingEntity instanceof Mob ridingMob) {ridingMob.addEffect(new MobEffectInstance(
+                                                MobEffects.RESISTANCE,
+                                                7,
+                                                254,
+                                                false,
+                                                false,
+                                                true
+                                        ));
+                                    }
+
                                     level.addFreshEntity(ridingEntity);
                                     entity.startRiding(ridingEntity);
                                     activeMobUUIDs.add(ridingEntity.getUUID());
