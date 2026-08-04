@@ -1202,7 +1202,7 @@ public class MobArenaScreen extends Screen {
         g.text(font, "Radius: " + arena.radius() + "  Delay: " + arena.delaySeconds() + "s",
                 dx + PANEL_PAD, dt + 30, theme.subtext(), false);
 
-        g.fill(dx, dt + 42, dx + dw - 3, dt + 54, theme.getTheme() != Theme.LIGHT ? 0xFF313244 : 0xFFEEEEEE);
+        g.fill(dx, dt + 42, dx + dw - 3, dt + 54, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
         g.text(font, "Waves (" + arena.waves().size() + ")", dx + PANEL_PAD, dt + 45, theme.header(), false);
 
         int waveAreaY = guiTop() + 56;

@@ -4,6 +4,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.Color;
 import java.io.File;
 import java.nio.file.Files;
 
@@ -47,31 +48,31 @@ public class GuiTheme {
     }
 
     public int bg() {
-        return theme.bg;
+        return theme.bg.getRGB();
     }
 
     public int sidebar() {
-        return theme.sidebar;
+        return theme.sidebar.getRGB();
     }
 
     public int panel() {
-        return theme.panel;
+        return theme.panel.getRGB();
     }
 
     public int border() {
-        return theme.border;
+        return theme.border.getRGB();
     }
 
     public int header() {
-        return theme.header;
+        return theme.header.getRGB();
     }
 
     public int text() {
-        return theme.text;
+        return theme.text.getRGB();
     }
 
     public int subtext() {
-        return theme.subtext;
+        return theme.subtext.getRGB();
     }
 
     private static void saveTheme(Theme theme) {
