@@ -612,8 +612,7 @@ public class MobArenaScreen extends Screen {
             if (i % 2 == 0) g.fill(dx, ry, dx + dw - 3, ry + ROW_H, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
             String label = (wave.name() != null && !wave.name().isEmpty())
                     ? wave.name() : "Wave " + wave.waveNumber();
-            int effectiveDelay = wave.delaySeconds() != null ? wave.delaySeconds() : arena.delaySeconds();
-            g.text(font, label + "  (" + effectiveDelay + "s)", dx + PANEL_PAD + 18, ry + 4, theme.text(), false);
+            g.text(font, label, dx + PANEL_PAD + 18, ry + 4, theme.text(), false);
         }
     }
 
