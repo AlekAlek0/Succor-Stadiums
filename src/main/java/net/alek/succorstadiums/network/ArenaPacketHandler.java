@@ -42,7 +42,6 @@ public class ArenaPacketHandler {
                 sendData(player);
             }
             case REMOVE_ARENA -> {
-                // Stop the arena if it's running before removing it
                 if (ArenaSessionManager.isRunning(p.arenaName())) {
                     ArenaSession session = ArenaSessionManager.getSession(p.arenaName());
                     if (session != null) session.KillCurrentWave(); // Ensure current wave is killed
@@ -73,9 +72,52 @@ public class ArenaPacketHandler {
                 if (arena != null) { arena.addWave(); MobArenaManager.save(); }
                 sendData(player);
             }
+            case ADD_WAVE_FULL -> {
+                MobArena arena = MobArenaManager.getArena(p.arenaName());
+                if (arena != null) {
+                    String name = p.newName().trim();
+                    Integer delay = p.delay() < 0 ? null : p.delay();
+                    arena.addWave(name.isEmpty() ? null : name, delay);
+                    MobArenaManager.save();
+                }
+                sendData(player);
+            }
             case REMOVE_WAVE -> {
                 MobArena arena = MobArenaManager.getArena(p.arenaName());
                 if (arena != null) { arena.removeWave(p.waveNumber()); MobArenaManager.save(); }
+                sendData(player);
+            }
+            case MOVE_WAVE_UP -> {
+                MobArena arena = MobArenaManager.getArena(p.arenaName());
+                if (arena != null) {
+                    arena.moveWave(p.waveNumber(), -1);
+                    MobArenaManager.save();
+                }
+                sendData(player);
+            }
+            case MOVE_WAVE_DOWN -> {
+                MobArena arena = MobArenaManager.getArena(p.arenaName());
+                if (arena != null) {
+                    arena.moveWave(p.waveNumber(), 1);
+                    MobArenaManager.save();
+                }
+                sendData(player);
+            }
+            case RENAME_WAVE -> {
+                MobArena arena = MobArenaManager.getArena(p.arenaName());
+                if (arena != null) {
+                    String name = p.newName().trim();
+                    arena.renameWave(p.waveNumber(), name.isEmpty() ? null : name);
+                    MobArenaManager.save();
+                }
+                sendData(player);
+            }
+            case SET_WAVE_DELAY -> {
+                MobArena arena = MobArenaManager.getArena(p.arenaName());
+                if (arena != null) {
+                    arena.setWaveDelay(p.waveNumber(), p.delay() < 0 ? null : p.delay());
+                    MobArenaManager.save();
+                }
                 sendData(player);
             }
             case ADD_MOB -> {

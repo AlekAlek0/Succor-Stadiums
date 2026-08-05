@@ -56,6 +56,7 @@ public class AddMobScreen {
     private boolean showRidingMobField     = false;
     private boolean showPotionEffectsField = false;
     private boolean showEnchantmentsField  = false;
+    private boolean editMode = false;
 
     // ── Multi-entry lists for potion effects and enchantments ────────────────
 
@@ -655,7 +656,7 @@ public class AddMobScreen {
         int maxScroll = Math.max(0, contentHeight - scrollableAreaHeight);
         addMobScroll = Math.max(0, Math.min(addMobScroll, maxScroll));
 
-        adder.accept(Button.builder(Component.literal("✔ Add"),
+        adder.accept(Button.builder(Component.literal(editMode ? "✔ Save" : "✔ Add"),
                         btn -> submit(adder, font, detailX, detailW, guiTop, guiHeight,
                                 onSubmit, onCancel, rebuildScreen))
                 .bounds(cx, by, 50, BTN_H).build());
@@ -799,28 +800,97 @@ public class AddMobScreen {
         enchantmentEntries.clear();
         pendingEnchantTargetIndex = 0;
         addMobScroll = 0;
-        showEquipmentFields    = false;
-        showRidingMobField     = false;
+        editMode = false;
+        showEquipmentFields = false;
+        showRidingMobField = false;
         showPotionEffectsField = false;
-        showEnchantmentsField  = false;
+        showEnchantmentsField = false;
         pendingPotionId = "";
         pendingPotionDuration = "";
         pendingPotionAmplifier = "";
         pendingEnchantId = "";
         pendingEnchantLevel = "";
-        savedMobType    = "";
-        savedMobCount   = "";
+        savedMobType = "";
+        savedMobCount = "";
         savedMobVariant = "";
         selectedSlimeVariant = "";
         selectedZombieVariant = "";
         validationError = "";
-        savedMainHand   = "";
-        savedOffHand    = "";
-        savedHelmet     = "";
+        savedMainHand = "";
+        savedOffHand = "";
+        savedHelmet = "";
         savedChestplate = "";
-        savedLeggings   = "";
-        savedBoots      = "";
-        savedRidingMob  = "";
+        savedLeggings = "";
+        savedBoots = "";
+        savedRidingMob = "";
+    }
+
+    /** Populates all form state from an existing mob entry and opens relevant sections. Call before buildWidgets(). */
+    public void prefill(net.alek.succorstadiums.network.ArenaDataPayload.MobEntry mob) {
+        reset();
+        editMode = true;
+
+        savedMobType = mob.mobType();
+        savedMobCount = String.valueOf(mob.count());
+
+        boolean isSlime = mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":banana_slime");
+        boolean isZombieLike = mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager") || mob.mobType().equals(MOD_ID + ":zombie_farmer");
+
+        if (mob.size() != null) {
+            if (isSlime) {
+                selectedSlimeVariant = switch (mob.size()) {
+                    case 1 -> "small";
+                    case 2 -> "medium";
+                    case 4 -> "large";
+                    default -> "";
+                };
+                savedMobVariant = selectedSlimeVariant;
+            } else if (isZombieLike) {
+                selectedZombieVariant = mob.size() == -1 ? "baby" : "adult";
+                savedMobVariant = selectedZombieVariant;
+            }
+        }
+
+        savedRidingMob = mob.ridingMob() != null ? mob.ridingMob() : "";
+        savedMainHand  = mob.mainHandItem() != null ? mob.mainHandItem() : "";
+        savedOffHand   = mob.offHandItem() != null ? mob.offHandItem() : "";
+
+        List<String> armor = mob.armorItems();
+        savedHelmet     = (armor != null && armor.size() > 0) ? armor.get(0) : "";
+        savedChestplate = (armor != null && armor.size() > 1) ? armor.get(1) : "";
+        savedLeggings   = (armor != null && armor.size() > 2) ? armor.get(2) : "";
+        savedBoots      = (armor != null && armor.size() > 3) ? armor.get(3) : "";
+
+        if (mob.potionEffects() != null && !mob.potionEffects().isEmpty()) {
+            for (String entry : mob.potionEffects().split(",")) {
+                String[] parts = entry.trim().split(":");
+                if (parts.length >= 3) {
+                    String amp = parts[parts.length - 1];
+                    String dur = parts[parts.length - 2];
+                    String effectId = String.join(":", Arrays.copyOfRange(parts, 0, parts.length - 2));
+                    potionEffectEntries.add(new String[]{effectId, dur, amp});
+                }
+            }
+        }
+
+        if (mob.enchantments() != null && !mob.enchantments().isEmpty()) {
+            for (String entry : mob.enchantments().split(",")) {
+                String[] parts = entry.trim().split(":");
+                if (parts.length >= 3) {
+                    String lvl = parts[parts.length - 1];
+                    String target = parts[0];
+                    String enchantId = String.join(":", Arrays.copyOfRange(parts, 1, parts.length - 1));
+                    enchantmentEntries.add(new String[]{enchantId, lvl, target});
+                }
+            }
+        }
+
+        showEquipmentFields = !savedMainHand.isEmpty() || !savedOffHand.isEmpty()
+                || !savedHelmet.isEmpty() || !savedChestplate.isEmpty()
+                || !savedLeggings.isEmpty() || !savedBoots.isEmpty();
+        showPotionEffectsField = !potionEffectEntries.isEmpty();
+        showEnchantmentsField  = !enchantmentEntries.isEmpty();
+        showRidingMobField     = !savedRidingMob.isEmpty();
     }
 
     // ── Rendering ─────────────────────────────────────────────────────────────
@@ -834,7 +904,7 @@ public class AddMobScreen {
     public void render(GuiGraphicsExtractor g, Font font, GuiTheme theme,
                        int dx, int dt, int dw, int guiTop, int guiHeight, int waveNumber) {
         g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
-        g.text(font, "Add Mob(s) to Wave " + waveNumber, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
+        g.text(font, (editMode ? "Edit Mob in Wave " : "Add Mob(s) to Wave ") + waveNumber, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
 
         int scissorTop = scrollTop(guiTop);
         int scissorBottom = scrollBottom(guiTop, guiHeight);

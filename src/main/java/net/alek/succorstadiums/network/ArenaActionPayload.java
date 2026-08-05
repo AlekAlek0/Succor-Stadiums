@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public record ArenaActionPayload(Action action, String arenaName, String newName, int waveNumber, String mobType, int count,
-                                 Integer size, // Added size field
+                                 Integer size,
                                  String ridingMob, String mainHandItem, String offHandItem, List<String> armorItems,
                                  String potionEffects, String enchantments,
                                  double x, double y, double z, int radius, int delay, List<String> playerNames) implements CustomPacketPayload {
@@ -18,7 +18,8 @@ public record ArenaActionPayload(Action action, String arenaName, String newName
     public enum Action {
         REQUEST_DATA, REQUEST_GUI,
         CREATE_ARENA, REMOVE_ARENA, EDIT_ARENA,
-        ADD_WAVE, REMOVE_WAVE,
+        ADD_WAVE, REMOVE_WAVE, MOVE_WAVE_UP, MOVE_WAVE_DOWN,
+        ADD_WAVE_FULL, RENAME_WAVE, SET_WAVE_DELAY,
         ADD_MOB, REMOVE_MOB,
         START_ARENA, STOP_ARENA
     }
@@ -34,7 +35,6 @@ public record ArenaActionPayload(Action action, String arenaName, String newName
                 buf.writeInt(p.waveNumber());
                 buf.writeUtf(p.mobType());
                 buf.writeInt(p.count());
-                // Write size
                 buf.writeBoolean(p.size() != null);
                 if (p.size() != null) {
                     buf.writeInt(p.size());
@@ -59,7 +59,6 @@ public record ArenaActionPayload(Action action, String arenaName, String newName
                 int waveNumber = buf.readInt();
                 String mobType = buf.readUtf();
                 int count = buf.readInt();
-                // Read size
                 Integer size = null;
                 if (buf.readBoolean()) {
                     size = buf.readInt();
@@ -109,8 +108,23 @@ public record ArenaActionPayload(Action action, String arenaName, String newName
     public static ArenaActionPayload addWave(String arena) {
         return new ArenaActionPayload(Action.ADD_WAVE, arena, "", 0, "", 0, null, "", "", "", List.of(), "", "", 0, 0, 0, 0, 0, List.of());
     }
+    public static ArenaActionPayload addWaveFull(String arenaName, String name, int delaySeconds) {
+        return new ArenaActionPayload(Action.ADD_WAVE_FULL, arenaName, name, 0, "", 0, null, "", "", "", List.of(), "", "", 0, 0, 0, 0, delaySeconds, List.of());
+    }
     public static ArenaActionPayload removeWave(String arena, int wave) {
         return new ArenaActionPayload(Action.REMOVE_WAVE, arena, "", wave, "", 0, null, "", "", "", List.of(), "", "", 0, 0, 0, 0, 0, List.of());
+    }
+    public static ArenaActionPayload moveWaveUp(String arenaName, int waveNumber) {
+        return new ArenaActionPayload(Action.MOVE_WAVE_UP, arenaName, "", waveNumber, "", 0, null, "", "", "", List.of(), "", "", 0, 0, 0, 0, 0, List.of());
+    }
+    public static ArenaActionPayload moveWaveDown(String arenaName, int waveNumber) {
+        return new ArenaActionPayload(Action.MOVE_WAVE_DOWN, arenaName, "", waveNumber, "", 0, null, "", "", "", List.of(), "", "", 0, 0, 0, 0, 0, List.of());
+    }
+    public static ArenaActionPayload renameWave(String arenaName, int waveNumber, String name) {
+        return new ArenaActionPayload(Action.RENAME_WAVE, arenaName, name, waveNumber, "", 0, null, "", "", "", List.of(), "", "", 0, 0, 0, 0, 0, List.of());
+    }
+    public static ArenaActionPayload setWaveDelay(String arenaName, int waveNumber, int delaySeconds) {
+        return new ArenaActionPayload(Action.SET_WAVE_DELAY, arenaName, "", waveNumber, "", 0, null, "", "", "", List.of(), "", "", 0, 0, 0, 0, delaySeconds, List.of());
     }
     public static ArenaActionPayload addMob(String arena, int wave, String mob, int count, Integer size, String ridingMob, String mainHandItem, String offHandItem, List<String> armorItems, String potionEffects, String enchantments) {
         return new ArenaActionPayload(Action.ADD_MOB, arena, "", wave, mob, count, size, ridingMob, mainHandItem, offHandItem, armorItems, potionEffects, enchantments, 0, 0, 0, 0, 0, List.of());

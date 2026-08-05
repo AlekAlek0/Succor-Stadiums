@@ -44,6 +44,7 @@ public class ArenaSession {
     private boolean firstWave = true;
     private boolean waitingForNextWave = false;
     private int delayTicksRemaining = 0;
+    private int currentDelayDurationTicks = 0;
 
     private enum ArenaState { RUNNING, WIN, LOSS }
     private ArenaState state = ArenaState.RUNNING;
@@ -80,8 +81,13 @@ public class ArenaSession {
 
         broadcast("§6--- " + arena.getName() + " has begun! ---");
 
-        // Wait the same amount of time as the delay between waves
-        delayTicksRemaining = arena.getDelayBetweenWaves() * 20;
+        // Wave 1's own delay (falling back to the arena's default) determines the start delay
+        int startDelaySecs = arena.getWaves().isEmpty()
+                ? arena.getDelayBetweenWaves()
+                : arena.getWaves().get(0).getEffectiveDelay(arena.getDelayBetweenWaves());
+
+        currentDelayDurationTicks = startDelaySecs * 20;
+        delayTicksRemaining = currentDelayDurationTicks;
         waitingForNextWave = true;
     }
 
@@ -106,8 +112,9 @@ public class ArenaSession {
             ));
 
             bossBar.setProgress(
-                    (float) delayTicksRemaining /
-                            (arena.getDelayBetweenWaves() * 20)
+                    currentDelayDurationTicks > 0
+                            ? (float) delayTicksRemaining / currentDelayDurationTicks
+                            : 0f
             );
 
             bossBar.setColor(BossEvent.BossBarColor.YELLOW);
@@ -147,9 +154,12 @@ public class ArenaSession {
             if (currentWaveIndex >= arena.getWaves().size()) {
                 endArena(ArenaState.WIN); // Players won
             } else {
-                int delaySecs = arena.getDelayBetweenWaves();
+                // The upcoming wave's own delay (falling back to the arena's default)
+                Wave nextWave = arena.getWaves().get(currentWaveIndex);
+                int delaySecs = nextWave.getEffectiveDelay(arena.getDelayBetweenWaves());
                 broadcast("§eWave " + currentWaveIndex + " cleared! Next wave in " + delaySecs + " seconds...");
-                delayTicksRemaining = delaySecs * 20;
+                currentDelayDurationTicks = delaySecs * 20;
+                delayTicksRemaining = currentDelayDurationTicks;
                 waitingForNextWave = true;
             }
         }
@@ -159,9 +169,6 @@ public class ArenaSession {
     private void spawnCurrentWave() {
         Wave wave = arena.getWaves().get(currentWaveIndex);
         broadcast("§c--- Wave " + wave.getWaveNumber() + " / " + arena.getWaveCount() + " ---");
-
-
-
 
         try {
             for (WaveMob waveMob : wave.getMobs()) {
@@ -265,18 +272,13 @@ public class ArenaSession {
                         if (waveMob.getPotionEffects() != null && !waveMob.getPotionEffects().isEmpty()) {
                             for (String entry : waveMob.getPotionEffects().split(",")) {
                                 String[] parts = entry.trim().split(":");
-                                // Expected format from client: "effectId:duration:amplifier"
-                                // effectId can be "strength" or "minecraft:strength"
                                 if (parts.length < 3) {
                                     broadcast("§cInvalid potion effect entry '" + entry + "' (expected effectId:duration:amplifier)");
                                     continue;
                                 }
 
-                                // The last two parts are always duration and amplifier
                                 String ampStr = parts[parts.length - 1];
                                 String durStr = parts[parts.length - 2];
-
-                                // The effectId is everything before the last two parts
                                 String effectId = String.join(":", Arrays.copyOfRange(parts, 0, parts.length - 2));
 
                                 try {
@@ -318,18 +320,16 @@ public class ArenaSession {
 
                         // ── Enchantments ──────────────────────────────────────
                         // Format: "target:namespace:enchantId:level,..."
-                        // e.g. "mainhand:minecraft:sharpness:5"
                         if (waveMob.getEnchantments() != null && !waveMob.getEnchantments().isEmpty()) {
                             for (String entry : waveMob.getEnchantments().split(",")) {
                                 String[] parts = entry.trim().split(":");
-                                // parts[0]=target, parts[1]=namespace, parts[2]=enchant, parts[3]=level
-                                if (parts.length < 3) { // Changed from < 4 to < 3, as target:enchantId:level is 3 parts
+                                if (parts.length < 3) {
                                     broadcast("§cInvalid enchantment entry '" + entry + "' (expected target:enchantId:level)");
                                     continue;
                                 }
                                 String target    = parts[0];
-                                String lvlStr    = parts[parts.length - 1]; // Last part is level
-                                String enchantId = String.join(":", Arrays.copyOfRange(parts, 1, parts.length - 1)); // Middle parts form enchantId
+                                String lvlStr    = parts[parts.length - 1];
+                                String enchantId = String.join(":", Arrays.copyOfRange(parts, 1, parts.length - 1));
 
                                 EquipmentSlot slot = switch (target.toLowerCase()) {
                                     case "mainhand"   -> EquipmentSlot.MAINHAND;
@@ -362,8 +362,6 @@ public class ArenaSession {
 
                                     ItemStack stack = mob.getItemBySlot(slot);
                                     if (stack.isEmpty()) {
-                                        // Create a dummy item so the enchant has somewhere to live.
-                                        // Using a book as fallback; adjust if needed.
                                         stack = new ItemStack(net.minecraft.world.item.Items.ENCHANTED_BOOK);
                                         mob.setItemSlot(slot, stack);
                                     }
@@ -408,39 +406,28 @@ public class ArenaSession {
         }
 
         activeMobUUIDs.clear();
-        endArena(ArenaState.LOSS); // Force end as a loss if current wave is killed
+        endArena(ArenaState.LOSS);
     }
 
-    /**
-     * Called when a player dies in the arena.
-     * @param player The player who died.
-     */
     public void onPlayerDeath(ServerPlayer player) {
         if (activePlayerUUIDs.remove(player.getUUID())) {
             broadcast("§e" + player.getName().getString() + " has been eliminated!");
             if (activePlayerUUIDs.isEmpty()) {
-                endArena(ArenaState.LOSS); // All players are dead, arena ends in loss
+                endArena(ArenaState.LOSS);
             }
         }
     }
 
-    /**
-     * Ends the arena session.
-     * @param newState The state the arena should transition to (WIN or LOSS).
-     */
     private void endArena(ArenaState newState) {
-        // If already in a terminal state (LOSS), or if already WIN and trying to WIN again, do nothing.
-        // A LOSS can always override a WIN.
         if (this.state == ArenaState.LOSS) {
-            return; // Already lost, cannot change outcome
+            return;
         }
         if (this.state == ArenaState.WIN && newState == ArenaState.WIN) {
-            return; // Already won, and trying to win again, do nothing
+            return;
         }
 
-        this.state = newState; // Update the state
+        this.state = newState;
 
-        // Clear any remaining mobs
         for (UUID uuid : activeMobUUIDs) {
             Entity entity = level.getEntity(uuid);
             if (entity != null) entity.discard();
@@ -461,12 +448,9 @@ public class ArenaSession {
                 broadcast("§a--- All waves complete! You win! ---");
             }
         }
-        // Deregister this session
         ArenaSessionManager.stopSession(arena.getName());
     }
 
-
-    // Helper method to generate a random position in the arena radius
     private Vec3 randomPositionInRadius() {
         double angle = level.getRandom().nextDouble() * 2 * Math.PI;
         double actualRadius = arena.getRadius() / 2.0;
@@ -480,12 +464,10 @@ public class ArenaSession {
         return new Vec3(x, surfaceY, z);
     }
 
-    // Helper method to broadcast a given message to all players in arena
     private void broadcast(String message) {
         initialPlayers.forEach(p -> p.sendSystemMessage(Component.literal(message)));
     }
 
-    // Accessor methods to get arena and finished state
     public MobArena getArena() { return arena; }
     public boolean isFinished() { return state != ArenaState.RUNNING; }
     public boolean hasPlayer(UUID playerUUID) { return activePlayerUUIDs.contains(playerUUID); }

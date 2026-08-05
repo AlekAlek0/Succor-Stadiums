@@ -22,7 +22,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
             List<WaveEntry> waves
     ) {}
 
-    public record WaveEntry(int waveNumber, List<MobEntry> mobs) {}
+    public record WaveEntry(int waveNumber, String name, Integer delaySeconds, List<MobEntry> mobs) {}
 
     public record MobEntry(
             String mobType,
@@ -50,6 +50,11 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                     buf.writeInt(arena.waves().size());
                     for (WaveEntry wave : arena.waves()) {
                         buf.writeInt(wave.waveNumber());
+                        buf.writeUtf(wave.name() == null ? "" : wave.name());
+                        buf.writeBoolean(wave.delaySeconds() != null);
+                        if (wave.delaySeconds() != null) {
+                            buf.writeInt(wave.delaySeconds());
+                        }
                         buf.writeInt(wave.mobs().size());
                         for (MobEntry mob : wave.mobs()) {
                             buf.writeUtf(mob.mobType());
@@ -81,6 +86,11 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                     List<WaveEntry> waves = new ArrayList<>();
                     for (int w = 0; w < waveCount; w++) {
                         int waveNum = buf.readInt();
+                        String waveName = buf.readUtf();
+                        Integer waveDelay = null;
+                        if (buf.readBoolean()) {
+                            waveDelay = buf.readInt();
+                        }
                         int mobCount = buf.readInt();
                         List<MobEntry> mobs = new ArrayList<>();
                         for (int m = 0; m < mobCount; m++) {
@@ -101,7 +111,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                             mobs.add(new MobEntry(
                                     mobType,
                                     count,
-                                    size, // Added size here
+                                    size,
                                     ridingMob.isEmpty() ? null : ridingMob,
                                     mainHandItem.isEmpty() ? null : mainHandItem,
                                     offHandItem.isEmpty() ? null : offHandItem,
@@ -110,7 +120,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                                     enchantments.isEmpty() ? null : enchantments
                             ));
                         }
-                        waves.add(new WaveEntry(waveNum, mobs));
+                        waves.add(new WaveEntry(waveNum, waveName.isEmpty() ? null : waveName, waveDelay, mobs));
                     }
                     arenas.add(new ArenaEntry(name, x, y, z, radius, delay, running, waves));
                 }
@@ -141,7 +151,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                         mob.getPotionEffects(),
                         mob.getEnchantments()
                 )));
-                waves.add(new WaveEntry(wave.getWaveNumber(), mobs));
+                waves.add(new WaveEntry(wave.getWaveNumber(), wave.getName(), wave.getDelaySeconds(), mobs));
             });
             entries.add(new ArenaEntry(
                     arena.getName(), arena.getCenterX(), arena.getCenterY(), arena.getCenterZ(),

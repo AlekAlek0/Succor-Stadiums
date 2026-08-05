@@ -7,12 +7,12 @@ import java.util.List;
 public class MobArena {
 
     // Initialize variables for name, center positions, radius, delay, and waves
-    private String name;  // remove final
+    private String name;
     private double centerX;
     private double centerY;
     private double centerZ;
     private int radius;
-    private int delayBetweenWaves; // in seconds, applies between every wave
+    private int delayBetweenWaves; // in seconds; the DEFAULT delay used by any wave that doesn't override it
     private final List<Wave> waves = new ArrayList<>();
 
     // Constructor method to create a MobArena with the given name, center position, radius, and wave delay
@@ -65,7 +65,14 @@ public class MobArena {
 
     // Mutator method to add a new wave with the next wave number automatically
     public void addWave() {
+        waves.add(new Wave(waves.size() + 1));
+    }
+
+    // Create a wave with a custom name and/or delay override in one step
+    public void addWave(String name, Integer delaySeconds) {
         Wave wave = new Wave(waves.size() + 1);
+        wave.setName(name);
+        wave.setDelaySeconds(delaySeconds);
         waves.add(wave);
     }
 
@@ -76,6 +83,35 @@ public class MobArena {
         for (int i = 0; i < waves.size(); i++) {
             waves.get(i).setWaveNumber(i + 1);
         }
+    }
+
+    // Mutator method to move a wave up (-1) or down (+1) and renumber accordingly
+    public void moveWave(int waveNumber, int direction) {
+        if (waveNumber < 1 || waveNumber > waves.size()) return;
+
+        int idx = waveNumber - 1;
+        int newIdx = idx + direction;
+        if (newIdx < 0 || newIdx >= waves.size()) return;
+
+        Wave temp = waves.get(idx);
+        waves.set(idx, waves.get(newIdx));
+        waves.set(newIdx, temp);
+
+        for (int i = 0; i < waves.size(); i++) {
+            waves.get(i).setWaveNumber(i + 1);
+        }
+    }
+
+    // Mutator method to rename a wave by number
+    public void renameWave(int waveNumber, String name) {
+        Wave wave = getWave(waveNumber);
+        if (wave != null) wave.setName(name);
+    }
+
+    // Mutator method to set a wave's delay override (null clears it back to using the arena default)
+    public void setWaveDelay(int waveNumber, Integer delaySeconds) {
+        Wave wave = getWave(waveNumber);
+        if (wave != null) wave.setDelaySeconds(delaySeconds);
     }
 
     @Override

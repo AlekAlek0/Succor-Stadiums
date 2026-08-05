@@ -6,8 +6,10 @@ import java.util.List;
 // Wave class
 public class Wave {
 
-    // Variables to track wave number and list of wave mobs
+    // Variables to track wave number, optional name, optional delay override, and list of wave mobs
     private int waveNumber;
+    private String name;           // null/empty = unnamed, falls back to "Wave N" in UI
+    private Integer delaySeconds;  // null = inherit the arena's default delay
     private final List<WaveMob> mobs;
 
     // Constructor to create a wave
@@ -21,6 +23,23 @@ public class Wave {
 
     // Mutator method to set the wave number
     public void setWaveNumber(int waveNumber) { this.waveNumber = waveNumber; }
+
+    // Accessor method to get the wave's custom name
+    public String getName() { return name; }
+
+    // Mutator method to set the wave's custom name
+    public void setName(String name) { this.name = (name == null || name.isBlank()) ? null : name; }
+
+    // Accessor method to get this wave's raw delay override (may be null)
+    public Integer getDelaySeconds() { return delaySeconds; }
+
+    // Mutator method to set this wave's delay override (null clears it, falling back to the arena default)
+    public void setDelaySeconds(Integer delaySeconds) { this.delaySeconds = delaySeconds; }
+
+    // Resolves this wave's effective delay: its own override if set, otherwise the arena's default
+    public int getEffectiveDelay(int arenaDefaultDelay) {
+        return delaySeconds != null ? delaySeconds : arenaDefaultDelay;
+    }
 
     // Accessor method to get the mobs in a wave
     public List<WaveMob> getMobs() { return mobs; }
