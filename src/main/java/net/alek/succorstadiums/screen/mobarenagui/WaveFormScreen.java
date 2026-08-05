@@ -60,13 +60,13 @@ public class WaveFormScreen {
         int fw = detailW - PANEL_PAD * 2;
         int by = guiTop + guiHeight - BTN_H - PANEL_PAD;
 
-        nameField = makeField(addRenderableWidget, font, cx, cy + 10, fw - 70, "Wave name");
+        nameField = makeField(addRenderableWidget, font, cx, cy + 10, fw / 2 - 2, "Wave name");
         if (wave != null) {
             nameField.setValue(wave.name() != null && !wave.name().isEmpty()
                     ? wave.name() : "Wave " + wave.waveNumber());
         }
 
-        delayField = makeField(addRenderableWidget, font, cx + fw - 66, cy + 10, 66, "Delay (s)");
+        delayField = makeField(addRenderableWidget, font, cx + fw / 2 + 2, cy + 10, fw / 2 - 2, "Delay (s)");
         if (wave != null && wave.delaySeconds() != null) {
             delayField.setValue(String.valueOf(wave.delaySeconds()));
         } else {
@@ -169,12 +169,9 @@ public class WaveFormScreen {
                        String headerTitle, ArenaDataPayload.WaveEntry wave) {
         g.fill(dx, dt, dx + 849, dt + 16, 0xFF5C7ABA);
         g.text(font, headerTitle, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
-        g.text(font, "Name", dx + PANEL_PAD, dt + 20, theme.subtext(), false);
+        g.text(font, "Name / Delay (s)", dx + PANEL_PAD, dt + 20, theme.subtext(), false);
 
         int cy = dt + 20;
-        int fw = dw - PANEL_PAD * 2;
-        g.text(font, "Delay (s)", dx + PANEL_PAD + fw - 66, dt + 20, theme.subtext(), false);
-
         g.text(font, "Mobs", dx + PANEL_PAD, cy + 42, theme.subtext(), false);
 
         int mobAreaTop = cy + 52;
