@@ -18,6 +18,7 @@ public class SkelcrowRenderer extends StrayRenderer {
 
     public SkelcrowRenderer(final EntityRendererProvider.Context context) {
         super(context);
+        this.layers.removeIf(layer -> layer instanceof SkeletonClothingLayer);
         this.addLayer(new SkeletonClothingLayer(this, context.getModelSet(), ModelLayers.STRAY_OUTER_LAYER, OVERLAY));
     }
 
