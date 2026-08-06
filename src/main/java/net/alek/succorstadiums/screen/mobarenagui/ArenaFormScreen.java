@@ -1,6 +1,6 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
-import net.alek.succorstadiums.network.ArenaDataPayload;
+import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -16,10 +16,10 @@ public class ArenaFormScreen {
     private static final int PANEL_PAD = 8;
     private static final int BTN_H = 16;
 
-    private EditBox nameField, xField, yField, zField, radiusField, delayField;
+    private EditBox groupField, nameField, xField, yField, zField, radiusField, delayField;
 
     public interface Submit {
-        void submit(String name, double x, double y, double z, int radius, int delay);
+        void submit(String name, double x, double y, double z, int radius, int delay, String group);
     }
 
     /**
@@ -39,7 +39,9 @@ public class ArenaFormScreen {
         int by = guiTop + guiHeight - BTN_H - PANEL_PAD;
         int posW = (fw - 54) / 3 - 2;
 
-        nameField = makeField(addRenderableWidget, font, cx, cy + 10, fw, "Arena name");
+        groupField = makeField(addRenderableWidget, font, cx, cy + 10, fw / 2 - 2, "Group");
+        nameField  = makeField(addRenderableWidget, font, cx + fw / 2 + 2, cy + 10, fw / 2 - 2, "Arena name");
+
         xField = makeField(addRenderableWidget, font, cx, cy + 50, posW, "X");
         yField = makeField(addRenderableWidget, font, cx + posW + 1, cy + 50, posW, "Y");
         zField = makeField(addRenderableWidget, font, cx + (posW + 1) * 2, cy + 50, posW, "Z");
@@ -58,6 +60,7 @@ public class ArenaFormScreen {
         ).bounds(detailX + detailW - PANEL_PAD - 50, cy + 50, 50, BTN_H - 2).build());
 
         if (existing != null) {
+            groupField.setValue(existing.group() != null ? existing.group() : "");
             nameField.setValue(existing.name());
             xField.setValue(String.valueOf((int) existing.x()));
             yField.setValue(String.valueOf((int) existing.y()));
@@ -77,7 +80,7 @@ public class ArenaFormScreen {
     private void trySubmit(Submit onSubmit) {
         try {
             if (nameField == null || xField == null || yField == null ||
-                    zField == null || radiusField == null || delayField == null) return;
+                    zField == null || radiusField == null || delayField == null || groupField == null) return;
             String name = nameField.getValue().trim();
             if (name.isEmpty()) return;
             double x = Double.parseDouble(xField.getValue().trim());
@@ -85,16 +88,17 @@ public class ArenaFormScreen {
             double z = Double.parseDouble(zField.getValue().trim());
             int radius = Integer.parseInt(radiusField.getValue().trim());
             int delay = Integer.parseInt(delayField.getValue().trim());
-            onSubmit.submit(name, x, y, z, radius, delay);
+            String group = groupField.getValue().trim();
+            onSubmit.submit(name, x, y, z, radius, delay, group);
         } catch (NumberFormatException ignored) {}
     }
 
     public void render(GuiGraphicsExtractor g, Font font, GuiTheme theme,
                        int dx, int dt, String headerTitle) {
-        g.fill(dx, dt, dx + 1000,dt + 16, 0xFF5C7ABA);
+        g.fill(dx, dt, dx + 849, dt + 16, 0xFF5C7ABA);
         g.text(font, headerTitle, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
-        g.text(font, "Name", dx + PANEL_PAD, dt + 20, theme.subtext(), false);
-        g.text(font, "Position", dx + PANEL_PAD, dt + 60,  theme.subtext(), false);
+        g.text(font, "Group (Optional) / Name", dx + PANEL_PAD, dt + 20, theme.subtext(), false);
+        g.text(font, "Position", dx + PANEL_PAD, dt + 60, theme.subtext(), false);
         g.text(font, "Radius / Delay (s)", dx + PANEL_PAD, dt + 100, theme.subtext(), false);
     }
 

@@ -1,8 +1,9 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
 import net.alek.succorstadiums.client.ModKeyBindings;
-import net.alek.succorstadiums.network.ArenaActionPayload;
-import net.alek.succorstadiums.network.ArenaDataPayload;
+import net.alek.succorstadiums.network.arena.ArenaActionPayload;
+import net.alek.succorstadiums.network.arena.ArenaDataPayload;
+import net.alek.succorstadiums.network.arena.ArenaPasteWavePayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
@@ -15,33 +16,25 @@ import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.LinkedHashMap;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
 
-/**
- * MobArenaScreen is the main client-side GUI for managing Mob Arenas.
- *
- * Wave mob management has two entry points:
- *   - The wave row's "View Mobs" / "+ Add Mobs" / "- Del Mobs" buttons still
- *     jump straight into the dedicated MobViewScreen/AddMobScreen/DelMobScreen.
- *   - The ✎ pencil opens the full WaveFormScreen (name, delay, inline mob list
- *     with count controls AND a per-mob ✎ button that opens AddMobScreen
- *     pre-filled with that mob's current values for a full edit — mob type,
- *     variant, equipment, potions, enchantments, riding mob, count — all in
- *     one place, without needing to delete and re-add the entry).
- */
 public class MobArenaScreen extends Screen {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     // ── Layout constants ─────────────────────────────────────────────────────
 
-    private static final int SIDEBAR_W        = 110;
-    private static final int PANEL_PAD        = 8;
-    private static final int BTN_H            = 16;
-    private static final int ROW_H            = 18;
+    private static final int SIDEBAR_W = 175;
+    private static final int PANEL_PAD = 8;
+    private static final int BTN_H = 16;
+    private static final int ROW_H = 18;
 
     // ── Screens ─────────────────────────────────────────────────────
 
@@ -64,28 +57,26 @@ public class MobArenaScreen extends Screen {
     private enum DetailView { OVERVIEW, ADD_ARENA, VIEW_MOB, ADD_MOB, DEL_MOB, EDIT_ARENA, EDIT_WAVE }
     private DetailView detailView = DetailView.OVERVIEW;
 
-    // Tracks whether ADD_MOB was entered from the wave-row "+ Add Mobs" button
-    // (-> OVERVIEW on back) or from inside the Edit Wave screen (-> EDIT_WAVE on back).
     private boolean addMobFromEditWave = false;
-
-    // Set when ADD_MOB was opened via the ✎ edit button on a mob row inside
-    // WaveFormScreen — holds the ORIGINAL mob entry being replaced, so submit
-    // knows to remove the old signature before adding the edited one. Null
-    // means "adding a brand-new mob", not editing an existing one.
     private ArenaDataPayload.MobEntry editingMobOriginal = null;
 
-    // ── ADD_MOB — extracted into its own class ───────────────────────────────
     private final AddMobScreen addMobScreen = new AddMobScreen();
 
-    // ── Player picker ─────────────────────────────────────────────────────────
-
     private boolean showPlayerPicker = false;
-
-    // ── New wave creation popup ───────────────────────────────────────────
 
     private boolean showNewWavePrompt = false;
     private EditBox newWaveNameBox;
     private EditBox newWaveDelayBox;
+
+    // ── Wave clipboard ───────────────────────────────────────────────────────
+
+    private static ArenaDataPayload.WaveEntry copiedWave = null;
+    private String pasteError = "";
+
+    // ── Arena groups (sidebar collapse state) ────────────────────────────────
+
+    private static final String UNGROUPED_LABEL = "Ungrouped";
+    private final Set<String> collapsedGroups = new HashSet<>();
 
     // ── Scroll / tick ─────────────────────────────────────────────────────────
 
@@ -123,7 +114,7 @@ public class MobArenaScreen extends Screen {
     public void receiveData(ArenaDataPayload payload) {
         this.arenas = new ArrayList<>(payload.arenas());
         if (selectedArena >= arenas.size()) selectedArena = arenas.size() - 1;
-        if (showNewWavePrompt) return; // don't blow away in-progress typing in the popup
+        if (showNewWavePrompt) return;
         if (detailView != DetailView.OVERVIEW
                 && detailView != DetailView.DEL_MOB
                 && detailView != DetailView.VIEW_MOB) return;
@@ -140,13 +131,49 @@ public class MobArenaScreen extends Screen {
     private int detailX()  { return guiLeft() + SIDEBAR_W + 1; }
     private int detailW()  { return guiWidth() - SIDEBAR_W - 1; }
 
+    // ── Sidebar grouping ──────────────────────────────────────────────────────
+
+    /** Sealed-ish row descriptor: either a group header (String) or an arena index (Integer). */
+    private List<Object> buildSidebarRows() {
+        List<Object> rows = new ArrayList<>();
+        Map<String, List<Integer>> byGroup = new LinkedHashMap<>();
+        List<Integer> ungrouped = new ArrayList<>();
+
+        for (int i = 0; i < arenas.size(); i++) {
+            String g = arenas.get(i).group();
+            if (g == null || g.isBlank()) {
+                ungrouped.add(i);
+            } else {
+                byGroup.computeIfAbsent(g, k -> new ArrayList<>()).add(i);
+            }
+        }
+
+        List<String> sortedGroups = new ArrayList<>(byGroup.keySet());
+        sortedGroups.sort(String.CASE_INSENSITIVE_ORDER);
+
+        for (String g : sortedGroups) {
+            rows.add(g);
+            if (!collapsedGroups.contains(g)) {
+                rows.addAll(byGroup.get(g));
+            }
+        }
+
+        if (!ungrouped.isEmpty()) {
+            rows.add(UNGROUPED_LABEL);
+            if (!collapsedGroups.contains(UNGROUPED_LABEL)) {
+                rows.addAll(ungrouped);
+            }
+        }
+
+        return rows;
+    }
+
     // ── Widget construction ───────────────────────────────────────────────────
 
     @Override
     protected void rebuildWidgets() {
         clearWidgets();
 
-        // Theme toggle
         addRenderableWidget(Button.builder(
                 Component.literal("Theme: " + theme.getThemeName()),
                 btn -> { theme.nextTheme(); rebuildWidgets(); }
@@ -170,18 +197,38 @@ public class MobArenaScreen extends Screen {
         int y = guiTop() + 24;
         int maxVisible = (guiHeight() - 40) / ROW_H;
 
-        for (int i = arenaScroll; i < Math.min(arenas.size(), arenaScroll + maxVisible); i++) {
-            final int idx = i;
-            String label = truncate(arenas.get(i).name());
-            addRenderableWidget(Button.builder(Component.literal(label),
-                    btn -> {
-                        selectedArena = idx;
-                        selectedWave  = -1;
-                        waveScroll    = 0;
-                        detailView    = DetailView.OVERVIEW;
-                        rebuildWidgets();
-                    }
-            ).bounds(x, y + (i - arenaScroll) * ROW_H, SIDEBAR_W - PANEL_PAD * 2, BTN_H).build());
+        List<Object> rows = buildSidebarRows();
+
+        for (int i = arenaScroll; i < Math.min(rows.size(), arenaScroll + maxVisible); i++) {
+            Object row = rows.get(i);
+            int ry = y + (i - arenaScroll) * ROW_H;
+
+            if (row instanceof String groupName) {
+                boolean collapsed = collapsedGroups.contains(groupName);
+                int available = SIDEBAR_W - PANEL_PAD * 2 - 14;
+                addRenderableWidget(Button.builder(
+                        Component.literal((collapsed ? "▶ " : "▼ ") + truncate(groupName, available)),
+                        btn -> {
+                            if (collapsed) collapsedGroups.remove(groupName);
+                            else collapsedGroups.add(groupName);
+                            rebuildWidgets();
+                        }
+                ).bounds(x, ry, SIDEBAR_W - PANEL_PAD * 2, BTN_H).build());
+            } else {
+                final int idx = (Integer) row;
+                int available = SIDEBAR_W - PANEL_PAD * 2 - 10;
+                String label = truncate(arenas.get(idx).name(), available);
+                addRenderableWidget(Button.builder(Component.literal("  " + label),
+                        btn -> {
+                            selectedArena = idx;
+                            selectedWave  = -1;
+                            waveScroll    = 0;
+                            detailView    = DetailView.OVERVIEW;
+                            pasteError    = "";
+                            rebuildWidgets();
+                        }
+                ).bounds(x, ry, SIDEBAR_W - PANEL_PAD * 2, BTN_H).build());
+            }
         }
 
         addRenderableWidget(Button.builder(Component.literal("+ New Arena"),
@@ -214,6 +261,23 @@ public class MobArenaScreen extends Screen {
                 btn -> { showNewWavePrompt = true; rebuildWidgets(); }
         ).bounds(bx + 84, by, 50, BTN_H).build());
 
+        Button pasteBtn = Button.builder(Component.literal("⧉ Paste"),
+                btn -> {
+                    if (copiedWave == null) {
+                        pasteError = "No wave copied. Use ⧉ on a wave to copy it first.";
+                        rebuildWidgets();
+                        return;
+                    }
+                    pasteError = "";
+                    ClientPlayNetworking.send(new ArenaPasteWavePayload(
+                            arena.name(), copiedWave.name(),
+                            copiedWave.delaySeconds() != null ? copiedWave.delaySeconds() : -1,
+                            copiedWave.mobs()
+                    ));
+                }
+        ).bounds(bx + 140, by, 60, BTN_H).build();
+        addRenderableWidget(pasteBtn);
+
         addRenderableWidget(Button.builder(Component.literal("✕ Delete Arena"),
                 btn -> {
                     ClientPlayNetworking.send(ArenaActionPayload.removeArena(arena.name()));
@@ -230,7 +294,10 @@ public class MobArenaScreen extends Screen {
             int wy = waveAreaY + (i - waveScroll) * ROW_H;
             final int waveNum = wave.waveNumber();
 
-            // ✎ edit-wave button — opens the full edit screen: name, delay, and inline mob editing
+            addRenderableWidget(Button.builder(Component.literal("⧉"),
+                    btn -> { copiedWave = wave; pasteError = ""; }
+            ).bounds(detailX() + PANEL_PAD, wy + 1, 14, 16).build());
+
             addRenderableWidget(Button.builder(Component.literal("✎"),
                     btn -> {
                         selectedWave = waveNum;
@@ -238,9 +305,9 @@ public class MobArenaScreen extends Screen {
                         detailView = DetailView.EDIT_WAVE;
                         rebuildWidgets();
                     }
-            ).bounds(detailX() + PANEL_PAD, wy + 1, 14, 16).build());
+            ).bounds(detailX() + PANEL_PAD + 16, wy + 1, 14, 16).build());
 
-            int totalArrowWidth = 14 + 2 + 14 + 6; // up, gap, down, gap before action buttons
+            int totalArrowWidth = 14 + 2 + 14 + 6;
             int totalBtnWidth = totalArrowWidth + 68 + 4 + 68 + 4 + 68 + 4 + 80;
             int btnStart = detailX() + detailW() - PANEL_PAD - totalBtnWidth;
 
@@ -334,8 +401,11 @@ public class MobArenaScreen extends Screen {
     private void buildAddArenaWidgets() {
         arenaFormScreen.buildWidgets(this::addRenderableWidget, font,
                 detailX(), detailW(), guiTop(), guiHeight(), null,
-                (name, x, y, z, radius, delay) -> {
+                (name, x, y, z, radius, delay, group) -> {
                     ClientPlayNetworking.send(ArenaActionPayload.createArena(name, x, y, z, radius, delay));
+                    if (!group.isEmpty()) {
+                        ClientPlayNetworking.send(ArenaActionPayload.setArenaGroup(name, group));
+                    }
                     detailView = DetailView.OVERVIEW;
                     rebuildWidgets();
                 },
@@ -347,8 +417,10 @@ public class MobArenaScreen extends Screen {
         ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
         arenaFormScreen.buildWidgets(this::addRenderableWidget, font,
                 detailX(), detailW(), guiTop(), guiHeight(), arena,
-                (newName, x, y, z, radius, delay) -> {
+                (newName, x, y, z, radius, delay, group) -> {
                     ClientPlayNetworking.send(ArenaActionPayload.editArena(arena.name(), newName, x, y, z, radius, delay));
+                    String targetName = newName.isEmpty() ? arena.name() : newName;
+                    ClientPlayNetworking.send(ArenaActionPayload.setArenaGroup(targetName, group));
                     detailView = DetailView.OVERVIEW;
                     rebuildWidgets();
                 },
@@ -516,7 +588,7 @@ public class MobArenaScreen extends Screen {
         g.text(font, "Arenas", sidebarX() + PANEL_PAD, gt + 4, 0xFFFFFFFF, false);
 
         renderDetailPanelBase(g);
-        renderNewWavePrompt(g); // before super, so widgets draw on top of the popup background
+        renderNewWavePrompt(g);
 
         super.extractRenderState(g, mx, my, delta);
 
@@ -596,8 +668,9 @@ public class MobArenaScreen extends Screen {
         String status = arena.running() ? "● RUNNING" : "● STOPPED";
         g.text(font, status, dx + dw - font.width(status) - PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
 
-        g.text(font, "X:" + (int)arena.x() + " Y:" + (int)arena.y() + " Z:" + (int)arena.z(),
-                dx + PANEL_PAD, dt + 20, theme.subtext(), false);
+        String groupLine = "X:" + (int)arena.x() + " Y:" + (int)arena.y() + " Z:" + (int)arena.z()
+                + "   Group: " + (arena.group() != null ? arena.group() : UNGROUPED_LABEL);
+        g.text(font, groupLine, dx + PANEL_PAD, dt + 20, theme.subtext(), false);
         g.text(font, "Radius: " + arena.radius() + "  Delay: " + arena.delaySeconds() + "s",
                 dx + PANEL_PAD, dt + 30, theme.subtext(), false);
 
@@ -612,7 +685,12 @@ public class MobArenaScreen extends Screen {
             if (i % 2 == 0) g.fill(dx, ry, dx + dw - 3, ry + ROW_H, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
             String label = (wave.name() != null && !wave.name().isEmpty())
                     ? wave.name() : "Wave " + wave.waveNumber();
-            g.text(font, label, dx + PANEL_PAD + 18, ry + 4, theme.text(), false);
+            g.text(font, label, dx + PANEL_PAD + 34, ry + 4, theme.text(), false);
+        }
+
+        if (!pasteError.isEmpty()) {
+            int by = guiTop() + guiHeight() - BTN_H - PANEL_PAD;
+            g.text(font, pasteError, dx + PANEL_PAD, by - 12, 0xFFFF5555, false);
         }
     }
 
@@ -640,8 +718,6 @@ public class MobArenaScreen extends Screen {
 
     @Override
     public boolean keyPressed(@NonNull KeyEvent event) {
-
-        // Don't let keybind fire if typing in a text box
         if (!(this.getFocused() instanceof net.minecraft.client.gui.components.EditBox)) {
             if (ModKeyBindings.OPEN_MOB_ARENA_GUI.matches(event)) {
                 this.onClose();
@@ -667,7 +743,7 @@ public class MobArenaScreen extends Screen {
     @Override
     public boolean mouseScrolled(double mx, double my, double horizontal, double vertical) {
         if (showNewWavePrompt) {
-            return true; // block scroll-through while the modal is open
+            return true;
         }
 
         if (detailView == DetailView.ADD_MOB
@@ -689,8 +765,9 @@ public class MobArenaScreen extends Screen {
         int maxVisible = (guiHeight() - 40) / ROW_H;
         if (mx >= sidebarX() && mx <= sidebarX() + SIDEBAR_W
                 && my >= guiTop() && my <= guiTop() + guiHeight()) {
+            int rowCount = buildSidebarRows().size();
             arenaScroll = (int) Math.max(0,
-                    Math.min(arenaScroll - vertical, Math.max(0, arenas.size() - maxVisible)));
+                    Math.min(arenaScroll - vertical, Math.max(0, rowCount - maxVisible)));
             rebuildWidgets();
             return true;
         }
@@ -712,8 +789,16 @@ public class MobArenaScreen extends Screen {
 
     // ── Helpers ───────────────────────────────────────────────────────────────
 
-    private static String truncate(String s) {
-        return s.length() <= 11 ? s : s.substring(0, 10) + "...";
+    private String truncate(String s, int maxWidth) {
+        if (font.width(s) <= maxWidth) return s;
+        String ellipsis = "…";
+        int ellipsisWidth = font.width(ellipsis);
+        StringBuilder sb = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (font.width(sb.toString() + c) + ellipsisWidth > maxWidth) break;
+            sb.append(c);
+        }
+        return sb + ellipsis;
     }
 
     @Override

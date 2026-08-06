@@ -12,6 +12,7 @@ import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
 import net.alek.succorstadiums.loottable.ModLootTableModifiers;
 import net.alek.succorstadiums.network.*;
+import net.alek.succorstadiums.network.arena.*;
 import net.alek.succorstadiums.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -62,9 +63,10 @@ public class SuccorStadiums implements ModInitializer {
 
 		// Register mob arena network packets
 		PayloadTypeRegistry.clientboundPlay().register(OpenMobArenaPayload.TYPE, OpenMobArenaPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(ArenaDataPayload.TYPE, ArenaDataPayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(ArenaPasteWavePayload.TYPE, ArenaPasteWavePayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(OpenMobArenaRequestPayload.TYPE, OpenMobArenaRequestPayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(ArenaActionPayload.TYPE, ArenaActionPayload.CODEC);
-		PayloadTypeRegistry.clientboundPlay().register(ArenaDataPayload.TYPE, ArenaDataPayload.CODEC);
 		ArenaPacketHandler.register();
 
 		// Register backpack network packet

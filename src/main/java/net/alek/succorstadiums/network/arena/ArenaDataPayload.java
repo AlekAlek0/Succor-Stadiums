@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.network;
+package net.alek.succorstadiums.network.arena;
 
 import net.alek.succorstadiums.SuccorStadiums;
 import net.alek.succorstadiums.arena.MobArena;
@@ -18,7 +18,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
 
     public record ArenaEntry(
             String name, double x, double y, double z,
-            int radius, int delaySeconds, boolean running,
+            int radius, int delaySeconds, boolean running, String group,
             List<WaveEntry> waves
     ) {}
 
@@ -47,6 +47,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                     buf.writeInt(arena.radius());
                     buf.writeInt(arena.delaySeconds());
                     buf.writeBoolean(arena.running());
+                    buf.writeUtf(arena.group() == null ? "" : arena.group());
                     buf.writeInt(arena.waves().size());
                     for (WaveEntry wave : arena.waves()) {
                         buf.writeInt(wave.waveNumber());
@@ -82,6 +83,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                     double x = buf.readDouble(), y = buf.readDouble(), z = buf.readDouble();
                     int radius = buf.readInt(), delay = buf.readInt();
                     boolean running = buf.readBoolean();
+                    String group = buf.readUtf();
                     int waveCount = buf.readInt();
                     List<WaveEntry> waves = new ArrayList<>();
                     for (int w = 0; w < waveCount; w++) {
@@ -122,7 +124,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                         }
                         waves.add(new WaveEntry(waveNum, waveName.isEmpty() ? null : waveName, waveDelay, mobs));
                     }
-                    arenas.add(new ArenaEntry(name, x, y, z, radius, delay, running, waves));
+                    arenas.add(new ArenaEntry(name, x, y, z, radius, delay, running, group.isEmpty() ? null : group, waves));
                 }
                 return new ArenaDataPayload(arenas);
             }
@@ -156,7 +158,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
             entries.add(new ArenaEntry(
                     arena.getName(), arena.getCenterX(), arena.getCenterY(), arena.getCenterZ(),
                     arena.getRadius(), arena.getDelayBetweenWaves(),
-                    ArenaSessionManager.isRunning(arena.getName()), waves
+                    ArenaSessionManager.isRunning(arena.getName()), arena.getGroup(), waves
             ));
         }
         Collections.reverse(entries);

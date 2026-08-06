@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
+import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -826,7 +827,7 @@ public class AddMobScreen {
     }
 
     /** Populates all form state from an existing mob entry and opens relevant sections. Call before buildWidgets(). */
-    public void prefill(net.alek.succorstadiums.network.ArenaDataPayload.MobEntry mob) {
+    public void prefill(ArenaDataPayload.MobEntry mob) {
         reset();
         editMode = true;
 

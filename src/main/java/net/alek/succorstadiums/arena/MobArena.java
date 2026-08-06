@@ -6,13 +6,14 @@ import java.util.List;
 // Mob arena class
 public class MobArena {
 
-    // Initialize variables for name, center positions, radius, delay, and waves
+    // Initialize variables for name, center positions, radius, delay, group, and waves
     private String name;
     private double centerX;
     private double centerY;
     private double centerZ;
     private int radius;
     private int delayBetweenWaves; // in seconds; the DEFAULT delay used by any wave that doesn't override it
+    private String group; // null/blank = "Ungrouped"
     private final List<Wave> waves = new ArrayList<>();
 
     // Constructor method to create a MobArena with the given name, center position, radius, and wave delay
@@ -25,13 +26,14 @@ public class MobArena {
         this.delayBetweenWaves = delayBetweenWaves;
     }
 
-    // Accessor methods to get name, center coordinates, radius, delay, waves of a mob arena, and wave count of an existing mob arena
+    // Accessor methods to get name, center coordinates, radius, delay, group, waves of a mob arena, and wave count of an existing mob arena
     public String getName() { return name; }
     public double getCenterX() { return centerX; }
     public double getCenterY() { return centerY; }
     public double getCenterZ() { return centerZ; }
     public int getRadius() { return radius; }
     public int getDelayBetweenWaves() { return delayBetweenWaves; }
+    public String getGroup() { return group; }
     public List<Wave> getWaves() { return waves; }
     public int getWaveCount() { return waves.size(); }
 
@@ -63,16 +65,37 @@ public class MobArena {
         this.delayBetweenWaves = delay;
     }
 
-    // Mutator method to add a new wave with the next wave number automatically
-    public void addWave() {
-        waves.add(new Wave(waves.size() + 1));
+    // Mutator method to set the group of an existing mob arena (blank/null clears it, treated as "Ungrouped")
+    public void setGroup(String group) {
+        this.group = (group == null || group.isBlank()) ? null : group;
     }
 
-    // Create a wave with a custom name and/or delay override in one step
+    // Mutator method to add a new wave with the next wave number automatically
+    public void addWave() {
+        Wave wave = new Wave(waves.size() + 1);
+        waves.add(wave);
+    }
+
+    // Create a wave with a custom name and/or delay override in one atomic step
     public void addWave(String name, Integer delaySeconds) {
         Wave wave = new Wave(waves.size() + 1);
         wave.setName(name);
         wave.setDelaySeconds(delaySeconds);
+        waves.add(wave);
+    }
+
+    // Adds a wave built from copied data (name, delay override, and a pre-built mob list)
+    public void addWaveFromPaste(String name, Integer delaySeconds, List<WaveMob> mobs) {
+        Wave wave = new Wave(waves.size() + 1);
+        wave.setName(name);
+        wave.setDelaySeconds(delaySeconds);
+        for (WaveMob mob : mobs) {
+            wave.addMob(
+                    mob.getMobType(), mob.getCount(), mob.getSize(),
+                    mob.getRidingMob(), mob.getMainHandItem(), mob.getOffHandItem(),
+                    mob.getArmorItems(), mob.getPotionEffects(), mob.getEnchantments()
+            );
+        }
         waves.add(wave);
     }
 
@@ -116,6 +139,6 @@ public class MobArena {
 
     @Override
     public String toString() {
-        return "MobArena{name='" + name + "', center=(" + centerX + ", " + centerY + ", " + centerZ + "), radius=" + radius + ", delayBetweenWaves=" + delayBetweenWaves + ", waves=" + waves.size() + "}";
+        return "MobArena{name='" + name + "', center=(" + centerX + ", " + centerY + ", " + centerZ + "), radius=" + radius + ", delayBetweenWaves=" + delayBetweenWaves + ", group=" + group + ", waves=" + waves.size() + "}";
     }
 }

@@ -1,6 +1,6 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
-import net.alek.succorstadiums.network.ArenaDataPayload;
+import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;

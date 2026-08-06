@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.network;
+package net.alek.succorstadiums.network.arena;
 
 import net.alek.succorstadiums.arena.*;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -29,6 +29,25 @@ public class ArenaPacketHandler {
             );
 
         }));
+
+        ServerPlayNetworking.registerGlobalReceiver(ArenaPasteWavePayload.TYPE, (payload, context) -> context.server().execute(() -> {
+            ServerPlayer player = context.player();
+            MobArena arena = MobArenaManager.getArena(payload.targetArenaName());
+            if (arena != null) {
+                List<WaveMob> mobs = new ArrayList<>();
+                for (ArenaDataPayload.MobEntry m : payload.mobs()) {
+                    mobs.add(new WaveMob(
+                            m.mobType(), m.count(), m.size(), m.ridingMob(),
+                            m.mainHandItem(), m.offHandItem(), m.armorItems(),
+                            m.potionEffects(), m.enchantments()
+                    ));
+                }
+                Integer delay = payload.delaySeconds() < 0 ? null : payload.delaySeconds();
+                arena.addWaveFromPaste(payload.waveName(), delay, mobs);
+                MobArenaManager.save();
+            }
+            sendData(player);
+        }));
     }
 
     private static void handle(ArenaActionPayload p, ServerPlayer player, MinecraftServer server) {
@@ -37,11 +56,20 @@ public class ArenaPacketHandler {
 
             case REQUEST_DATA -> sendData(player);
 
+            case SET_ARENA_GROUP -> {
+                MobArena arena = MobArenaManager.getArena(p.arenaName());
+                if (arena != null) {
+                    arena.setGroup(p.newName());
+                    MobArenaManager.save();
+                }
+                sendData(player);
+            }
             case CREATE_ARENA -> {
                 MobArenaManager.createArena(p.arenaName(), p.x(), p.y(), p.z(), p.radius(), p.delay());
                 sendData(player);
             }
             case REMOVE_ARENA -> {
+                // Stop the arena if it's running before removing it
                 if (ArenaSessionManager.isRunning(p.arenaName())) {
                     ArenaSession session = ArenaSessionManager.getSession(p.arenaName());
                     if (session != null) session.KillCurrentWave(); // Ensure current wave is killed
@@ -72,16 +100,6 @@ public class ArenaPacketHandler {
                 if (arena != null) { arena.addWave(); MobArenaManager.save(); }
                 sendData(player);
             }
-            case ADD_WAVE_FULL -> {
-                MobArena arena = MobArenaManager.getArena(p.arenaName());
-                if (arena != null) {
-                    String name = p.newName().trim();
-                    Integer delay = p.delay() < 0 ? null : p.delay();
-                    arena.addWave(name.isEmpty() ? null : name, delay);
-                    MobArenaManager.save();
-                }
-                sendData(player);
-            }
             case REMOVE_WAVE -> {
                 MobArena arena = MobArenaManager.getArena(p.arenaName());
                 if (arena != null) { arena.removeWave(p.waveNumber()); MobArenaManager.save(); }
@@ -99,6 +117,16 @@ public class ArenaPacketHandler {
                 MobArena arena = MobArenaManager.getArena(p.arenaName());
                 if (arena != null) {
                     arena.moveWave(p.waveNumber(), 1);
+                    MobArenaManager.save();
+                }
+                sendData(player);
+            }
+            case ADD_WAVE_FULL -> {
+                MobArena arena = MobArenaManager.getArena(p.arenaName());
+                if (arena != null) {
+                    String name = p.newName().trim();
+                    Integer delay = p.delay() < 0 ? null : p.delay();
+                    arena.addWave(name.isEmpty() ? null : name, delay);
                     MobArenaManager.save();
                 }
                 sendData(player);

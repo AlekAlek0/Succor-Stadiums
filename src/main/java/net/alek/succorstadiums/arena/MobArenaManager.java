@@ -28,6 +28,8 @@ public class MobArenaManager {
     private static final Map<String, MobArena> arenas = new HashMap<>();
     private static Path saveFile;
 
+    private String group;
+
     // Called once on server start from your ModInitializer
     public static void init(MinecraftServer server) {
         Path dir = server.getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT)
@@ -50,6 +52,11 @@ public class MobArenaManager {
         save();
     }
 
+    // Mutator method to set a group
+    public void setGroup(String group) {
+        this.group = (group == null || group.isBlank()) ? null : group;
+    }
+
     // Mutator method to remove an existing mob arena
     public static void removeArena(String name) {
         boolean removed = arenas.remove(name) != null;
@@ -60,6 +67,9 @@ public class MobArenaManager {
     public static MobArena getArena(String name) {
         return arenas.get(name);
     }
+
+    // Accessor method to get a given arena group
+    public String getGroup() { return group; }
 
     // Accessor method to get all created mob arenas
     public static Collection<MobArena> getAllArenas() {

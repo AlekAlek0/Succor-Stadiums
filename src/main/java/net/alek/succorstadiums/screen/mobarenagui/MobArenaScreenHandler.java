@@ -1,6 +1,6 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
-import net.alek.succorstadiums.network.ArenaDataPayload;
+import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.Minecraft;
 

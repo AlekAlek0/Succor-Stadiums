@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.network;
+package net.alek.succorstadiums.network.arena;
 
 import net.alek.succorstadiums.SuccorStadiums;
 import net.minecraft.network.RegistryFriendlyByteBuf;

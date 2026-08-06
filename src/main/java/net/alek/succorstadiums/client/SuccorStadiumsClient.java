@@ -7,7 +7,7 @@ import net.alek.succorstadiums.client.render.entity.monsters.ZombieFarmerRendere
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.network.ArachnoDoubleJumpPayload;
-import net.alek.succorstadiums.network.OpenMobArenaPayload;
+import net.alek.succorstadiums.network.arena.OpenMobArenaPayload;
 import net.alek.succorstadiums.network.ResurrectionAmuletPayload;
 import net.alek.succorstadiums.screen.mobarenagui.MobArenaScreen;
 import net.alek.succorstadiums.screen.mobarenagui.MobArenaScreenHandler;
@@ -22,7 +22,6 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;

@@ -1,7 +1,7 @@
 package net.alek.succorstadiums.command;
 
 import com.mojang.brigadier.context.CommandContext;
-import net.alek.succorstadiums.network.OpenMobArenaPayload;
+import net.alek.succorstadiums.network.arena.OpenMobArenaPayload;
 import net.alek.succorstadiums.util.CustomVillagerSpawner;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
