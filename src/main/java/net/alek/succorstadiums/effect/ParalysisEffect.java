@@ -19,7 +19,7 @@ public class ParalysisEffect extends MobEffect {
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "paralysis_jump_strength");
 
     public ParalysisEffect() {
-        super(MobEffectCategory.HARMFUL, 0x707070);
+        super(MobEffectCategory.HARMFUL, 0x1b6c52);
         this.addAttributeModifier(Attributes.MOVEMENT_SPEED, MOVEMENT_SPEED_MODIFIER_ID, -1.0, Operation.ADD_MULTIPLIED_TOTAL);
         this.addAttributeModifier(Attributes.JUMP_STRENGTH, JUMP_STRENGTH_MODIFIER_ID, -1.0, Operation.ADD_MULTIPLIED_TOTAL);
     }
