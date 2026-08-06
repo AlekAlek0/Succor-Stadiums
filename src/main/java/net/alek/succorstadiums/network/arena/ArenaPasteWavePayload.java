@@ -5,11 +5,11 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/** Pastes a full copied wave (name, delay, and all its mobs) into a target arena as a new wave. */
 public record ArenaPasteWavePayload(String targetArenaName, String waveName, int delaySeconds,
                                     List<ArenaDataPayload.MobEntry> mobs) implements CustomPacketPayload {
 
@@ -67,7 +67,7 @@ public record ArenaPasteWavePayload(String targetArenaName, String waveName, int
     );
 
     @Override
-    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+    public CustomPacketPayload.@NonNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 }

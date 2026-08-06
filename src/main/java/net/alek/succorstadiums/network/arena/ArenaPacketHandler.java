@@ -69,10 +69,9 @@ public class ArenaPacketHandler {
                 sendData(player);
             }
             case REMOVE_ARENA -> {
-                // Stop the arena if it's running before removing it
                 if (ArenaSessionManager.isRunning(p.arenaName())) {
                     ArenaSession session = ArenaSessionManager.getSession(p.arenaName());
-                    if (session != null) session.KillCurrentWave(); // Ensure current wave is killed
+                    if (session != null) session.KillCurrentWave();
                     ArenaSessionManager.stopSession(p.arenaName());
                     LOGGER.info("Stopped running arena {} before deletion.", p.arenaName());
                 }
@@ -84,7 +83,7 @@ public class ArenaPacketHandler {
                 if (arena != null) {
                     if (!p.newName().isEmpty() && !p.newName().equals(p.arenaName())) {
                         MobArenaManager.renameArena(p.arenaName(), p.newName());
-                        arena = MobArenaManager.getArena(p.newName()); // re-fetch under new name
+                        arena = MobArenaManager.getArena(p.newName());
                     }
                     if (arena != null) {
                         arena.setCenter(p.x(), p.y(), p.z());
