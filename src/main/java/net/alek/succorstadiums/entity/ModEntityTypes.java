@@ -1,9 +1,7 @@
 package net.alek.succorstadiums.entity;
 
 import net.alek.succorstadiums.SuccorStadiums;
-import net.alek.succorstadiums.entity.monsters.BananaSlime;
-import net.alek.succorstadiums.entity.monsters.GrassCreeper;
-import net.alek.succorstadiums.entity.monsters.ZombieFarmer;
+import net.alek.succorstadiums.entity.monsters.*;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -26,6 +24,10 @@ public class ModEntityTypes {
     public static final EntityType<GrassCreeper> GRASS_CREEPER = registerMob(
                 "grass_creeper", EntityType.Builder.<GrassCreeper>of(GrassCreeper::new,
                     MobCategory.MONSTER).sized(0.6f, 1.7f));
+
+    public static final EntityType<Skelcrow> SKELCROW = registerMob(
+            "skelcrow", EntityType.Builder.<Skelcrow>of(Skelcrow::new,
+                    MobCategory.MONSTER).sized(0.6f, 1.99f));
 
 
 

@@ -2,6 +2,7 @@ package net.alek.succorstadiums.client;
 
 import net.alek.succorstadiums.client.render.entity.monsters.BananaSlimeRenderer;
 import net.alek.succorstadiums.client.render.entity.monsters.GrassCreeperRenderer;
+import net.alek.succorstadiums.client.render.entity.monsters.SkelcrowRenderer;
 import net.alek.succorstadiums.client.render.entity.monsters.ZombieFarmerRenderer;
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.item.ModItems;
@@ -21,6 +22,7 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -39,6 +41,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
         EntityRenderers.register(ModEntityTypes.BANANA_SLIME, BananaSlimeRenderer::new);
         EntityRenderers.register(ModEntityTypes.ZOMBIE_FARMER, ZombieFarmerRenderer::new);
         EntityRenderers.register(ModEntityTypes.GRASS_CREEPER, GrassCreeperRenderer::new);
+        EntityRenderers.register(ModEntityTypes.SKELCROW, SkelcrowRenderer::new);
 
         ClientTickEvents.END_CLIENT_TICK.register(SuccorStadiumsClient::handleArachnoDoubleJumpInput);
 

@@ -4,6 +4,8 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRe
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.cubemob.Slime;
+import net.minecraft.world.entity.monster.skeleton.Skeleton;
+import net.minecraft.world.entity.monster.skeleton.Stray;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 
 public class ModEntityAttributes {
@@ -11,7 +13,8 @@ public class ModEntityAttributes {
     public static void register() {
         FabricDefaultAttributeRegistry.register(
                 ModEntityTypes.BANANA_SLIME,
-                Slime.createMobAttributes().add(Attributes.ATTACK_DAMAGE, 0D)
+                Slime.createMobAttributes()
+                        .add(Attributes.ATTACK_DAMAGE, 0D)
         );
 
         FabricDefaultAttributeRegistry.register(
@@ -29,5 +32,11 @@ public class ModEntityAttributes {
                 Creeper.createAttributes()
                         .add(Attributes.MAX_HEALTH, 10D)
         );
+
+        FabricDefaultAttributeRegistry.register(
+                ModEntityTypes.SKELCROW,
+                Stray.createAttributes()
+        );
+
     }
 }
