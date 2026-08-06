@@ -48,7 +48,6 @@ public class SuccorStadiums implements ModInitializer {
 		ModItems.registerModItems();
 		ModConsumeEffects.register();
 
-
 		// Register mod entity types and attributes
 		ModEntityTypes.registerModEntityTypes();
 		ModEntityAttributes.register();
@@ -64,6 +63,7 @@ public class SuccorStadiums implements ModInitializer {
 		// Register mob arena network packets
 		PayloadTypeRegistry.clientboundPlay().register(OpenMobArenaPayload.TYPE, OpenMobArenaPayload.CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(ArenaDataPayload.TYPE, ArenaDataPayload.CODEC);
+
 		PayloadTypeRegistry.serverboundPlay().register(ArenaPasteWavePayload.TYPE, ArenaPasteWavePayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(OpenMobArenaRequestPayload.TYPE, OpenMobArenaRequestPayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(ArenaActionPayload.TYPE, ArenaActionPayload.CODEC);
