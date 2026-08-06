@@ -4,6 +4,7 @@ import net.alek.succorstadiums.arena.ArenaSessionManager;
 import net.alek.succorstadiums.arena.MobArenaManager;
 import net.alek.succorstadiums.command.ModCommands;
 import net.alek.succorstadiums.creativemodetab.ModCreativeModeTabs;
+import net.alek.succorstadiums.effect.ModEffects;
 import net.alek.succorstadiums.entity.ModEntityAttributes;
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.food.ModConsumeEffects;
@@ -42,8 +43,10 @@ public class SuccorStadiums implements ModInitializer {
 		ModCreativeModeTabs.registerModCreativeModeTabs();
 		ModCommands.registerModCommands();
 		ModSounds.registerModSounds();
+		ModEffects.register();
 		ModItems.registerModItems();
 		ModConsumeEffects.register();
+
 
 		// Register mod entity types and attributes
 		ModEntityTypes.registerModEntityTypes();
