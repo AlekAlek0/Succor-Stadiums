@@ -76,6 +76,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Ranged Weapon translations
         translationBuilder.add(ModItems.BOWNANA, "§eBownana");
         translationBuilder.add(ModItems.ARACHNO_CROSSBOW, "§4Arachno Crossbow");
+        translationBuilder.add(ModItems.CREEPBOW, "Creepbow");
 
         // Food translations
         translationBuilder.add(ModItems.GRAMBLE_BAPPLE, "Ghramble Bapple");

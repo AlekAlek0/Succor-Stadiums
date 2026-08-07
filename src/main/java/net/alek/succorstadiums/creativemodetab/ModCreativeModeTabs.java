@@ -85,6 +85,7 @@ public class ModCreativeModeTabs {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.BOWNANA);
                         output.accept(ModItems.ARACHNO_CROSSBOW);
+                        output.accept(ModItems.CREEPBOW);
 
 
 

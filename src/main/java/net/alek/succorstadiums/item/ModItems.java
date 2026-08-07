@@ -4,6 +4,7 @@ import net.alek.succorstadiums.item.armor.BaleArmorItem;
 import net.alek.succorstadiums.item.foods.CreeperSalveItem;
 import net.alek.succorstadiums.item.weapons.melee.*;
 import net.alek.succorstadiums.item.weapons.ranged.ArachnoCrossbowItem;
+import net.alek.succorstadiums.item.weapons.ranged.CreepbowItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -126,6 +127,8 @@ public class ModItems {
     public static final Item BOWNANA = registerItem("bownana", properties -> new BownanaItem(properties
             .durability(384)));
     public static final Item ARACHNO_CROSSBOW = registerItem("arachno_crossbow", properties -> new ArachnoCrossbowItem(properties
+            .durability(450)));
+    public static final Item CREEPBOW = registerItem("creepbow", properties -> new CreepbowItem(properties
             .durability(450)));
 
     public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
