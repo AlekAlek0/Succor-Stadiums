@@ -84,7 +84,7 @@ public class ArenaSession {
         // Wave 1's own delay (falling back to the arena's default) determines the start delay
         int startDelaySecs = arena.getWaves().isEmpty()
                 ? arena.getDelayBetweenWaves()
-                : arena.getWaves().get(0).getEffectiveDelay(arena.getDelayBetweenWaves());
+                : arena.getWaves().getFirst().getEffectiveDelay(arena.getDelayBetweenWaves());
 
         currentDelayDurationTicks = startDelaySecs * 20;
         delayTicksRemaining = currentDelayDurationTicks;
@@ -201,6 +201,12 @@ public class ArenaSession {
                                 EntitySpawnReason.COMMAND,
                                 null
                         );
+
+                        // Remove any vanilla equipment minecraft gives on mobs and set drop chance to 0%
+                        for (EquipmentSlot slot : EquipmentSlot.values()) {
+                            mob.setItemSlot(slot, ItemStack.EMPTY);
+                            mob.setDropChance(slot, 0.0F);
+                        }
 
                         if (entityType == EntityTypes.SLIME || entityType == ModEntityTypes.BANANA_SLIME) {
                             if (waveMob.getSize() != null) {
