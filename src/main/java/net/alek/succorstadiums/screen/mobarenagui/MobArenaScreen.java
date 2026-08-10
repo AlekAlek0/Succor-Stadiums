@@ -113,11 +113,13 @@ public class MobArenaScreen extends Screen {
 
     public void receiveData(ArenaDataPayload payload) {
         this.arenas = new ArrayList<>(payload.arenas());
-        if (selectedArena >= arenas.size()) selectedArena = arenas.size() - 1;
+
+        if (selectedArena >= arenas.size()) {
+            selectedArena = arenas.size() - 1;
+        }
+
         if (showNewWavePrompt) return;
-        if (detailView != DetailView.OVERVIEW
-                && detailView != DetailView.DEL_MOB
-                && detailView != DetailView.VIEW_MOB) return;
+
         rebuildWidgets();
     }
 
