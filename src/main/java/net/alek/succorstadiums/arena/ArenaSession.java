@@ -79,9 +79,10 @@ public class ArenaSession {
             );
         });
 
+        // Broadcast chat message that arena has begun
         broadcast("§6--- " + arena.getName() + " has begun! ---");
 
-        // Wave 1's own delay (falling back to the arena's default) determines the start delay
+        //  First wave sown delay (falling back to the arena's default) determines the start delay
         int startDelaySecs = arena.getWaves().isEmpty()
                 ? arena.getDelayBetweenWaves()
                 : arena.getWaves().getFirst().getEffectiveDelay(arena.getDelayBetweenWaves());
@@ -95,17 +96,17 @@ public class ArenaSession {
     public void tick() {
         if (state != ArenaState.RUNNING) return;
 
-        // Check if all players are dead
+        // Check if all players are dead if true send arena state as loss and end
         if (activePlayerUUIDs.isEmpty()) {
             endArena(ArenaState.LOSS);
             return;
         }
 
+        // If waiting for next wave setup and configure boss bar
         if (waitingForNextWave) {
             int secsLeft = (delayTicksRemaining / 20) + 1;
 
-            bossBar.setName(Component.literal(
-                    (firstWave
+            bossBar.setName(Component.literal((firstWave
                             ? "§eFirst wave in " + secsLeft + "s..."
                             : "§eNext wave in " + secsLeft + "s...")
                             + " §f| §aPlayers: " + activePlayerUUIDs.size()
@@ -119,17 +120,19 @@ public class ArenaSession {
 
             bossBar.setColor(BossEvent.BossBarColor.YELLOW);
 
+            // Tick down on wave delay time
             delayTicksRemaining--;
 
+            // If wave delay hits zero spawn next wave
             if (delayTicksRemaining <= 0) {
                 waitingForNextWave = false;
                 firstWave = false;
                 spawnCurrentWave();
             }
-
             return;
         }
 
+        // Remove mob from active wave mob list if mob is killed
         activeMobUUIDs.removeIf(uuid -> {
             Entity entity = level.getEntity(uuid);
             return entity == null || !entity.isAlive();
@@ -152,7 +155,7 @@ public class ArenaSession {
             currentWaveIndex++;
 
             if (currentWaveIndex >= arena.getWaves().size()) {
-                endArena(ArenaState.WIN); // Players won
+                endArena(ArenaState.WIN);
             } else {
                 // The upcoming wave's own delay (falling back to the arena's default)
                 Wave nextWave = arena.getWaves().get(currentWaveIndex);
@@ -470,11 +473,13 @@ public class ArenaSession {
         return new Vec3(x, surfaceY, z);
     }
 
+    // Accessor methods to get arena, arena state, and if a player is in the arena
+    public MobArena getArena() { return arena; }
+    public boolean isFinished() { return state != ArenaState.RUNNING; }
+    public boolean hasPlayer(UUID playerUUID) {return activePlayerUUIDs.contains(playerUUID);}
+
+    // Helper method that sends a chat message to each player in the arena
     private void broadcast(String message) {
         initialPlayers.forEach(p -> p.sendSystemMessage(Component.literal(message)));
     }
-
-    public MobArena getArena() { return arena; }
-    public boolean isFinished() { return state != ArenaState.RUNNING; }
-    public boolean hasPlayer(UUID playerUUID) { return activePlayerUUIDs.contains(playerUUID); }
 }
