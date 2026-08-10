@@ -94,7 +94,15 @@ public class ArenaSession {
 
     // Arena tick method
     public void tick() {
+        // If arena is not running just return
         if (state != ArenaState.RUNNING) return;
+
+        // Create vars to get remaining mobs in wave, current wave num,
+        // total waves in arena, and create progress based on mobs remaining for boss bar
+        int remaining = activeMobUUIDs.size();
+        int waveNum = currentWaveIndex + 1;
+        int totalWaves = arena.getWaveCount();
+        float progress = totalMobsInWave > 0 ? (float) remaining / totalMobsInWave : 0f;
 
         // Check if all players are dead if true send arena state as loss and end
         if (activePlayerUUIDs.isEmpty()) {
@@ -102,7 +110,7 @@ public class ArenaSession {
             return;
         }
 
-        // If waiting for next wave setup and configure boss bar
+        // If arena state is in middle of waves waiting for next wave setup and configure boss bar
         if (waitingForNextWave) {
             int secsLeft = (delayTicksRemaining / 20) + 1;
 
@@ -112,8 +120,7 @@ public class ArenaSession {
                             + " §f| §aPlayers: " + activePlayerUUIDs.size()
             ));
 
-            bossBar.setProgress(
-                    currentDelayDurationTicks > 0
+            bossBar.setProgress(currentDelayDurationTicks > 0
                             ? (float) delayTicksRemaining / currentDelayDurationTicks
                             : 0f
             );
@@ -138,26 +145,30 @@ public class ArenaSession {
             return entity == null || !entity.isAlive();
         });
 
-        int remaining = activeMobUUIDs.size();
-        int waveNum = currentWaveIndex + 1;
-        int totalWaves = arena.getWaveCount();
+        // Set up and configure boss bar for current wave
         bossBar.setName(Component.literal(
                 "§6" + arena.getName()
                         + " §f- §bWave: " + waveNum + "/" + totalWaves
                         + " §f- §cEnemies Remaining: " + remaining
                         + " §f- §aPlayers: " + activePlayerUUIDs.size()
         ));
-        float progress = totalMobsInWave > 0 ? (float) remaining / totalMobsInWave : 0f;
+
         bossBar.setProgress(Math.clamp(progress, 0f, 1f));
         bossBar.setColor(BossEvent.BossBarColor.RED);
 
+        // If remaining mobs in wave is zero start set up for next
         if (remaining == 0) {
+
+            // Increment current wave by 1
             currentWaveIndex++;
 
+            // If current wave is the same as total wave count then arena must be won and send arena state win
             if (currentWaveIndex >= arena.getWaves().size()) {
                 endArena(ArenaState.WIN);
+
+            // if arena isn't won start setup for next
             } else {
-                // The upcoming wave's own delay (falling back to the arena's default)
+
                 Wave nextWave = arena.getWaves().get(currentWaveIndex);
                 int delaySecs = nextWave.getEffectiveDelay(arena.getDelayBetweenWaves());
                 broadcast("§eWave " + currentWaveIndex + " cleared! Next wave in " + delaySecs + " seconds...");
