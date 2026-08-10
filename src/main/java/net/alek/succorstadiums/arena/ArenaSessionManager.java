@@ -19,7 +19,6 @@ public class ArenaSessionManager {
 
     public static void init() {
         ServerTickEvents.END_SERVER_TICK.register(ArenaSessionManager::tick);
-        // Register for AFTER_DEATH event instead of AFTER_RESPAWN
         ServerLivingEntityEvents.AFTER_DEATH.register(ArenaSessionManager::onLivingEntityDeath);
     }
 

@@ -11,6 +11,7 @@ public class Wave {
     private String name;           // null/empty = unnamed, falls back to "Wave N" in UI
     private Integer delaySeconds;  // null = inherit the arena's default delay
     private final List<WaveMob> mobs;
+    private final List<RewardItem> rewards = new ArrayList<>();
 
     // Constructor to create a wave
     public Wave(int waveNumber) {
@@ -108,4 +109,12 @@ public class Wave {
     public int getTotalMobCount() {
         return mobs.stream().mapToInt(WaveMob::getCount).sum();
     }
+
+    public List<RewardItem> getRewards() { return rewards; }
+
+    public void setRewards(List<RewardItem> newRewards) {
+        rewards.clear();
+        if (newRewards != null) rewards.addAll(newRewards);
+    }
+
 }

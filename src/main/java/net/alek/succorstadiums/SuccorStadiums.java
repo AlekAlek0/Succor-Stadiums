@@ -65,6 +65,7 @@ public class SuccorStadiums implements ModInitializer {
 		PayloadTypeRegistry.clientboundPlay().register(ArenaDataPayload.TYPE, ArenaDataPayload.CODEC);
 
 		PayloadTypeRegistry.serverboundPlay().register(ArenaPasteWavePayload.TYPE, ArenaPasteWavePayload.CODEC);
+		PayloadTypeRegistry.serverboundPlay().register(ArenaSetRewardsPayload.TYPE, ArenaSetRewardsPayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(OpenMobArenaRequestPayload.TYPE, OpenMobArenaRequestPayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(ArenaActionPayload.TYPE, ArenaActionPayload.CODEC);
 		ArenaPacketHandler.register();

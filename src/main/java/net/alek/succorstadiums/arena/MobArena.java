@@ -15,6 +15,7 @@ public class MobArena {
     private int delayBetweenWaves; // in seconds; the DEFAULT delay used by any wave that doesn't override it
     private String group; // null/blank = "Ungrouped"
     private final List<Wave> waves = new ArrayList<>();
+    private final List<RewardItem> rewards = new ArrayList<>();
 
     // Constructor method to create a MobArena with the given name, center position, radius, and wave delay
     public MobArena(String name, double centerX, double centerY, double centerZ, int radius, int delayBetweenWaves) {
@@ -26,7 +27,7 @@ public class MobArena {
         this.delayBetweenWaves = delayBetweenWaves;
     }
 
-    // Accessor methods to get name, center coordinates, radius, delay, group, waves of a mob arena, and wave count of an existing mob arena
+    // Accessor methods to get name, center coordinates, radius, delay, group, waves of a mob arena, wave count of an existing mob arena, and rewards
     public String getName() { return name; }
     public double getCenterX() { return centerX; }
     public double getCenterY() { return centerY; }
@@ -36,6 +37,7 @@ public class MobArena {
     public String getGroup() { return group; }
     public List<Wave> getWaves() { return waves; }
     public int getWaveCount() { return waves.size(); }
+    public List<RewardItem> getRewards() { return rewards; }
 
     // Accessor method to get the specific wave by its number (1-indexed)
     public Wave getWave(int waveNumber) {
@@ -46,6 +48,12 @@ public class MobArena {
     // Mutator method to set name of an existing mob arena
     public void setName(String name) {
         this.name = name;
+    }
+
+    // Mutator method to set rewards of an existing mob arena
+    public void setRewards(List<RewardItem> newRewards) {
+        rewards.clear();
+        if (newRewards != null) rewards.addAll(newRewards);
     }
 
     // Mutator method to set the center of an existing mob arena

@@ -30,23 +30,24 @@ public class ArenaFormScreen {
     public void buildWidgets(Consumer<AbstractWidget> addRenderableWidget,
                              Font font,
                              int detailX, int detailW, int guiTop, int guiHeight,
-                             ArenaDataPayload.ArenaEntry existing,
-                             Submit onSubmit, Runnable onCancel) {
+                             ArenaDataPayload.ArenaEntry existing, int rewardCount,
+                             Submit onSubmit, Runnable onCancel, Runnable onEditRewards) {
 
         int cx = detailX + PANEL_PAD;
         int cy = guiTop + 20;
         int fw = detailW - PANEL_PAD * 2;
         int by = guiTop + guiHeight - BTN_H - PANEL_PAD;
         int posW = (fw - 54) / 3 - 2;
+        int halfW = fw / 2 - 2;
 
-        groupField = makeField(addRenderableWidget, font, cx, cy + 10, fw / 2 - 2, "Group");
-        nameField  = makeField(addRenderableWidget, font, cx + fw / 2 + 2, cy + 10, fw / 2 - 2, "Arena name");
+        groupField = makeField(addRenderableWidget, font, cx, cy + 10, halfW, "Group (optional)");
+        nameField  = makeField(addRenderableWidget, font, cx + halfW + 4, cy + 10, halfW, "Arena name");
 
         xField = makeField(addRenderableWidget, font, cx, cy + 50, posW, "X");
         yField = makeField(addRenderableWidget, font, cx + posW + 1, cy + 50, posW, "Y");
         zField = makeField(addRenderableWidget, font, cx + (posW + 1) * 2, cy + 50, posW, "Z");
-        radiusField = makeField(addRenderableWidget, font, cx, cy + 90, fw / 2 - 2, "Radius");
-        delayField = makeField(addRenderableWidget, font, cx + fw / 2 + 2, cy + 90, fw / 2 - 2, "Delay (s)");
+        radiusField = makeField(addRenderableWidget, font, cx, cy + 90, halfW, "Radius");
+        delayField = makeField(addRenderableWidget, font, cx + halfW + 4, cy + 90, halfW, "Delay (s)");
 
         addRenderableWidget.accept(Button.builder(Component.literal("My Pos"),
                 btn -> {
@@ -58,6 +59,11 @@ public class ArenaFormScreen {
                     }
                 }
         ).bounds(detailX + detailW - PANEL_PAD - 50, cy + 50, 50, BTN_H - 2).build());
+
+        addRenderableWidget.accept(Button.builder(
+                Component.literal("🎁 Rewards" + (rewardCount > 0 ? " (" + rewardCount + ")" : "")),
+                btn -> onEditRewards.run()
+        ).bounds(cx, cy + 130, fw, BTN_H).build());
 
         if (existing != null) {
             groupField.setValue(existing.group() != null ? existing.group() : "");
@@ -94,10 +100,15 @@ public class ArenaFormScreen {
     }
 
     public void render(GuiGraphicsExtractor g, Font font, GuiTheme theme,
-                       int dx, int dt, String headerTitle) {
-        g.fill(dx, dt, dx + 849, dt + 16, 0xFF5C7ABA);
+                       int dx, int dt, int dw, String headerTitle) {
+        g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
         g.text(font, headerTitle, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
-        g.text(font, "Group (Optional) / Name", dx + PANEL_PAD, dt + 20, theme.subtext(), false);
+
+        int fw = dw - PANEL_PAD * 2;
+        int halfW = fw / 2 - 2;
+
+        g.text(font, "Group", dx + PANEL_PAD, dt + 20, theme.subtext(), false);
+        g.text(font, "Name", dx + PANEL_PAD + halfW + 4, dt + 20, theme.subtext(), false);
         g.text(font, "Position", dx + PANEL_PAD, dt + 60, theme.subtext(), false);
         g.text(font, "Radius / Delay (s)", dx + PANEL_PAD, dt + 100, theme.subtext(), false);
     }

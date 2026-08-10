@@ -48,6 +48,25 @@ public class ArenaPacketHandler {
             }
             sendData(player);
         }));
+
+        ServerPlayNetworking.registerGlobalReceiver(ArenaSetRewardsPayload.TYPE, (payload, context) -> context.server().execute(() -> {
+            ServerPlayer player = context.player();
+            MobArena arena = MobArenaManager.getArena(payload.arenaName());
+            if (arena != null) {
+                List<RewardItem> rewards = new ArrayList<>();
+                for (ArenaDataPayload.RewardEntry r : payload.rewards()) {
+                    rewards.add(new RewardItem(r.itemId(), r.count()));
+                }
+                if (payload.waveNumber() <= 0) {
+                    arena.setRewards(rewards);
+                } else {
+                    Wave wave = arena.getWave(payload.waveNumber());
+                    if (wave != null) wave.setRewards(rewards);
+                }
+                MobArenaManager.save();
+            }
+            sendData(player);
+        }));
     }
 
     private static void handle(ArenaActionPayload p, ServerPlayer player, MinecraftServer server) {

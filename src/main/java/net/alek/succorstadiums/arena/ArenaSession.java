@@ -159,16 +159,19 @@ public class ArenaSession {
         // If remaining mobs in wave is zero start set up for next
         if (remaining == 0) {
 
+            Wave clearedWave = arena.getWaves().get(currentWaveIndex);
+            grantRewards(clearedWave.getRewards());
+
             // Increment current wave by 1
             currentWaveIndex++;
 
             // If current wave is the same as total wave count then arena must be won and send arena state win
             if (currentWaveIndex >= arena.getWaves().size()) {
+                grantRewards(arena.getRewards());
                 endArena(ArenaState.WIN);
 
             // if arena isn't won start setup for next
             } else {
-
                 Wave nextWave = arena.getWaves().get(currentWaveIndex);
                 int delaySecs = nextWave.getEffectiveDelay(arena.getDelayBetweenWaves());
                 broadcast("§eWave " + currentWaveIndex + " cleared! Next wave in " + delaySecs + " seconds...");
@@ -429,6 +432,7 @@ public class ArenaSession {
         endArena(ArenaState.LOSS);
     }
 
+    // Helper method to handle a player death
     public void onPlayerDeath(ServerPlayer player) {
         if (activePlayerUUIDs.remove(player.getUUID())) {
             broadcast("§e" + player.getName().getString() + " has been eliminated!");
@@ -488,6 +492,35 @@ public class ArenaSession {
     public MobArena getArena() { return arena; }
     public boolean isFinished() { return state != ArenaState.RUNNING; }
     public boolean hasPlayer(UUID playerUUID) {return activePlayerUUIDs.contains(playerUUID);}
+
+    // Gives the reward list to every player still active (alive) in this session.
+    // Only survivors get rewards — a player already eliminated (removed from
+    // activePlayerUUIDs via onPlayerDeath) does not receive wave or arena rewards.
+    private void grantRewards(List<RewardItem> rewards) {
+        if (rewards == null || rewards.isEmpty()) return;
+
+        for (UUID uuid : activePlayerUUIDs) {
+            ServerPlayer player = level.getServer().getPlayerList().getPlayer(uuid);
+            if (player == null) continue;
+
+            for (RewardItem reward : rewards) {
+                try {
+                    var itemOpt = BuiltInRegistries.ITEM.getOptional(Identifier.parse(reward.getItemId()));
+                    if (itemOpt.isEmpty()) {
+                        broadcast("§cUnknown reward item '" + reward.getItemId() + "', skipping.");
+                        continue;
+                    }
+                    ItemStack stack = new ItemStack(itemOpt.get(), reward.getCount());
+                    if (!player.getInventory().add(stack)) {
+                        // Inventory full — drop it at their feet instead of losing it
+                        player.drop(stack, false);
+                    }
+                } catch (Exception e) {
+                    broadcast("§cFailed to grant reward '" + reward.getItemId() + "': " + e.getMessage());
+                }
+            }
+        }
+    }
 
     // Helper method that sends a chat message to each player in the arena
     private void broadcast(String message) {

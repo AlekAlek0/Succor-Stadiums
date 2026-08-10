@@ -4,6 +4,7 @@ import net.alek.succorstadiums.client.ModKeyBindings;
 import net.alek.succorstadiums.network.arena.ArenaActionPayload;
 import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import net.alek.succorstadiums.network.arena.ArenaPasteWavePayload;
+import net.alek.succorstadiums.network.arena.ArenaSetRewardsPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
@@ -43,6 +44,7 @@ public class MobArenaScreen extends Screen {
     private final WaveFormScreen waveFormScreen = new WaveFormScreen();
     private final DelMobScreen delMobScreen = new DelMobScreen();
     private final PlayerPickerScreen playerPickerScreen = new PlayerPickerScreen();
+    private final RewardScreen rewardScreen = new RewardScreen();
 
     // ── Theme ─────────────────────────────────────────────────────
 
@@ -54,7 +56,7 @@ public class MobArenaScreen extends Screen {
     private int selectedArena = -1;
     private int selectedWave  = -1;
 
-    private enum DetailView { OVERVIEW, ADD_ARENA, VIEW_MOB, ADD_MOB, DEL_MOB, EDIT_ARENA, EDIT_WAVE }
+    private enum DetailView { OVERVIEW, ADD_ARENA, VIEW_MOB, ADD_MOB, DEL_MOB, EDIT_ARENA, EDIT_WAVE, REWARD_ARENA, REWARD_WAVE }
     private DetailView detailView = DetailView.OVERVIEW;
 
     private boolean addMobFromEditWave = false;
@@ -77,6 +79,15 @@ public class MobArenaScreen extends Screen {
 
     private static final String UNGROUPED_LABEL = "Ungrouped";
     private final Set<String> collapsedGroups = new HashSet<>();
+
+    // ── Rewards ───────────────────────────────────────────────────────────────
+
+    // Holds rewards for a NOT-YET-CREATED arena (client-side only, until Create is
+    // pressed). Editing an already-existing arena's or wave's rewards saves straight
+    // to the server instead — see buildRewardArenaWidgets()/buildRewardWaveWidgets().
+    private List<ArenaDataPayload.RewardEntry> pendingArenaRewards = new ArrayList<>();
+    // Which DetailView the reward screen's Save/Cancel should return to.
+    private DetailView rewardReturnView = DetailView.OVERVIEW;
 
     // ── Scroll / tick ─────────────────────────────────────────────────────────
 
@@ -189,6 +200,8 @@ public class MobArenaScreen extends Screen {
         else if (detailView == DetailView.DEL_MOB)     buildDelMobWidgets();
         else if (detailView == DetailView.EDIT_ARENA)  buildEditArenaWidgets();
         else if (detailView == DetailView.EDIT_WAVE)   buildEditWaveWidgets();
+        else if (detailView == DetailView.REWARD_ARENA) buildRewardArenaWidgets();
+        else if (detailView == DetailView.REWARD_WAVE)  buildRewardWaveWidgets();
         else                                            buildDetailButtons();
     }
 
@@ -232,7 +245,12 @@ public class MobArenaScreen extends Screen {
         }
 
         addRenderableWidget(Button.builder(Component.literal("+ New Arena"),
-                btn -> { detailView = DetailView.ADD_ARENA; selectedArena = -1; rebuildWidgets(); }
+                btn -> {
+                    detailView = DetailView.ADD_ARENA;
+                    selectedArena = -1;
+                    pendingArenaRewards = new ArrayList<>();
+                    rebuildWidgets();
+                }
         ).bounds(x, guiTop() + guiHeight() - BTN_H - PANEL_PAD, SIDEBAR_W - PANEL_PAD * 2, BTN_H).build());
     }
 
@@ -400,23 +418,37 @@ public class MobArenaScreen extends Screen {
 
     private void buildAddArenaWidgets() {
         arenaFormScreen.buildWidgets(this::addRenderableWidget, font,
-                detailX(), detailW(), guiTop(), guiHeight(), null,
+                detailX(), detailW(), guiTop(), guiHeight(), null, pendingArenaRewards.size(),
                 (name, x, y, z, radius, delay, group) -> {
                     ClientPlayNetworking.send(ArenaActionPayload.createArena(name, x, y, z, radius, delay));
                     if (!group.isEmpty()) {
                         ClientPlayNetworking.send(ArenaActionPayload.setArenaGroup(name, group));
                     }
+                    if (!pendingArenaRewards.isEmpty()) {
+                        ClientPlayNetworking.send(new ArenaSetRewardsPayload(name, 0, pendingArenaRewards));
+                    }
+                    pendingArenaRewards = new ArrayList<>();
                     detailView = DetailView.OVERVIEW;
                     rebuildWidgets();
                 },
-                () -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); });
+                () -> {
+                    pendingArenaRewards = new ArrayList<>();
+                    detailView = DetailView.OVERVIEW;
+                    rebuildWidgets();
+                },
+                () -> {
+                    rewardScreen.prefill(pendingArenaRewards);
+                    rewardReturnView = DetailView.ADD_ARENA;
+                    detailView = DetailView.REWARD_ARENA;
+                    rebuildWidgets();
+                });
     }
 
     private void buildEditArenaWidgets() {
         if (selectedArena < 0 || selectedArena >= arenas.size()) return;
         ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
         arenaFormScreen.buildWidgets(this::addRenderableWidget, font,
-                detailX(), detailW(), guiTop(), guiHeight(), arena,
+                detailX(), detailW(), guiTop(), guiHeight(), arena, arena.rewards().size(),
                 (newName, x, y, z, radius, delay, group) -> {
                     ClientPlayNetworking.send(ArenaActionPayload.editArena(arena.name(), newName, x, y, z, radius, delay));
                     String targetName = newName.isEmpty() ? arena.name() : newName;
@@ -424,7 +456,48 @@ public class MobArenaScreen extends Screen {
                     detailView = DetailView.OVERVIEW;
                     rebuildWidgets();
                 },
-                () -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); });
+                () -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); },
+                () -> {
+                    rewardScreen.prefill(arena.rewards());
+                    rewardReturnView = DetailView.EDIT_ARENA;
+                    detailView = DetailView.REWARD_ARENA;
+                    rebuildWidgets();
+                });
+    }
+
+    private void buildRewardArenaWidgets() {
+        boolean editingExisting = rewardReturnView == DetailView.EDIT_ARENA
+                && selectedArena >= 0 && selectedArena < arenas.size();
+        ArenaDataPayload.ArenaEntry arena = editingExisting ? arenas.get(selectedArena) : null;
+
+        rewardScreen.buildWidgets(this::addRenderableWidget, font,
+                detailX(), detailW(), guiTop(), guiHeight(),
+                (rewards) -> {
+                    if (editingExisting) {
+                        ClientPlayNetworking.send(new ArenaSetRewardsPayload(arena.name(), 0, rewards));
+                    } else {
+                        pendingArenaRewards = rewards;
+                    }
+                    detailView = rewardReturnView;
+                    rebuildWidgets();
+                },
+                () -> { detailView = rewardReturnView; rebuildWidgets(); },
+                this::rebuildWidgets);
+    }
+
+    private void buildRewardWaveWidgets() {
+        if (selectedArena < 0 || selectedArena >= arenas.size()) { detailView = DetailView.OVERVIEW; rebuildWidgets(); return; }
+        ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
+
+        rewardScreen.buildWidgets(this::addRenderableWidget, font,
+                detailX(), detailW(), guiTop(), guiHeight(),
+                (rewards) -> {
+                    ClientPlayNetworking.send(new ArenaSetRewardsPayload(arena.name(), selectedWave, rewards));
+                    detailView = DetailView.EDIT_WAVE;
+                    rebuildWidgets();
+                },
+                () -> { detailView = DetailView.EDIT_WAVE; rebuildWidgets(); },
+                this::rebuildWidgets);
     }
 
     private void buildEditWaveWidgets() {
@@ -461,6 +534,12 @@ public class MobArenaScreen extends Screen {
                     addMobFromEditWave = true;
                     addMobScreen.prefill(mob);
                     detailView = DetailView.ADD_MOB;
+                    rebuildWidgets();
+                },
+                () -> {
+                    rewardScreen.prefill(wave.rewards());
+                    rewardReturnView = DetailView.EDIT_WAVE;
+                    detailView = DetailView.REWARD_WAVE;
                     rebuildWidgets();
                 });
     }
@@ -606,14 +685,28 @@ public class MobArenaScreen extends Screen {
         }
 
         if (detailView == DetailView.ADD_ARENA) {
-            arenaFormScreen.render(g, font, theme, dx, dt, "New Arena");
+            arenaFormScreen.render(g, font, theme, dx, dt, dw, "New Arena");
             return;
         }
 
         if (detailView == DetailView.EDIT_ARENA) {
             if (selectedArena < 0 || selectedArena >= arenas.size()) return;
             ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
-            arenaFormScreen.render(g, font, theme, dx, dt, "Edit Arena: " + arena.name());
+            arenaFormScreen.render(g, font, theme, dx, dt, dw, "Edit Arena: " + arena.name());
+            return;
+        }
+
+        if (detailView == DetailView.REWARD_ARENA) {
+            String title = (rewardReturnView == DetailView.EDIT_ARENA
+                    && selectedArena >= 0 && selectedArena < arenas.size())
+                    ? "Rewards: " + arenas.get(selectedArena).name()
+                    : "Rewards: New Arena";
+            rewardScreen.render(g, font, theme, dx, dt, dw, guiTop(), guiHeight(), title);
+            return;
+        }
+
+        if (detailView == DetailView.REWARD_WAVE) {
+            rewardScreen.render(g, font, theme, dx, dt, dw, guiTop(), guiHeight(), "Rewards: Wave " + selectedWave);
             return;
         }
 
@@ -671,7 +764,8 @@ public class MobArenaScreen extends Screen {
         String groupLine = "X:" + (int)arena.x() + " Y:" + (int)arena.y() + " Z:" + (int)arena.z()
                 + "   Group: " + (arena.group() != null ? arena.group() : UNGROUPED_LABEL);
         g.text(font, groupLine, dx + PANEL_PAD, dt + 20, theme.subtext(), false);
-        g.text(font, "Radius: " + arena.radius() + "  Delay: " + arena.delaySeconds() + "s",
+        g.text(font, "Radius: " + arena.radius() + "  Delay: " + arena.delaySeconds() + "s"
+                        + "   Rewards: " + arena.rewards().size(),
                 dx + PANEL_PAD, dt + 30, theme.subtext(), false);
 
         g.fill(dx, dt + 42, dx + dw - 3, dt + 54, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
@@ -685,6 +779,9 @@ public class MobArenaScreen extends Screen {
             if (i % 2 == 0) g.fill(dx, ry, dx + dw - 3, ry + ROW_H, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
             String label = (wave.name() != null && !wave.name().isEmpty())
                     ? wave.name() : "Wave " + wave.waveNumber();
+            if (!wave.rewards().isEmpty()) {
+                label += " 🎁" + wave.rewards().size();
+            }
             g.text(font, label, dx + PANEL_PAD + 34, ry + 4, theme.text(), false);
         }
 
@@ -695,8 +792,13 @@ public class MobArenaScreen extends Screen {
     }
 
     private void renderDropdown(GuiGraphicsExtractor g) {
-        if (detailView != DetailView.ADD_MOB) return;
-        addMobScreen.renderDropdown(g, font);
+        if (detailView == DetailView.ADD_MOB) {
+            addMobScreen.renderDropdown(g, font);
+            return;
+        }
+        if (detailView == DetailView.REWARD_ARENA || detailView == DetailView.REWARD_WAVE) {
+            rewardScreen.renderDropdown(g, font);
+        }
     }
 
     private void renderNewWavePrompt(GuiGraphicsExtractor g) {
@@ -726,6 +828,11 @@ public class MobArenaScreen extends Screen {
         }
 
         if (detailView == DetailView.ADD_MOB && addMobScreen.keyPressed(event)) {
+            return true;
+        }
+
+        if ((detailView == DetailView.REWARD_ARENA || detailView == DetailView.REWARD_WAVE)
+                && rewardScreen.keyPressed(event)) {
             return true;
         }
 

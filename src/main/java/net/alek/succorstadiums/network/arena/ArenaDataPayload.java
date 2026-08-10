@@ -19,10 +19,10 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
     public record ArenaEntry(
             String name, double x, double y, double z,
             int radius, int delaySeconds, boolean running, String group,
-            List<WaveEntry> waves
+            List<RewardEntry> rewards, List<WaveEntry> waves
     ) {}
 
-    public record WaveEntry(int waveNumber, String name, Integer delaySeconds, List<MobEntry> mobs) {}
+    public record WaveEntry(int waveNumber, String name, Integer delaySeconds, List<RewardEntry> rewards, List<MobEntry> mobs) {}
 
     public record MobEntry(
             String mobType,
@@ -36,6 +36,8 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
             String enchantments
     ) {}
 
+    public record RewardEntry(String itemId, int count) {}
+
     public static final StreamCodec<FriendlyByteBuf, ArenaDataPayload> CODEC = StreamCodec.of(
             (buf, payload) -> {
                 buf.writeInt(payload.arenas().size());
@@ -48,6 +50,13 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                     buf.writeInt(arena.delaySeconds());
                     buf.writeBoolean(arena.running());
                     buf.writeUtf(arena.group() == null ? "" : arena.group());
+
+                    buf.writeInt(arena.rewards().size());
+                    for (RewardEntry r : arena.rewards()) {
+                        buf.writeUtf(r.itemId());
+                        buf.writeInt(r.count());
+                    }
+
                     buf.writeInt(arena.waves().size());
                     for (WaveEntry wave : arena.waves()) {
                         buf.writeInt(wave.waveNumber());
@@ -56,6 +65,13 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                         if (wave.delaySeconds() != null) {
                             buf.writeInt(wave.delaySeconds());
                         }
+
+                        buf.writeInt(wave.rewards().size());
+                        for (RewardEntry r : wave.rewards()) {
+                            buf.writeUtf(r.itemId());
+                            buf.writeInt(r.count());
+                        }
+
                         buf.writeInt(wave.mobs().size());
                         for (MobEntry mob : wave.mobs()) {
                             buf.writeUtf(mob.mobType());
@@ -84,6 +100,15 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                     int radius = buf.readInt(), delay = buf.readInt();
                     boolean running = buf.readBoolean();
                     String group = buf.readUtf();
+
+                    int arenaRewardCount = buf.readInt();
+                    List<RewardEntry> arenaRewards = new ArrayList<>();
+                    for (int r = 0; r < arenaRewardCount; r++) {
+                        String itemId = buf.readUtf();
+                        int c = buf.readInt();
+                        arenaRewards.add(new RewardEntry(itemId, c));
+                    }
+
                     int waveCount = buf.readInt();
                     List<WaveEntry> waves = new ArrayList<>();
                     for (int w = 0; w < waveCount; w++) {
@@ -93,12 +118,20 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                         if (buf.readBoolean()) {
                             waveDelay = buf.readInt();
                         }
+
+                        int waveRewardCount = buf.readInt();
+                        List<RewardEntry> waveRewards = new ArrayList<>();
+                        for (int r = 0; r < waveRewardCount; r++) {
+                            String itemId = buf.readUtf();
+                            int c = buf.readInt();
+                            waveRewards.add(new RewardEntry(itemId, c));
+                        }
+
                         int mobCount = buf.readInt();
                         List<MobEntry> mobs = new ArrayList<>();
                         for (int m = 0; m < mobCount; m++) {
                             String mobType = buf.readUtf();
                             int count = buf.readInt();
-                            // Read size
                             Integer size = null;
                             if (buf.readBoolean()) {
                                 size = buf.readInt();
@@ -122,9 +155,9 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                                     enchantments.isEmpty() ? null : enchantments
                             ));
                         }
-                        waves.add(new WaveEntry(waveNum, waveName.isEmpty() ? null : waveName, waveDelay, mobs));
+                        waves.add(new WaveEntry(waveNum, waveName.isEmpty() ? null : waveName, waveDelay, waveRewards, mobs));
                     }
-                    arenas.add(new ArenaEntry(name, x, y, z, radius, delay, running, group.isEmpty() ? null : group, waves));
+                    arenas.add(new ArenaEntry(name, x, y, z, radius, delay, running, group.isEmpty() ? null : group, arenaRewards, waves));
                 }
                 return new ArenaDataPayload(arenas);
             }
@@ -153,12 +186,20 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                         mob.getPotionEffects(),
                         mob.getEnchantments()
                 )));
-                waves.add(new WaveEntry(wave.getWaveNumber(), wave.getName(), wave.getDelaySeconds(), mobs));
+
+                List<RewardEntry> waveRewards = new ArrayList<>();
+                wave.getRewards().forEach(r -> waveRewards.add(new RewardEntry(r.getItemId(), r.getCount())));
+
+                waves.add(new WaveEntry(wave.getWaveNumber(), wave.getName(), wave.getDelaySeconds(), waveRewards, mobs));
             });
+
+            List<RewardEntry> arenaRewards = new ArrayList<>();
+            arena.getRewards().forEach(r -> arenaRewards.add(new RewardEntry(r.getItemId(), r.getCount())));
+
             entries.add(new ArenaEntry(
                     arena.getName(), arena.getCenterX(), arena.getCenterY(), arena.getCenterZ(),
                     arena.getRadius(), arena.getDelayBetweenWaves(),
-                    ArenaSessionManager.isRunning(arena.getName()), arena.getGroup(), waves
+                    ArenaSessionManager.isRunning(arena.getName()), arena.getGroup(), arenaRewards, waves
             ));
         }
         Collections.reverse(entries);

@@ -53,7 +53,7 @@ public class WaveFormScreen {
                              ArenaDataPayload.WaveEntry wave,
                              int arenaDefaultDelay,
                              Submit onSubmit, Runnable onCancel,
-                             RemoveMob onRemoveMob, EditMob onEditMob) {
+                             RemoveMob onRemoveMob, EditMob onEditMob, Runnable onEditRewards) {
 
         int cx = detailX + PANEL_PAD;
         int cy = guiTop + 20;
@@ -72,6 +72,12 @@ public class WaveFormScreen {
         } else {
             delayField.setValue(String.valueOf(arenaDefaultDelay));
         }
+
+        int rewardCount = wave != null ? wave.rewards().size() : 0;
+        addRenderableWidget.accept(Button.builder(
+                Component.literal("Rewards" + (rewardCount > 0 ? " (" + rewardCount + ")" : "")),
+                btn -> onEditRewards.run()
+        ).bounds(cx, cy + 34, fw, BTN_H).build());
 
         // ── Mob list ─────────────────────────────────────────────────────
         int mobAreaTop = cy + 52;
