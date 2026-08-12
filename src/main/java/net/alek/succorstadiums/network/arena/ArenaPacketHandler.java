@@ -55,9 +55,11 @@ public class ArenaPacketHandler {
             if (arena != null) {
                 List<RewardItem> rewards = new ArrayList<>();
                 for (ArenaDataPayload.RewardEntry r : payload.rewards()) {
-                    rewards.add(new RewardItem(r.itemId(), r.count()));
+                    rewards.add(new RewardItem(r.itemId(), r.count(), r.xp(), r.levels()));
                 }
-                if (payload.waveNumber() <= 0) {
+                if (payload.participation()) {
+                    arena.setParticipationRewards(rewards);
+                } else if (payload.waveNumber() <= 0) {
                     arena.setRewards(rewards);
                 } else {
                     Wave wave = arena.getWave(payload.waveNumber());

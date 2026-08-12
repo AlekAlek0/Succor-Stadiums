@@ -16,11 +16,6 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-/**
- * Edits a list of reward items (item id + count). Used for both an arena's
- * completion reward and a single wave's completion reward — the caller
- * supplies the initial list and gets the edited list back on Save.
- */
 public class RewardScreen {
 
     private static final int PANEL_PAD = 8;
@@ -32,25 +27,34 @@ public class RewardScreen {
         void submit(List<ArenaDataPayload.RewardEntry> rewards);
     }
 
-    private final List<String[]> entries = new ArrayList<>(); // {itemId, count}
+    // Each entry: {itemId (empty if xp), count, "true"/"false" for xp}
+    private final List<String[]> entries = new ArrayList<>();
 
     private EditBox pendingItemField, pendingCountField;
     private String pendingItemId = "";
     private String pendingCount = "1";
+    private boolean pendingIsXp = false;
+    private boolean pendingIsLevels = false;
     private SuggestionManager pendingItemSuggestionManager;
 
     private String validationError = "";
 
-    /** Call before buildWidgets() to load the current reward list into the form. */
     public void prefill(List<ArenaDataPayload.RewardEntry> current) {
         entries.clear();
         if (current != null) {
             for (ArenaDataPayload.RewardEntry r : current) {
-                entries.add(new String[]{r.itemId(), String.valueOf(r.count())});
+                entries.add(new String[]{
+                        r.itemId() == null ? "" : r.itemId(),
+                        String.valueOf(r.count()),
+                        String.valueOf(r.xp()),
+                        String.valueOf(r.levels())
+                });
             }
         }
         pendingItemId = "";
         pendingCount = "1";
+        pendingIsXp = false;
+        pendingIsLevels = false;
         validationError = "";
     }
 
@@ -60,7 +64,7 @@ public class RewardScreen {
 
         int cx = detailX + PANEL_PAD;
         int fw = detailW - PANEL_PAD * 2;
-        int currentY = guiTop + 30; // was guiTop + 24 — leave room below the header bar
+        int currentY = guiTop + 30;
         int by = guiTop + guiHeight - BTN_H - PANEL_PAD;
 
         for (int i = 0; i < entries.size(); i++) {
@@ -71,15 +75,30 @@ public class RewardScreen {
             currentY += ROW_H;
         }
 
-        currentY += 14; // gap before the "Item / Count" column labels + input row
+        currentY += 14;
 
-        int itemW = fw - 60 - 60 - 8;
+        int toggleW = 40;
+        int unitToggleW = 48; // only shown/usable when pendingIsXp is true
+        int countW = 60;
+        int addW = 52;
+        int itemW = fw - toggleW - 4 - unitToggleW - 4 - countW - 4 - addW - 4;
 
-        pendingItemField = new EditBox(font, cx, currentY, itemW, 14, Component.literal("e.g. minecraft:diamond"));
-        pendingItemField.setHint(Component.literal("e.g. minecraft:diamond"));
+        addRowToggleButton(adder, cx, currentY, toggleW, rebuildScreen);
+
+        int unitToggleX = cx + toggleW + 4;
+        adder.accept(Button.builder(
+                Component.literal(pendingIsXp ? (pendingIsLevels ? "Levels" : "Points") : "—"),
+                btn -> { pendingIsLevels = !pendingIsLevels; rebuildScreen.run(); }
+        ).bounds(unitToggleX, currentY, unitToggleW, 14).build());
+
+        int itemFieldX = unitToggleX + unitToggleW + 4;
+        pendingItemField = new EditBox(font, itemFieldX, currentY, itemW, 14,
+                Component.literal("e.g. minecraft:diamond"));
         pendingItemField.setBordered(true);
         pendingItemField.setMaxLength(64);
-        pendingItemField.setValue(pendingItemId);
+        pendingItemField.setEditable(!pendingIsXp);
+        pendingItemField.setValue(pendingIsXp ? "" : pendingItemId);
+        pendingItemField.setHint(Component.literal(pendingIsXp ? "N/A (XP reward)" : "e.g. minecraft:diamond"));
         adder.accept(pendingItemField);
 
         pendingItemSuggestionManager = new SuggestionManager(
@@ -89,15 +108,28 @@ public class RewardScreen {
             pendingItemSuggestionManager.filterSuggestions(text);
         });
 
-        pendingCountField = new EditBox(font, cx + itemW + 4, currentY, 60, 14, Component.literal("Count"));
-        pendingCountField.setHint(Component.literal("Count"));
+        pendingCountField = new EditBox(font, itemFieldX + itemW + 4, currentY, countW, 14,
+                Component.literal(pendingIsXp ? (pendingIsLevels ? "Levels" : "XP points") : "Count"));
         pendingCountField.setBordered(true);
+        pendingCountField.setHint(Component.literal(pendingIsXp ? (pendingIsLevels ? "Levels" : "XP points") : "Count"));
         pendingCountField.setValue(pendingCount);
         pendingCountField.setResponder(text -> pendingCount = text);
         adder.accept(pendingCountField);
 
+        int addX = itemFieldX + itemW + 4 + countW + 4;
         adder.accept(Button.builder(Component.literal("+ Add"),
                 btn -> {
+                    if (pendingIsXp) {
+                        int amount = 1;
+                        try { amount = Integer.parseInt(pendingCountField.getValue().trim()); } catch (Exception ignored) {}
+                        amount = Math.max(1, amount);
+                        entries.add(new String[]{"", String.valueOf(amount), "true", String.valueOf(pendingIsLevels)});
+                        pendingCount = "1";
+                        validationError = "";
+                        rebuildScreen.run();
+                        return;
+                    }
+
                     String id = pendingItemField.getValue().trim();
                     if (id.isEmpty()) return;
                     boolean valid;
@@ -112,23 +144,25 @@ public class RewardScreen {
                         return;
                     }
                     int count = 1;
-                    try {
-                        count = Integer.parseInt(pendingCountField.getValue().trim());
-                    } catch (Exception ignored) {}
+                    try { count = Integer.parseInt(pendingCountField.getValue().trim()); } catch (Exception ignored) {}
                     count = Math.max(1, count);
 
-                    entries.add(new String[]{id, String.valueOf(count)});
+                    entries.add(new String[]{id, String.valueOf(count), "false", "false"});
                     pendingItemId = "";
                     pendingCount = "1";
                     validationError = "";
                     rebuildScreen.run();
                 }
-        ).bounds(cx + itemW + 4 + 64, currentY, 52, 14).build());
+        ).bounds(addX, currentY, addW, 14).build());
 
         adder.accept(Button.builder(Component.literal("✔ Save"),
                 btn -> {
                     List<ArenaDataPayload.RewardEntry> result = entries.stream()
-                            .map(e -> new ArenaDataPayload.RewardEntry(e[0], Integer.parseInt(e[1])))
+                            .map(e -> new ArenaDataPayload.RewardEntry(
+                                    e[0].isEmpty() ? null : e[0],
+                                    Integer.parseInt(e[1]),
+                                    Boolean.parseBoolean(e[2]),
+                                    Boolean.parseBoolean(e[3])))
                             .collect(Collectors.toList());
                     onSubmit.submit(result);
                 }
@@ -137,6 +171,12 @@ public class RewardScreen {
         adder.accept(Button.builder(Component.literal("✕ Cancel"),
                 btn -> onCancel.run()
         ).bounds(cx + 54, by, 50, BTN_H).build());
+    }
+
+    private void addRowToggleButton(Consumer<AbstractWidget> adder, int x, int y, int w, Runnable rebuildScreen) {
+        adder.accept(Button.builder(Component.literal(pendingIsXp ? "XP" : "Item"),
+                btn -> { pendingIsXp = !pendingIsXp; rebuildScreen.run(); }
+        ).bounds(x, y, w, 14).build());
     }
 
     public void render(GuiGraphicsExtractor g, Font font, GuiTheme theme,
@@ -148,9 +188,14 @@ public class RewardScreen {
 
         if (entries.isEmpty()) {
             g.text(font, "No rewards set.", dx + PANEL_PAD, currentY + 2, theme.subtext(), false);
+            currentY += ROW_H;
         } else {
             for (String[] e : entries) {
-                String display = e[1] + "x  " + formatIdentifierForDisplay(e[0]);
+                boolean isXp = Boolean.parseBoolean(e[2]);
+                boolean isLevels = Boolean.parseBoolean(e[3]);
+                String display = isXp
+                        ? (e[1] + (isLevels ? " Level" + (e[1].equals("1") ? "" : "s") : " XP"))
+                        : (e[1] + "x  " + formatIdentifierForDisplay(e[0]));
                 g.text(font, display, dx + PANEL_PAD, currentY + 2, theme.text(), false);
                 currentY += ROW_H;
             }
@@ -159,9 +204,11 @@ public class RewardScreen {
         currentY += 14;
 
         int fw = dw - PANEL_PAD * 2;
-        int itemW = fw - 60 - 60 - 8;
-        g.text(font, "Item", dx + PANEL_PAD, currentY - 10, theme.subtext(), false);
-        g.text(font, "Count", dx + PANEL_PAD + itemW + 4, currentY - 10, theme.subtext(), false);
+        int toggleW = 40, unitToggleW = 48, countW = 60, addW = 52;
+        int itemW = fw - toggleW - 4 - unitToggleW - 4 - countW - 4 - addW - 4;
+        int itemFieldX = dx + PANEL_PAD + toggleW + 4 + unitToggleW + 4;
+        g.text(font, "Item / XP", itemFieldX, currentY - 10, theme.subtext(), false);
+        g.text(font, "Amount", itemFieldX + itemW + 4, currentY - 10, theme.subtext(), false);
 
         if (!validationError.isEmpty()) {
             g.text(font, validationError, dx + PANEL_PAD,

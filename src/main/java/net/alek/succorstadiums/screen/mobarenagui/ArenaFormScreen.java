@@ -18,6 +18,17 @@ public class ArenaFormScreen {
 
     private EditBox groupField, nameField, xField, yField, zField, radiusField, delayField;
 
+    // Backing fields: survive rebuildWidgets() (e.g. navigating to the Rewards
+    // screen and back) so in-progress input isn't lost, same pattern AddMobScreen
+    // uses for its own form state.
+    private String savedName = "";
+    private String savedGroup = "";
+    private String savedX = "";
+    private String savedY = "";
+    private String savedZ = "";
+    private String savedRadius = "";
+    private String savedDelay = "";
+
     public interface Submit {
         void submit(String name, double x, double y, double z, int radius, int delay, String group);
     }
@@ -30,8 +41,9 @@ public class ArenaFormScreen {
     public void buildWidgets(Consumer<AbstractWidget> addRenderableWidget,
                              Font font,
                              int detailX, int detailW, int guiTop, int guiHeight,
-                             ArenaDataPayload.ArenaEntry existing, int rewardCount,
-                             Submit onSubmit, Runnable onCancel, Runnable onEditRewards) {
+                             ArenaDataPayload.ArenaEntry existing, int rewardCount, int participationRewardCount,
+                             Submit onSubmit, Runnable onCancel,
+                             Runnable onEditRewards, Runnable onEditParticipationRewards) {
 
         int cx = detailX + PANEL_PAD;
         int cy = guiTop + 20;
@@ -40,22 +52,57 @@ public class ArenaFormScreen {
         int posW = (fw - 54) / 3 - 2;
         int halfW = fw / 2 - 2;
 
+        // Only pull fresh values from `existing` the first time we see it (i.e. we
+        // haven't got anything saved yet) — otherwise keep whatever the user typed,
+        // even across rebuilds triggered by navigating to the reward screens and back.
+        if (existing != null && savedName.isEmpty() && savedX.isEmpty()) {
+            savedName = existing.name();
+            savedGroup = existing.group() != null ? existing.group() : "";
+            savedX = String.valueOf((int) existing.x());
+            savedY = String.valueOf((int) existing.y());
+            savedZ = String.valueOf((int) existing.z());
+            savedRadius = String.valueOf(existing.radius());
+            savedDelay = String.valueOf(existing.delaySeconds());
+        }
+
         groupField = makeField(addRenderableWidget, font, cx, cy + 10, halfW, "Group (optional)");
-        nameField  = makeField(addRenderableWidget, font, cx + halfW + 4, cy + 10, halfW, "Arena name");
+        groupField.setValue(savedGroup);
+        groupField.setResponder(text -> savedGroup = text);
+
+        nameField = makeField(addRenderableWidget, font, cx + halfW + 4, cy + 10, halfW, "Arena name");
+        nameField.setValue(savedName);
+        nameField.setResponder(text -> savedName = text);
 
         xField = makeField(addRenderableWidget, font, cx, cy + 50, posW, "X");
+        xField.setValue(savedX);
+        xField.setResponder(text -> savedX = text);
+
         yField = makeField(addRenderableWidget, font, cx + posW + 1, cy + 50, posW, "Y");
+        yField.setValue(savedY);
+        yField.setResponder(text -> savedY = text);
+
         zField = makeField(addRenderableWidget, font, cx + (posW + 1) * 2, cy + 50, posW, "Z");
+        zField.setValue(savedZ);
+        zField.setResponder(text -> savedZ = text);
+
         radiusField = makeField(addRenderableWidget, font, cx, cy + 90, halfW, "Radius");
+        radiusField.setValue(savedRadius);
+        radiusField.setResponder(text -> savedRadius = text);
+
         delayField = makeField(addRenderableWidget, font, cx + halfW + 4, cy + 90, halfW, "Delay (s)");
+        delayField.setValue(savedDelay);
+        delayField.setResponder(text -> savedDelay = text);
 
         addRenderableWidget.accept(Button.builder(Component.literal("My Pos"),
                 btn -> {
                     var player = Minecraft.getInstance().player;
                     if (player != null) {
-                        xField.setValue(String.valueOf((int) player.getX()));
-                        yField.setValue(String.valueOf((int) player.getY()));
-                        zField.setValue(String.valueOf((int) player.getZ()));
+                        savedX = String.valueOf((int) player.getX());
+                        savedY = String.valueOf((int) player.getY());
+                        savedZ = String.valueOf((int) player.getZ());
+                        xField.setValue(savedX);
+                        yField.setValue(savedY);
+                        zField.setValue(savedZ);
                     }
                 }
         ).bounds(detailX + detailW - PANEL_PAD - 50, cy + 50, 50, BTN_H - 2).build());
@@ -65,15 +112,10 @@ public class ArenaFormScreen {
                 btn -> onEditRewards.run()
         ).bounds(cx, cy + 130, fw, BTN_H).build());
 
-        if (existing != null) {
-            groupField.setValue(existing.group() != null ? existing.group() : "");
-            nameField.setValue(existing.name());
-            xField.setValue(String.valueOf((int) existing.x()));
-            yField.setValue(String.valueOf((int) existing.y()));
-            zField.setValue(String.valueOf((int) existing.z()));
-            radiusField.setValue(String.valueOf(existing.radius()));
-            delayField.setValue(String.valueOf(existing.delaySeconds()));
-        }
+        addRenderableWidget.accept(Button.builder(
+                Component.literal("🎖 Participation Reward" + (participationRewardCount > 0 ? " (" + participationRewardCount + ")" : "")),
+                btn -> onEditParticipationRewards.run()
+        ).bounds(cx, cy + 150, fw, BTN_H).build());
 
         String confirmLabel = existing != null ? "✔ Save" : "✔ Create";
         int confirmWidth = existing != null ? 50 : 60;
@@ -97,6 +139,19 @@ public class ArenaFormScreen {
             String group = groupField.getValue().trim();
             onSubmit.submit(name, x, y, z, radius, delay, group);
         } catch (NumberFormatException ignored) {}
+    }
+
+    /** Clears all saved form state. Call this after a successful Create/Save, on Cancel,
+     *  and before opening a fresh New/Edit Arena session, so stale input never bleeds
+     *  into an unrelated arena's form. */
+    public void reset() {
+        savedName = "";
+        savedGroup = "";
+        savedX = "";
+        savedY = "";
+        savedZ = "";
+        savedRadius = "";
+        savedDelay = "";
     }
 
     public void render(GuiGraphicsExtractor g, Font font, GuiTheme theme,
