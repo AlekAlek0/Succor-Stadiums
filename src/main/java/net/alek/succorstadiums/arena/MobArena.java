@@ -3,20 +3,19 @@ package net.alek.succorstadiums.arena;
 import java.util.ArrayList;
 import java.util.List;
 
-// Mob arena class
 public class MobArena {
 
-    // Initialize variables for name, center positions, radius, delay, group, and waves
     private String name;
     private double centerX;
     private double centerY;
     private double centerZ;
     private int radius;
-    private int delayBetweenWaves; // in seconds; the DEFAULT delay used by any wave that doesn't override it
+    private int delayBetweenWaves;
     private String group; // null/blank = "Ungrouped"
+    private List<RewardItem> rewards = new ArrayList<>();
+    private List<RewardItem> participationRewards = new ArrayList<>(); // "Good Luck Next Time" reward for players who died but the arena finished
     private final List<Wave> waves = new ArrayList<>();
 
-    // Constructor method to create a MobArena with the given name, center position, radius, and wave delay
     public MobArena(String name, double centerX, double centerY, double centerZ, int radius, int delayBetweenWaves) {
         this.name = name;
         this.centerX = centerX;
@@ -26,7 +25,6 @@ public class MobArena {
         this.delayBetweenWaves = delayBetweenWaves;
     }
 
-    // Accessor methods to get name, center coordinates, radius, delay, group, waves of a mob arena, and wave count of an existing mob arena
     public String getName() { return name; }
     public double getCenterX() { return centerX; }
     public double getCenterY() { return centerY; }
@@ -37,46 +35,42 @@ public class MobArena {
     public List<Wave> getWaves() { return waves; }
     public int getWaveCount() { return waves.size(); }
 
-    // Accessor method to get the specific wave by its number (1-indexed)
+    // Null-guarded: old save data predating this field deserializes with rewards == null via Gson.
+    public List<RewardItem> getRewards() {
+        if (rewards == null) rewards = new ArrayList<>();
+        return rewards;
+    }
+    public void setRewards(List<RewardItem> newRewards) {
+        if (rewards == null) rewards = new ArrayList<>();
+        rewards.clear();
+        if (newRewards != null) rewards.addAll(newRewards);
+    }
+
+    public List<RewardItem> getParticipationRewards() {
+        if (participationRewards == null) participationRewards = new ArrayList<>();
+        return participationRewards;
+    }
+    public void setParticipationRewards(List<RewardItem> newRewards) {
+        if (participationRewards == null) participationRewards = new ArrayList<>();
+        participationRewards.clear();
+        if (newRewards != null) participationRewards.addAll(newRewards);
+    }
+
     public Wave getWave(int waveNumber) {
         if (waveNumber < 1 || waveNumber > waves.size()) return null;
         return waves.get(waveNumber - 1);
     }
 
-    // Mutator method to set name of an existing mob arena
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
+    public void setCenter(double x, double y, double z) { this.centerX = x; this.centerY = y; this.centerZ = z; }
+    public void setRadius(int radius) { this.radius = radius; }
+    public void setDelayBetweenWaves(int delay) { this.delayBetweenWaves = delay; }
+    public void setGroup(String group) { this.group = (group == null || group.isBlank()) ? null : group; }
 
-    // Mutator method to set the center of an existing mob arena
-    public void setCenter(double x, double y, double z) {
-        this.centerX = x;
-        this.centerY = y;
-        this.centerZ = z;
-    }
-
-    // Mutator method to set the radius of an existing mob arena
-    public void setRadius(int radius) {
-        this.radius = radius;
-    }
-
-    // Mutator method to set the delay between waves of an existing mob arena
-    public void setDelayBetweenWaves(int delay) {
-        this.delayBetweenWaves = delay;
-    }
-
-    // Mutator method to set the group of an existing mob arena (blank/null clears it, treated as "Ungrouped")
-    public void setGroup(String group) {
-        this.group = (group == null || group.isBlank()) ? null : group;
-    }
-
-    // Mutator method to add a new wave with the next wave number automatically
     public void addWave() {
-        Wave wave = new Wave(waves.size() + 1);
-        waves.add(wave);
+        waves.add(new Wave(waves.size() + 1));
     }
 
-    // Create a wave with a custom name and/or delay override in one atomic step
     public void addWave(String name, Integer delaySeconds) {
         Wave wave = new Wave(waves.size() + 1);
         wave.setName(name);
@@ -84,7 +78,6 @@ public class MobArena {
         waves.add(wave);
     }
 
-    // Adds a wave built from copied data (name, delay override, and a pre-built mob list)
     public void addWaveFromPaste(String name, Integer delaySeconds, List<WaveMob> mobs) {
         Wave wave = new Wave(waves.size() + 1);
         wave.setName(name);
@@ -99,39 +92,28 @@ public class MobArena {
         waves.add(wave);
     }
 
-    // Mutator method to remove a wave by number and re-numbers the remaining waves
     public void removeWave(int waveNumber) {
         if (waveNumber < 1 || waveNumber > waves.size()) return;
         waves.remove(waveNumber - 1);
-        for (int i = 0; i < waves.size(); i++) {
-            waves.get(i).setWaveNumber(i + 1);
-        }
+        for (int i = 0; i < waves.size(); i++) waves.get(i).setWaveNumber(i + 1);
     }
 
-    // Mutator method to move a wave up (-1) or down (+1) and renumber accordingly
     public void moveWave(int waveNumber, int direction) {
         if (waveNumber < 1 || waveNumber > waves.size()) return;
-
         int idx = waveNumber - 1;
         int newIdx = idx + direction;
         if (newIdx < 0 || newIdx >= waves.size()) return;
-
         Wave temp = waves.get(idx);
         waves.set(idx, waves.get(newIdx));
         waves.set(newIdx, temp);
-
-        for (int i = 0; i < waves.size(); i++) {
-            waves.get(i).setWaveNumber(i + 1);
-        }
+        for (int i = 0; i < waves.size(); i++) waves.get(i).setWaveNumber(i + 1);
     }
 
-    // Mutator method to rename a wave by number
     public void renameWave(int waveNumber, String name) {
         Wave wave = getWave(waveNumber);
         if (wave != null) wave.setName(name);
     }
 
-    // Mutator method to set a wave's delay override (null clears it back to using the arena default)
     public void setWaveDelay(int waveNumber, Integer delaySeconds) {
         Wave wave = getWave(waveNumber);
         if (wave != null) wave.setDelaySeconds(delaySeconds);
