@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -25,17 +26,18 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
 
     @Override
-    protected void addTags(HolderLookup.Provider wrapperLookup) {
+    protected void addTags(HolderLookup.@NonNull Provider wrapperLookup) {
         builder(ItemTags.SWORDS)
                 .add(ResourceKey.create(Registries.ITEM,
                         Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "sword_of_the_forest")));
+
+        builder(ItemTags.SPEARS)
+                .add(ResourceKey.create(Registries.ITEM,
+                        Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "fumblebringer_fork")));
 
         builder(BONE_DAGGERS)
                 .add(ResourceKey.create(Registries.ITEM,
                         Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "bone_dagger")));
 
-        builder(ItemTags.SPEARS)
-                .add(ResourceKey.create(Registries.ITEM,
-                        Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "fumblebringer_fork")));
     }
 }
