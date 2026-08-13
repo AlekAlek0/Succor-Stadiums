@@ -15,6 +15,9 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 public class ModLootTableModifiers {
 
+    private static final ResourceKey<LootTable> ZOMBIE_LOOT =
+            ResourceKey.create(Registries.LOOT_TABLE, Identifier.withDefaultNamespace("entities/zombie"));
+
     private static final ResourceKey<LootTable> SPIDER_LOOT =
             ResourceKey.create(Registries.LOOT_TABLE, Identifier.withDefaultNamespace("entities/spider"));
 
@@ -24,6 +27,18 @@ public class ModLootTableModifiers {
 
     public static void register() {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (source.isBuiltin() && key.equals(ZOMBIE_LOOT)) {
+                // 66% chance to drop 3-5 rotten flesh
+                tableBuilder.withPool(
+                        LootPool.lootPool()
+                                .when(LootItemRandomChanceCondition.randomChance(0.66f))
+                                .add(
+                                        LootItem.lootTableItem(Items.ROTTEN_FLESH)
+                                                .apply(SetItemCountFunction.setCount(
+                                                        UniformGenerator.between(3, 5)))
+                                )
+                );
+            }
             if (source.isBuiltin() && key.equals(SPIDER_LOOT)) {
                 // 20% chance to drop 0-2 spider legs
                 tableBuilder.withPool(
