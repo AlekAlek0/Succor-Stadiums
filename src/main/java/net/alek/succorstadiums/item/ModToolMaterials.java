@@ -43,7 +43,7 @@ public class ModToolMaterials {
 
     public static final ToolMaterial SWORD_OF_THE_FOREST_TOOL_MATERIAL = new ToolMaterial(
             BlockTags.INCORRECT_FOR_WOODEN_TOOL,
-            72,
+            288,
             0,
             0,
             25,
