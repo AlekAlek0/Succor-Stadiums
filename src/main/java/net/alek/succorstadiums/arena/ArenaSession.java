@@ -46,6 +46,8 @@ public class ArenaSession {
     private int delayTicksRemaining = 0;
     private int currentDelayDurationTicks = 0;
 
+
+
     private enum ArenaState { RUNNING, WIN, LOSS }
     private ArenaState state = ArenaState.RUNNING;
 
@@ -150,7 +152,7 @@ public class ArenaSession {
         // Set up and configure boss bar for current wave
         bossBar.setName(Component.literal(
                 "§6" + arena.getName()
-                        + " §f- §b" + wave.getName() + " " + wave.getWaveNumber() + "/" + arena.getWaveCount()
+                        + " §f- §b" + wave.getName() + " " + wave.getWaveNumber() + "/" + totalWaves
                         + " §f- §cEnemies Remaining: " + remaining
                         + " §f- §aPlayers: " + activePlayerUUIDs.size()
         ));
@@ -187,7 +189,10 @@ public class ArenaSession {
     // Helper method to spawn current wave in arena
     private void spawnCurrentWave() {
         Wave wave = arena.getWaves().get(currentWaveIndex);
-        broadcast("§c-- " + wave.getName() + " -- " + wave.getWaveNumber() + "/" + arena.getWaveCount() + " --");
+        int totalWaves = arena.getWaveCount();
+
+
+        broadcast("§c-- " + wave.getName() + " -- " + wave.getWaveNumber() + "/" + totalWaves + " --");
 
         try {
             for (WaveMob waveMob : wave.getMobs()) {
