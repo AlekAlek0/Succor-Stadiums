@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.alek.succorstadiums.item.ModItems;
 import java.util.concurrent.CompletableFuture;
 
-import net.minecraft.world.item.Item;
 import org.jspecify.annotations.NonNull;
 
 // ModEnglishLangProvider class

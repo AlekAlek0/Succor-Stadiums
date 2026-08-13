@@ -22,6 +22,7 @@ import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.item.enchantment.effects.ApplyMobEffect;
 import net.minecraft.world.item.enchantment.effects.EnchantmentAttributeEffect;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -39,7 +40,7 @@ public class ModEnchantmentGenerator extends FabricDynamicRegistryProvider {
     }
 
     @Override
-    public String getName() {
+    public @NonNull String getName() {
         return "Enchantments";
     }
 
