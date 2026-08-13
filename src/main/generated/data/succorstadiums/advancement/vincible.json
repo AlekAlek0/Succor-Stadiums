@@ -1,0 +1,21 @@
+{
+  "parent": "succorstadiums:root",
+  "criteria": {
+    "player_death": {
+      "trigger": "succorstadiums:player_death"
+    }
+  },
+  "display": {
+    "description": "Die for the first time",
+    "icon": {
+      "id": "minecraft:totem_of_undying"
+    },
+    "title": "Vincible"
+  },
+  "requirements": [
+    [
+      "player_death"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

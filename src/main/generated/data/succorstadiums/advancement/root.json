@@ -1,0 +1,23 @@
+{
+  "criteria": {
+    "root": {
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:gui/advancements/backgrounds/adventure",
+    "description": "",
+    "icon": {
+      "id": "succorstadiums:brennon_ore"
+    },
+    "show_toast": false,
+    "title": "Succor Stadiums"
+  },
+  "requirements": [
+    [
+      "root"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

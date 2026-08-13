@@ -1,5 +1,6 @@
 package net.alek.succorstadiums;
 
+import net.alek.succorstadiums.advancement.ModCriteria;
 import net.alek.succorstadiums.arena.ArenaSessionManager;
 import net.alek.succorstadiums.arena.MobArenaManager;
 import net.alek.succorstadiums.command.ModCommands;
@@ -15,10 +16,12 @@ import net.alek.succorstadiums.network.*;
 import net.alek.succorstadiums.network.arena.*;
 import net.alek.succorstadiums.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import org.slf4j.Logger;
@@ -47,6 +50,7 @@ public class SuccorStadiums implements ModInitializer {
 		ModEffects.register();
 		ModItems.registerModItems();
 		ModConsumeEffects.register();
+		ModCriteria.registerModCriteria();
 
 		// Register mod entity types and attributes
 		ModEntityTypes.registerModEntityTypes();
@@ -78,6 +82,13 @@ public class SuccorStadiums implements ModInitializer {
 		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
 			MobArenaManager.init(server);
 			ArenaSessionManager.init();
+		});
+
+		// Mod Advancement Vincible
+		ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
+			if (entity instanceof ServerPlayer serverPlayer) {
+				ModCriteria.PLAYER_DEATH.trigger(serverPlayer);
+			}
 		});
 
 		// Wolf despawn tick
