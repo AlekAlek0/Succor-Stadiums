@@ -16,7 +16,7 @@ public class ModToolMaterials {
 
     public static final ToolMaterial BONE_DAGGER_TOOL_MATERIAL = new ToolMaterial(
             BlockTags.INCORRECT_FOR_WOODEN_TOOL,
-            256,
+            352,
             0F,
             0F,
             25,
