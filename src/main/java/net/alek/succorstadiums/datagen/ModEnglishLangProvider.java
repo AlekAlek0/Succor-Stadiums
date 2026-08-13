@@ -92,6 +92,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Enchantment translations
         translationBuilder.add("enchantment.succorstadiums.vipers_bite", "Vipers Bite");
         translationBuilder.add("enchantment.succorstadiums.rose_thorn", "Rose Thorn");
+        translationBuilder.add("enchantment.succorstadiums.swiftness", "Swiftness");
+
 
         // Mob Effect translations
 

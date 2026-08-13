@@ -2,10 +2,8 @@ package net.alek.succorstadiums.datagen;
 
 import net.alek.succorstadiums.SuccorStadiums;
 import net.alek.succorstadiums.enchantment.ModEnchantments;
-import net.alek.succorstadiums.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
-import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
