@@ -6,9 +6,10 @@ import net.alek.succorstadiums.client.render.entity.monsters.SkelcrowRenderer;
 import net.alek.succorstadiums.client.render.entity.monsters.FarmbieRenderer;
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.item.ModItems;
-import net.alek.succorstadiums.network.ArachnoDoubleJumpPayload;
 import net.alek.succorstadiums.network.arena.OpenMobArenaPayload;
-import net.alek.succorstadiums.network.ResurrectionAmuletPayload;
+import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpPayload;
+import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpResultPayload;
+import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;
 import net.alek.succorstadiums.screen.mobarenagui.MobArenaScreen;
 import net.alek.succorstadiums.screen.mobarenagui.MobArenaScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
@@ -69,6 +70,19 @@ public class SuccorStadiumsClient implements ClientModInitializer {
 
         ClientPlayNetworking.registerGlobalReceiver(OpenMobArenaPayload.TYPE, (payload, context) -> context.client().execute(() ->
                 Minecraft.getInstance().gui.setScreen(new MobArenaScreen(Component.literal("Mob Arena Manager")))));
+
+        ClientPlayNetworking.registerGlobalReceiver(ArachnoDoubleJumpResultPayload.TYPE, (payload, context) -> context.client().execute(() -> {
+            if (!payload.success()) return;
+
+            LocalPlayer player = context.client().player;
+            if (player == null) return;
+
+            Vec3 velocity = player.getDeltaMovement();
+            double jumpBoost = 0.55D - velocity.y;
+            player.push(0.0D, jumpBoost, 0.0D);
+            player.fallDistance = 0.0F;
+            spawnArachnoDoubleJumpClouds(player);
+        }));
 
         ItemTooltipCallback.EVENT.register((stack, context, type, tooltip) -> {
 
@@ -169,7 +183,11 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_1")
                                 .withStyle(ChatFormatting.BLUE)
                 );
-                tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_2")
+                                .withStyle(ChatFormatting.GRAY)
+                );
+                tooltip.add(6, Component.translatable("item.succorstadiums.spacer"));
             }
             if (stack.is(ModItems.ARACHNO_CARAPACE_CHESTPLATE)) {
                 tooltip.add(1,
@@ -185,7 +203,11 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_1")
                                 .withStyle(ChatFormatting.BLUE)
                 );
-                tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_2")
+                                .withStyle(ChatFormatting.GRAY)
+                );
+                tooltip.add(6, Component.translatable("item.succorstadiums.spacer"));
             }
             if (stack.is(ModItems.ARACHNO_CARAPACE_LEGGINGS)) {
                 tooltip.add(1,
@@ -201,7 +223,11 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_1")
                                 .withStyle(ChatFormatting.BLUE)
                 );
-                tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_2")
+                                .withStyle(ChatFormatting.GRAY)
+                );
+                tooltip.add(6, Component.translatable("item.succorstadiums.spacer"));
             }
             if (stack.is(ModItems.ARACHNO_CARAPACE_BOOTS)) {
                 tooltip.add(1,
@@ -217,7 +243,11 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_1")
                                 .withStyle(ChatFormatting.BLUE)
                 );
-                tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_2")
+                                .withStyle(ChatFormatting.GRAY)
+                );
+                tooltip.add(6, Component.translatable("item.succorstadiums.spacer"));
             }
             if (stack.is(ModItems.NANNER_WATER_WADERS)) {
                 tooltip.add(1,
@@ -428,12 +458,6 @@ public class SuccorStadiumsClient implements ClientModInitializer {
 
         canDoubleJump = false;
         ClientPlayNetworking.send(new ArachnoDoubleJumpPayload());
-
-        Vec3 velocity = player.getDeltaMovement();
-        double jumpBoost = 0.55D - velocity.y;
-        player.push(0.0D, jumpBoost, 0.0D);
-        player.fallDistance = 0.0F;
-        spawnArachnoDoubleJumpClouds(player);
     }
 
     private static boolean isWearingFullArachnoSet(LocalPlayer player) {

@@ -1,9 +1,10 @@
-package net.alek.succorstadiums.network;
+package net.alek.succorstadiums.network.backpack;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 
 public record OpenBackpackPayload() implements CustomPacketPayload {
 
@@ -14,7 +15,7 @@ public record OpenBackpackPayload() implements CustomPacketPayload {
             StreamCodec.unit(new OpenBackpackPayload());
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NonNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 }

@@ -12,8 +12,13 @@ import net.alek.succorstadiums.food.ModConsumeEffects;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
 import net.alek.succorstadiums.loottable.ModLootTableModifiers;
-import net.alek.succorstadiums.network.*;
 import net.alek.succorstadiums.network.arena.*;
+import net.alek.succorstadiums.network.backpack.BackpackPacketHandler;
+import net.alek.succorstadiums.network.backpack.OpenBackpackPayload;
+import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpHandler;
+import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpPayload;
+import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpResultPayload;
+import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;
 import net.alek.succorstadiums.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
@@ -62,6 +67,7 @@ public class SuccorStadiums implements ModInitializer {
 		// Register item network packets
 		PayloadTypeRegistry.clientboundPlay().register(ResurrectionAmuletPayload.TYPE, ResurrectionAmuletPayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(ArachnoDoubleJumpPayload.TYPE, ArachnoDoubleJumpPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(ArachnoDoubleJumpResultPayload.TYPE, ArachnoDoubleJumpResultPayload.CODEC);
 		ArachnoDoubleJumpHandler.register();
 
 		// Register mob arena network packets

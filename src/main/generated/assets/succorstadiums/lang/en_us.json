@@ -26,6 +26,7 @@
   "item.succorstadiums.aqua_staff.tooltip_2": "⌚ Ring Duration: 00:03",
   "item.succorstadiums.arachno_carapace_armor.tooltip_0": "Full Set Bonus:",
   "item.succorstadiums.arachno_carapace_armor.tooltip_1": "+1 Mid-air Jump",
+  "item.succorstadiums.arachno_carapace_armor.tooltip_2": "Requires 1 Spider Leg",
   "item.succorstadiums.arachno_carapace_boots": "§4Arachno Carapace Boots",
   "item.succorstadiums.arachno_carapace_boots.lore": "Spider Boots? But spiders don't wear boots!",
   "item.succorstadiums.arachno_carapace_chestplate": "§4Arachno Carapace Chestplate",
@@ -116,6 +117,7 @@
   "key.category.succorstadiums.general": "Succor Stadiums",
   "key.succorstadiums.open_backpack": "Open Backpack",
   "key.succorstadiums.open_mob_arena": "Open Mob Arena GUI",
+  "message.succorstadiums.arachno_double_jump.no_spider_leg": "§cNo spider leg ammo in inventory",
   "sound.succorstadiums.aqua_staff_use": "§3Aquaonduit used",
   "sound.succorstadiums.arachno_carapace_armor_equip": "§4Arachno Carpace Armor equips",
   "sound.succorstadiums.fire_staff_use": "§4Firecharged Cane used"

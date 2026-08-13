@@ -1,7 +1,7 @@
 package net.alek.succorstadiums.mixin;
 
 import net.alek.succorstadiums.item.ModItems;
-import net.alek.succorstadiums.network.ResurrectionAmuletPayload;
+import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;

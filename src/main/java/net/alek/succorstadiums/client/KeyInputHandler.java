@@ -1,6 +1,6 @@
 package net.alek.succorstadiums.client;
 
-import net.alek.succorstadiums.network.OpenBackpackPayload;
+import net.alek.succorstadiums.network.backpack.OpenBackpackPayload;
 import net.alek.succorstadiums.network.arena.OpenMobArenaRequestPayload;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

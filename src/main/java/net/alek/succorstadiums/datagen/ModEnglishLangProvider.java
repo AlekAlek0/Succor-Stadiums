@@ -25,7 +25,6 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Spacer translation
         translationBuilder.add("item.succorstadiums.spacer", "");
 
-
         // Creative Mode Tab translations
         translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_items", "Succor Stadium Items");
         translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_armor", "Succor Stadium Armor");
@@ -36,7 +35,6 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_foods", "Succor Stadium Food");
         translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_equipment", "Succor Stadium Equipment");
         translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_summons", "Succor Stadium Summons");
-
 
         // Item translations
         translationBuilder.add(ModItems.BRENNON_ORE, "Brennon Ore");
@@ -66,7 +64,6 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.BANANNER_BLADE, "Bananner Blade");
         translationBuilder.add(ModItems.FUMBLEBRINGER_FORK, "Fumblebringer Fork");
         translationBuilder.add(ModItems.SWORD_OF_THE_FOREST, "Sword of the Forest");
-
 
         // Magic Weapon translations
         translationBuilder.add(ModItems.FIRE_STAFF, "§4Firecharged Cane");
@@ -98,20 +95,17 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("enchantment.succorstadiums.rose_thorn", "Rose Thorn");
         translationBuilder.add("enchantment.succorstadiums.swiftness", "Swiftness");
 
-
         // Mob Effect translations
-
         translationBuilder.add("effect.succorstadiums.paralysis", "Paralysis");
 
-        // Death message translations
-
+        // Gameplay message translations
         translationBuilder.add("death.attack.plant_powder_1", "%1$s tried to consume plant powder");
         translationBuilder.add("death.attack.plant_powder_2", "%1$s just wanted to know what it would do");
+        translationBuilder.add("message.succorstadiums.arachno_double_jump.no_spider_leg", "§cNo spider leg ammo in inventory");
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
         // Item Lore translations
         translationBuilder.add("item.succorstadiums.brennon_ore.lore", "Finally!");
@@ -141,6 +135,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Armor Tooltip translations
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_0", "Full Set Bonus:");
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_1", "+1 Mid-air Jump");
+        translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_2", "Requires 1 Spider Leg");
         translationBuilder.add("item.succorstadiums.nanner_water_waders.tooltip", "Increased Speed on Soul Sand / Soil, Mud and Underwater.");
 
         // Melee Weapon Lore translations
@@ -213,7 +208,6 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         // Mod Keybindings translations
-
         translationBuilder.add("key.category.succorstadiums.general", "Succor Stadiums");
         translationBuilder.add("key.succorstadiums.open_backpack", "Open Backpack");
         translationBuilder.add("key.succorstadiums.open_mob_arena", "Open Mob Arena GUI");
@@ -224,7 +218,6 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("sound.succorstadiums.arachno_carapace_armor_equip", "§4Arachno Carpace Armor equips");
 
         // Mod Backpack container translations
-
         translationBuilder.add("container.succorstadiums.backpack", "Backpack");
 
     }

@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.network;
+package net.alek.succorstadiums.network.backpack;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.chat.Component;
