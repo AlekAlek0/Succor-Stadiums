@@ -5,6 +5,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -71,10 +73,18 @@ public class DogWhistleItem extends Item {
                     wolf.setHealth(4.5F);
                     wolf.setTarget(null);
 
-                    // Set wolf attack damage to half a heart (1.0 damage point)
+                    // Set wolf attack damage to 2 hearts
                     if (wolf.getAttribute(Attributes.ATTACK_DAMAGE) != null) {
-                        Objects.requireNonNull(wolf.getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(1.0);
+                        Objects.requireNonNull(wolf.getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(4.0);
                     }
+
+                    // Set wolf attack range to 5 blocks
+                    if (wolf.getAttribute(Attributes.ENTITY_INTERACTION_RANGE) != null) {
+                        Objects.requireNonNull(wolf.getAttribute(Attributes.ENTITY_INTERACTION_RANGE)).setBaseValue(5.0);
+                    }
+
+                    // Give speed 1 to each wolf
+                    wolf.addEffect(new MobEffectInstance(MobEffects.SPEED, DESPAWN_TICKS, 0));
 
                     // Add the wolf to the level
                     serverLevel.addFreshEntity(wolf);
