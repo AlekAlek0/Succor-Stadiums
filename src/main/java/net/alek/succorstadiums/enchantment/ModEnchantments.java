@@ -10,6 +10,7 @@ public class ModEnchantments {
 
     public static final ResourceKey<Enchantment> VIPERS_BITE = key("vipers_bite");
     public static final ResourceKey<Enchantment> ROSE_THORN = key("rose_thorn");
+    public static final ResourceKey<Enchantment> SWIFTNESS = key("swiftness");
 
     private static ResourceKey<Enchantment> key(String path) {
         Identifier id = Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, path);

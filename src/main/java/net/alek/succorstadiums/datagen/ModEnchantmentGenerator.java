@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.datagen;
 
+import net.alek.succorstadiums.SuccorStadiums;
 import net.alek.succorstadiums.enchantment.ModEnchantments;
 import net.alek.succorstadiums.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
@@ -10,15 +11,19 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.item.enchantment.EnchantmentTarget;
 import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.item.enchantment.effects.ApplyMobEffect;
+import net.minecraft.world.item.enchantment.effects.EnchantmentAttributeEffect;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -130,6 +135,28 @@ public class ModEnchantmentGenerator extends FabricDynamicRegistryProvider {
                                         List.of(0F, 0F, 0F),
                                         LevelBasedValue.constant(0) // Fallback
                                 )
+                        )
+                )
+        );
+
+        register(context, ModEnchantments.SWIFTNESS,
+                Enchantment.enchantment(
+                        Enchantment.definition(
+                                itemLookup.getOrThrow(ModItemTagProvider.BONE_DAGGERS),
+                                5,  // Weight
+                                3,  // Max Level
+                                Enchantment.dynamicCost(1, 2),
+                                Enchantment.dynamicCost(1, 2),
+                                0,  // Anvil cost
+                                EquipmentSlotGroup.HAND
+                        )
+                ).withEffect(
+                        EnchantmentEffectComponents.ATTRIBUTES,
+                        new EnchantmentAttributeEffect(
+                                Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "swiftness_speed"),
+                                Attributes.MOVEMENT_SPEED,
+                                LevelBasedValue.perLevel(0.15F, 0.10F), // L1: 0.15, L2: 0.25, L3: 0.35
+                                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                         )
                 )
         );
