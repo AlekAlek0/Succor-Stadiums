@@ -8,8 +8,8 @@ public class Wave {
 
     // Variables to track wave number, optional name, optional delay override, and list of wave mobs
     private int waveNumber;
-    private String name;           // null/empty = unnamed, falls back to "Wave N" in UI
-    private Integer delaySeconds;  // null = inherit the arena's default delay
+    private String name;
+    private Integer delaySeconds;
     private final List<WaveMob> mobs;
     private List<RewardItem> rewards = new ArrayList<>();
 
@@ -110,6 +110,7 @@ public class Wave {
         return mobs.stream().mapToInt(WaveMob::getCount).sum();
     }
 
+    // Accessor method to get rewards in a wave
     public List<RewardItem> getRewards() {
         if (rewards == null) rewards = new ArrayList<>();
         return rewards;

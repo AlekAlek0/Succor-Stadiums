@@ -94,6 +94,8 @@ public class ArenaSession {
 
     // Arena tick method
     public void tick() {
+        Wave wave = arena.getWaves().get(currentWaveIndex);
+
         // If arena is not running just return
         if (state != ArenaState.RUNNING) return;
 
@@ -148,7 +150,7 @@ public class ArenaSession {
         // Set up and configure boss bar for current wave
         bossBar.setName(Component.literal(
                 "§6" + arena.getName()
-                        + " §f- §bWave: " + waveNum + "/" + totalWaves
+                        + " §f- §b" + wave.getName() + " " + wave.getWaveNumber() + "/" + arena.getWaveCount()
                         + " §f- §cEnemies Remaining: " + remaining
                         + " §f- §aPlayers: " + activePlayerUUIDs.size()
         ));
@@ -185,7 +187,7 @@ public class ArenaSession {
     // Helper method to spawn current wave in arena
     private void spawnCurrentWave() {
         Wave wave = arena.getWaves().get(currentWaveIndex);
-        broadcast("§c--- Wave " + wave.getWaveNumber() + " / " + arena.getWaveCount() + " ---");
+        broadcast("§c-- " + wave.getName() + " -- " + wave.getWaveNumber() + " / " + arena.getWaveCount() + " --");
 
         try {
             for (WaveMob waveMob : wave.getMobs()) {
@@ -403,15 +405,6 @@ public class ArenaSession {
             }
 
             totalMobsInWave = activeMobUUIDs.size();
-
-            bossBar.setColor(BossEvent.BossBarColor.RED);
-            bossBar.setProgress(1f);
-            bossBar.setName(Component.literal(
-                    "§6" + arena.getName()
-                            + " §f- §bWave: " + wave.getWaveNumber() + "/" + arena.getWaveCount()
-                            + " §f- §cEnemies Remaining: " + totalMobsInWave
-                            + " §f- §aPlayers: " + activePlayerUUIDs.size()
-            ));
 
             broadcast("§cSurvive! " + totalMobsInWave + " mobs spawned.");
 
