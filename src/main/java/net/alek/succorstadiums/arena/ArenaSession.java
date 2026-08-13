@@ -236,7 +236,7 @@ public class ArenaSession {
                             if (waveMob.getSize() != null) {
                                 ((Slime) mob).setSize(waveMob.getSize(), true);
                             }
-                        } else if (entityType == EntityTypes.ZOMBIE || entityType == EntityTypes.ZOMBIE_VILLAGER || entityType == ModEntityTypes.ZOMBIE_FARMER) {
+                        } else if (entityType == EntityTypes.ZOMBIE || entityType == EntityTypes.ZOMBIE_VILLAGER || entityType == ModEntityTypes.FARMBIE) {
                             mob.setBaby(waveMob.getSize() != null && waveMob.getSize() == -1);
                         }
 

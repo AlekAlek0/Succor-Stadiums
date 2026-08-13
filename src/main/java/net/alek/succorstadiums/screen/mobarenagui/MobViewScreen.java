@@ -158,7 +158,7 @@ public class MobViewScreen {
     static String variantDisplayFor(ArenaDataPayload.MobEntry mob) {
         if (mob.size() == null) return "";
         boolean isSlime = mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":banana_slime");
-        boolean isZombieLike = mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager") || mob.mobType().equals(MOD_ID + ":zombie_farmer");
+        boolean isZombieLike = mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager") || mob.mobType().equals(MOD_ID + ":farmbie");
         if (isSlime) {
             if (mob.size() == 1) return "Small";
             if (mob.size() == 2) return "Medium";

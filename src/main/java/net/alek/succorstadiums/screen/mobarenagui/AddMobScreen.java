@@ -217,10 +217,10 @@ public class AddMobScreen {
                 mobTypeSuggestionManager.filterSuggestions(text);
 
                 boolean oldIsSlime = oldMobType.equals("minecraft:slime") || oldMobType.equals(MOD_ID + ":banana_slime");
-                boolean oldIsZombieLike = oldMobType.equals("minecraft:zombie") || oldMobType.equals("minecraft:zombie_villager") || oldMobType.equals(MOD_ID + ":zombie_farmer");
+                boolean oldIsZombieLike = oldMobType.equals("minecraft:zombie") || oldMobType.equals("minecraft:zombie_villager") || oldMobType.equals(MOD_ID + ":farmbie");
 
                 boolean newIsSlime = savedMobType.equals("minecraft:slime") || savedMobType.equals(MOD_ID + ":banana_slime");
-                boolean newIsZombieLike = savedMobType.equals("minecraft:zombie") || savedMobType.equals("minecraft:zombie_villager") || savedMobType.equals(MOD_ID + ":zombie_farmer");
+                boolean newIsZombieLike = savedMobType.equals("minecraft:zombie") || savedMobType.equals("minecraft:zombie_villager") || savedMobType.equals(MOD_ID + ":farmbie");
 
                 if ((oldIsSlime != newIsSlime) || (oldIsZombieLike != newIsZombieLike)) {
                     rebuildScreen.run();
@@ -240,7 +240,7 @@ public class AddMobScreen {
 
         String currentMobType = mobTypeField != null ? mobTypeField.getValue().trim() : savedMobType;
         boolean isSlime = currentMobType.equals("minecraft:slime") || currentMobType.equals(MOD_ID + ":banana_slime");
-        boolean isZombieLike = currentMobType.equals("minecraft:zombie") || currentMobType.equals("minecraft:zombie_villager") || currentMobType.equals(MOD_ID + ":zombie_farmer");
+        boolean isZombieLike = currentMobType.equals("minecraft:zombie") || currentMobType.equals("minecraft:zombie_villager") || currentMobType.equals(MOD_ID + ":farmbie");
 
         if (isSlime) {
             drawInlineLabel(cx + countFieldWidth + 4, currentY, "Variant");
@@ -655,7 +655,7 @@ public class AddMobScreen {
         int contentHeight = computeContentHeight();
         int scrollableAreaHeight = scrollBottom - scrollTop;
         int maxScroll = Math.max(0, contentHeight - scrollableAreaHeight);
-        addMobScroll = Math.max(0, Math.min(addMobScroll, maxScroll));
+        addMobScroll = Math.clamp(addMobScroll, 0, maxScroll);
 
         adder.accept(Button.builder(Component.literal(editMode ? "✔ Save" : "✔ Add"),
                         btn -> submit(adder, font, detailX, detailW, guiTop, guiHeight,
@@ -736,7 +736,7 @@ public class AddMobScreen {
         }
 
         boolean isSlime = mob.equals("minecraft:slime") || mob.equals(MOD_ID + ":banana_slime");
-        boolean isZombieLike = mob.equals("minecraft:zombie") || mob.equals("minecraft:zombie_villager") || mob.equals(MOD_ID + ":zombie_farmer");
+        boolean isZombieLike = mob.equals("minecraft:zombie") || mob.equals("minecraft:zombie_villager") || mob.equals(MOD_ID + ":farmbie");
 
         if (isSlime && selectedSlimeVariant.isEmpty()) {
             validationError = "Please select a slime size (Small/Medium/Large).";
@@ -835,7 +835,7 @@ public class AddMobScreen {
         savedMobCount = String.valueOf(mob.count());
 
         boolean isSlime = mob.mobType().equals("minecraft:slime") || mob.mobType().equals(MOD_ID + ":banana_slime");
-        boolean isZombieLike = mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager") || mob.mobType().equals(MOD_ID + ":zombie_farmer");
+        boolean isZombieLike = mob.mobType().equals("minecraft:zombie") || mob.mobType().equals("minecraft:zombie_villager") || mob.mobType().equals(MOD_ID + ":farmbie");
 
         if (mob.size() != null) {
             if (isSlime) {
@@ -857,7 +857,7 @@ public class AddMobScreen {
         savedOffHand   = mob.offHandItem() != null ? mob.offHandItem() : "";
 
         List<String> armor = mob.armorItems();
-        savedHelmet     = (armor != null && armor.size() > 0) ? armor.get(0) : "";
+        savedHelmet     = (armor != null && !armor.isEmpty()) ? armor.get(0) : "";
         savedChestplate = (armor != null && armor.size() > 1) ? armor.get(1) : "";
         savedLeggings   = (armor != null && armor.size() > 2) ? armor.get(2) : "";
         savedBoots      = (armor != null && armor.size() > 3) ? armor.get(3) : "";

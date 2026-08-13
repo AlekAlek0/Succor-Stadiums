@@ -14,19 +14,19 @@ import net.minecraft.world.entity.MobCategory;
 public class ModEntityTypes {
 
     public static final EntityType<BananaSlime> BANANA_SLIME = registerMob(
-                "banana_slime", EntityType.Builder.<BananaSlime>of(BananaSlime::new,
+                "banana_slime", EntityType.Builder.of(BananaSlime::new,
                     MobCategory.MONSTER).sized(0.75f, 0.75f));
 
-    public static final EntityType<ZombieFarmer> ZOMBIE_FARMER = registerMob(
-                "zombie_farmer", EntityType.Builder.<ZombieFarmer>of(ZombieFarmer::new,
+    public static final EntityType<Farmbie> FARMBIE = registerMob(
+                "farmbie", EntityType.Builder.of(Farmbie::new,
                     MobCategory.MONSTER).sized(0.6f, 1.95f));
 
     public static final EntityType<GrassCreeper> GRASS_CREEPER = registerMob(
-                "grass_creeper", EntityType.Builder.<GrassCreeper>of(GrassCreeper::new,
+                "grass_creeper", EntityType.Builder.of(GrassCreeper::new,
                     MobCategory.MONSTER).sized(0.6f, 1.7f));
 
     public static final EntityType<Skelcrow> SKELCROW = registerMob(
-            "skelcrow", EntityType.Builder.<Skelcrow>of(Skelcrow::new,
+            "skelcrow", EntityType.Builder.of(Skelcrow::new,
                     MobCategory.MONSTER).sized(0.6f, 1.99f));
 
 

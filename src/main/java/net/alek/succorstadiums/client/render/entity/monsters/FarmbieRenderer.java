@@ -1,7 +1,7 @@
 package net.alek.succorstadiums.client.render.entity.monsters;
 
 import net.alek.succorstadiums.SuccorStadiums;
-import net.alek.succorstadiums.entity.monsters.ZombieFarmer;
+import net.alek.succorstadiums.entity.monsters.Farmbie;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.monster.zombie.BabyZombieModel;
@@ -11,17 +11,18 @@ import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.ZombieRenderState;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 
-public class ZombieFarmerRenderer extends AbstractZombieRenderer<ZombieFarmer, ZombieRenderState, ZombieModel<ZombieRenderState>> {
+public class FarmbieRenderer extends AbstractZombieRenderer<Farmbie, ZombieRenderState, ZombieModel<ZombieRenderState>> {
 
     private static final Identifier TEXTURE =
-            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "textures/entity/zombie_farmer/zombie_farmer.png");
+            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "textures/entity/farmbie/farmbie.png");
 
-    public ZombieFarmerRenderer(final EntityRendererProvider.Context context) {
+    public FarmbieRenderer(final EntityRendererProvider.Context context) {
         this(context, ModelLayers.ZOMBIE, ModelLayers.ZOMBIE_BABY, ModelLayers.ZOMBIE_ARMOR, ModelLayers.ZOMBIE_BABY_ARMOR);
     }
 
-    private ZombieFarmerRenderer(final EntityRendererProvider.Context context,
+    private FarmbieRenderer(final EntityRendererProvider.Context context,
                                  final ModelLayerLocation body,
                                  final ModelLayerLocation babyBody,
                                  final ArmorModelSet<ModelLayerLocation> armorSet,
@@ -34,12 +35,12 @@ public class ZombieFarmerRenderer extends AbstractZombieRenderer<ZombieFarmer, Z
     }
 
     @Override
-    public ZombieRenderState createRenderState() {
+    public @NonNull ZombieRenderState createRenderState() {
         return new ZombieRenderState();
     }
 
     @Override
-    public Identifier getTextureLocation(final ZombieRenderState state) {
+    public @NonNull Identifier getTextureLocation(final @NonNull ZombieRenderState state) {
         return TEXTURE;
     }
 

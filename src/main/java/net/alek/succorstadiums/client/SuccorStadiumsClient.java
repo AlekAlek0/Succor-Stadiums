@@ -3,7 +3,7 @@ package net.alek.succorstadiums.client;
 import net.alek.succorstadiums.client.render.entity.monsters.BananaSlimeRenderer;
 import net.alek.succorstadiums.client.render.entity.monsters.GrassCreeperRenderer;
 import net.alek.succorstadiums.client.render.entity.monsters.SkelcrowRenderer;
-import net.alek.succorstadiums.client.render.entity.monsters.ZombieFarmerRenderer;
+import net.alek.succorstadiums.client.render.entity.monsters.FarmbieRenderer;
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.network.ArachnoDoubleJumpPayload;
@@ -38,7 +38,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
         KeyInputHandler.register();
 
         EntityRenderers.register(ModEntityTypes.BANANA_SLIME, BananaSlimeRenderer::new);
-        EntityRenderers.register(ModEntityTypes.ZOMBIE_FARMER, ZombieFarmerRenderer::new);
+        EntityRenderers.register(ModEntityTypes.FARMBIE, FarmbieRenderer::new);
         EntityRenderers.register(ModEntityTypes.GRASS_CREEPER, GrassCreeperRenderer::new);
         EntityRenderers.register(ModEntityTypes.SKELCROW, SkelcrowRenderer::new);
 

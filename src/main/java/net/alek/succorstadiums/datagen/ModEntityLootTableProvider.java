@@ -51,7 +51,7 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
                         )
         );
 
-        exporter.accept(ModLootTables.ZOMBIE_FARMER_LOOT,
+        exporter.accept(ModLootTables.FARMBIE_LOOT,
                 LootTable.lootTable()
                         // 83% chance to drop 0-4 rotten flesh
                         .withPool(

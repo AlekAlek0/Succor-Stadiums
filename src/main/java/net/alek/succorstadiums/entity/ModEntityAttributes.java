@@ -17,7 +17,7 @@ public class ModEntityAttributes {
         );
 
         FabricDefaultAttributeRegistry.register(
-                ModEntityTypes.ZOMBIE_FARMER,
+                ModEntityTypes.FARMBIE,
                 Zombie.createAttributes()
                         .add(Attributes.MOVEMENT_SPEED, 0.24D)
                         .add(Attributes.ATTACK_DAMAGE, 1.0D)
