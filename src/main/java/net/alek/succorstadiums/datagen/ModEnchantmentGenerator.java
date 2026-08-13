@@ -11,6 +11,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -141,7 +142,7 @@ public class ModEnchantmentGenerator extends FabricDynamicRegistryProvider {
         register(context, ModEnchantments.SWIFTNESS,
                 Enchantment.enchantment(
                         Enchantment.definition(
-                                itemLookup.getOrThrow(ModItemTagProvider.BONE_DAGGERS),
+                                itemLookup.getOrThrow(ItemTags.SPEARS),
                                 5,  // Weight
                                 3,  // Max Level
                                 Enchantment.dynamicCost(1, 2),

@@ -29,6 +29,6 @@
   "slots": [
     "hand"
   ],
-  "supported_items": "#succorstadiums:bone_daggers",
+  "supported_items": "#minecraft:spears",
   "weight": 5
 }

@@ -33,5 +33,9 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
         builder(BONE_DAGGERS)
                 .add(ResourceKey.create(Registries.ITEM,
                         Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "bone_dagger")));
+
+        builder(ItemTags.SPEARS)
+                .add(ResourceKey.create(Registries.ITEM,
+                        Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "fumblebringer_fork")));
     }
 }
