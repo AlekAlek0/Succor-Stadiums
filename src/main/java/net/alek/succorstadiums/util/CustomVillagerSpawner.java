@@ -238,4 +238,55 @@ public class CustomVillagerSpawner {
         level.addFreshEntity(villager);
     }
 
+    public static void spawnBimbleton(ServerLevel level, Vec3 pos, float yaw) {
+        Villager villager = new Villager(EntityTypes.VILLAGER, level);
+
+        villager.setPos(pos.x, pos.y, pos.z);
+        villager.setYRot(yaw);
+        villager.setYHeadRot(yaw);
+        villager.setYBodyRot(yaw);
+        villager.setXRot(0.0F);
+        villager.yRotO = yaw;
+
+        // Profession shepherd
+        Holder<VillagerProfession> butcherProfession =
+                level.registryAccess()
+                        .lookupOrThrow(Registries.VILLAGER_PROFESSION)
+                        .getOrThrow(VillagerProfession.SHEPHERD);
+
+        // Plains type
+        Holder<VillagerType> plainsType =
+                level.registryAccess()
+                        .lookupOrThrow(Registries.VILLAGER_TYPE)
+                        .getOrThrow(VillagerType.PLAINS);
+
+        // Set villager data to given profession, level, and type
+        villager.setVillagerData(
+                villager.getVillagerData()
+                        .withProfession(butcherProfession)
+                        .withLevel(2)
+                        .withType(plainsType)
+        );
+
+        // NBT-equivalent flags
+        villager.setInvulnerable(true);
+        villager.setPersistenceRequired();
+        villager.setSilent(true);
+        villager.setNoAi(true);
+        villager.setCustomName(Component.literal("Ghimple Bimbleton"));
+
+        // Build trades
+        MerchantOffers offers = villager.getOffers();
+        offers.clear();
+
+        offers.add(new MerchantOffer(
+                new ItemCost(Items.COPPER_NUGGET, 12),
+                new ItemStack(ModItems.DOG_WHISTLE, 1),
+                9999999, 0, 0.0F
+        ));
+
+        level.addFreshEntity(villager);
+    }
+
+
 }

@@ -44,6 +44,11 @@ public class ModCommands {
                                                 .executes(ModCommands::executeSummonMarvin)
                                         )
                                 )
+                                .then(Commands.literal("villagers")
+                                        .then(Commands.literal("Bimbleton")
+                                                .executes(ModCommands::executeSummonBimbleton)
+                                        )
+                                )
                                 // Dev subcommand group
                                 .then(Commands.literal("dev")
                                         .then(Commands.literal("disenchant")
@@ -99,6 +104,19 @@ public class ModCommands {
         CustomVillagerSpawner.spawnMarvin(level, pos, yaw);
 
         source.sendSuccess(() -> Component.literal("Spawned Marvin Malarkey"), true);
+        return 1;
+    }
+
+    // Helper method for the villagers bimbleton command
+    private static int executeSummonBimbleton(CommandContext<CommandSourceStack> ctx) {
+        CommandSourceStack source = ctx.getSource();
+        ServerLevel level = source.getLevel();
+        Vec3 pos = source.getPosition();
+        float yaw = source.getEntity() instanceof ServerPlayer player ? player.getYRot() : source.getRotation().x;
+
+        CustomVillagerSpawner.spawnBimbleton(level, pos, yaw);
+
+        source.sendSuccess(() -> Component.literal("Spawned Ghimple Bimbleton"), true);
         return 1;
     }
 
