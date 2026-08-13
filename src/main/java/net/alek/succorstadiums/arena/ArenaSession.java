@@ -187,7 +187,7 @@ public class ArenaSession {
     // Helper method to spawn current wave in arena
     private void spawnCurrentWave() {
         Wave wave = arena.getWaves().get(currentWaveIndex);
-        broadcast("§c-- " + wave.getName() + " -- " + wave.getWaveNumber() + " / " + arena.getWaveCount() + " --");
+        broadcast("§c-- " + wave.getName() + " -- " + wave.getWaveNumber() + "/" + arena.getWaveCount() + " --");
 
         try {
             for (WaveMob waveMob : wave.getMobs()) {
