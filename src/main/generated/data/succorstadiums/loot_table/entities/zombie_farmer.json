@@ -2,12 +2,6 @@
   "type": "minecraft:entity",
   "pools": [
     {
-      "conditions": [
-        {
-          "chance": 0.666,
-          "condition": "minecraft:random_chance"
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
@@ -15,8 +9,8 @@
             {
               "count": {
                 "type": "minecraft:uniform",
-                "max": 2.0,
-                "min": 0.0
+                "max": 4.0,
+                "min": 1.0
               },
               "function": "minecraft:set_count"
             }

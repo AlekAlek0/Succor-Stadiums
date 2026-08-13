@@ -2,12 +2,6 @@
   "type": "minecraft:entity",
   "pools": [
     {
-      "conditions": [
-        {
-          "chance": 1.0,
-          "condition": "minecraft:random_chance"
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
