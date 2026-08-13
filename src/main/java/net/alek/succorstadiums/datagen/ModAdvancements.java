@@ -43,7 +43,7 @@ public class ModAdvancements extends FabricAdvancementProvider {
                         false,
                         false
                 )
-                .addCriterion("root", InventoryChangeTrigger.TriggerInstance.hasItems((ItemPredicate[]) new ItemPredicate[0]))
+                .addCriterion("root", InventoryChangeTrigger.TriggerInstance.hasItems(new ItemPredicate[0]))
                 .save(consumer, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "root"));
 
         AdvancementHolder VINCIBLE = Advancement.Builder.advancement()
