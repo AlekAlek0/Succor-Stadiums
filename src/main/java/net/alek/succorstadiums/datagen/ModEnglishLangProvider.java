@@ -81,6 +81,11 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.GRAMBLE_BAPPLE, "Ghramble Bapple");
         translationBuilder.add(ModItems.CREEPER_SALVE, "Creeper Salve");
         translationBuilder.add(ModItems.PLANT_POWDER, "Plant Powder");
+        translationBuilder.add(ModItems.BEEF_STEW, "Beef Stew");
+        translationBuilder.add(ModItems.CHICKEN_STEW, "Chicken Stew");
+        translationBuilder.add(ModItems.PORK_STEW, "Pork Stew");
+        translationBuilder.add(ModItems.MUTTON_STEW, "Mutton Stew");
+        translationBuilder.add(ModItems.RABBIT_STEW, "Rabbit Stew");
         translationBuilder.add(ModItems.ROTTEN_STEW, "Rotten Stew");
 
         // Trinket translations
@@ -178,6 +183,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_2", "+ Health Boost I | 0:15 | 5%");
         translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_3", "- Weakness I | 0:08 | 75%");
         translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_4", "⚓ Slowness IV | 0:10 | 35%");
+        translationBuilder.add("item.succorstadiums.chicken_stew.tooltip", "\uD83C\uDF56 Hunger I | 0:20 | 10%");
         translationBuilder.add("item.succorstadiums.rotten_stew.tooltip", "\uD83C\uDF56 Hunger II | 0:20 | 30%");
 
         // Trinket Lore translations

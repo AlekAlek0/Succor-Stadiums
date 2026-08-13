@@ -42,7 +42,7 @@ public class ModFoods {
             .saturationModifier(0)
             .build();
 
-    // Create the consumable for the rotten stew with the consume duration and heal consume effect
+    // Create the consumable for the creeper salve with the consume duration and heal consume effect
     public static final Consumable CREEPER_SALVE_CONSUMABLE = Consumables.defaultFood()
             .consumeSeconds(0.4f)
 
@@ -50,17 +50,77 @@ public class ModFoods {
 
             .build();
 
+    // Create a new food called plant powder with the following nutrition and saturation and always edible
     public static final FoodProperties PLANT_POWDER = new FoodProperties.Builder()
             .nutrition(0)
             .saturationModifier(0)
             .alwaysEdible()
             .build();
 
+    // Create the consumable for the plant_powder with the consume duration and explode consume effect
     public static final Consumable PLANT_POWDER_CONSUMABLE = Consumables.defaultFood()
             .consumeSeconds(0.8f)
 
             .onConsume(new ExplodeConsumeEffect())
 
+            .build();
+
+    // Create a new food called beef stew with the following nutrition and saturation
+    public static final FoodProperties BEEF_STEW = new FoodProperties.Builder()
+            .nutrition(5)
+            .saturationModifier(0.24f)
+            .build();
+
+    // Create the consumable for the beef stew with the consume duration
+    public static final Consumable BEEF_STEW_CONSUMABLE = Consumables.defaultFood()
+            .consumeSeconds(2.2f)
+            .build();
+
+    // Create a new food called chicken stew with the following nutrition and saturation
+    public static final FoodProperties CHICKEN_STEW = new FoodProperties.Builder()
+            .nutrition(3)
+            .saturationModifier(0.3f)
+            .build();
+
+    // Create the consumable for the chicken stew with the consume duration and status effect
+    public static final Consumable CHICKEN_STEW_CONSUMABLE = Consumables.defaultFood()
+            .consumeSeconds(1.8f)
+
+            .onConsume(new ApplyStatusEffectsConsumeEffect(
+                    new MobEffectInstance(MobEffects.HUNGER, 400, 0), 0.1f))
+            .build();
+
+    // Create a new food called pork stew with the following nutrition and saturation
+    public static final FoodProperties PORK_STEW = new FoodProperties.Builder()
+            .nutrition(4)
+            .saturationModifier(0.4f)
+            .build();
+
+    // Create the consumable for the pork stew with the consume duration
+    public static final Consumable PORK_STEW_CONSUMABLE = Consumables.defaultFood()
+            .consumeSeconds(2.0f)
+            .build();
+
+    // Create a new food called mutton stew with the following nutrition and saturation
+    public static final FoodProperties MUTTON_STEW = new FoodProperties.Builder()
+            .nutrition(2)
+            .saturationModifier(0.6f)
+            .build();
+
+    // Create the consumable for the mutton stew with the consume duration
+    public static final Consumable MUTTON_STEW_CONSUMABLE = Consumables.defaultFood()
+            .consumeSeconds(1.6f)
+            .build();
+
+    // Create a new food called rabbit stew with the following nutrition and saturation
+    public static final FoodProperties RABBIT_STEW = new FoodProperties.Builder()
+            .nutrition(4)
+            .saturationModifier(0.225f)
+            .build();
+
+    // Create the consumable for the rabbit stew with the consume duration
+    public static final Consumable RABBIT_STEW_CONSUMABLE = Consumables.defaultFood()
+            .consumeSeconds(1.4f)
             .build();
 
     // Create a new food called rotten stew with the following nutrition and saturation
@@ -76,5 +136,4 @@ public class ModFoods {
             .onConsume(new ApplyStatusEffectsConsumeEffect(
                     new MobEffectInstance(MobEffects.HUNGER, 400, 1), 0.3f))
             .build();
-
 }

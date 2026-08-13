@@ -137,6 +137,16 @@ public class ModItems {
             .useCooldown(12)
             .stacksTo(8)));
     public static final Item PLANT_POWDER = registerItem("plant_powder", properties -> new Item(properties.food(ModFoods.PLANT_POWDER, ModFoods.PLANT_POWDER_CONSUMABLE)));
+    public static final Item BEEF_STEW = registerItem("beef_stew", properties -> new Item(properties.food(ModFoods.BEEF_STEW, ModFoods.BEEF_STEW_CONSUMABLE)
+            .stacksTo(16)));
+    public static final Item CHICKEN_STEW = registerItem("chicken_stew", properties -> new Item(properties.food(ModFoods.CHICKEN_STEW, ModFoods.CHICKEN_STEW_CONSUMABLE)
+            .stacksTo(16)));
+    public static final Item PORK_STEW = registerItem("pork_stew", properties -> new Item(properties.food(ModFoods.PORK_STEW, ModFoods.PORK_STEW_CONSUMABLE)
+            .stacksTo(16)));
+    public static final Item MUTTON_STEW = registerItem("mutton_stew", properties -> new Item(properties.food(ModFoods.MUTTON_STEW, ModFoods.MUTTON_STEW_CONSUMABLE)
+            .stacksTo(16)));
+    public static final Item RABBIT_STEW = registerItem("rabbit_stew", properties -> new Item(properties.food(ModFoods.RABBIT_STEW, ModFoods.RABBIT_STEW_CONSUMABLE)
+            .stacksTo(16)));
     public static final Item ROTTEN_STEW = registerItem("rotten_stew", properties -> new Item(properties.food(ModFoods.ROTTEN_STEW, ModFoods.ROTTEN_STEW_CONSUMABLE)
             .stacksTo(16)));
 

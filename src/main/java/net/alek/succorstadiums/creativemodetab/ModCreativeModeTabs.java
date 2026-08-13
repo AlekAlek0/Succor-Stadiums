@@ -158,6 +158,11 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.GRAMBLE_BAPPLE);
                         output.accept(ModItems.CREEPER_SALVE);
                         output.accept(ModItems.PLANT_POWDER);
+                        output.accept(ModItems.BEEF_STEW);
+                        output.accept(ModItems.CHICKEN_STEW);
+                        output.accept(ModItems.PORK_STEW);
+                        output.accept(ModItems.MUTTON_STEW);
+                        output.accept(ModItems.RABBIT_STEW);
                         output.accept(ModItems.ROTTEN_STEW);
 
 
