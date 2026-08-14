@@ -54,32 +54,31 @@ public class ModItems {
 
     public static final Item ARACHNO_CARAPACE_HELMET = registerItem("arachno_carapace_helmet", properties -> new ArachnoCarapaceArmorItem(
                     properties.humanoidArmor(ARACHNO_CARAPACE_ARMOR_MATERIAL, ArmorType.HELMET)
-                            .durability(256)
-            )
-    );
+                            .durability(256),
+            ArmorType.HELMET
+    ));
 
     public static final Item ARACHNO_CARAPACE_CHESTPLATE = registerItem("arachno_carapace_chestplate", properties -> new ArachnoCarapaceArmorItem(
                     properties.humanoidArmor(ARACHNO_CARAPACE_ARMOR_MATERIAL, ArmorType.CHESTPLATE)
-                            .durability(364)
-            )
-    );
+                            .durability(364),
+            ArmorType.CHESTPLATE
+    ));
 
     public static final Item ARACHNO_CARAPACE_LEGGINGS = registerItem("arachno_carapace_leggings", properties -> new ArachnoCarapaceArmorItem(
                     properties.humanoidArmor(ARACHNO_CARAPACE_ARMOR_MATERIAL, ArmorType.LEGGINGS)
-                            .durability(300)
-            )
-    );
+                            .durability(300),
+            ArmorType.LEGGINGS
+    ));
 
     public static final Item ARACHNO_CARAPACE_BOOTS = registerItem("arachno_carapace_boots", properties -> new ArachnoCarapaceArmorItem(
                     properties.humanoidArmor(ARACHNO_CARAPACE_ARMOR_MATERIAL, ArmorType.BOOTS)
-                            .durability(256)
-            )
-    );
+                            .durability(256),
+            ArmorType.BOOTS
+    ));
 
     public static final Item NANNER_WATER_WADERS = registerItem("nanner_water_waders", properties -> new NannerWaterWadersItem(
                     properties.humanoidArmor(NANNER_WADERS_MATERIAL , ArmorType.BOOTS)
-                            .durability(100)
-            )
+                            .durability(100))
     );
 
     public static final Item BEAN_POLE = registerItem("bean_pole", properties -> new BeanPoleItem(
