@@ -172,6 +172,6 @@ public class ModCreativeModeTabs {
     // Register method for the mod creative mode tabs
     public static void registerModCreativeModeTabs()
     {
-        SuccorStadiums.LOGGER.info("Registering Creative Mode Tabs for " + SuccorStadiums.MOD_ID);
+        SuccorStadiums.LOGGER.info("Registering Mod Creative Mode Tabs for " + SuccorStadiums.MOD_ID);
     }
 }

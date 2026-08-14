@@ -1,32 +1,32 @@
 package net.alek.succorstadiums.item.weapons.ranged;
 
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.jspecify.annotations.NonNull;
 
+import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 public class CreepbowItem extends BowItem {
 
-    // Vanilla full draw is reached at 20 ticks of use
-    private static final int FULL_CHARGE_TICKS = 20;
+    // Vanilla velocity is 3.0F
+    public static final float VELOCITY_MULTIPLIER = 0.80F;
 
-    // How long it must stay fully charged before detonating: 3 seconds = 60 ticks.
+    private static final int FULL_CHARGE_TICKS = 20;
     private static final int HOLD_AFTER_FULL_CHARGE_TICKS = 60;
     private static final int TRIGGER_TICK = FULL_CHARGE_TICKS + HOLD_AFTER_FULL_CHARGE_TICKS;
 
-    // Explosion tuning
     private static final double BLAST_RADIUS = 3.0;
-    private static final float MOB_DAMAGE = 3.0F; // 1.5 hearts (1 heart = 2 damage)
+    private static final float MOB_DAMAGE = 3.0F;
     private static final double KNOCKBACK_MULTIPLIER = 1.5;
 
     public CreepbowItem(Properties properties) {
@@ -34,13 +34,47 @@ public class CreepbowItem extends BowItem {
     }
 
     @Override
+    public boolean releaseUsing(final ItemStack itemStack, final Level level, final LivingEntity entity, final int remainingTime) {
+        if (!(entity instanceof Player player)) {
+            return false;
+        }
+
+        ItemStack projectile = player.getProjectile(itemStack);
+        if (projectile.isEmpty()) {
+            return false;
+        }
+
+        int timeHeld = this.getUseDuration(itemStack, entity) - remainingTime;
+        float pow = getPowerForTime(timeHeld);
+        if (pow < 0.1F) {
+            return false;
+        }
+
+        List<ItemStack> firedProjectiles = draw(itemStack, projectile, player);
+        if (level instanceof ServerLevel serverLevel && !firedProjectiles.isEmpty()) {
+            this.shoot(serverLevel, player, player.getUsedItemHand(), itemStack, firedProjectiles, pow * VELOCITY_MULTIPLIER, 1.0F, pow == 1.0F, null);
+        }
+
+        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + pow * 0.5F);
+        player.awardStat(net.minecraft.stats.Stats.ITEM_USED.get(this));
+        return true;
+    }
+
+    @Override
     public void onUseTick(@NonNull Level level, @NonNull LivingEntity livingEntity, @NonNull ItemStack stack, int remainingUseDuration) {
         super.onUseTick(level, livingEntity, stack, remainingUseDuration);
+
+        if (!(livingEntity instanceof Player)) {
+            return;
+        }
 
         int useDuration = getUseDuration(stack, livingEntity);
         int ticksInUse = useDuration - remainingUseDuration;
 
         if (ticksInUse == TRIGGER_TICK) {
+            if (!level.isClientSide()) {
+                this.releaseUsing(stack, level, livingEntity, 0);
+            }
             detonate(level, livingEntity);
         }
     }
@@ -58,6 +92,8 @@ public class CreepbowItem extends BowItem {
                     center.x, center.y, center.z,
                     1, 0.0, 0.0, 0.0, 0.0
             );
+
+            applyMobOnlyExplosion(serverLevel, livingEntity, center);
         }
 
         level.playSound(
@@ -67,12 +103,10 @@ public class CreepbowItem extends BowItem {
                 1.0F, 1.0F
         );
 
-        applyMobOnlyExplosion(level, livingEntity, center);
-
         livingEntity.stopUsingItem();
     }
 
-    private void applyMobOnlyExplosion(Level level, LivingEntity source, Vec3 center) {
+    private void applyMobOnlyExplosion(ServerLevel level, LivingEntity source, Vec3 center) {
         AABB affectedArea = new AABB(
                 center.x - BLAST_RADIUS, center.y - BLAST_RADIUS, center.z - BLAST_RADIUS,
                 center.x + BLAST_RADIUS, center.y + BLAST_RADIUS, center.z + BLAST_RADIUS
@@ -87,7 +121,7 @@ public class CreepbowItem extends BowItem {
                 continue;
             }
 
-            mob.hurt(level.damageSources().explosion(null, source), MOB_DAMAGE);
+            mob.hurtServer(level, level.damageSources().explosion(null, source), MOB_DAMAGE);
             applyKnockback(mob, center, mobCenter, distance);
         }
     }

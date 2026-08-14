@@ -37,6 +37,6 @@ public class ModEntityTypes {
     }
 
     public static void registerModEntityTypes() {
-        SuccorStadiums.LOGGER.info("Registering EntityTypes for " + SuccorStadiums.MOD_ID);
+        SuccorStadiums.LOGGER.info("Registering Mod Entity Types for " + SuccorStadiums.MOD_ID);
     }
 }
