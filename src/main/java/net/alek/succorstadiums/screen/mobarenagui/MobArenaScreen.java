@@ -588,7 +588,9 @@ public class MobArenaScreen extends Screen {
                                 mob.ridingMob(),
                                 mob.mainHandItem(),
                                 mob.offHandItem(),
-                                mob.armorItems()
+                                mob.armorItems(),
+                                mob.potionEffects(),
+                                mob.enchantments()
                         )
                 ),
                 (mob) -> {
@@ -622,23 +624,21 @@ public class MobArenaScreen extends Screen {
 
         delMobScreen.buildWidgets(this::addRenderableWidget,
                 detailX(), guiTop(), guiHeight(), wave,
-                (mob, count) -> {
-                    if (wave != null) {
-                        ClientPlayNetworking.send(
-                                ArenaActionPayload.removeMob(
-                                        arena.name(),
-                                        selectedWave,
-                                        mob.mobType(),
-                                        count,
-                                        mob.size(),
-                                        mob.ridingMob(),
-                                        mob.mainHandItem(),
-                                        mob.offHandItem(),
-                                        mob.armorItems()
-                                )
-                        );
-                    }
-                },
+                (mob, count) -> ClientPlayNetworking.send(
+                        ArenaActionPayload.removeMob(
+                                arena.name(),
+                                selectedWave,
+                                mob.mobType(),
+                                count,
+                                mob.size(),
+                                mob.ridingMob(),
+                                mob.mainHandItem(),
+                                mob.offHandItem(),
+                                mob.armorItems(),
+                                mob.potionEffects(),
+                                mob.enchantments()
+                        )
+                ),
                 () -> { detailView = DetailView.OVERVIEW; rebuildWidgets(); });
     }
 
@@ -680,7 +680,7 @@ public class MobArenaScreen extends Screen {
                                 arena.name(), selectedWave,
                                 original.mobType(), original.count(), original.size(),
                                 original.ridingMob(), original.mainHandItem(), original.offHandItem(),
-                                original.armorItems()
+                                original.armorItems(), original.potionEffects(), original.enchantments()
                         ));
                     }
 

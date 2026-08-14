@@ -69,7 +69,7 @@ public class Skelcrow extends Stray {
         AbstractArrow arrow = ProjectileUtil.getMobArrow(this, projectileStack, power, bowStack);
 
         if (arrow instanceof Arrow tippedArrow) {
-            tippedArrow.addEffect(new MobEffectInstance(MobEffects.POISON, 200, 1));
+            tippedArrow.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 0));
         }
 
         double xd = target.getX() - this.getX();
