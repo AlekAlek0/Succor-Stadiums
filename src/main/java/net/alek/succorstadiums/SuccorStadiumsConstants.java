@@ -27,7 +27,7 @@ public class SuccorStadiumsConstants {
         MOB_HEALTH_OVERRIDES = Collections.unmodifiableMap(healthMap);
 
         Map<EntityType<?>, Double> damageMap = new HashMap<>();
-        damageMap.put(EntityTypes.ZOMBIE, 1.0);
+        damageMap.put(EntityTypes.ZOMBIE, 2.0);
         damageMap.put(EntityTypes.ZOMBIE_VILLAGER, 2.0);
         damageMap.put(EntityTypes.SPIDER, 0.5);
         damageMap.put(EntityTypes.SKELETON, 0.5);
