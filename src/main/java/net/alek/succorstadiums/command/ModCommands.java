@@ -40,13 +40,23 @@ public class ModCommands {
                                         )
                                 )
                                 .then(Commands.literal("villagers")
-                                        .then(Commands.literal("Marvin")
+                                        .then(Commands.literal("marvin")
                                                 .executes(ModCommands::executeSummonMarvin)
                                         )
                                 )
                                 .then(Commands.literal("villagers")
-                                        .then(Commands.literal("Bimbleton")
+                                        .then(Commands.literal("bimbleton")
                                                 .executes(ModCommands::executeSummonBimbleton)
+                                        )
+                                )
+                                .then(Commands.literal("villagers")
+                                        .then(Commands.literal("bartholomew")
+                                                .executes(ModCommands::executeSummonBartholomew)
+                                        )
+                                )
+                                .then(Commands.literal("villagers")
+                                        .then(Commands.literal("propung")
+                                                .executes(ModCommands::executeSummonPropung)
                                         )
                                 )
                                 // Dev subcommand group
@@ -117,6 +127,32 @@ public class ModCommands {
         CustomVillagerSpawner.spawnBimbleton(level, pos, yaw);
 
         source.sendSuccess(() -> Component.literal("Spawned Ghimple Bimbleton"), true);
+        return 1;
+    }
+
+    // Helper method for the villagers bartholomew command
+    private static int executeSummonBartholomew(CommandContext<CommandSourceStack> ctx) {
+        CommandSourceStack source = ctx.getSource();
+        ServerLevel level = source.getLevel();
+        Vec3 pos = source.getPosition();
+        float yaw = source.getEntity() instanceof ServerPlayer player ? player.getYRot() : source.getRotation().x;
+
+        CustomVillagerSpawner.spawnBartholomew(level, pos, yaw);
+
+        source.sendSuccess(() -> Component.literal("Spawned Bartholomew Bale"), true);
+        return 1;
+    }
+
+    // Helper method for the villagers propung command
+    private static int executeSummonPropung(CommandContext<CommandSourceStack> ctx) {
+        CommandSourceStack source = ctx.getSource();
+        ServerLevel level = source.getLevel();
+        Vec3 pos = source.getPosition();
+        float yaw = source.getEntity() instanceof ServerPlayer player ? player.getYRot() : source.getRotation().x;
+
+        CustomVillagerSpawner.spawnPropung(level, pos, yaw);
+
+        source.sendSuccess(() -> Component.literal("Spawned Propung Giewish"), true);
         return 1;
     }
 

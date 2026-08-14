@@ -53,10 +53,10 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
 
         exporter.accept(ModLootTables.FARMBIE_LOOT,
                 LootTable.lootTable()
-                        // 83% chance to drop 0-4 rotten flesh
+                        // 75% chance to drop 0-4 rotten flesh
                         .withPool(
                                 LootPool.lootPool()
-                                        .when(LootItemRandomChanceCondition.randomChance(0.83f))
+                                        .when(LootItemRandomChanceCondition.randomChance(0.75f))
                                         .add(
                                                 LootItem.lootTableItem(Items.ROTTEN_FLESH)
                                                         .apply(SetItemCountFunction.setCount(

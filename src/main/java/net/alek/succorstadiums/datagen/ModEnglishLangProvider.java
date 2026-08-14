@@ -173,11 +173,12 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.plant_powder.lore", "DO NOT CONSUME");
 
         // Food Tooltip translations
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_0", "\uD83D\uDEE1 Resistance II | 0:45 | 30%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_1", "❤ Regeneration I | 0:15 | 85%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_2", "+ Health Boost I | 0:15 | 5%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_3", "- Weakness I | 0:08 | 75%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_4", "⚓ Slowness IV | 0:10 | 35%");
+        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_0", "Resistance II | 0:45 | 30%");
+        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_1", "Health Boost I | 0:30 | 10%");
+        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_2", "Regeneration I | 0:15 | 75%");
+        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_3", "Slowness IV | 0:14 | 30%");
+        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_4", "Weakness I | 0:12 | 65%");
+        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_5", "Paralysis I | 0:08 | 8%");
         translationBuilder.add("item.succorstadiums.chicken_stew.tooltip", "\uD83C\uDF56 Hunger I | 0:20 | 10%");
         translationBuilder.add("item.succorstadiums.rotten_stew.tooltip", "\uD83C\uDF56 Hunger II | 0:20 | 30%");
 

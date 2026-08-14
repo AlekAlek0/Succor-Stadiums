@@ -114,7 +114,7 @@ public class ModItems {
 
     public static final Item SWORD_OF_THE_FOREST = registerItem("sword_of_the_forest", properties -> new SwordOfTheForestItem(
             properties.sword(SWORD_OF_THE_FOREST_TOOL_MATERIAL,
-                    0.5F,
+                    2.0F,
                     -3.2F)
     ));
 

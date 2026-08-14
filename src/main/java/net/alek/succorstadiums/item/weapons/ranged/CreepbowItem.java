@@ -87,12 +87,11 @@ public class CreepbowItem extends BowItem {
         Vec3 center = livingEntity.position().add(0, 1.0, 0);
 
         if (level instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(
-                    ParticleTypes.EXPLOSION,
-                    center.x, center.y, center.z,
-                    1, 0.0, 0.0, 0.0, 0.0
-            );
-
+            for (int explosion_count = 0; explosion_count < 3; explosion_count++) {
+                serverLevel.sendParticles(ParticleTypes.EXPLOSION,
+                        center.x, center.y, center.z, 1, 0.0, 0.0, 0.0, 0.0
+                );
+            }
             applyMobOnlyExplosion(serverLevel, livingEntity, center);
         }
 

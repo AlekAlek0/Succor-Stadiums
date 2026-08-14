@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.food;
 
+import net.alek.succorstadiums.effect.ModEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
@@ -24,16 +25,19 @@ public class ModFoods {
                     new MobEffectInstance(MobEffects.RESISTANCE, 900, 1), 0.3f))
 
             .onConsume(new ApplyStatusEffectsConsumeEffect(
-                    new MobEffectInstance(MobEffects.REGENERATION, 300, 0), 0.85f))
+                    new MobEffectInstance(MobEffects.HEALTH_BOOST, 600, 0), 0.1f))
 
             .onConsume(new ApplyStatusEffectsConsumeEffect(
-                    new MobEffectInstance(MobEffects.HEALTH_BOOST, 300, 0), 0.05f))
+                    new MobEffectInstance(MobEffects.REGENERATION, 300, 0), 0.75f))
 
             .onConsume(new ApplyStatusEffectsConsumeEffect(
-                    new MobEffectInstance(MobEffects.SLOWNESS, 200, 3), 0.35f))
+                    new MobEffectInstance(MobEffects.SLOWNESS, 280, 3), 0.30f))
 
             .onConsume(new ApplyStatusEffectsConsumeEffect(
-                    new MobEffectInstance(MobEffects.WEAKNESS, 160, 0), 0.75f))
+                    new MobEffectInstance(MobEffects.WEAKNESS, 240, 0), 0.65f))
+
+            .onConsume(new ApplyStatusEffectsConsumeEffect(
+                    new MobEffectInstance(ModEffects.PARALYSIS, 160, 0), 0.08f))
             .build();
 
     // Create a new food called creeper salve with the following nutrition and saturation

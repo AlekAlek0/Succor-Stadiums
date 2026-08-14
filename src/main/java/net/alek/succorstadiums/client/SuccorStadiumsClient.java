@@ -365,6 +365,10 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_4")
                                 .withStyle(ChatFormatting.RED)
                 );
+                tooltip.add(7,
+                        Component.translatable("item.succorstadiums.ghramble_bapple.tooltip_5")
+                                .withStyle(ChatFormatting.RED)
+                );
             }
             if (stack.is(ModItems.PLANT_POWDER)) {
                 tooltip.add(1,
