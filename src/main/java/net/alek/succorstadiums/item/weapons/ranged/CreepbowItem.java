@@ -34,7 +34,7 @@ public class CreepbowItem extends BowItem {
     }
 
     @Override
-    public boolean releaseUsing(final ItemStack itemStack, final Level level, final LivingEntity entity, final int remainingTime) {
+    public boolean releaseUsing(final @NonNull ItemStack itemStack, final @NonNull Level level, final @NonNull LivingEntity entity, final int remainingTime) {
         if (!(entity instanceof Player player)) {
             return false;
         }
