@@ -1,20 +1,21 @@
 package net.alek.succorstadiums.util;
 
-import net.alek.succorstadiums.item.ModItems;
-import net.minecraft.core.Holder;
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.world.entity.npc.villager.VillagerType;
+import net.minecraft.world.entity.npc.villager.Villager;
+import net.minecraft.world.item.trading.MerchantOffers;
+import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityTypes;
-import net.minecraft.world.entity.npc.villager.Villager;
-import net.minecraft.world.entity.npc.villager.VillagerType;
-import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.trading.ItemCost;
-import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.item.trading.MerchantOffers;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.core.Holder;
+
+import net.alek.succorstadiums.item.ModItems;
 
 import java.util.Optional;
 
@@ -157,6 +158,12 @@ public class CustomVillagerSpawner {
         offers.add(new MerchantOffer(
                 new ItemCost(Items.COPPER_NUGGET, 32),
                 new ItemStack(ModItems.FLINT_CHARM, 1),
+                9999999, 0, 0.0F
+        ));
+
+        offers.add(new MerchantOffer(
+                new ItemCost(Items.COPPER_NUGGET, 24),
+                new ItemStack(ModItems.SPROUT_SICKLE, 1),
                 9999999, 0, 0.0F
         ));
 
