@@ -5,6 +5,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 
 public record OpenMobArenaPayload() implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<OpenMobArenaPayload> TYPE =
@@ -13,7 +14,7 @@ public record OpenMobArenaPayload() implements CustomPacketPayload {
     public static final StreamCodec<FriendlyByteBuf, OpenMobArenaPayload> CODEC = StreamCodec.unit(new OpenMobArenaPayload());
 
     @Override
-    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+    public CustomPacketPayload.@NonNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 }

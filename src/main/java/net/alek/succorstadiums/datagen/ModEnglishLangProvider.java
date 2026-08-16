@@ -76,7 +76,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.CREEPBOW, "Creepbow");
 
         // Food translations
-        translationBuilder.add(ModItems.GRAMBLE_BAPPLE, "Ghramble Bapple");
+        translationBuilder.add(ModItems.GHRAMBLE_BAPPLE, "Ghramble Bapple");
         translationBuilder.add(ModItems.CREEPER_SALVE, "Creeper Salve");
         translationBuilder.add(ModItems.PLANT_POWDER, "Plant Powder");
         translationBuilder.add(ModItems.BEEF_STEW, "Beef Stew");

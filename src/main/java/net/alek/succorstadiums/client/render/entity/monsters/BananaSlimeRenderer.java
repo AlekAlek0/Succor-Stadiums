@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.entity.SlimeRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.SlimeRenderState;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 
 public class BananaSlimeRenderer extends SlimeRenderer {
     public BananaSlimeRenderer(EntityRendererProvider.Context context) {
@@ -20,7 +21,7 @@ public class BananaSlimeRenderer extends SlimeRenderer {
             );
 
     @Override
-    public Identifier getTextureLocation(SlimeRenderState state) {
+    public @NonNull Identifier getTextureLocation(@NonNull SlimeRenderState state) {
         return TEXTURE;
     }
 

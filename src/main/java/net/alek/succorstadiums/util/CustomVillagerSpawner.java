@@ -226,7 +226,7 @@ public class CustomVillagerSpawner {
 
         offers.add(new MerchantOffer(
                 new ItemCost(Items.COPPER_NUGGET, 4),
-                new ItemStack(ModItems.GRAMBLE_BAPPLE, 2),
+                new ItemStack(ModItems.GHRAMBLE_BAPPLE, 2),
                 9999999, 0, 0.0F
         ));
 
@@ -406,7 +406,7 @@ public class CustomVillagerSpawner {
 
         offers.add(new MerchantOffer(
                 new ItemCost(Items.POISONOUS_POTATO, 2),
-                new ItemStack(ModItems.GRAMBLE_BAPPLE, 2),
+                new ItemStack(ModItems.GHRAMBLE_BAPPLE, 2),
                 9999999, 0, 0.0F
         ));
 

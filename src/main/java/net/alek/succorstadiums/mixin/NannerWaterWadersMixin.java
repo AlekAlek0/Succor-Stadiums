@@ -27,7 +27,6 @@ public class NannerWaterWadersMixin {
 
     // Helper method to get the block under the player, and suppress level resource warning
     @Unique
-    @SuppressWarnings("resource")
     private Block getGroundBlock(Player player) {
 
         // Get the pos of the players feet and the pos below them

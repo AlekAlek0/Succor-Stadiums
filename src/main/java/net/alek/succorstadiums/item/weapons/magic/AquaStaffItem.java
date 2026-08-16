@@ -19,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,7 +76,7 @@ public class AquaStaffItem extends Item {
     }
 
     @Override
-    public InteractionResult use(Level level, Player user, InteractionHand hand) {
+    public @NonNull InteractionResult use(Level level, @NonNull Player user, @NonNull InteractionHand hand) {
 
         // Check to see if level is client sided if true return a pass value for the interaction result
         if (level.isClientSide()) return InteractionResult.PASS;

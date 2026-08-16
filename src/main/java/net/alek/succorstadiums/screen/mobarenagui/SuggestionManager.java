@@ -48,7 +48,7 @@ public class SuggestionManager {
                     .collect(Collectors.toList());
 
             if (!filteredSuggestions.isEmpty()) {
-                String first = filteredSuggestions.get(0);
+                String first = filteredSuggestions.getFirst();
                 editBox.setSuggestion(first.startsWith(textToFilter) ? first.substring(textToFilter.length()) : null);
             } else {
                 editBox.setSuggestion(null);

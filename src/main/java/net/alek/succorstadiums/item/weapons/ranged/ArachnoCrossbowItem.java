@@ -5,6 +5,7 @@ import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
+import org.jspecify.annotations.NonNull;
 
 public class ArachnoCrossbowItem extends CrossbowItem {
     public ArachnoCrossbowItem(Properties properties) {
@@ -17,7 +18,7 @@ public class ArachnoCrossbowItem extends CrossbowItem {
 
     // Remove enchantment glint from item
     @Override
-    public boolean isFoil(ItemStack itemStack) {
+    public boolean isFoil(@NonNull ItemStack itemStack) {
         return false;
     }
 }

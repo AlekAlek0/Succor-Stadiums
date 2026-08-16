@@ -7,6 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.damagesource.DamageScaling;
 import net.minecraft.world.damagesource.DamageType;
+import org.jspecify.annotations.NonNull;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -30,7 +31,7 @@ public class ModDamageTypeProvider extends FabricDynamicRegistryProvider {
     }
 
     @Override
-    public String getName() {
+    public @NonNull String getName() {
         return "Damage Types";
     }
 }

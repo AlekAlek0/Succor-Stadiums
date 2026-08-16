@@ -4,13 +4,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class BownanaItem extends BowItem {
     }
 
     @Override
-    public boolean releaseUsing(final ItemStack itemStack, final Level level, final LivingEntity entity, final int remainingTime) {
+    public boolean releaseUsing(final @NonNull ItemStack itemStack, final @NonNull Level level, final @NonNull LivingEntity entity, final int remainingTime) {
         if (!(entity instanceof Player player)) {
             return false;
         } else {
@@ -38,14 +38,13 @@ public class BownanaItem extends BowItem {
                     return false;
                 } else {
                     List<ItemStack> firedProjectiles = draw(itemStack, projectile, player);
-                    if (level instanceof ServerLevel) {
-                        ServerLevel serverLevel = (ServerLevel)level;
+                    if (level instanceof ServerLevel serverLevel) {
                         if (!firedProjectiles.isEmpty()) {
-                            this.shoot(serverLevel, player, player.getUsedItemHand(), itemStack, firedProjectiles, pow * VELOCITY_MULTIPLIER, 1.0F, pow == 1.0F, (LivingEntity)null);
+                            this.shoot(serverLevel, player, player.getUsedItemHand(), itemStack, firedProjectiles, pow * VELOCITY_MULTIPLIER, 1.0F, pow == 1.0F, null);
                         }
                     }
 
-                    level.playSound((Entity)null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + pow * 0.5F);
+                    level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + pow * 0.5F);
                     player.awardStat(Stats.ITEM_USED.get(this));
                     return true;
                 }

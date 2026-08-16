@@ -136,7 +136,7 @@ public class ModItems {
     public static final Item CREEPBOW = registerItem("creepbow", properties -> new CreepbowItem(properties
             .durability(450)));
 
-    public static final Item GRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
+    public static final Item GHRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
             .useCooldown(5)));
     public static final Item CREEPER_SALVE = registerItem("creeper_salve", properties -> new CreeperSalveItem(properties.food(ModFoods.CREEPER_SALVE, ModFoods.CREEPER_SALVE_CONSUMABLE)
             .useCooldown(12)

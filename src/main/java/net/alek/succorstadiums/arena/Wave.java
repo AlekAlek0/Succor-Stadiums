@@ -31,7 +31,7 @@ public class Wave {
     // Mutator method to set the wave's custom name
     public void setName(String name) { this.name = (name == null || name.isBlank()) ? null : name; }
 
-    // Accessor method to get this wave's raw delay override (may be null)
+    // Accessor method to get this wave's raw delay override (maybe null)
     public Integer getDelaySeconds() { return delaySeconds; }
 
     // Mutator method to set this wave's delay override (null clears it, falling back to the arena default)

@@ -352,7 +352,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
             }
 
             // Food Tooltips
-            if (stack.is(ModItems.GRAMBLE_BAPPLE)) {
+            if (stack.is(ModItems.GHRAMBLE_BAPPLE)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.ghramble_bapple.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)

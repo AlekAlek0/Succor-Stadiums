@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.CreeperRenderState;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 
 public class GrassCreeperRenderer extends CreeperRenderer {
     public GrassCreeperRenderer(EntityRendererProvider.Context context) {
@@ -18,7 +19,7 @@ public class GrassCreeperRenderer extends CreeperRenderer {
             );
 
     @Override
-    public Identifier getTextureLocation(CreeperRenderState state) {
+    public @NonNull Identifier getTextureLocation(@NonNull CreeperRenderState state) {
         return TEXTURE;
     }
 }

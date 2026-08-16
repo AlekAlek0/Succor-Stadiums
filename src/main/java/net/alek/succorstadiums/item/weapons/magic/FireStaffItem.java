@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.jspecify.annotations.NonNull;
 
 public class FireStaffItem extends Item {
 
@@ -20,7 +21,7 @@ public class FireStaffItem extends Item {
     }
 
     @Override
-    public InteractionResult use(Level level, Player user, InteractionHand hand) {
+    public @NonNull InteractionResult use(Level level, @NonNull Player user, @NonNull InteractionHand hand) {
 
         // Check to see if level is client sided if so return a pass value for the interaction result
         if (level.isClientSide()) {
