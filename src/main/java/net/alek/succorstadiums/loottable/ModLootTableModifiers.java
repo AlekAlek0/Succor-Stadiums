@@ -25,7 +25,7 @@ public class ModLootTableModifiers {
             ResourceKey.create(Registries.LOOT_TABLE, Identifier.withDefaultNamespace("entities/creeper"));
 
 
-    public static void register() {
+    public static void registerModLootTableModifiers() {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             if (source.isBuiltin() && key.equals(ZOMBIE_LOOT)) {
                 // 66% chance to drop 3-5 rotten flesh

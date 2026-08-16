@@ -52,9 +52,9 @@ public class SuccorStadiums implements ModInitializer {
 		ModCreativeModeTabs.registerModCreativeModeTabs();
 		ModCommands.registerModCommands();
 		ModSounds.registerModSounds();
-		ModEffects.register();
+		ModEffects.registerModEffects();
 		ModItems.registerModItems();
-		ModConsumeEffects.register();
+		ModConsumeEffects.registerModConsumeEffects();
 		ModCriteria.registerModCriteria();
 
 		// Register mod entity types and attributes
@@ -62,7 +62,7 @@ public class SuccorStadiums implements ModInitializer {
 		ModEntityAttributes.register();
 
 		// Register loot table modifiers for vanilla mobs
-		ModLootTableModifiers.register();
+		ModLootTableModifiers.registerModLootTableModifiers();
 
 		// Register item network packets
 		PayloadTypeRegistry.clientboundPlay().register(ResurrectionAmuletPayload.TYPE, ResurrectionAmuletPayload.CODEC);

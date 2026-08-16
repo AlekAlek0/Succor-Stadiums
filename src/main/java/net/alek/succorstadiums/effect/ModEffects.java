@@ -18,7 +18,7 @@ public class ModEffects {
             new ParalysisEffect()
     );
 
-    public static void register() {
+    public static void registerModEffects() {
         SuccorStadiums.LOGGER.info("Registering Mod Effects for " + SuccorStadiums.MOD_ID);
 
         AttackEntityCallback.EVENT.register((player, world, hand, target, hitResult) -> {

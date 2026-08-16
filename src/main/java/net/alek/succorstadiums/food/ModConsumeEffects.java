@@ -14,7 +14,7 @@ public class ModConsumeEffects {
     public static final ConsumeEffect.Type<ExplodeConsumeEffect> PLANT_POWDER_TYPE =
             new ConsumeEffect.Type<>(ExplodeConsumeEffect.CODEC, ExplodeConsumeEffect.STREAM_CODEC);
 
-    public static void register() {
+    public static void registerModConsumeEffects() {
         Registry.register(
                 BuiltInRegistries.CONSUME_EFFECT_TYPE,
                 Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "heal"),
