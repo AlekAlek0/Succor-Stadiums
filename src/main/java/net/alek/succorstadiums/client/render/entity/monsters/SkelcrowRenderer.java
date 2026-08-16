@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.StrayRenderer;
 import net.minecraft.client.renderer.entity.layers.SkeletonClothingLayer;
 import net.minecraft.client.renderer.entity.state.SkeletonRenderState;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
 
 public class SkelcrowRenderer extends StrayRenderer {
 
@@ -19,13 +20,13 @@ public class SkelcrowRenderer extends StrayRenderer {
     public SkelcrowRenderer(final EntityRendererProvider.Context context) {
         super(context);
         this.layers.removeIf(layer -> layer instanceof SkeletonClothingLayer);
-        this.addLayer(new SkeletonClothingLayer(this, context.getModelSet(), ModelLayers.STRAY_OUTER_LAYER, OVERLAY));
+        this.addLayer(new SkeletonClothingLayer<>(this, context.getModelSet(), ModelLayers.STRAY_OUTER_LAYER, OVERLAY));
     }
 
 
     @Override
-    public Identifier getTextureLocation(final SkeletonRenderState state) {
+    public @NonNull Identifier getTextureLocation(final @NonNull SkeletonRenderState state) {
         return TEXTURE;
-    };
+    }
 
 }
