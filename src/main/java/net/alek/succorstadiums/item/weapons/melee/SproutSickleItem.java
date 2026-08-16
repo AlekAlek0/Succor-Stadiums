@@ -50,8 +50,8 @@ public class SproutSickleItem extends Item {
                         .add(
                                 Attributes.SWEEPING_DAMAGE_RATIO,
                                 new AttributeModifier(
-                                        Identifier.withDefaultNamespace("sprout_sickle_sweeping_ratio"),
-                                        0.25,
+                                        Identifier.withDefaultNamespace("sprout_sickle_sweeping_damage_ratio"),
+                                        0.75,
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 EquipmentSlotGroup.MAINHAND
@@ -59,7 +59,7 @@ public class SproutSickleItem extends Item {
                         .add(
                                 Attributes.ENTITY_INTERACTION_RANGE,
                                 new AttributeModifier(
-                                        Identifier.withDefaultNamespace("sprout_sickle_range"),
+                                        Identifier.withDefaultNamespace("sprout_sickle_entity_interaction_range"),
                                         -0.125,
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
@@ -70,7 +70,7 @@ public class SproutSickleItem extends Item {
 
     @Override
     public void hurtEnemy(@NonNull ItemStack itemStack, @NonNull LivingEntity mob, LivingEntity attacker) {
-        if (attacker.getRandom().nextFloat() < 0.10F) {
+        if (attacker.getRandom().nextFloat() < 0.08F) {
             mob.addEffect(new MobEffectInstance(ModEffects.PARALYSIS, 60, 0));
         }
     }

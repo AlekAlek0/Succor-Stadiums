@@ -1,24 +1,45 @@
 package net.alek.succorstadiums.item.weapons.melee;
 
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
-import org.jspecify.annotations.NonNull;
 
 public class SwordOfTheForestItem extends Item {
     public SwordOfTheForestItem(Properties properties) {
-        super(properties.delayedComponent(DataComponents.ENCHANTMENTS, (context) -> {
-            ItemEnchantments.Mutable mutable = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
-            mutable.set(context.getOrThrow(Enchantments.SWEEPING_EDGE), 1);
-            return mutable.toImmutable();
-        }));
-    }
-
-    // Remove enchantment glint from item
-    @Override
-    public boolean isFoil(@NonNull ItemStack itemStack) {
-        return false;
+        super(properties.component(
+                DataComponents.ATTRIBUTE_MODIFIERS,
+                ItemAttributeModifiers.builder()
+                        .add(
+                                Attributes.ATTACK_DAMAGE,
+                                new AttributeModifier(
+                                        Item.BASE_ATTACK_DAMAGE_ID,
+                                        2.5,
+                                        AttributeModifier.Operation.ADD_VALUE
+                                ),
+                                EquipmentSlotGroup.MAINHAND
+                        )
+                        .add(
+                                Attributes.ATTACK_SPEED,
+                                new AttributeModifier(
+                                        Item.BASE_ATTACK_SPEED_ID,
+                                        -3.2,
+                                        AttributeModifier.Operation.ADD_VALUE
+                                ),
+                                EquipmentSlotGroup.MAINHAND
+                        )
+                        .add(
+                                Attributes.SWEEPING_DAMAGE_RATIO,
+                                new AttributeModifier(
+                                        Identifier.withDefaultNamespace("sword_of_the_forest_sweeping_damage_ratio"),
+                                        0.5,
+                                        AttributeModifier.Operation.ADD_VALUE
+                                ),
+                                EquipmentSlotGroup.MAINHAND
+                        ).build())
+        );
     }
 }

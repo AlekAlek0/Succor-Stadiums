@@ -156,13 +156,13 @@ public class CustomVillagerSpawner {
         ));
 
         offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 32),
+                new ItemCost(Items.COPPER_NUGGET, 36),
                 new ItemStack(ModItems.FLINT_CHARM, 1),
                 9999999, 0, 0.0F
         ));
 
         offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 24),
+                new ItemCost(Items.COPPER_NUGGET, 32),
                 new ItemStack(ModItems.SPROUT_SICKLE, 1),
                 9999999, 0, 0.0F
         ));

@@ -145,10 +145,10 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.bananner_blade.lore", "All though it resembles the banana fruit this sturdy blade is actually made of from Baldnana wood.");
         translationBuilder.add("item.succorstadiums.fumblebringer_fork.lore", "This weapon was once used to bring upon \"The Great Fumbling\".");
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.lore", "Recommended for big hoards.");
-        translationBuilder.add("item.succorstadiums.sprout_sickle.lore", "Chance to Paralyze enemies.");
+        translationBuilder.add("item.succorstadiums.sprout_sickle.lore", "Inflicts Paralysis…");
 
         // Melee Weapon Tooltip translations
-        translationBuilder.add("item.succorstadiums.sprout_sickle.tooltip_0", "Paralysis | 0:03 | 10%");
+        translationBuilder.add("item.succorstadiums.sprout_sickle.tooltip_0", "Paralysis | 0:03 | 8%");
 
         // Magic Weapon Lore translations
         translationBuilder.add("item.succorstadiums.fire_staff.lore", "Fireball.");
