@@ -16,17 +16,14 @@ public class SkelcrowRenderer extends StrayRenderer {
     private static final Identifier OVERLAY =
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "textures/entity/skelcrow/skelcrow_overlay.png");
 
-
     public SkelcrowRenderer(final EntityRendererProvider.Context context) {
         super(context);
         this.layers.removeIf(layer -> layer instanceof SkeletonClothingLayer);
         this.addLayer(new SkeletonClothingLayer<>(this, context.getModelSet(), ModelLayers.STRAY_OUTER_LAYER, OVERLAY));
     }
 
-
     @Override
     public @NonNull Identifier getTextureLocation(final @NonNull SkeletonRenderState state) {
         return TEXTURE;
     }
-
 }
