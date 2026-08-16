@@ -118,6 +118,12 @@ public class ModItems {
                     -3.2F)
     ));
 
+    public static final Item SPROUT_SICKLE = registerItem("sprout_sickle", properties -> new SproutSickleItem(
+            properties.sword(SPROUT_SICKLE_TOOL_MATERIAL,
+                    0F,
+                    0F)
+    ));
+
     public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties
             .durability(300)));
     public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaStaffItem(properties

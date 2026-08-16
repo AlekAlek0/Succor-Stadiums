@@ -50,4 +50,13 @@ public class ModToolMaterials {
             null
     );
 
+    public static final ToolMaterial SPROUT_SICKLE_TOOL_MATERIAL = new ToolMaterial(
+            BlockTags.INCORRECT_FOR_WOODEN_TOOL,
+            420,
+            0,
+            0,
+            15,
+            null
+    );
+
 }

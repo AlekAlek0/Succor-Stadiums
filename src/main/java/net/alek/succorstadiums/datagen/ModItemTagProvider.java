@@ -29,7 +29,9 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
     protected void addTags(HolderLookup.@NonNull Provider wrapperLookup) {
         builder(ItemTags.SWORDS)
                 .add(ResourceKey.create(Registries.ITEM,
-                        Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "sword_of_the_forest")));
+                        Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "sword_of_the_forest")))
+                .add(ResourceKey.create(Registries.ITEM,
+                        Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "sprout_sickle")));
 
         builder(ItemTags.SPEARS)
                 .add(ResourceKey.create(Registries.ITEM,

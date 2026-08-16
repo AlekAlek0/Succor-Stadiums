@@ -292,6 +292,18 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
+            if (stack.is(ModItems.SPROUT_SICKLE)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.sprout_sickle.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
+            if (stack.is(ModItems.SPROUT_SICKLE)) {
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.sprout_sickle.tooltip_0")
+                                .withStyle(ChatFormatting.RED)
+                );
+            }
             if (stack.is(ModItems.FIRE_STAFF)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.fire_staff.lore")
