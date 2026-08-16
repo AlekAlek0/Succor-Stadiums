@@ -150,7 +150,7 @@ public class CustomVillagerSpawner {
         ));
 
         offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 32),
+                new ItemCost(Items.COPPER_NUGGET, 24),
                 new ItemStack(ModItems.SWORD_OF_THE_FOREST, 1),
                 9999999, 0, 0.0F
         ));
