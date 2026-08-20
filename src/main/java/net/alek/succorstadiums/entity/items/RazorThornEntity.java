@@ -1,5 +1,7 @@
 package net.alek.succorstadiums.entity.items;
 
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.entity.LivingEntity;
@@ -46,6 +48,11 @@ public class RazorThornEntity extends AbstractArrow implements ItemSupplier {
     @Override
     protected @NonNull ItemStack getDefaultPickupItem() {
         return new ItemStack(ModItems.RAZOR_THORN);
+    }
+
+    @Override
+    protected @NonNull SoundEvent getDefaultHitGroundSoundEvent() {
+        return SoundEvents.EMPTY;
     }
 
     @Override
