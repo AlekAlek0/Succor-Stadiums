@@ -5,6 +5,7 @@ import net.alek.succorstadiums.item.foods.CreeperSalveItem;
 import net.alek.succorstadiums.item.weapons.melee.*;
 import net.alek.succorstadiums.item.weapons.ranged.ArachnoCrossbowItem;
 import net.alek.succorstadiums.item.weapons.ranged.CreepbowItem;
+import net.alek.succorstadiums.item.weapons.ranged.RazorThornItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -83,14 +84,14 @@ public class ModItems {
 
     public static final Item BEAN_POLE = registerItem("bean_pole", properties -> new BeanPoleItem(
             properties.sword(BEAN_POLE_TOOL_MATERIAL,
-                    0F,
-                    0F)
+                    0f,
+                    0f)
     ));
 
     public static final Item BONE_DAGGER = registerItem("bone_dagger", properties -> new BoneDaggerItem(
             properties.sword(BONE_DAGGER_TOOL_MATERIAL,
-                    0F,
-                    0F)
+                    0f,
+                    0f)
     ));
 
     public static final Item BANANNER_BLADE = registerItem("bananner_blade", properties -> new BannanerBladeItem(
@@ -101,27 +102,27 @@ public class ModItems {
 
     public static final Item FUMBLEBRINGER_FORK = registerItem("fumblebringer_fork", properties -> new FumblebringerForkItem(
             properties.spear(FUMBLEBRINGER_FORK_TOOL_MATERIAL,
-            0.65F,
-            0.50F,
-            0.6F,
-            5.0F,
-            14.0F,
-            8.0F,
-            5.1F,
-            8.0F,
-            4.6F)
+            0.65f,
+            0.50f,
+            0.6f,
+            5.0f,
+            14.0f,
+            8.0f,
+            5.1f,
+            8.0f,
+            4.6f)
     ));
 
     public static final Item SWORD_OF_THE_FOREST = registerItem("sword_of_the_forest", properties -> new SwordOfTheForestItem(
             properties.sword(SWORD_OF_THE_FOREST_TOOL_MATERIAL,
-                    0F,
-                    0F)
+                    0f,
+                    0f)
     ));
 
     public static final Item SPROUT_SICKLE = registerItem("sprout_sickle", properties -> new SproutSickleItem(
             properties.sword(SPROUT_SICKLE_TOOL_MATERIAL,
-                    0F,
-                    0F)
+                    0f,
+                    0f)
     ));
 
     public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties
@@ -135,6 +136,11 @@ public class ModItems {
             .durability(450)));
     public static final Item CREEPBOW = registerItem("creepbow", properties -> new CreepbowItem(properties
             .durability(450)));
+    public static final Item RAZOR_THORN = registerItem("razor_thorn", properties -> new RazorThornItem(
+            properties.sword(RAZOR_THORN_TOOL_MATERIAL,
+                    0.5f,
+                    -2f)
+    ));
 
     public static final Item GHRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
             .useCooldown(5)));

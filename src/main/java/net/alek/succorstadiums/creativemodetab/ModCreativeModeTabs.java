@@ -87,6 +87,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.BOWNANA);
                         output.accept(ModItems.ARACHNO_CROSSBOW);
                         output.accept(ModItems.CREEPBOW);
+                        output.accept(ModItems.RAZOR_THORN);
 
 
 

@@ -74,6 +74,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.BOWNANA, "§eBownana");
         translationBuilder.add(ModItems.ARACHNO_CROSSBOW, "§4Arachno Crossbow");
         translationBuilder.add(ModItems.CREEPBOW, "Creepbow");
+        translationBuilder.add(ModItems.RAZOR_THORN, "Razor Thorn");
 
         // Food translations
         translationBuilder.add(ModItems.GHRAMBLE_BAPPLE, "Ghramble Bapple");
@@ -199,6 +200,9 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        // Item entity translations
+        translationBuilder.add("entity.succorstadiums.razor_thorn", "Razor Thorn");
 
         // Entity translations
         translationBuilder.add("entity.succorstadiums.banana_slime", "Banana Slime");

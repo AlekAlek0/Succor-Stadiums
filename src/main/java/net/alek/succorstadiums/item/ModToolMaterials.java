@@ -59,4 +59,13 @@ public class ModToolMaterials {
             null
     );
 
+    public static final ToolMaterial RAZOR_THORN_TOOL_MATERIAL = new ToolMaterial(
+            BlockTags.INCORRECT_FOR_WOODEN_TOOL,
+            0,
+            0,
+            0,
+            1,
+            null
+    );
+
 }

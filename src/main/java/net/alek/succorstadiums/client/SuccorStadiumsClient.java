@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.client;
 
+import net.alek.succorstadiums.client.render.entity.items.RazorThornEntityRenderer;
 import net.alek.succorstadiums.client.render.entity.monsters.BananaSlimeRenderer;
 import net.alek.succorstadiums.client.render.entity.monsters.GrassCreeperRenderer;
 import net.alek.succorstadiums.client.render.entity.monsters.SkelcrowRenderer;
@@ -37,6 +38,8 @@ public class SuccorStadiumsClient implements ClientModInitializer {
         ModKeyBindings.registerKeyBindings();
         ScreenCloseHandler.register();
         KeyInputHandler.register();
+
+        EntityRenderers.register(ModEntityTypes.RAZOR_THORN, RazorThornEntityRenderer::new);
 
         EntityRenderers.register(ModEntityTypes.BANANA_SLIME, BananaSlimeRenderer::new);
         EntityRenderers.register(ModEntityTypes.FARMBIE, FarmbieRenderer::new);
