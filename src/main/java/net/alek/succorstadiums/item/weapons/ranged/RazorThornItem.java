@@ -40,6 +40,11 @@ public class RazorThornItem extends Item {
             level.addFreshEntity(knife);
         }
 
+        // Remove 1 item stack when used
+        if (!player.getAbilities().instabuild) {
+            itemStack.shrink(1);
+        }
+
         // 1% chance to get one razor thorn back on use
         if (level.getRandom().nextFloat() < 0.01f) {
             player.getInventory().add(new ItemStack(this));
