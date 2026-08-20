@@ -169,7 +169,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.razor_thorn.lore", "Just a sharp branch.");
 
         // Ranged Weapon Tooltip translations
-        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_0", "1% Chance for free a knife.");
+        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_0", "1% Chance for free a thorn.");
         translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_1", "When Thrown:");
         translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_2", " 1.5 Attack Damage 3x");
 
