@@ -353,6 +353,26 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
+            if (stack.is(ModItems.RAZOR_THORN)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.razor_thorn.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.razor_thorn.tooltip_0")
+                                .withStyle(ChatFormatting.DARK_PURPLE)
+                );
+                tooltip.add(4, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.razor_thorn.tooltip_1")
+                                .withStyle(ChatFormatting.GRAY)
+                );
+                tooltip.add(6,
+                        Component.translatable("item.succorstadiums.razor_thorn.tooltip_2")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+            }
 
             // Food Tooltips
             if (stack.is(ModItems.GHRAMBLE_BAPPLE)) {

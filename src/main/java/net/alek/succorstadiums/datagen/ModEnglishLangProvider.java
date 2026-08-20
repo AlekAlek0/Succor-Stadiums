@@ -166,9 +166,12 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Ranged Weapon Lore translations
         translationBuilder.add("item.succorstadiums.bownana.lore", "Nana Nana.");
         translationBuilder.add("item.succorstadiums.arachno_crossbow.lore", "Slow but powerful, a promising ranged option.");
+        translationBuilder.add("item.succorstadiums.razor_thorn.lore", "Just a sharp branch.");
 
         // Ranged Weapon Tooltip translations
-        //--------------------------
+        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_0", "1% Chance for free a knife.");
+        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_1", "When Thrown:");
+        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_2", " 1.5 Attack Damage 3x");
 
         // Food Lore translations
         translationBuilder.add("item.succorstadiums.ghramble_bapple.lore", "Ghramble is my favorite bapple.");
