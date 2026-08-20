@@ -136,11 +136,7 @@ public class ModItems {
             .durability(450)));
     public static final Item CREEPBOW = registerItem("creepbow", properties -> new CreepbowItem(properties
             .durability(450)));
-    public static final Item RAZOR_THORN = registerItem("razor_thorn", properties -> new RazorThornItem(
-            properties.sword(RAZOR_THORN_TOOL_MATERIAL,
-                    0.5f,
-                    -2f)
-    ));
+    public static final Item RAZOR_THORN = registerItem("razor_thorn", properties -> new RazorThornItem(properties));
 
     public static final Item GHRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
             .useCooldown(5)));
