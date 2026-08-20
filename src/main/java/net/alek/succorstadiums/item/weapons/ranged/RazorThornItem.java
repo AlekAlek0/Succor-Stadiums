@@ -31,7 +31,7 @@ public class RazorThornItem extends Item {
         for (int i = 0; i < PROJECTILE_COUNT; i++) {
 
             RazorThornEntity knife = new RazorThornEntity(ModEntityTypes.RAZOR_THORN, player, level, stack);
-            knife.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, 2.5f, 0f);
+            knife.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, 2.5f, 5.0f);
             level.addFreshEntity(knife);
         }
 
