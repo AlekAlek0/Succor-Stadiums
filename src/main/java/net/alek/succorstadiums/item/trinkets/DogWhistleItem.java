@@ -40,17 +40,17 @@ public class DogWhistleItem extends Item {
     // Override the use method in Item
     @Override
     @NonNull
-    public InteractionResult use(Level level, @NonNull Player user, @NonNull InteractionHand hand) {
+    public InteractionResult use(Level level, @NonNull Player player, @NonNull InteractionHand hand) {
 
         // Check to see if level is not client sided
         if (!level.isClientSide()) {
 
-            // Create a new server level and get user position as a vector
+            // Create a new server level and get player position as a vector
             ServerLevel serverLevel = (ServerLevel) level;
-            Vec3 userPos = user.position();
+            Vec3 playerPos = player.position();
 
-            // Get the item in user hand as itemStack
-            ItemStack itemStack = user.getItemInHand(hand);
+            // Get the item in player hand as itemStack
+            ItemStack itemStack = player.getItemInHand(hand);
 
             int WOLF_COUNT = 3;
             for (int i = 0; i < WOLF_COUNT; i++) {
@@ -60,15 +60,15 @@ public class DogWhistleItem extends Item {
                 // If wolf is not null then set properties for wolf
                 if (wolf != null) {
 
-                    // Create offsets for the users x and z position
+                    // Create offsets for the players x and z position
                     double offsetX = (serverLevel.getRandom().nextDouble() - 0.5) * 3;
                     double offsetZ = (serverLevel.getRandom().nextDouble() - 0.5) * 3;
 
-                    // Set wolf position to the user x, y and z, with offsets
-                    wolf.setPos(userPos.x + offsetX, userPos.y, userPos.z + offsetZ);
+                    // Set wolf position to the player x, y and z, with offsets
+                    wolf.setPos(playerPos.x + offsetX, playerPos.y, playerPos.z + offsetZ);
 
                     // Set the wolf owner, tamed state, hp to 2 1/2 hearts, and target to null
-                    wolf.setOwner(user);
+                    wolf.setOwner(player);
                     wolf.setTame(true, false);
                     wolf.setHealth(4.5F);
                     wolf.setTarget(null);
@@ -96,13 +96,13 @@ public class DogWhistleItem extends Item {
 
             // Damage the item by 1 durability if damageable
             if (itemStack.isDamageableItem()) {
-                itemStack.hurtAndBreak(1, user, hand);
+                itemStack.hurtAndBreak(1, player, hand);
             }
 
 
             // Play the wolf growl sound and set a cooldown
-            level.playSound(null, userPos.x, userPos.y, userPos.z, SoundEvents.WOLF_GROWL_BABY, SoundSource.PLAYERS, 1.0F, 1.0F);
-            user.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
+            level.playSound(null, playerPos.x, playerPos.y, playerPos.z, SoundEvents.WOLF_GROWL_BABY, SoundSource.PLAYERS, 1.0F, 1.0F);
+            player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
         }
 
         // Return interaction result success

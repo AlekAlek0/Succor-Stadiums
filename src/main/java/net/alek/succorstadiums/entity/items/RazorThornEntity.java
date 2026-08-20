@@ -52,7 +52,7 @@ public class RazorThornEntity extends AbstractArrow implements ItemSupplier {
 
     @Override
     protected @NonNull SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.EMPTY;
+        return SoundEvents.CROSSBOW_HIT;
     }
 
     @Override

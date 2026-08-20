@@ -21,33 +21,32 @@ public class FireStaffItem extends Item {
     }
 
     @Override
-    public @NonNull InteractionResult use(Level level, @NonNull Player user, @NonNull InteractionHand hand) {
+    public @NonNull InteractionResult use(Level level, @NonNull Player player, @NonNull InteractionHand hand) {
 
         // Check to see if level is client sided if so return a pass value for the interaction result
         if (level.isClientSide()) {
             return InteractionResult.PASS;
         }
 
-        // Get user look vector and spawn position for fireball
-        Vec3 lookVec = user.getLookAngle();
-        Vec3 spawnPos = user.getEyePosition().add(lookVec.scale(2));
+        // Get the item in player hand as itemStack
+        ItemStack itemStack = player.getItemInHand(hand);
 
-        LargeFireball fireball = new LargeFireball(level, user, lookVec, 0);
+        // Get player look vector and spawn position for fireball
+        Vec3 lookVec = player.getLookAngle();
+        Vec3 spawnPos = player.getEyePosition().add(lookVec.scale(2));
+
+        LargeFireball fireball = new LargeFireball(level, player, lookVec, 0);
         fireball.setPos(spawnPos);
         level.addFreshEntity(fireball);
 
-        // Get the item in user hand as itemStack
-        ItemStack itemStack = user.getItemInHand(hand);
-
         // Damage the item by 1 durability if damageable
         if (itemStack.isDamageableItem()) {
-            itemStack.hurtAndBreak(1, user, hand);
+            itemStack.hurtAndBreak(1, player, hand);
         }
 
         // Set Cooldown, play a sound effect and return a success value for the interaction result
-        user.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
-
-        level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.FIRE_STAFF_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
+        player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
+        level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.FIRE_STAFF_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
         return InteractionResult.SUCCESS;
     }
 }

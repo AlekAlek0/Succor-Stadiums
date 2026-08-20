@@ -76,7 +76,7 @@ public class AquaStaffItem extends Item {
     }
 
     @Override
-    public @NonNull InteractionResult use(Level level, @NonNull Player user, @NonNull InteractionHand hand) {
+    public @NonNull InteractionResult use(Level level, @NonNull Player player   , @NonNull InteractionHand hand) {
 
         // Check to see if level is client sided if true return a pass value for the interaction result
         if (level.isClientSide()) return InteractionResult.PASS;
@@ -84,23 +84,23 @@ public class AquaStaffItem extends Item {
         // Check to see if level is a server level if false return a pass value for the interaction result
         if (!(level instanceof ServerLevel serverLevel)) return InteractionResult.PASS;
 
-        // Get user look vector and spawn position for fireball
-        Vec3 start = user.getEyePosition().add(user.getLookAngle().scale(1.5));
-        Vec3 direction = user.getLookAngle().normalize();
+        // Get the item in user hand as itemStack
+        ItemStack itemStack = player.getItemInHand(hand);
+
+        // Get player look vector and spawn position for fireball
+        Vec3 start = player.getEyePosition().add(player.getLookAngle().scale(1.5));
+        Vec3 direction = player.getLookAngle().normalize();
 
         // Create a new particle bolt
         activeBolts.add(new ParticleBolt(serverLevel, start, direction));
 
-        // Get the item in user hand as itemStack
-        ItemStack itemStack = user.getItemInHand(hand);
-
         // Damage the item by 1 durability if damageable
         if (itemStack.isDamageableItem()) {
-            itemStack.hurtAndBreak(1, user, hand);
+            itemStack.hurtAndBreak(1, player, hand);
         }
 
         // Set Cooldown, play a sound effect and return a success value for the interaction result
-        user.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
+        player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
         return InteractionResult.SUCCESS;
     }
 
