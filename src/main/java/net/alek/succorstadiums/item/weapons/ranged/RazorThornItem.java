@@ -15,6 +15,7 @@ import org.jspecify.annotations.NonNull;
 public class RazorThornItem extends Item {
 
     private static final int PROJECTILE_COUNT = 3;
+    private static final int COOLDOWN_TICKS = 40;
 
     public RazorThornItem(Properties properties) {
         super(properties);
@@ -35,6 +36,7 @@ public class RazorThornItem extends Item {
             level.addFreshEntity(knife);
         }
 
+        player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
         return InteractionResult.SUCCESS;
     }
 }
