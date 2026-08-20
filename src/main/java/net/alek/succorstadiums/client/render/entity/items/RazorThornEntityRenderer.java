@@ -1,17 +1,19 @@
 package net.alek.succorstadiums.client.render.entity.items;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
-import net.alek.succorstadiums.entity.items.RazorThornEntity;
-import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.ThrownItemRenderState;
-import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.Mth;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.world.item.ItemDisplayContext;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.util.Mth;
+import com.mojang.math.Axis;
+
+import net.alek.succorstadiums.entity.items.RazorThornEntity;
+
 import org.jspecify.annotations.NonNull;
 
 public class RazorThornEntityRenderer extends EntityRenderer<RazorThornEntity, RazorThornEntityRenderer.RazorThornRenderState> {

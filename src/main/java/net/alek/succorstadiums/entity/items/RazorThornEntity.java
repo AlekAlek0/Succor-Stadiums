@@ -1,14 +1,16 @@
 package net.alek.succorstadiums.entity.items;
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.alek.succorstadiums.item.ModItems;
-import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.entity.projectile.ItemSupplier;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.core.Direction;
+
+import net.alek.succorstadiums.item.ModItems;
+
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 

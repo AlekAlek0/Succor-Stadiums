@@ -7,8 +7,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.Item;
 
-import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.entity.items.RazorThornEntity;
+import net.alek.succorstadiums.entity.ModEntityTypes;
 
 import org.jspecify.annotations.NonNull;
 
@@ -22,20 +22,30 @@ public class RazorThornItem extends Item {
     }
 
     @Override
-    public @NonNull InteractionResult use(final Level level, final Player player, final @NonNull InteractionHand hand) {
-        ItemStack stack = player.getItemInHand(hand);
+    public @NonNull InteractionResult use(final Level level, final @NonNull Player player, final @NonNull InteractionHand hand) {
 
+        // Check to see if level is client sided if so return a pass value for the interaction result
         if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
 
+        // Get the item in player hand as itemStack
+        ItemStack itemStack = player.getItemInHand(hand);
+
+        // Spawn the given amount of razor thorn entity knives
         for (int i = 0; i < PROJECTILE_COUNT; i++) {
 
-            RazorThornEntity knife = new RazorThornEntity(ModEntityTypes.RAZOR_THORN, player, level, stack);
+            RazorThornEntity knife = new RazorThornEntity(ModEntityTypes.RAZOR_THORN, player, level, itemStack);
             knife.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, 2.5f, 5.0f);
             level.addFreshEntity(knife);
         }
 
+        // 1% chance to get one razor thorn back on use
+        if (level.getRandom().nextFloat() < 0.01f) {
+            player.getInventory().add(new ItemStack(this));
+        }
+
+        // Set cooldown and return a success value for the interaction result
         player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
         return InteractionResult.SUCCESS;
     }
