@@ -18,7 +18,7 @@ import org.jspecify.annotations.Nullable;
 
 public class RazorThornEntity extends AbstractArrow implements ItemSupplier {
 
-    private static final float DAMAGE = 1f;
+    private static final float DAMAGE = 1.5f;
 
     @Nullable
     private Direction stuckFace;
