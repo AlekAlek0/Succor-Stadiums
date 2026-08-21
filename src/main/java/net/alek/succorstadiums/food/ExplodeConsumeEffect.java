@@ -1,23 +1,25 @@
 package net.alek.succorstadiums.food;
 
-import com.mojang.serialization.MapCodec;
-import net.alek.succorstadiums.datagen.ModDamageTypes;
-import net.alek.succorstadiums.particle.ModParticles;
-import net.minecraft.core.Holder;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.consume_effects.ConsumeEffect;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
+import net.minecraft.core.Holder;
+
+import net.alek.succorstadiums.datagen.ModDamageTypes;
+import net.alek.succorstadiums.particle.ModParticles;
+
 import org.jspecify.annotations.NonNull;
 
 public record ExplodeConsumeEffect() implements ConsumeEffect {
