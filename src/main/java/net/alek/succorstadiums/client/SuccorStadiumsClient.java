@@ -11,14 +11,17 @@ import net.alek.succorstadiums.network.arena.OpenMobArenaPayload;
 import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpPayload;
 import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpResultPayload;
 import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;
+import net.alek.succorstadiums.particle.ModParticles;
 import net.alek.succorstadiums.screen.mobarenagui.MobArenaScreen;
 import net.alek.succorstadiums.screen.mobarenagui.MobArenaScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.ExplodeParticle;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -45,6 +48,8 @@ public class SuccorStadiumsClient implements ClientModInitializer {
         EntityRenderers.register(ModEntityTypes.FARMBIE, FarmbieRenderer::new);
         EntityRenderers.register(ModEntityTypes.GRASS_CREEPER, GrassCreeperRenderer::new);
         EntityRenderers.register(ModEntityTypes.SKELCROW, SkelcrowRenderer::new);
+
+        ParticleProviderRegistry.getInstance().register(ModParticles.FOREST_ANGRY, ExplodeParticle.Provider::new);
 
         ClientTickEvents.END_CLIENT_TICK.register(SuccorStadiumsClient::handleArachnoDoubleJumpInput);
 

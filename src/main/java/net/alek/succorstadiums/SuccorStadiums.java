@@ -19,6 +19,7 @@ import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpHandler;
 import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpPayload;
 import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpResultPayload;
 import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;
+import net.alek.succorstadiums.particle.ModParticles;
 import net.alek.succorstadiums.sound.ModSounds;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
@@ -56,6 +57,7 @@ public class SuccorStadiums implements ModInitializer {
 		ModItems.registerModItems();
 		ModConsumeEffects.registerModConsumeEffects();
 		ModCriteria.registerModCriteria();
+		ModParticles.registerModParticles();
 
 		// Register mod entity types and attributes
 		ModEntityTypes.registerModEntityTypes();

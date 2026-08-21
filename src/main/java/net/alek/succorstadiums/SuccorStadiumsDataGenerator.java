@@ -21,6 +21,7 @@ public class SuccorStadiumsDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(ModEnchantmentGenerator::new);
 		pack.addProvider(ModDamageTypeProvider::new);
 		pack.addProvider(ModAdvancements::new);
+		pack.addProvider(ModParticleProvider::new);
 	}
 
 	@Override
