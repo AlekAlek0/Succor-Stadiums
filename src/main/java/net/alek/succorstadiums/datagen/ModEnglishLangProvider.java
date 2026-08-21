@@ -171,7 +171,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Ranged Weapon Tooltip translations
         translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_0", "1% Chance for free a thorn.");
         translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_1", "When Thrown:");
-        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_2", " 1.5 Attack Damage 3x");
+        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_2", " 2 Attack Damage 3x");
 
         // Food Lore translations
         translationBuilder.add("item.succorstadiums.ghramble_bapple.lore", "Ghramble is my favorite bapple.");
