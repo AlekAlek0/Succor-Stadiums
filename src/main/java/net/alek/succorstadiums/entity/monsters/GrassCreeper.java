@@ -1,6 +1,5 @@
 package net.alek.succorstadiums.entity.monsters;
 
-import net.alek.succorstadiums.particle.ModParticles;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.feline.Ocelot;
@@ -16,6 +15,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
+import net.alek.succorstadiums.particle.ModParticles;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
