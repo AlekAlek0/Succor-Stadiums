@@ -1,25 +1,25 @@
 package net.alek.succorstadiums.entity.monsters;
 
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.alek.succorstadiums.particle.ModParticles;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.animal.feline.Cat;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.feline.Ocelot;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.animal.feline.Cat;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.Field;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.lang.reflect.Field;
 
 public class GrassCreeper extends Creeper {
 
@@ -74,10 +74,10 @@ public class GrassCreeper extends Creeper {
         double y = this.getY();
         double z = this.getZ();
 
-        // Play sound and send particles
+        // Play explosion sound and send particles
         serverLevel.playSound(null, x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE,
                 2.0F, 1.0F + (serverLevel.getRandom().nextFloat() - serverLevel.getRandom().nextFloat()) * 0.2F);
-        serverLevel.sendParticles(ParticleTypes.EXPLOSION, x, y, z, 1, 0.0, 0.0, 0.0, 0.0);
+        serverLevel.sendParticles(ModParticles.FOREST_ANGRY, x, y, z, 1, 0.0, 0.0, 0.0, 0.0);
 
         // Create a damage source and calculate if player is in the range if so take damage
         DamageSource explosionDamage = this.damageSources().explosion(this, this);
