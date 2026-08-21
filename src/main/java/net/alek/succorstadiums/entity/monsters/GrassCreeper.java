@@ -76,8 +76,8 @@ public class GrassCreeper extends Creeper {
 
         // Play explosion sound and send particles
         serverLevel.playSound(null, x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE,
-                2.0F, 1.0F + (serverLevel.getRandom().nextFloat() - serverLevel.getRandom().nextFloat()) * 0.2F);
-        serverLevel.sendParticles(ModParticles.FOREST_ANGRY, x, y, z, 1, 0.0, 0.0, 0.0, 0.0);
+                2.0f, 1.0f + (serverLevel.getRandom().nextFloat() - serverLevel.getRandom().nextFloat()) * 0.2f);
+        serverLevel.sendParticles(ModParticles.FOREST_ANGRY, x, y + 0.5f, z, 20, 0.5f, 0.5f, 0.5f, 0.01f);
 
         // Create a damage source and calculate if player is in the range if so take damage
         DamageSource explosionDamage = this.damageSources().explosion(this, this);

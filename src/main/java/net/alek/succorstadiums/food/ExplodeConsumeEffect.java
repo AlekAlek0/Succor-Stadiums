@@ -2,12 +2,14 @@ package net.alek.succorstadiums.food;
 
 import com.mojang.serialization.MapCodec;
 import net.alek.succorstadiums.datagen.ModDamageTypes;
+import net.alek.succorstadiums.particle.ModParticles;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -33,9 +35,13 @@ public record ExplodeConsumeEffect() implements ConsumeEffect {
 
     @Override
     public boolean apply(Level level, @NonNull ItemStack stack, @NonNull LivingEntity entity) {
+        // If level is clientside return true
         if (level.isClientSide()) {
             return true;
         }
+
+        // Set level to server level
+        ServerLevel serverLevel = (ServerLevel) level;
 
         RegistryAccess registryAccess = level.registryAccess();
         ResourceKey<DamageType> key = level.getRandom().nextBoolean()
@@ -45,10 +51,12 @@ public record ExplodeConsumeEffect() implements ConsumeEffect {
         Holder<DamageType> holder = registryAccess.lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(key);
         DamageSource source = new DamageSource(holder, entity, entity);
 
-        level.playSound(null, entity.getX(), entity.getY(), entity.getZ(),
-                SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 4.0F, 1.0F);
+        // Play explosion sound and send particles
+        serverLevel.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 4.0F, 1.0F);
+        serverLevel.sendParticles(ModParticles.FOREST_ANGRY, entity.getX(), entity.getY(0.5), entity.getZ(), 20, 0.5, 0.5, 0.5, 0.01);
 
-        entity.hurt(source, Float.MAX_VALUE);
+        // Damage the entity
+        entity.hurtServer(serverLevel, source, Float.MAX_VALUE);
         return true;
     }
 }
