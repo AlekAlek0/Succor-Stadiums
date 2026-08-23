@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.item.armor;
 
+import net.alek.succorstadiums.particle.ModParticles;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -67,6 +68,10 @@ public class ArmorOfTheForestItem extends Item {
         applyOrRemove(player.getAttribute(Attributes.ATTACK_DAMAGE),
                 ARMOR_OF_THE_FOREST_ATTACK_DAMAGE_ID, ATTACK_DAMAGE_SET_MODIFIER, fullSet);
 
+        if (fullSet) {
+            double torsoY = owner.getY() + owner.getBbHeight() * 0.35;
+            level.sendParticles(ModParticles.FOREST_ANGRY_SMALL, owner.getX(), torsoY, owner.getZ(), 1, 0.3, 0.1, 0.3, 0.0);
+        }
     }
 
     private static void applyOrRemove(AttributeInstance instance, Identifier id, double amount, boolean shouldHave) {

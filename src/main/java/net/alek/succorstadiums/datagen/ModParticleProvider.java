@@ -26,8 +26,9 @@ public class ModParticleProvider implements DataProvider {
     }
 
     private void addDescriptions() {
-        sprite(ModParticles.FOREST_ANGRY,
-                Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "forest_angry"));
+        Identifier texture = Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "forest_angry");
+        sprite(ModParticles.FOREST_ANGRY, texture);
+        sprite(ModParticles.FOREST_ANGRY_SMALL, texture);
     }
 
     private void sprite(ParticleType<?> type, Identifier... textures) {

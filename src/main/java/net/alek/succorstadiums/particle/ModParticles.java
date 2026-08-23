@@ -10,6 +10,7 @@ import net.minecraft.resources.Identifier;
 public class ModParticles {
 
     public static final SimpleParticleType FOREST_ANGRY = FabricParticleTypes.simple();
+    public static final SimpleParticleType FOREST_ANGRY_SMALL = FabricParticleTypes.simple();
 
     private static void registerParticle(String path, SimpleParticleType particle) {
         Registry.register(BuiltInRegistries.PARTICLE_TYPE,
@@ -19,5 +20,6 @@ public class ModParticles {
 
     public static void registerModParticles() {
         registerParticle("forest_angry", FOREST_ANGRY);
+        registerParticle("forest_angry_small", FOREST_ANGRY_SMALL);
     }
 }
