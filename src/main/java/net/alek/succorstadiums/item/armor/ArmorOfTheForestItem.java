@@ -19,6 +19,10 @@ import org.jspecify.annotations.Nullable;
 
 public class ArmorOfTheForestItem extends Item {
 
+    public static final double KB_RESISTANCE_SET_MODIFIER = 0.2; // 20%
+    public static final double ATTACK_SPEED_SET_MODIFIER = -0.6;
+    public static final int ATTACK_DAMAGE_SET_MODIFIER = 1;
+
     private static final Identifier ARMOR_OF_THE_FOREST_KNOCKBACK_RESISTANCE_ID =
             Identifier.withDefaultNamespace("armor_of_the_forest_knockback_resistance");
 
@@ -31,9 +35,7 @@ public class ArmorOfTheForestItem extends Item {
     public ArmorOfTheForestItem(Item.Properties properties, ArmorType armorType) {
         super(properties.component(
                 DataComponents.ATTRIBUTE_MODIFIERS,
-
                 ItemAttributeModifiers.builder()
-
                         .add(
                                 Attributes.ARMOR,
                                 new AttributeModifier(
@@ -44,9 +46,7 @@ public class ArmorOfTheForestItem extends Item {
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 getSlotGroup(armorType)
-                        )
-
-                        .build()
+                        ).build()
         ));
     }
 
@@ -59,13 +59,14 @@ public class ArmorOfTheForestItem extends Item {
         boolean fullSet = isWearingFullForestSet(player);
 
         applyOrRemove(player.getAttribute(Attributes.KNOCKBACK_RESISTANCE),
-                ARMOR_OF_THE_FOREST_KNOCKBACK_RESISTANCE_ID, -2.0, fullSet);
-
-        applyOrRemove(player.getAttribute(Attributes.ATTACK_DAMAGE),
-                ARMOR_OF_THE_FOREST_ATTACK_DAMAGE_ID, 1.0, fullSet);
+                ARMOR_OF_THE_FOREST_KNOCKBACK_RESISTANCE_ID, KB_RESISTANCE_SET_MODIFIER, fullSet);
 
         applyOrRemove(player.getAttribute(Attributes.ATTACK_SPEED),
-                ARMOR_OF_THE_FOREST_ATTACK_SPEED_ID, 0.6, fullSet);
+                ARMOR_OF_THE_FOREST_ATTACK_SPEED_ID, ATTACK_SPEED_SET_MODIFIER, fullSet);
+
+        applyOrRemove(player.getAttribute(Attributes.ATTACK_DAMAGE),
+                ARMOR_OF_THE_FOREST_ATTACK_DAMAGE_ID, ATTACK_DAMAGE_SET_MODIFIER, fullSet);
+
     }
 
     private static void applyOrRemove(AttributeInstance instance, Identifier id, double amount, boolean shouldHave) {
@@ -80,6 +81,7 @@ public class ArmorOfTheForestItem extends Item {
         }
     }
 
+    // Accessor method to get if player is wearing full armor of the forest set
     public static boolean isWearingFullForestSet(Player player) {
         return player.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof ArmorOfTheForestItem
                 && player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof ArmorOfTheForestItem
@@ -87,6 +89,7 @@ public class ArmorOfTheForestItem extends Item {
                 && player.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof ArmorOfTheForestItem;
     }
 
+    // Helper method to get armor points required for each armor type
     private static double getArmorPoints(ArmorType armorType) {
         return switch (armorType) {
             case HELMET -> 1.5;
@@ -97,6 +100,7 @@ public class ArmorOfTheForestItem extends Item {
         };
     }
 
+    // Helper method to get the slot the armor is in
     private static EquipmentSlotGroup getSlotGroup(ArmorType armorType) {
         return switch (armorType) {
             case HELMET -> EquipmentSlotGroup.HEAD;

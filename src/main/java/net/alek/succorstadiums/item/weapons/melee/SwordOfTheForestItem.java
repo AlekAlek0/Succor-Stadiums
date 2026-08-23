@@ -1,14 +1,26 @@
 package net.alek.succorstadiums.item.weapons.melee;
 
+import net.alek.succorstadiums.item.armor.ArmorOfTheForestItem;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import org.jspecify.annotations.NonNull;
 
 public class SwordOfTheForestItem extends Item {
+
+    private static final float POISON_PROC_CHANCE = 0.25F; // 25%
+    private static final int POISON_DURATION_TICKS = 4 * 20; // 0:04
+    private static final int POISON_AMPLIFIER = 0; // Poison I
+
     public SwordOfTheForestItem(Properties properties) {
         super(properties.component(
                 DataComponents.ATTRIBUTE_MODIFIERS,
@@ -41,5 +53,26 @@ public class SwordOfTheForestItem extends Item {
                                 EquipmentSlotGroup.MAINHAND
                         ).build())
         );
+    }
+
+    // Override hurt enemy method
+    @Override
+    public void hurtEnemy(@NonNull ItemStack stack, @NonNull LivingEntity target, @NonNull LivingEntity attacker) {
+
+        // 25% chance to give poison if wearing full armor of the forest set on hit
+        if (attacker instanceof Player player
+                && ArmorOfTheForestItem.isWearingFullForestSet(player)
+                && attacker.getRandom().nextFloat() < POISON_PROC_CHANCE) {
+
+            target.addEffect(new MobEffectInstance(
+                    MobEffects.POISON,
+                    POISON_DURATION_TICKS,
+                    POISON_AMPLIFIER,
+                    false,
+                    true
+            ));
+        }
+
+        super.hurtEnemy(stack, target, attacker);
     }
 }

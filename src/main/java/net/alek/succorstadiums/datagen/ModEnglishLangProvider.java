@@ -137,12 +137,20 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.arachno_carapace_leggings.lore", "Spiderlegs would have been a cooler name... just sayin.");
         translationBuilder.add("item.succorstadiums.arachno_carapace_boots.lore", "Spider Boots? But spiders don't wear boots!");
         translationBuilder.add("item.succorstadiums.nanner_water_waders.lore", "Helps you traverse mucky terrain with the greatest of ease.");
+        translationBuilder.add("item.succorstadiums.helm_of_the_forest.lore", "Helmet of a Forest Guardian.");
+        translationBuilder.add("item.succorstadiums.chestplate_of_the_forest.lore", "Chestplate of a Forest Guardian.");
+        translationBuilder.add("item.succorstadiums.leggings_of_the_forest.lore", "Leggings of a Forest Guardian.");
+        translationBuilder.add("item.succorstadiums.boots_of_the_forest.lore", "Boots of a Forest Guardian.");
 
         // Armor Tooltip translations
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_0", "Full Set Bonus:");
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_1", "+1 Mid-air Jump");
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_2", "Requires 1 Spider Leg");
         translationBuilder.add("item.succorstadiums.nanner_water_waders.tooltip", "Increased Speed on Soul Sand / Soil, Mud and Underwater.");
+        translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_0", "Full Set Bonus:");
+        translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_1", "20% Knockback Resistance");
+        translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_2", "-0.6 Attack Speed");
+        translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_3", "+1 Attack Damage");
 
         // Melee Weapon Lore translations
         translationBuilder.add("item.succorstadiums.bean_pole.lore", "I wouldn't even touch you with a...");

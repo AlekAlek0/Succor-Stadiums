@@ -182,11 +182,11 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.arachno_carapace_helmet.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
                 tooltip.add(3,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_0")
                                 .withStyle(ChatFormatting.DARK_PURPLE)
                 );
-
                 tooltip.add(4,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_1")
                                 .withStyle(ChatFormatting.BLUE)
@@ -202,11 +202,11 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.arachno_carapace_chestplate.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
                 tooltip.add(3,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_0")
                                 .withStyle(ChatFormatting.DARK_PURPLE)
                 );
-
                 tooltip.add(4,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_1")
                                 .withStyle(ChatFormatting.BLUE)
@@ -222,11 +222,11 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.arachno_carapace_leggings.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
                 tooltip.add(3,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_0")
                                 .withStyle(ChatFormatting.DARK_PURPLE)
                 );
-
                 tooltip.add(4,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_1")
                                 .withStyle(ChatFormatting.BLUE)
@@ -242,11 +242,11 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.arachno_carapace_boots.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
                 tooltip.add(3,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_0")
                                 .withStyle(ChatFormatting.DARK_PURPLE)
                 );
-
                 tooltip.add(4,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_1")
                                 .withStyle(ChatFormatting.BLUE)
@@ -264,6 +264,98 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(4,
                         Component.translatable("item.succorstadiums.nanner_water_waders.tooltip")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+            }
+            if (stack.is(ModItems.HELM_OF_THE_FOREST)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.helm_of_the_forest.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_0")
+                                .withStyle(ChatFormatting.DARK_PURPLE)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_1")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_2")
+                                .withStyle(ChatFormatting.RED)
+                );
+                tooltip.add(6,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_3")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+            }
+            if (stack.is(ModItems.CHESTPLATE_OF_THE_FOREST)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.chestplate_of_the_forest.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_0")
+                                .withStyle(ChatFormatting.DARK_PURPLE)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_1")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_2")
+                                .withStyle(ChatFormatting.RED)
+                );
+                tooltip.add(6,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_3")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+            }
+            if (stack.is(ModItems.LEGGINGS_OF_THE_FOREST)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.leggings_of_the_forest.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_0")
+                                .withStyle(ChatFormatting.DARK_PURPLE)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_1")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_2")
+                                .withStyle(ChatFormatting.RED)
+                );
+                tooltip.add(6,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_3")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+            }
+            if (stack.is(ModItems.BOOTS_OF_THE_FOREST)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.boots_of_the_forest.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_0")
+                                .withStyle(ChatFormatting.DARK_PURPLE)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_1")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_2")
+                                .withStyle(ChatFormatting.RED)
+                );
+                tooltip.add(6,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_3")
                                 .withStyle(ChatFormatting.BLUE)
                 );
             }
