@@ -45,6 +45,11 @@ public class ModModelProvider extends FabricModelProvider {
 
         itemModelGenerators.generateFlatItem(ModItems.NANNER_WATER_WADERS, ModelTemplates.FLAT_ITEM);
 
+        itemModelGenerators.generateFlatItem(ModItems.HELM_OF_THE_FOREST, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.CHESTPLATE_OF_THE_FOREST, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.LEGGINGS_OF_THE_FOREST, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.BOOTS_OF_THE_FOREST, ModelTemplates.FLAT_ITEM);
+
         // Melee weapon datagen
         itemModelGenerators.generateFlatItem(ModItems.BEAN_POLE, ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.BONE_DAGGER, ModelTemplates.FLAT_HANDHELD_ITEM);

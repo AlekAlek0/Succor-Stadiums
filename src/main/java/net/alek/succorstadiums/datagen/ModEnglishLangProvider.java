@@ -57,6 +57,10 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.ARACHNO_CARAPACE_LEGGINGS, "§4Arachno Carapace Leggings");
         translationBuilder.add(ModItems.ARACHNO_CARAPACE_BOOTS, "§4Arachno Carapace Boots");
         translationBuilder.add(ModItems.NANNER_WATER_WADERS, "Nanner Water Waders");
+        translationBuilder.add(ModItems.HELM_OF_THE_FOREST, "§2Helm Of The Forest");
+        translationBuilder.add(ModItems.CHESTPLATE_OF_THE_FOREST, "§2Chestplate Of The Forest");
+        translationBuilder.add(ModItems.LEGGINGS_OF_THE_FOREST, "§2Leggings Of The Forest");
+        translationBuilder.add(ModItems.BOOTS_OF_THE_FOREST, "§2Boots Of The Forest");
 
         // Melee Weapon translations
         translationBuilder.add(ModItems.BEAN_POLE, "10ft Beanpole");

@@ -40,6 +40,10 @@ public class ModEquipmentAssetProvider implements DataProvider {
                         .addHumanoidLayers(Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "nanner_water_waders"))
                         .build());
 
+        consumer.accept(ModArmorMaterials.ARMOR_OF_THE_FOREST_KEY,
+                EquipmentClientInfo.builder()
+                        .addHumanoidLayers(Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "armor_of_the_forest"))
+                        .build());
     }
 
     @Override

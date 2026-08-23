@@ -52,6 +52,10 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.ARACHNO_CARAPACE_LEGGINGS);
                         output.accept(ModItems.ARACHNO_CARAPACE_BOOTS);
                         output.accept(ModItems.NANNER_WATER_WADERS);
+                        output.accept(ModItems.HELM_OF_THE_FOREST);
+                        output.accept(ModItems.CHESTPLATE_OF_THE_FOREST);
+                        output.accept(ModItems.LEGGINGS_OF_THE_FOREST);
+                        output.accept(ModItems.BOOTS_OF_THE_FOREST);
 
 
 

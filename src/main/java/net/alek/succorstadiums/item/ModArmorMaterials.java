@@ -29,12 +29,12 @@ public class ModArmorMaterials {
             ArmorMaterials.makeDefense(0,0,0,0,0),
             25, Holder.direct(ModSounds.ARACHNO_CARAPACE_ARMOR_EQUIP), 0.0f, 0f, null, ARACHNO_CARAPACE_ARMOR_KEY);
 
-    public static final ArmorMaterial ARMOR_OF_THE_FOREST_ARMOR_MATERIAL = new ArmorMaterial(0,
-            ArmorMaterials.makeDefense(0,0,0,0, 0),
-            25, SoundEvents.ARMOR_EQUIP_COPPER, 0.0f, 0f, null, ARMOR_OF_THE_FOREST_KEY);
-
     public static final ArmorMaterial NANNER_WADERS_MATERIAL = new ArmorMaterial(0,
             ArmorMaterials.makeDefense(0,0,0,0,0),
             25, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0f, 0.0f, null, NANNER_WADERS_KEY);
+
+    public static final ArmorMaterial ARMOR_OF_THE_FOREST_ARMOR_MATERIAL = new ArmorMaterial(0,
+            ArmorMaterials.makeDefense(0,0,0,0, 0),
+            25, SoundEvents.ARMOR_EQUIP_COPPER, 1.0f, 0.2f, null, ARMOR_OF_THE_FOREST_KEY);
 
 }

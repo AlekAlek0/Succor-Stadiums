@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.item;
 
+import net.alek.succorstadiums.item.armor.ArmorOfTheForestItem;
 import net.alek.succorstadiums.item.armor.BaleArmorItem;
 import net.alek.succorstadiums.item.foods.CreeperSalveItem;
 import net.alek.succorstadiums.item.weapons.melee.*;
@@ -81,6 +82,30 @@ public class ModItems {
                     properties.humanoidArmor(NANNER_WADERS_MATERIAL , ArmorType.BOOTS)
                             .durability(100))
     );
+
+    public static final Item HELM_OF_THE_FOREST = registerItem("helm_of_the_forest", properties -> new ArmorOfTheForestItem(
+                    properties.humanoidArmor(ARMOR_OF_THE_FOREST_ARMOR_MATERIAL, ArmorType.HELMET)
+                            .durability(365),
+            ArmorType.HELMET
+    ));
+
+    public static final Item CHESTPLATE_OF_THE_FOREST = registerItem("chestplate_of_the_forest", properties -> new ArmorOfTheForestItem(
+                    properties.humanoidArmor(ARMOR_OF_THE_FOREST_ARMOR_MATERIAL, ArmorType.CHESTPLATE)
+                            .durability(456),
+            ArmorType.CHESTPLATE
+    ));
+
+    public static final Item LEGGINGS_OF_THE_FOREST = registerItem("leggings_of_the_forest", properties -> new ArmorOfTheForestItem(
+                    properties.humanoidArmor(ARMOR_OF_THE_FOREST_ARMOR_MATERIAL, ArmorType.LEGGINGS)
+                            .durability(438),
+            ArmorType.LEGGINGS
+    ));
+
+    public static final Item BOOTS_OF_THE_FOREST = registerItem("boots_of_the_forest", properties -> new ArmorOfTheForestItem(
+                    properties.humanoidArmor(ARMOR_OF_THE_FOREST_ARMOR_MATERIAL, ArmorType.BOOTS)
+                            .durability(328),
+            ArmorType.BOOTS
+    ));
 
     public static final Item BEAN_POLE = registerItem("bean_pole", properties -> new BeanPoleItem(
             properties.sword(BEAN_POLE_TOOL_MATERIAL,
