@@ -15,7 +15,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
-import net.alek.succorstadiums.particle.ModParticles;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,10 +73,9 @@ public class GrassCreeper extends Creeper {
         double y = this.getY();
         double z = this.getZ();
 
-        // Play explosion sound and send particles
+        // Play explosion sound
         serverLevel.playSound(null, x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.HOSTILE,
                 2.0f, 1.0f + (serverLevel.getRandom().nextFloat() - serverLevel.getRandom().nextFloat()) * 0.2f);
-        serverLevel.sendParticles(ModParticles.FOREST_ANGRY, x, y + 0.5f, z, 20, 0.5f, 0.5f, 0.5f, 0.01f);
 
         // Create a damage source and calculate if player is in the range if so take damage
         DamageSource explosionDamage = this.damageSources().explosion(this, this);

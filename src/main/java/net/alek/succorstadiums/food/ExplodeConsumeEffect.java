@@ -18,7 +18,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.core.Holder;
 
 import net.alek.succorstadiums.datagen.ModDamageTypes;
-import net.alek.succorstadiums.particle.ModParticles;
 
 import org.jspecify.annotations.NonNull;
 
@@ -53,9 +52,8 @@ public record ExplodeConsumeEffect() implements ConsumeEffect {
         Holder<DamageType> holder = registryAccess.lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(key);
         DamageSource source = new DamageSource(holder, entity, entity);
 
-        // Play explosion sound and send particles
+        // Play explosion sound
         serverLevel.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 4.0F, 1.0F);
-        serverLevel.sendParticles(ModParticles.FOREST_ANGRY, entity.getX(), entity.getY(0.5), entity.getZ(), 20, 0.5, 0.5, 0.5, 0.01);
 
         // Damage the entity
         entity.hurtServer(serverLevel, source, Float.MAX_VALUE);
