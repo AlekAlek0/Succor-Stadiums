@@ -59,7 +59,7 @@ public class SwordOfTheForestItem extends Item {
     @Override
     public void hurtEnemy(@NonNull ItemStack stack, @NonNull LivingEntity target, @NonNull LivingEntity attacker) {
 
-        // 25% chance to give poison if wearing full armor of the forest set on hit
+        // 25% chance to give poison 1 if wearing full armor of the forest set on hit
         if (attacker instanceof Player player
                 && ArmorOfTheForestItem.isWearingFullForestSet(player)
                 && attacker.getRandom().nextFloat() < POISON_PROC_CHANCE) {

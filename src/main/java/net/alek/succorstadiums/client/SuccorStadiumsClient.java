@@ -290,6 +290,15 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_3")
                                 .withStyle(ChatFormatting.BLUE)
                 );
+                tooltip.add(7, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(8,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_4")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+                tooltip.add(9,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_5")
+                                .withStyle(ChatFormatting.RED)
+                );
             }
             if (stack.is(ModItems.CHESTPLATE_OF_THE_FOREST)) {
                 tooltip.add(1,
@@ -312,6 +321,15 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 tooltip.add(6,
                         Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_3")
                                 .withStyle(ChatFormatting.BLUE)
+                );
+                tooltip.add(7, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(8,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_4")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+                tooltip.add(9,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_5")
+                                .withStyle(ChatFormatting.RED)
                 );
             }
             if (stack.is(ModItems.LEGGINGS_OF_THE_FOREST)) {
@@ -336,6 +354,15 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_3")
                                 .withStyle(ChatFormatting.BLUE)
                 );
+                tooltip.add(7, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(8,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_4")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+                tooltip.add(9,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_5")
+                                .withStyle(ChatFormatting.RED)
+                );
             }
             if (stack.is(ModItems.BOOTS_OF_THE_FOREST)) {
                 tooltip.add(1,
@@ -358,6 +385,15 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 tooltip.add(6,
                         Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_3")
                                 .withStyle(ChatFormatting.BLUE)
+                );
+                tooltip.add(7, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(8,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_4")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+                tooltip.add(9,
+                        Component.translatable("item.succorstadiums.armor_of_the_forest.tooltip_5")
+                                .withStyle(ChatFormatting.RED)
                 );
             }
 
@@ -391,6 +427,15 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.sword_of_the_forest.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.sword_of_the_forest.tooltip_0")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.sword_of_the_forest.tooltip_1")
+                                .withStyle(ChatFormatting.RED)
                 );
             }
             if (stack.is(ModItems.SPROUT_SICKLE)) {
