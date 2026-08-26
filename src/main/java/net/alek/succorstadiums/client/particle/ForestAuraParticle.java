@@ -34,7 +34,7 @@ public class ForestAuraParticle extends SingleQuadParticle {
         this.gravity = 0.0F;
         this.hasPhysics = false;
 
-        this.lifetime = 16 + this.random.nextInt(8);
+        this.lifetime = 32 + this.random.nextInt(8);
 
         this.quadSize *= small ? 0.4F : 0.7F;
 
@@ -52,8 +52,6 @@ public class ForestAuraParticle extends SingleQuadParticle {
 
         float lifeRatio = (float) this.age / (float) this.lifetime;
 
-        // Fade in briefly, hold, then fade out near the end — matches a
-        // gentle "appear, float up, vanish" arc rather than instant fade
         float baseAlpha = small ? 0.55F : 0.8F;
         if (lifeRatio < 0.15F) {
             this.setAlpha(baseAlpha * (lifeRatio / 0.15F));
