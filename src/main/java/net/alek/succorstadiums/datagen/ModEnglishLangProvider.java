@@ -148,9 +148,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_2", "Requires 1 Spider Leg");
         translationBuilder.add("item.succorstadiums.nanner_water_waders.tooltip", "Increased Speed on Soul Sand / Soil, Mud and Underwater.");
         translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_0", "Full Set Bonus:");
-        translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_1", "+1 Attack Damage");
-        translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_2", "-0.6 Attack Speed");
-        translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_3", " 20% Knockback Resist");
+        translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_1", " 20% Knockback Resist");
 
 
         // Melee Weapon Lore translations
@@ -163,7 +161,9 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
         // Melee Weapon Tooltip translations
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_0", "Armor of the Forest Bonus:");
-        translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_1", " Poison I | 0:04 | 25%");
+        translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_1", "+1 Attack Damage");
+        translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_2", "-0.2 Attack Speed");
+        translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_3", "  Poison I | 0:04 | 25%");
 
         translationBuilder.add("item.succorstadiums.sprout_sickle.tooltip_0", "Paralysis | 0:03 | 8%");
 
