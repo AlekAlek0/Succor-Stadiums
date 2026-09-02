@@ -33,6 +33,10 @@ public class ModEntityTypes {
                 "farmbie", EntityType.Builder.of(Farmbie::new,
                     MobCategory.MONSTER).sized(0.6f, 1.95f));
 
+    public static final EntityType<FarmbieBlue> FARMBIE_BLUE = registerMob(
+            "farmbie_blue", EntityType.Builder.of(FarmbieBlue::new,
+                    MobCategory.MONSTER).sized(0.6f, 1.95f));
+
     public static final EntityType<GrassCreeper> GRASS_CREEPER = registerMob(
                 "grass_creeper", EntityType.Builder.of(GrassCreeper::new,
                     MobCategory.MONSTER).sized(0.6f, 1.7f));

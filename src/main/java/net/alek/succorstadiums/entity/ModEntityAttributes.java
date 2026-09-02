@@ -21,9 +21,20 @@ public class ModEntityAttributes {
                 Zombie.createAttributes()
                         .add(Attributes.MOVEMENT_SPEED, 0.24D)
                         .add(Attributes.ATTACK_DAMAGE, 1.0D)
+                        .add(Attributes.ATTACK_SPEED, 1.0D)
                         .add(Attributes.MAX_HEALTH, 12.0D)
                         .add(Attributes.ARMOR, 0D)
 
+        );
+
+        FabricDefaultAttributeRegistry.register(
+                ModEntityTypes.FARMBIE_BLUE,
+                Zombie.createAttributes()
+                        .add(Attributes.MOVEMENT_SPEED, 0.24D)
+                        .add(Attributes.ATTACK_DAMAGE, 2.5D)
+                        .add(Attributes.ATTACK_SPEED, 0.5D)
+                        .add(Attributes.MAX_HEALTH, 20.0D)
+                        .add(Attributes.ARMOR, 2D)
         );
 
         FabricDefaultAttributeRegistry.register(

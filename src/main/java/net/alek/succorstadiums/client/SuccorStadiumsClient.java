@@ -2,10 +2,7 @@ package net.alek.succorstadiums.client;
 
 import net.alek.succorstadiums.client.particle.ForestAuraParticle;
 import net.alek.succorstadiums.client.render.entity.items.RazorThornEntityRenderer;
-import net.alek.succorstadiums.client.render.entity.monsters.BananaSlimeRenderer;
-import net.alek.succorstadiums.client.render.entity.monsters.GrassCreeperRenderer;
-import net.alek.succorstadiums.client.render.entity.monsters.SkelcrowRenderer;
-import net.alek.succorstadiums.client.render.entity.monsters.FarmbieRenderer;
+import net.alek.succorstadiums.client.render.entity.monsters.*;
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.network.arena.OpenMobArenaPayload;
@@ -46,6 +43,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
 
         EntityRenderers.register(ModEntityTypes.BANANA_SLIME, BananaSlimeRenderer::new);
         EntityRenderers.register(ModEntityTypes.FARMBIE, FarmbieRenderer::new);
+        EntityRenderers.register(ModEntityTypes.FARMBIE_BLUE, FarmbieBlueRenderer::new);
         EntityRenderers.register(ModEntityTypes.GRASS_CREEPER, GrassCreeperRenderer::new);
         EntityRenderers.register(ModEntityTypes.SKELCROW, SkelcrowRenderer::new);
 
