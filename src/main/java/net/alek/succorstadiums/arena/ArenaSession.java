@@ -8,6 +8,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.BossEvent;
@@ -480,10 +481,41 @@ public class ArenaSession {
         double x = arena.getCenterX() + distance * Math.cos(angle);
         double z = arena.getCenterZ() + distance * Math.sin(angle);
 
-        BlockPos pos = new BlockPos((int) x, (int) arena.getCenterY(), (int) z);
-        int surfaceY = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos.getX(), pos.getZ());
+        int blockX = Mth.floor(x);
+        int blockZ = Mth.floor(z);
+
+        level.getChunk(blockX >> 4, blockZ >> 4);
+
+        int heightmapY = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockX, blockZ);
+
+        int surfaceY = findValidSpawnY(blockX, heightmapY, blockZ);
 
         return new Vec3(x, surfaceY, z);
+    }
+
+    private int findValidSpawnY(int x, int startY, int z) {
+        int minY = level.getMinY();
+        int maxY = level.getMaxY();
+        startY = Math.clamp(startY, minY, maxY);
+
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(x, startY, z);
+
+        for (int y = startY; y >= minY; y--) {
+            pos.setY(y);
+            if (isValidStandingSpot(pos)) return y;
+        }
+        for (int y = startY; y <= maxY - 1; y++) {
+            pos.setY(y);
+            if (isValidStandingSpot(pos)) return y;
+        }
+        return startY;
+    }
+
+    private boolean isValidStandingSpot(BlockPos.MutableBlockPos pos) {
+        boolean groundSolid = level.getBlockState(pos.below()).isCollisionShapeFullBlock(level, pos.below());
+        boolean feetClear = !level.getBlockState(pos).isCollisionShapeFullBlock(level, pos);
+        boolean headClear = !level.getBlockState(pos.above()).isCollisionShapeFullBlock(level, pos.above());
+        return groundSolid && feetClear && headClear;
     }
 
     // Accessor methods to get arena, arena state, and if a player is in the arena
