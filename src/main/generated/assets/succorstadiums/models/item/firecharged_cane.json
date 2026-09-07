@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "succorstadiums:item/fire_staff"
+    "layer0": "succorstadiums:item/firecharged_cane"
   }
 }

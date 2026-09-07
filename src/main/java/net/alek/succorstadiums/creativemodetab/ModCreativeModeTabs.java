@@ -105,7 +105,7 @@ public class ModCreativeModeTabs {
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.AQUA_STAFF))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_magic"))
                     .displayItems((parameters, output) -> {
-                        output.accept(ModItems.FIRE_STAFF);
+                        output.accept(ModItems.FIRECHARGED_CANE);
                         output.accept(ModItems.AQUA_STAFF);
 
 

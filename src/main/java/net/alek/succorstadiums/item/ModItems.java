@@ -24,7 +24,7 @@ import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
 import net.alek.succorstadiums.item.trinkets.FlintCharmItem;
 import net.alek.succorstadiums.item.trinkets.ResurrectionAmuletItem;
 import net.alek.succorstadiums.item.weapons.magic.AquaStaffItem;
-import net.alek.succorstadiums.item.weapons.magic.FireStaffItem;
+import net.alek.succorstadiums.item.weapons.magic.FirechargedCaneItem;
 import net.alek.succorstadiums.item.weapons.ranged.BownanaItem;
 
 import static net.alek.succorstadiums.item.ModArmorMaterials.*;
@@ -150,7 +150,7 @@ public class ModItems {
                     0f)
     ));
 
-    public static final Item FIRE_STAFF = registerItem("fire_staff", properties -> new FireStaffItem(properties
+    public static final Item FIRECHARGED_CANE = registerItem("firecharged_cane", properties -> new FirechargedCaneItem(properties
             .durability(300)));
     public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaStaffItem(properties
             .durability(300)));

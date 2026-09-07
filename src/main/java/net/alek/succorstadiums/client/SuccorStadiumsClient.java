@@ -388,7 +388,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.RED)
                 );
             }
-            if (stack.is(ModItems.FIRE_STAFF)) {
+            if (stack.is(ModItems.FIRECHARGED_CANE)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.fire_staff.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
