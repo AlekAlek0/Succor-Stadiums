@@ -403,7 +403,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.AQUA)
                 );
             }
-            if (stack.is(ModItems.AQUA_STAFF)) {
+            if (stack.is(ModItems.AQUAONDUIT)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.aqua_staff.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)

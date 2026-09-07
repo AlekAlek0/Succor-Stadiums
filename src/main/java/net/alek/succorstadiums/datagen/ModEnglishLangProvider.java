@@ -72,7 +72,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
         // Magic Weapon translations
         translationBuilder.add(ModItems.FIRECHARGED_CANE, "§4Firecharged Cane");
-        translationBuilder.add(ModItems.AQUA_STAFF, "§3Aquaonduit");
+        translationBuilder.add(ModItems.AQUAONDUIT, "§3Aquaonduit");
 
         // Ranged Weapon translations
         translationBuilder.add(ModItems.BOWNANA, "§eBownana");

@@ -23,7 +23,7 @@ import net.alek.succorstadiums.item.armor.NannerWaterWadersItem;
 import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
 import net.alek.succorstadiums.item.trinkets.FlintCharmItem;
 import net.alek.succorstadiums.item.trinkets.ResurrectionAmuletItem;
-import net.alek.succorstadiums.item.weapons.magic.AquaStaffItem;
+import net.alek.succorstadiums.item.weapons.magic.AquaonduitItem;
 import net.alek.succorstadiums.item.weapons.magic.FirechargedCaneItem;
 import net.alek.succorstadiums.item.weapons.ranged.BownanaItem;
 
@@ -152,7 +152,7 @@ public class ModItems {
 
     public static final Item FIRECHARGED_CANE = registerItem("firecharged_cane", properties -> new FirechargedCaneItem(properties
             .durability(300)));
-    public static final Item AQUA_STAFF = registerItem("aqua_staff", properties -> new AquaStaffItem(properties
+    public static final Item AQUAONDUIT = registerItem("aquaonduit", properties -> new AquaonduitItem(properties
             .durability(300)));
 
     public static final Item BOWNANA = registerItem("bownana", properties -> new BownanaItem(properties

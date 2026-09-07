@@ -102,11 +102,11 @@ public class ModCreativeModeTabs {
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_magic"),
 
             // Set the icon, title, and items for the creative tab menu
-            FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.AQUA_STAFF))
+            FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.AQUAONDUIT))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_magic"))
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.FIRECHARGED_CANE);
-                        output.accept(ModItems.AQUA_STAFF);
+                        output.accept(ModItems.AQUAONDUIT);
 
 
 

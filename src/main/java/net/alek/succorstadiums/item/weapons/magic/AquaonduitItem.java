@@ -29,7 +29,7 @@ import java.util.List;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
 
-public class AquaStaffItem extends Item {
+public class AquaonduitItem extends Item {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -49,7 +49,7 @@ public class AquaStaffItem extends Item {
     private static final List<StaticRing> activeRings = new ArrayList<>();
     private static boolean tickRegistered = false;
 
-    public AquaStaffItem(Properties properties) {
+    public AquaonduitItem(Properties properties) {
         super(properties);
         registerTick();
     }
@@ -154,12 +154,8 @@ public class AquaStaffItem extends Item {
                 List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, area, e -> true);
 
                 targets.forEach(entity -> {
-                    boolean applied = entity.addEffect(
-                            new MobEffectInstance(MobEffects.SLOWNESS, SLOWNESS_DURATION, SLOWNESS_AMPLIFIER)
-                    );
-                    boolean applied_2 = entity.addEffect(
-                            new MobEffectInstance(MobEffects.SLOW_FALLING, SLOW_FALLING_DURATION, SLOW_FALLING_AMPLIFIER)
-                    );
+                    new MobEffectInstance(MobEffects.SLOWNESS, SLOWNESS_DURATION, SLOWNESS_AMPLIFIER);
+                    new MobEffectInstance(MobEffects.SLOW_FALLING, SLOW_FALLING_DURATION, SLOW_FALLING_AMPLIFIER);
                 });
 
                 activeRings.add(new StaticRing(level, landPos));
@@ -194,12 +190,8 @@ public class AquaStaffItem extends Item {
                 );
                 List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, area, e -> true);
                 targets.forEach(entity -> {
-                    boolean applied = entity.addEffect(
-                            new MobEffectInstance(MobEffects.SLOW_FALLING, 40)
-                    );
-                    boolean applied_2 = entity.addEffect(
-                            new MobEffectInstance(MobEffects.SLOWNESS, 40, SLOW_FALLING_AMPLIFIER)
-                    );
+                    new MobEffectInstance(MobEffects.SLOW_FALLING, 40);
+                    new MobEffectInstance(MobEffects.SLOWNESS, 40, SLOW_FALLING_AMPLIFIER);
                 });
             }
         }

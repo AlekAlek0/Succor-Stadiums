@@ -61,7 +61,7 @@ public class ModModelProvider extends FabricModelProvider {
 
         // Magic weapon datagen
         itemModelGenerators.generateFlatItem(ModItems.FIRECHARGED_CANE, ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModelGenerators.generateFlatItem(ModItems.AQUA_STAFF, ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.AQUAONDUIT, ModelTemplates.FLAT_HANDHELD_ITEM);
 
         // Ranged weapon datagen
         itemModelGenerators.createFlatItemModel(ModItems.BOWNANA, ModelTemplates.BOW);
