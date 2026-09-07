@@ -87,9 +87,9 @@ public class GrassCreeper extends Creeper {
 
         // Summon new particle effects
         GrassCreeperCloud cloud = new GrassCreeperCloud(serverLevel, x, y, z);
-        GrassCreeperGreenRingCloud greenRing = new GrassCreeperGreenRingCloud(serverLevel, x, y, z);
+        GrassCreeperRing ring = new GrassCreeperRing(serverLevel, x, y, z);
         serverLevel.addFreshEntity(cloud);
-        serverLevel.addFreshEntity(greenRing);
+        serverLevel.addFreshEntity(ring);
 
         this.discard();
     }
