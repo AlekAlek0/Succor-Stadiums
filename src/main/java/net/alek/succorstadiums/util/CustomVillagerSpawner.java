@@ -10,6 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
@@ -22,9 +23,12 @@ import java.util.Optional;
 // CustomVillagerSpawner class
 public class CustomVillagerSpawner {
 
-    public static void spawnYeBuy(ServerLevel level, Vec3 pos, float yaw) {
+    private static Villager createVillager(
+            ServerLevel level, Vec3 pos, float yaw,
+            ResourceKey<VillagerProfession> villagerProfession, int villagerLevel,
+            ResourceKey<VillagerType> villagerType, String villagerName) {
 
-        // Create new villager
+        // Create a new villager object
         Villager villager = new Villager(EntityTypes.VILLAGER, level);
 
         // Set villager position
@@ -35,24 +39,24 @@ public class CustomVillagerSpawner {
         villager.setXRot(0.0F);
         villager.yRotO = yaw;
 
-        // Profession nitwit
-        Holder<VillagerProfession> farmerProfession =
+        // Resolve villagerProfession
+        Holder<VillagerProfession> professionHolder =
                 level.registryAccess()
                         .lookupOrThrow(Registries.VILLAGER_PROFESSION)
-                        .getOrThrow(VillagerProfession.NITWIT);
+                        .getOrThrow(villagerProfession);
 
-        // Plains type
-        Holder<VillagerType> plainsType =
+        // Resolve villagerType
+        Holder<VillagerType> typeHolder =
                 level.registryAccess()
                         .lookupOrThrow(Registries.VILLAGER_TYPE)
-                        .getOrThrow(VillagerType.PLAINS);
+                        .getOrThrow(villagerType);
 
-        // Set villager data to given profession, level, and type
+        // Set villager data to given villagerProfession, villagerLevel, and villagerType
         villager.setVillagerData(
                 villager.getVillagerData()
-                        .withProfession(farmerProfession)
-                        .withLevel(2)
-                        .withType(plainsType)
+                        .withProfession(professionHolder)
+                        .withLevel(villagerLevel)
+                        .withType(typeHolder)
         );
 
         // NBT-equivalent flags
@@ -60,7 +64,15 @@ public class CustomVillagerSpawner {
         villager.setPersistenceRequired();
         villager.setSilent(true);
         villager.setNoAi(true);
-        villager.setCustomName(Component.literal("Ye Buy"));
+        villager.setCustomName(Component.literal(villagerName));
+
+        return villager;
+    }
+
+    public static void spawnYeBuy(ServerLevel level, Vec3 pos, float yaw) {
+
+        // Create a new villager object
+        Villager villager = createVillager(level, pos, yaw, VillagerProfession.NITWIT, 2, VillagerType.PLAINS, "Ye Buy");
 
         // Get default vanilla offers and clear them
         MerchantOffers offers = villager.getOffers();
@@ -104,43 +116,8 @@ public class CustomVillagerSpawner {
 
     public static void spawnOlSell(ServerLevel level, Vec3 pos, float yaw) {
 
-        // Create new villager
-        Villager villager = new Villager(EntityTypes.VILLAGER, level);
-
-        // Set villager position
-        villager.setPos(pos.x, pos.y, pos.z);
-        villager.setYRot(yaw);
-        villager.setYHeadRot(yaw);
-        villager.setYBodyRot(yaw);
-        villager.setXRot(0.0F);
-        villager.yRotO = yaw;
-
-        // Profession weaponsmith
-        Holder<VillagerProfession> farmerProfession =
-                level.registryAccess()
-                        .lookupOrThrow(Registries.VILLAGER_PROFESSION)
-                        .getOrThrow(VillagerProfession.WEAPONSMITH);
-
-        // Plains type
-        Holder<VillagerType> plainsType =
-                level.registryAccess()
-                        .lookupOrThrow(Registries.VILLAGER_TYPE)
-                        .getOrThrow(VillagerType.PLAINS);
-
-        // Set villager data to given profession, level, and type
-        villager.setVillagerData(
-                villager.getVillagerData()
-                        .withProfession(farmerProfession)
-                        .withLevel(2)
-                        .withType(plainsType)
-        );
-
-        // NBT-equivalent flags
-        villager.setInvulnerable(true);
-        villager.setPersistenceRequired();
-        villager.setSilent(true);
-        villager.setNoAi(true);
-        villager.setCustomName(Component.literal("Ol' Sell"));
+        // Create a new villager object
+        Villager villager = createVillager(level, pos, yaw, VillagerProfession.WEAPONSMITH, 2, VillagerType.PLAINS, "Ol' Sell");
 
         // Get default vanilla offers and clear them
         MerchantOffers offers = villager.getOffers();
@@ -183,43 +160,8 @@ public class CustomVillagerSpawner {
 
     public static void spawnMarvin(ServerLevel level, Vec3 pos, float yaw) {
 
-        // Create new villager
-        Villager villager = new Villager(EntityTypes.VILLAGER, level);
-
-        // Set villager position
-        villager.setPos(pos.x, pos.y, pos.z);
-        villager.setYRot(yaw);
-        villager.setYHeadRot(yaw);
-        villager.setYBodyRot(yaw);
-        villager.setXRot(0.0F);
-        villager.yRotO = yaw;
-
-        // Profession nitwit
-        Holder<VillagerProfession> butcherProfession =
-                level.registryAccess()
-                        .lookupOrThrow(Registries.VILLAGER_PROFESSION)
-                        .getOrThrow(VillagerProfession.BUTCHER);
-
-        // Plains type
-        Holder<VillagerType> plainsType =
-                level.registryAccess()
-                        .lookupOrThrow(Registries.VILLAGER_TYPE)
-                        .getOrThrow(VillagerType.PLAINS);
-
-        // Set villager data to given profession, level, and type
-        villager.setVillagerData(
-                villager.getVillagerData()
-                        .withProfession(butcherProfession)
-                        .withLevel(2)
-                        .withType(plainsType)
-        );
-
-        // NBT-equivalent flags
-        villager.setInvulnerable(true);
-        villager.setPersistenceRequired();
-        villager.setSilent(true);
-        villager.setNoAi(true);
-        villager.setCustomName(Component.literal("Marvin Malarkey"));
+        // Create a new villager object
+        Villager villager = createVillager(level, pos, yaw, VillagerProfession.BUTCHER, 2, VillagerType.PLAINS, "Marvin Malarkey");
 
         // Get default vanilla offers and clear them
         MerchantOffers offers = villager.getOffers();
@@ -251,43 +193,8 @@ public class CustomVillagerSpawner {
 
     public static void spawnBimbleton(ServerLevel level, Vec3 pos, float yaw) {
 
-        // Create new villager
-        Villager villager = new Villager(EntityTypes.VILLAGER, level);
-
-        // Set villager position
-        villager.setPos(pos.x, pos.y, pos.z);
-        villager.setYRot(yaw);
-        villager.setYHeadRot(yaw);
-        villager.setYBodyRot(yaw);
-        villager.setXRot(0.0F);
-        villager.yRotO = yaw;
-
-        // Profession shepherd
-        Holder<VillagerProfession> butcherProfession =
-                level.registryAccess()
-                        .lookupOrThrow(Registries.VILLAGER_PROFESSION)
-                        .getOrThrow(VillagerProfession.SHEPHERD);
-
-        // Plains type
-        Holder<VillagerType> plainsType =
-                level.registryAccess()
-                        .lookupOrThrow(Registries.VILLAGER_TYPE)
-                        .getOrThrow(VillagerType.PLAINS);
-
-        // Set villager data to given profession, level, and type
-        villager.setVillagerData(
-                villager.getVillagerData()
-                        .withProfession(butcherProfession)
-                        .withLevel(2)
-                        .withType(plainsType)
-        );
-
-        // NBT-equivalent flags
-        villager.setInvulnerable(true);
-        villager.setPersistenceRequired();
-        villager.setSilent(true);
-        villager.setNoAi(true);
-        villager.setCustomName(Component.literal("Ghimple Bimbleton"));
+        // Create a new villager object
+        Villager villager = createVillager(level, pos, yaw, VillagerProfession.SHEPHERD, 2, VillagerType.PLAINS, "Ghimple Bimbleton");
 
         // Get default vanilla offers and clear them
         MerchantOffers offers = villager.getOffers();
@@ -306,43 +213,8 @@ public class CustomVillagerSpawner {
 
     public static void spawnBartholomew(ServerLevel level, Vec3 pos, float yaw) {
 
-        // Create new villager
-        Villager villager = new Villager(EntityTypes.VILLAGER, level);
-
-        // Set villager position
-        villager.setPos(pos.x, pos.y, pos.z);
-        villager.setYRot(yaw);
-        villager.setYHeadRot(yaw);
-        villager.setYBodyRot(yaw);
-        villager.setXRot(0.0F);
-        villager.yRotO = yaw;
-
-        // Profession farmer
-        Holder<VillagerProfession> butcherProfession =
-                level.registryAccess()
-                        .lookupOrThrow(Registries.VILLAGER_PROFESSION)
-                        .getOrThrow(VillagerProfession.FARMER);
-
-        // Plains type
-        Holder<VillagerType> plainsType =
-                level.registryAccess()
-                        .lookupOrThrow(Registries.VILLAGER_TYPE)
-                        .getOrThrow(VillagerType.PLAINS);
-
-        // Set villager data to given profession, level, and type
-        villager.setVillagerData(
-                villager.getVillagerData()
-                        .withProfession(butcherProfession)
-                        .withLevel(2)
-                        .withType(plainsType)
-        );
-
-        // NBT-equivalent flags
-        villager.setInvulnerable(true);
-        villager.setPersistenceRequired();
-        villager.setSilent(true);
-        villager.setNoAi(true);
-        villager.setCustomName(Component.literal("Bartholomew Bale"));
+        // Create a new villager object
+        Villager villager = createVillager(level, pos, yaw, VillagerProfession.FARMER, 2, VillagerType.PLAINS, "Bartholomew Bale");
 
         // Get default vanilla offers and clear them
         MerchantOffers offers = villager.getOffers();
@@ -385,43 +257,8 @@ public class CustomVillagerSpawner {
 
     public static void spawnPropung(ServerLevel level, Vec3 pos, float yaw) {
 
-        // Create new villager
-        Villager villager = new Villager(EntityTypes.VILLAGER, level);
-
-        // Set villager position
-        villager.setPos(pos.x, pos.y, pos.z);
-        villager.setYRot(yaw);
-        villager.setYHeadRot(yaw);
-        villager.setYBodyRot(yaw);
-        villager.setXRot(0.0F);
-        villager.yRotO = yaw;
-
-        // Profession cleric
-        Holder<VillagerProfession> butcherProfession =
-                level.registryAccess()
-                        .lookupOrThrow(Registries.VILLAGER_PROFESSION)
-                        .getOrThrow(VillagerProfession.CLERIC);
-
-        // Plains type
-        Holder<VillagerType> plainsType =
-                level.registryAccess()
-                        .lookupOrThrow(Registries.VILLAGER_TYPE)
-                        .getOrThrow(VillagerType.PLAINS);
-
-        // Set villager data to given profession, level, and type
-        villager.setVillagerData(
-                villager.getVillagerData()
-                        .withProfession(butcherProfession)
-                        .withLevel(2)
-                        .withType(plainsType)
-        );
-
-        // NBT-equivalent flags
-        villager.setInvulnerable(true);
-        villager.setPersistenceRequired();
-        villager.setSilent(true);
-        villager.setNoAi(true);
-        villager.setCustomName(Component.literal("Propung Giewish"));
+        // Create a new villager object
+        Villager villager = createVillager(level, pos, yaw, VillagerProfession.CLERIC, 2, VillagerType.PLAINS, "Propung Giewish");
 
         // Get default vanilla offers and clear them
         MerchantOffers offers = villager.getOffers();
