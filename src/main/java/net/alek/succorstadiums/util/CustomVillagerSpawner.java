@@ -19,11 +19,15 @@ import net.alek.succorstadiums.item.ModItems;
 
 import java.util.Optional;
 
+// CustomVillagerSpawner class
 public class CustomVillagerSpawner {
 
     public static void spawnYeBuy(ServerLevel level, Vec3 pos, float yaw) {
+
+        // Create new villager
         Villager villager = new Villager(EntityTypes.VILLAGER, level);
 
+        // Set villager position
         villager.setPos(pos.x, pos.y, pos.z);
         villager.setYRot(yaw);
         villager.setYHeadRot(yaw);
@@ -58,10 +62,11 @@ public class CustomVillagerSpawner {
         villager.setNoAi(true);
         villager.setCustomName(Component.literal("Ye Buy"));
 
-        // Build trades
+        // Get default vanilla offers and clear them
         MerchantOffers offers = villager.getOffers();
         offers.clear();
 
+        // Add new offers to villager
         offers.add(new MerchantOffer(
                 new ItemCost(Items.ROTTEN_FLESH, 10),
                 new ItemStack(Items.COPPER_NUGGET, 3),
@@ -93,12 +98,16 @@ public class CustomVillagerSpawner {
                 9999999, 0, 0.0F
         ));
 
+        // Add villager to the level
         level.addFreshEntity(villager);
     }
 
     public static void spawnOlSell(ServerLevel level, Vec3 pos, float yaw) {
+
+        // Create new villager
         Villager villager = new Villager(EntityTypes.VILLAGER, level);
 
+        // Set villager position
         villager.setPos(pos.x, pos.y, pos.z);
         villager.setYRot(yaw);
         villager.setYHeadRot(yaw);
@@ -133,10 +142,11 @@ public class CustomVillagerSpawner {
         villager.setNoAi(true);
         villager.setCustomName(Component.literal("Ol' Sell"));
 
-        // Build trades
+        // Get default vanilla offers and clear them
         MerchantOffers offers = villager.getOffers();
         offers.clear();
 
+        // Add new offers to villager
         offers.add(new MerchantOffer(
                 new ItemCost(Items.COPPER_NUGGET, 8),
                 new ItemStack(ModItems.BONE_DAGGER, 1),
@@ -167,12 +177,16 @@ public class CustomVillagerSpawner {
                 9999999, 0, 0.0F
         ));
 
+        // Add villager to the level
         level.addFreshEntity(villager);
     }
 
     public static void spawnMarvin(ServerLevel level, Vec3 pos, float yaw) {
+
+        // Create new villager
         Villager villager = new Villager(EntityTypes.VILLAGER, level);
 
+        // Set villager position
         villager.setPos(pos.x, pos.y, pos.z);
         villager.setYRot(yaw);
         villager.setYHeadRot(yaw);
@@ -207,10 +221,11 @@ public class CustomVillagerSpawner {
         villager.setNoAi(true);
         villager.setCustomName(Component.literal("Marvin Malarkey"));
 
-        // Build trades
+        // Get default vanilla offers and clear them
         MerchantOffers offers = villager.getOffers();
         offers.clear();
 
+        // Add new offers to villager
         offers.add(new MerchantOffer(
                 new ItemCost(Items.COPPER_NUGGET, 4),
                 new ItemStack(ModItems.ROTTEN_STEW, 16),
@@ -230,12 +245,16 @@ public class CustomVillagerSpawner {
                 9999999, 0, 0.0F
         ));
 
+        // Add villager to the level
         level.addFreshEntity(villager);
     }
 
     public static void spawnBimbleton(ServerLevel level, Vec3 pos, float yaw) {
+
+        // Create new villager
         Villager villager = new Villager(EntityTypes.VILLAGER, level);
 
+        // Set villager position
         villager.setPos(pos.x, pos.y, pos.z);
         villager.setYRot(yaw);
         villager.setYHeadRot(yaw);
@@ -270,22 +289,27 @@ public class CustomVillagerSpawner {
         villager.setNoAi(true);
         villager.setCustomName(Component.literal("Ghimple Bimbleton"));
 
-        // Build trades
+        // Get default vanilla offers and clear them
         MerchantOffers offers = villager.getOffers();
         offers.clear();
 
+        // Add new offers to villager
         offers.add(new MerchantOffer(
                 new ItemCost(Items.COPPER_NUGGET, 12),
                 new ItemStack(ModItems.DOG_WHISTLE, 1),
                 9999999, 0, 0.0F
         ));
 
+        // Add villager to the level
         level.addFreshEntity(villager);
     }
 
     public static void spawnBartholomew(ServerLevel level, Vec3 pos, float yaw) {
+
+        // Create new villager
         Villager villager = new Villager(EntityTypes.VILLAGER, level);
 
+        // Set villager position
         villager.setPos(pos.x, pos.y, pos.z);
         villager.setYRot(yaw);
         villager.setYHeadRot(yaw);
@@ -320,10 +344,11 @@ public class CustomVillagerSpawner {
         villager.setNoAi(true);
         villager.setCustomName(Component.literal("Bartholomew Bale"));
 
-        // Build trades
+        // Get default vanilla offers and clear them
         MerchantOffers offers = villager.getOffers();
         offers.clear();
 
+        // Add new offers to villager
         offers.add(new MerchantOffer(
                 new ItemCost(Items.COPPER_NUGGET, 12),
                 new ItemStack(ModItems.BALE_HELMET, 1),
@@ -354,12 +379,16 @@ public class CustomVillagerSpawner {
                 9999999, 0, 0.0F
         ));
 
+        // Add the villager to the level
         level.addFreshEntity(villager);
     }
 
     public static void spawnPropung(ServerLevel level, Vec3 pos, float yaw) {
+
+        // Create new villager
         Villager villager = new Villager(EntityTypes.VILLAGER, level);
 
+        // Set villager position
         villager.setPos(pos.x, pos.y, pos.z);
         villager.setYRot(yaw);
         villager.setYHeadRot(yaw);
@@ -394,10 +423,11 @@ public class CustomVillagerSpawner {
         villager.setNoAi(true);
         villager.setCustomName(Component.literal("Propung Giewish"));
 
-        // Build trades
+        // Get default vanilla offers and clear them
         MerchantOffers offers = villager.getOffers();
         offers.clear();
 
+        // Add new offers to villager
         offers.add(new MerchantOffer(
                 new ItemCost(Items.POISONOUS_POTATO, 2),
                 new ItemStack(Items.COPPER_NUGGET, 3),
@@ -416,6 +446,7 @@ public class CustomVillagerSpawner {
                 9999999, 0, 0.0F
         ));
 
+        // Add the villager to the level
         level.addFreshEntity(villager);
     }
 }
