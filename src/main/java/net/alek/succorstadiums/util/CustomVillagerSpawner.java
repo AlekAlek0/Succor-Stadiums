@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.Holder;
 
@@ -23,6 +24,7 @@ import java.util.Optional;
 // CustomVillagerSpawner class
 public class CustomVillagerSpawner {
 
+    // Helper method to create a base villager
     private static Villager createVillager(
             ServerLevel level, Vec3 pos, float yaw,
             ResourceKey<VillagerProfession> villagerProfession, int villagerLevel,
@@ -69,6 +71,33 @@ public class CustomVillagerSpawner {
         return villager;
     }
 
+    // Helper method to add an offer to a villager
+    private static void addOffer(MerchantOffers existingOffers, ItemLike buyItem, int buyItemCount,
+                                 ItemLike sellItem, int sellItemCount,
+                                 int maxUses, int xp, float priceMultiplier) {
+
+        existingOffers.add(new MerchantOffer(
+                new ItemCost(buyItem, buyItemCount),
+                new ItemStack(sellItem, sellItemCount),
+                maxUses, xp, priceMultiplier
+        ));
+    }
+
+    // Helper method to add an offer to a villager with a 2nd buy item
+    private static void addOffer(MerchantOffers existingOffers,
+                                 ItemLike buyItem, int buyItemCount,
+                                 ItemLike secondBuyItem, int secondBuyItemCount,
+                                 ItemLike sellItem, int sellItemCount,
+                                 int maxUses, int xp, float priceMultiplier) {
+
+        existingOffers.add(new MerchantOffer(
+                new ItemCost(buyItem, buyItemCount),
+                Optional.of(new ItemCost(secondBuyItem, secondBuyItemCount)),
+                new ItemStack(sellItem, sellItemCount),
+                maxUses, xp, priceMultiplier
+        ));
+    }
+
     public static void spawnYeBuy(ServerLevel level, Vec3 pos, float yaw) {
 
         // Create a new villager object
@@ -79,36 +108,26 @@ public class CustomVillagerSpawner {
         offers.clear();
 
         // Add new offers to villager
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.ROTTEN_FLESH, 10),
-                new ItemStack(Items.COPPER_NUGGET, 3),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.ROTTEN_FLESH, 10,
+                Items.COPPER_NUGGET, 3,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.BONE, 8),
-                new ItemStack(Items.COPPER_NUGGET, 4),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.BONE, 8,
+                Items.COPPER_NUGGET, 4,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.ARROW, 12),
-                new ItemStack(Items.COPPER_NUGGET, 6),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.ARROW, 12,
+                Items.COPPER_NUGGET, 6,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.ROTTEN_FLESH, 16),
-                Optional.of(new ItemCost(Items.BONE, 8)),
-                new ItemStack(Items.COPPER_NUGGET, 10),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.ROTTEN_FLESH, 16,
+                Items.BONE, 8,
+                Items.COPPER_NUGGET, 10,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(ModItems.PLANT_POWDER, 2),
-                new ItemStack(Items.COPPER_NUGGET, 3),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, ModItems.PLANT_POWDER, 2,
+                Items.COPPER_NUGGET, 3,
+                9999999, 0, 0.0F);
 
         // Add villager to the level
         level.addFreshEntity(villager);
@@ -124,35 +143,25 @@ public class CustomVillagerSpawner {
         offers.clear();
 
         // Add new offers to villager
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 8),
-                new ItemStack(ModItems.BONE_DAGGER, 1),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 8,
+                ModItems.BONE_DAGGER, 1,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 12),
-                new ItemStack(ModItems.BEAN_POLE, 1),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 12,
+                ModItems.BEAN_POLE, 1,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 24),
-                new ItemStack(ModItems.SWORD_OF_THE_FOREST, 1),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 24,
+                ModItems.SWORD_OF_THE_FOREST, 1,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 36),
-                new ItemStack(ModItems.FLINT_CHARM, 1),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 36,
+                ModItems.FLINT_CHARM, 1,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 32),
-                new ItemStack(ModItems.SPROUT_SICKLE, 1),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 32,
+                ModItems.SPROUT_SICKLE, 1,
+                9999999, 0, 0.0F);
 
         // Add villager to the level
         level.addFreshEntity(villager);
@@ -168,24 +177,18 @@ public class CustomVillagerSpawner {
         offers.clear();
 
         // Add new offers to villager
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 4),
-                new ItemStack(ModItems.ROTTEN_STEW, 16),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 4,
+                ModItems.ROTTEN_STEW, 16,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 4),
-                Optional.of(new ItemCost(ModItems.PLANT_POWDER, 6)),
-                new ItemStack(ModItems.CREEPER_SALVE, 4),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 4,
+                ModItems.PLANT_POWDER, 6,
+                ModItems.CREEPER_SALVE, 4,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 4),
-                new ItemStack(ModItems.GHRAMBLE_BAPPLE, 2),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 4,
+                ModItems.GHRAMBLE_BAPPLE, 2,
+                9999999, 0, 0.0F);
 
         // Add villager to the level
         level.addFreshEntity(villager);
@@ -201,11 +204,9 @@ public class CustomVillagerSpawner {
         offers.clear();
 
         // Add new offers to villager
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 12),
-                new ItemStack(ModItems.DOG_WHISTLE, 1),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 12,
+                ModItems.DOG_WHISTLE, 1,
+                9999999, 0, 0.0F);
 
         // Add villager to the level
         level.addFreshEntity(villager);
@@ -221,35 +222,25 @@ public class CustomVillagerSpawner {
         offers.clear();
 
         // Add new offers to villager
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 12),
-                new ItemStack(ModItems.BALE_HELMET, 1),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 12,
+                ModItems.BALE_HELMET, 1,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 16),
-                new ItemStack(ModItems.BALE_CHESTPLATE, 1),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 16,
+                ModItems.BALE_CHESTPLATE, 1,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 14),
-                new ItemStack(ModItems.BALE_LEGGINGS, 1),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 14,
+                ModItems.BALE_LEGGINGS, 1,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 10),
-                new ItemStack(ModItems.BALE_BOOTS, 1),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 10,
+                ModItems.BALE_BOOTS, 1,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.COPPER_NUGGET, 20),
-                new ItemStack(ModItems.FUMBLEBRINGER_FORK, 1),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.COPPER_NUGGET, 20,
+                ModItems.FUMBLEBRINGER_FORK, 1,
+                9999999, 0, 0.0F);
 
         // Add the villager to the level
         level.addFreshEntity(villager);
@@ -265,23 +256,17 @@ public class CustomVillagerSpawner {
         offers.clear();
 
         // Add new offers to villager
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.POISONOUS_POTATO, 2),
-                new ItemStack(Items.COPPER_NUGGET, 3),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.POISONOUS_POTATO, 2,
+                Items.COPPER_NUGGET, 3,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(Items.POISONOUS_POTATO, 2),
-                new ItemStack(ModItems.GHRAMBLE_BAPPLE, 2),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, Items.POISONOUS_POTATO, 2,
+                ModItems.GHRAMBLE_BAPPLE, 2,
+                9999999, 0, 0.0F);
 
-        offers.add(new MerchantOffer(
-                new ItemCost(ModItems.PLANT_POWDER, 2),
-                new ItemStack(Items.POISONOUS_POTATO, 2),
-                9999999, 0, 0.0F
-        ));
+        addOffer(offers, ModItems.PLANT_POWDER, 2,
+                Items.POISONOUS_POTATO, 2,
+                9999999, 0, 0.0F);
 
         // Add the villager to the level
         level.addFreshEntity(villager);
