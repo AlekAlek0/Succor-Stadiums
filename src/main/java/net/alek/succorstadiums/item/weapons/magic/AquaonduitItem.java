@@ -144,7 +144,7 @@ public class AquaonduitItem extends Item {
                         30, 0.3, 0.1, 0.3, 0
                 );
 
-                level.playSound(null, landPos.x, landPos.y,  landPos.z, ModSounds.AQUA_ROD_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
+                level.playSound(null, landPos.x, landPos.y,  landPos.z, ModSounds.AQUAONDUIT_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
 
                 AABB area = new AABB(
                         landPos.x - RING_RADIUS, landPos.y - 2, landPos.z - RING_RADIUS,
