@@ -240,8 +240,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("key.succorstadiums.open_mob_arena", "Open Mob Arena GUI");
 
         // Mod Sounds Subtitle translations
-        translationBuilder.add("sound.succorstadiums.aqua_staff_use", "§3Aquaonduit used");
-        translationBuilder.add("sound.succorstadiums.fire_staff_use", "§4Firecharged Cane used");
+        translationBuilder.add("sound.succorstadiums.aquaonduit_use", "§3Aquaonduit used");
+        translationBuilder.add("sound.succorstadiums.firecharged_cane_use", "§4Firecharged Cane used");
         translationBuilder.add("sound.succorstadiums.arachno_carapace_armor_equip", "§4Arachno Carpace Armor equips");
 
         // Mod Backpack container translations

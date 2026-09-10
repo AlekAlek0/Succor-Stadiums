@@ -1,11 +1,11 @@
 {
   "aqua_staff_use": {
-    "subtitle": "sound.succorstadiums.aqua_staff_use",
-    "sounds": ["succorstadiums:aqua_staff_use"]
+    "subtitle": "sound.succorstadiums.aquaonduit_use",
+    "sounds": ["succorstadiums:aquaonduit_use"]
   },
   "fire_staff_use": {
-    "subtitle": "sound.succorstadiums.fire_staff_use",
-    "sounds": ["succorstadiums:fire_staff_use"]
+    "subtitle": "sound.succorstadiums.firecharged_cane_use",
+    "sounds": ["succorstadiums:firecharged_cane_use"]
   },
   "arachno_carapace_armor_equip": {
     "subtitle": "sound.succorstadiums.arachno_carapace_armor_equip",
