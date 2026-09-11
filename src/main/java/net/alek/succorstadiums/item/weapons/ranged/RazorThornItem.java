@@ -1,17 +1,16 @@
 package net.alek.succorstadiums.item.weapons.ranged;
 
-import net.alek.succorstadiums.sound.ModSounds;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.Item;
 
 import net.alek.succorstadiums.entity.items.RazorThornEntity;
 import net.alek.succorstadiums.entity.ModEntityTypes;
+import net.alek.succorstadiums.sound.ModSounds;
 
 import org.jspecify.annotations.NonNull;
 
@@ -55,7 +54,7 @@ public class RazorThornItem extends Item {
 
         // Set Cooldown, play a sound effect and return a success value for the interaction result
         player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
-        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.CROSSBOW_LOADING_END, SoundSource.PLAYERS, 1.0f, 1.0f);
+        level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.RAZOR_THORN_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
         return InteractionResult.SUCCESS;
     }
 }

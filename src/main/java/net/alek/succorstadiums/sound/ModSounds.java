@@ -12,6 +12,8 @@ public class ModSounds {
     public static final SoundEvent AQUAONDUIT_USE = registerSound("aquaonduit_use");
     public static final SoundEvent FIRECHARGED_CANE_USE = registerSound("firecharged_cane_use");
     public static final SoundEvent SPROUT_SICKLE_USE = registerSound("sprout_sickle_use");
+    public static final SoundEvent RAZOR_THORN_USE = registerSound("razor_thorn_use");
+    public static final SoundEvent RAZOR_THORN_HIT = registerSound("razor_thorn_hit");
 
     public static final SoundEvent ARACHNO_CARAPACE_ARMOR_EQUIP = registerSound("arachno_carapace_armor_equip");
 

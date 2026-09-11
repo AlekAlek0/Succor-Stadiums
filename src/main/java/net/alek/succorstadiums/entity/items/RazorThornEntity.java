@@ -1,7 +1,5 @@
 package net.alek.succorstadiums.entity.items;
 
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.ItemSupplier;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,8 +7,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.core.Direction;
 
+import net.alek.succorstadiums.sound.ModSounds;
 import net.alek.succorstadiums.item.ModItems;
 
 import org.jspecify.annotations.NonNull;
@@ -52,7 +52,7 @@ public class RazorThornEntity extends AbstractArrow implements ItemSupplier {
 
     @Override
     protected @NonNull SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.CROSSBOW_HIT;
+        return ModSounds.RAZOR_THORN_HIT;
     }
 
     @Override

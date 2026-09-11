@@ -8,6 +8,12 @@
   "sprout_sickle_use": {
     "sounds": ["succorstadiums:sprout_sickle_use"]
   },
+  "razor_thorn_use": {
+    "sounds": ["succorstadiums:razor_thorn_use"]
+  },
+  "razor_thorn_hit": {
+    "sounds": ["succorstadiums:razor_thorn_hit"]
+  },
   "arachno_carapace_armor_equip": {
     "sounds": ["succorstadiums:arachno_carapace_armor_equip"]
   }
