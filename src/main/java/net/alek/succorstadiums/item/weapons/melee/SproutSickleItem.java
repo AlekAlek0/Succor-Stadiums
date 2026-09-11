@@ -9,9 +9,12 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.item.Item;
 
 import net.alek.succorstadiums.effect.ModEffects;
+import net.alek.succorstadiums.sound.ModSounds;
 
 import org.jspecify.annotations.NonNull;
 
@@ -70,6 +73,10 @@ public class SproutSickleItem extends Item {
 
     @Override
     public void hurtEnemy(@NonNull ItemStack itemStack, @NonNull LivingEntity mob, LivingEntity attacker) {
+        Level level = attacker.level();
+
+        level.playSound(null, attacker.getX(), attacker.getY(),  attacker.getZ(), ModSounds.SPROUT_SICKLE_USE, SoundSource.PLAYERS, 100.0f, 1.0f);
+
         if (attacker.getRandom().nextFloat() < 0.08F) {
             mob.addEffect(new MobEffectInstance(ModEffects.PARALYSIS, 60, 0));
         }
