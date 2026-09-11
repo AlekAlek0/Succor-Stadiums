@@ -1,9 +1,9 @@
 {
-  "aqua_staff_use": {
+  "aquaonduit_use": {
     "subtitle": "sound.succorstadiums.aquaonduit_use",
     "sounds": ["succorstadiums:aquaonduit_use"]
   },
-  "fire_staff_use": {
+  "firecharged_cane_use": {
     "subtitle": "sound.succorstadiums.firecharged_cane_use",
     "sounds": ["succorstadiums:firecharged_cane_use"]
   },
