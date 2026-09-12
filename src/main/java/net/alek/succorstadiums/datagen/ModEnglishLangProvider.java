@@ -79,6 +79,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.ARACHNO_CROSSBOW, "§4Arachno Crossbow");
         translationBuilder.add(ModItems.CREEPBOW, "Creepbow");
         translationBuilder.add(ModItems.RAZOR_THORN, "Razor Thorn");
+        translationBuilder.add(ModItems.BALE_ARROW, "Bale Arrow");
 
         // Food translations
         translationBuilder.add(ModItems.GHRAMBLE_BAPPLE, "Ghramble Bapple");
@@ -183,6 +184,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.bownana.lore", "Nana Nana.");
         translationBuilder.add("item.succorstadiums.arachno_crossbow.lore", "Slow but powerful, a promising ranged option.");
         translationBuilder.add("item.succorstadiums.razor_thorn.lore", "Just a sharp branch.");
+        translationBuilder.add("item.succorstadiums.bale_arrow.lore", "Knockback.");
 
         // Ranged Weapon Tooltip translations
         translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_0", "1% Chance for free a thorn.");
@@ -222,6 +224,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
         // Item entity translations
         translationBuilder.add("entity.succorstadiums.razor_thorn", "Razor Thorn");
+        translationBuilder.add("entity.succorstadiums.bale_arrow", "Bale Arrow");
 
         // Entity translations
         translationBuilder.add("entity.succorstadiums.banana_slime", "Banana Slime");

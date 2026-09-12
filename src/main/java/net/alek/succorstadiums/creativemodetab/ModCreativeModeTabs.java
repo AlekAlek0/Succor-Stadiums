@@ -92,6 +92,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.ARACHNO_CROSSBOW);
                         output.accept(ModItems.CREEPBOW);
                         output.accept(ModItems.RAZOR_THORN);
+                        output.accept(ModItems.BALE_ARROW);
 
 
 

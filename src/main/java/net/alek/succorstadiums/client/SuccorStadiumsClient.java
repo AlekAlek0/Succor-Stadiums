@@ -456,6 +456,12 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.DARK_GREEN)
                 );
             }
+            if (stack.is(ModItems.BALE_ARROW)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.bale_arrow.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
 
             // Food Tooltips
             if (stack.is(ModItems.GHRAMBLE_BAPPLE)) {
