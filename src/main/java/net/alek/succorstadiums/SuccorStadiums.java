@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-// Mod initializer class
+// SuccorStadiums class (Mod initializer class)
 public class SuccorStadiums implements ModInitializer {
 
 	// Define mod id and logger
