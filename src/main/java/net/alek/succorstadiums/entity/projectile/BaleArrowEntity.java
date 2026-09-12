@@ -14,6 +14,7 @@ import org.jspecify.annotations.NullMarked;
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.item.ModItems;
 
+// BaleArrowEntity class
 @NullMarked
 public class BaleArrowEntity extends AbstractArrow {
 
@@ -54,11 +55,13 @@ public class BaleArrowEntity extends AbstractArrow {
         }
     }
 
+    // Override the pickup item of a regular arrow with our custom arrow item
     @Override
     protected ItemStack getPickupItem() {
         return new ItemStack(ModItems.BALE_ARROW);
     }
 
+    // Override the default pickup item of a regular arrow with our custom arrow item
     @Override
     protected ItemStack getDefaultPickupItem() {
         return new ItemStack(ModItems.BALE_ARROW);
