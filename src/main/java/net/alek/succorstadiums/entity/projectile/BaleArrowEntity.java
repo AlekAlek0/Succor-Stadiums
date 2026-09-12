@@ -1,6 +1,7 @@
 package net.alek.succorstadiums.entity.projectile;
 
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EntityType;
@@ -35,26 +36,18 @@ public class BaleArrowEntity extends AbstractArrow {
 
     @Override
     protected void onHitEntity(EntityHitResult result) {
+        Vec3 arrowMovement = this.getDeltaMovement();
+
         super.onHitEntity(result);
 
         if (!this.level().isClientSide()) {
             if (result.getEntity() instanceof LivingEntity livingTarget) {
-                double dx = this.getDeltaMovement().x;
-                double dz = this.getDeltaMovement().z;
-                double horizontalDistance = Math.sqrt(dx * dx + dz * dz);
+                double resistance = Math.max(0.0D, 1.0D - livingTarget.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE));
+                Vec3 horizontalDirection = arrowMovement.multiply(1.0D, 0.0D, 1.0D);
 
-                if (horizontalDistance > 1.0E-7D) {
-                    Vec3 currentMovement = livingTarget.getDeltaMovement();
-                    Vec3 pushDirection = new Vec3(dx / horizontalDistance, 0.0D, dz / horizontalDistance)
-                            .scale(BALE_ARROW_KNOCKBACK_IMPULSE);
-
-                    livingTarget.setDeltaMovement(
-                            currentMovement.x / 2.0D - pushDirection.x,
-                            livingTarget.onGround()
-                                    ? Math.min(0.4D, currentMovement.y / 2.0D + BALE_ARROW_KNOCKBACK_IMPULSE)
-                                    : currentMovement.y,
-                            currentMovement.z / 2.0D - pushDirection.z
-                    );
+                if (horizontalDirection.lengthSqr() > 1.0E-7D && resistance > 0.0D) {
+                    Vec3 push = horizontalDirection.normalize().scale(BALE_ARROW_KNOCKBACK_IMPULSE * resistance);
+                    livingTarget.push(push.x, 0.1D, push.z);
                     livingTarget.hurtMarked = true;
                 }
             }
