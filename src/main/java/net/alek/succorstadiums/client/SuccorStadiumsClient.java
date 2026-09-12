@@ -1,6 +1,7 @@
 package net.alek.succorstadiums.client;
 
 import net.alek.succorstadiums.client.particle.ForestAuraParticle;
+import net.alek.succorstadiums.client.render.entity.items.BaleArrowEntityRenderer;
 import net.alek.succorstadiums.client.render.entity.items.RazorThornEntityRenderer;
 import net.alek.succorstadiums.client.render.entity.monsters.*;
 import net.alek.succorstadiums.entity.ModEntityTypes;
@@ -40,6 +41,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
         KeyInputHandler.register();
 
         EntityRenderers.register(ModEntityTypes.RAZOR_THORN, RazorThornEntityRenderer::new);
+        EntityRenderers.register(ModEntityTypes.BALE_ARROW, BaleArrowEntityRenderer::new);
 
         EntityRenderers.register(ModEntityTypes.BANANA_SLIME, BananaSlimeRenderer::new);
         EntityRenderers.register(ModEntityTypes.FARMBIE, FarmbieRenderer::new);

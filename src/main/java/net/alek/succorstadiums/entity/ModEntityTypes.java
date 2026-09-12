@@ -3,6 +3,7 @@ package net.alek.succorstadiums.entity;
 import net.alek.succorstadiums.SuccorStadiums;
 import net.alek.succorstadiums.entity.items.RazorThornEntity;
 import net.alek.succorstadiums.entity.monsters.*;
+import net.alek.succorstadiums.entity.projectile.BaleArrowEntity;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -19,6 +20,12 @@ public class ModEntityTypes {
     public static final EntityType<RazorThornEntity> RAZOR_THORN = register(
             "razor_thorn", EntityType.Builder.<RazorThornEntity>of(RazorThornEntity::new,
                     MobCategory.MISC).sized(0.5f, 0.5f)
+                    .clientTrackingRange(4)
+                    .updateInterval(20)
+    );
+    public static final EntityType<BaleArrowEntity> BALE_ARROW = register(
+            "bale_arrow", EntityType.Builder.<BaleArrowEntity>of(BaleArrowEntity::new,
+                            MobCategory.MISC).sized(0.5f, 0.5f)
                     .clientTrackingRange(4)
                     .updateInterval(20)
     );

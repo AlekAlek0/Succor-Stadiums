@@ -4,9 +4,7 @@ import net.alek.succorstadiums.item.armor.ArmorOfTheForestItem;
 import net.alek.succorstadiums.item.armor.BaleArmorItem;
 import net.alek.succorstadiums.item.foods.CreeperSalveItem;
 import net.alek.succorstadiums.item.weapons.melee.*;
-import net.alek.succorstadiums.item.weapons.ranged.ArachnoCrossbowItem;
-import net.alek.succorstadiums.item.weapons.ranged.CreepbowItem;
-import net.alek.succorstadiums.item.weapons.ranged.RazorThornItem;
+import net.alek.succorstadiums.item.weapons.ranged.*;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -25,7 +23,6 @@ import net.alek.succorstadiums.item.trinkets.FlintCharmItem;
 import net.alek.succorstadiums.item.trinkets.ResurrectionAmuletItem;
 import net.alek.succorstadiums.item.weapons.magic.AquaonduitItem;
 import net.alek.succorstadiums.item.weapons.magic.FirechargedCaneItem;
-import net.alek.succorstadiums.item.weapons.ranged.BownanaItem;
 
 import static net.alek.succorstadiums.item.ModArmorMaterials.*;
 import static net.alek.succorstadiums.item.ModToolMaterials.*;
@@ -162,6 +159,8 @@ public class ModItems {
     public static final Item CREEPBOW = registerItem("creepbow", properties -> new CreepbowItem(properties
             .durability(450)));
     public static final Item RAZOR_THORN = registerItem("razor_thorn", properties -> new RazorThornItem(properties));
+    public static final Item BALE_ARROW = registerItem("bale_arrow", properties -> new BaleArrowItem(properties
+            .stacksTo(64)));
 
     public static final Item GHRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
             .useCooldown(5)));

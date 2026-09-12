@@ -73,6 +73,8 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerators.createFlatItemModel(ModItems.CREEPBOW, ModelTemplates.BOW);
         itemModelGenerators.generateBow(ModItems.CREEPBOW);
 
+        itemModelGenerators.generateFlatItem(ModItems.BALE_ARROW, ModelTemplates.FLAT_ITEM);
+
         // Food datagen
         itemModelGenerators.generateFlatItem(ModItems.GHRAMBLE_BAPPLE, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.CREEPER_SALVE, ModelTemplates.FLAT_ITEM);
