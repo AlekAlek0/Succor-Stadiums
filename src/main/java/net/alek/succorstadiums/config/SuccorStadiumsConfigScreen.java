@@ -9,7 +9,7 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 
 public class SuccorStadiumsConfigScreen {
 
-    private static final SuccorStadiumsConfig CONFIG = new SuccorStadiumsConfig();
+    private static final SuccorStadiumsConfig CONFIG = SuccorStadiumsConfigManager.load();
 
     public static Screen create(Screen parent) {
 
@@ -59,9 +59,7 @@ public class SuccorStadiumsConfigScreen {
                         .build()
         );
 
-        builder.setSavingRunnable(() -> {
-            // Save config to disk here later
-        });
+        builder.setSavingRunnable(() -> SuccorStadiumsConfigManager.save(CONFIG));
 
         return builder.build();
     }
