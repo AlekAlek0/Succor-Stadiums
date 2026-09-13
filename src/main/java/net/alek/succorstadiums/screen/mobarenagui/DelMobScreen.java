@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
+import net.alek.succorstadiums.config.Theme;
 import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -60,7 +61,7 @@ public class DelMobScreen {
                 .bounds(cx, by, 50, BTN_H).build());
     }
 
-    public void render(GuiGraphicsExtractor g, Font font, GuiTheme theme,
+    public void render(GuiGraphicsExtractor g, Font font, Theme theme,
                        int dx, int dt, int dw, int guiTop, int selectedWave,
                        ArenaDataPayload.WaveEntry wave) {
 
@@ -70,7 +71,7 @@ public class DelMobScreen {
         if (wave == null) return;
 
         if (wave.mobs().isEmpty()) {
-            g.text(font, "No mobs in this wave.", dx + PANEL_PAD, guiTop + 36, theme.subtext(), false);
+            g.text(font, "No mobs in this wave.", dx + PANEL_PAD, guiTop + 36, theme.subtext.getRGB(), false);
             return;
         }
 
@@ -81,7 +82,7 @@ public class DelMobScreen {
 
             if (i % 2 == 0) {
                 g.fill(dx, currentY, dx + dw, currentY + mobEntryTotalHeight,
-                        theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
+                        theme != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
             }
 
             String display = MobViewScreen.formatIdentifierForDisplay(mob.mobType());
@@ -93,7 +94,7 @@ public class DelMobScreen {
                     display += " (Variant: " + mob.size() + ")";
                 }
             }
-            g.text(font, mob.count() + "x  " + display, dx + PANEL_PAD + 162, currentY + 4, theme.text(), false);
+            g.text(font, mob.count() + "x  " + display, dx + PANEL_PAD + 162, currentY + 4, theme.text.getRGB(), false);
 
             MobViewScreen.renderMobDetailLines(g, font, theme, mob, dx + PANEL_PAD + 10, currentY + 18);
 

@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
+import net.alek.succorstadiums.config.Theme;
 import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -154,7 +155,7 @@ public class ArenaFormScreen {
         savedDelay = "";
     }
 
-    public void render(GuiGraphicsExtractor g, Font font, GuiTheme theme,
+    public void render(GuiGraphicsExtractor g, Font font, Theme theme,
                        int dx, int dt, int dw, String headerTitle) {
         g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
         g.text(font, headerTitle, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
@@ -162,10 +163,10 @@ public class ArenaFormScreen {
         int fw = dw - PANEL_PAD * 2;
         int halfW = fw / 2 - 2;
 
-        g.text(font, "Group", dx + PANEL_PAD, dt + 20, theme.subtext(), false);
-        g.text(font, "Name", dx + PANEL_PAD + halfW + 4, dt + 20, theme.subtext(), false);
-        g.text(font, "Position", dx + PANEL_PAD, dt + 60, theme.subtext(), false);
-        g.text(font, "Radius / Delay (s)", dx + PANEL_PAD, dt + 100, theme.subtext(), false);
+        g.text(font, "Group", dx + PANEL_PAD, dt + 20, theme.subtext.getRGB(), false);
+        g.text(font, "Name", dx + PANEL_PAD + halfW + 4, dt + 20, theme.subtext.getRGB(), false);
+        g.text(font, "Position", dx + PANEL_PAD, dt + 60, theme.subtext.getRGB(), false);
+        g.text(font, "Radius / Delay (s)", dx + PANEL_PAD, dt + 100, theme.subtext.getRGB(), false);
     }
 
     private static EditBox makeField(Consumer<AbstractWidget> addRenderableWidget,

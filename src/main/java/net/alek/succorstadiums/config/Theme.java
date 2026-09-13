@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.screen.mobarenagui;
+package net.alek.succorstadiums.config;
 
 import java.awt.Color;
 
@@ -112,7 +112,15 @@ public enum Theme {
     public final Color text;
     public final Color subtext;
 
-    Theme(Color bg, Color sidebar, Color panel, Color border, Color header, Color text, Color subtext) {
+    Theme(
+            Color bg,
+            Color sidebar,
+            Color panel,
+            Color border,
+            Color header,
+            Color text,
+            Color subtext
+    ) {
         this.bg = bg;
         this.sidebar = sidebar;
         this.panel = panel;
@@ -122,13 +130,18 @@ public enum Theme {
         this.subtext = subtext;
     }
 
-    public Theme next() {
-        Theme[] values = values();
-        return values[(ordinal() + 1) % values.length];
-    }
-
-    public Theme previous() {
-        Theme[] values = values();
-        return values[(ordinal() - 1 + values.length) % values.length];
+    public String getDisplayName() {
+        return switch (this) {
+            case LIGHT -> "Light";
+            case DARK -> "Dark";
+            case CATPPUCCIN -> "Catppuccin";
+            case OCEAN -> "Ocean";
+            case FOREST -> "Forest";
+            case SUNSET -> "Sunset";
+            case CRIMSON -> "Crimson";
+            case PURPLE -> "Purple";
+            case EMERALD -> "Emerald";
+            case MIDNIGHT -> "Midnight";
+        };
     }
 }

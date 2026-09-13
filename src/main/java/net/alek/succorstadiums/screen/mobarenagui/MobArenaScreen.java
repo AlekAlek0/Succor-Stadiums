@@ -1,6 +1,8 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
 import net.alek.succorstadiums.client.ModKeyBindings;
+import net.alek.succorstadiums.config.SuccorStadiumsConfigScreen;
+import net.alek.succorstadiums.config.Theme;
 import net.alek.succorstadiums.network.arena.ArenaActionPayload;
 import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import net.alek.succorstadiums.network.arena.ArenaPasteWavePayload;
@@ -48,7 +50,9 @@ public class MobArenaScreen extends Screen {
 
     // ── Theme ─────────────────────────────────────────────────────
 
-    private final GuiTheme theme = new GuiTheme();
+    private Theme theme() {
+        return SuccorStadiumsConfigScreen.getConfig().mobArenaTheme;
+    }
 
     // ── UI state ─────────────────────────────────────────────────────────────
 
@@ -183,12 +187,6 @@ public class MobArenaScreen extends Screen {
     @Override
     protected void rebuildWidgets() {
         clearWidgets();
-
-        addRenderableWidget(Button.builder(
-                Component.literal("Theme: " + theme.getThemeName()),
-                btn -> { theme.nextTheme(); rebuildWidgets(); }
-        ).bounds(sidebarX(), guiTop() - 14, SIDEBAR_W, 12).build());
-
         buildSidebarButtons();
 
         if (showDeleteArenaConfirm)                    buildDeleteArenaConfirmWidgets();
@@ -720,11 +718,12 @@ public class MobArenaScreen extends Screen {
     public void extractRenderState(GuiGraphicsExtractor g, int mx, int my, float delta) {
         int gl = guiLeft(), gt = guiTop(), gw = guiWidth(), gh = guiHeight();
 
-        g.fill(gl, gt, gl + gw, gt + gh, theme.bg());
-        g.fill(sidebarX(), gt, sidebarX() + SIDEBAR_W, gt + gh,theme.sidebar());
-        g.fill(sidebarX() + SIDEBAR_W, gt, sidebarX() + SIDEBAR_W + 1, gt + gh, theme.border());
-        g.fill(detailX(), gt, detailX() + detailW(), gt + gh, theme.panel());
-        g.outline(gl, gt, gw, gh, theme.border());
+        g.fill(gl, gt, gl + gw, gt + gh, theme().bg.getRGB());
+        g.fill(sidebarX(), gt, sidebarX() + SIDEBAR_W, gt + gh, theme().sidebar.getRGB());
+        g.fill(sidebarX() + SIDEBAR_W, gt, sidebarX() + SIDEBAR_W + 1, gt + gh, theme().border.getRGB());
+        g.fill(detailX(), gt, detailX() + detailW(), gt + gh, theme().panel.getRGB());
+        g.outline(gl, gt, gw, gh, theme().border.getRGB());
+
         g.fill(sidebarX(), gt, sidebarX() + SIDEBAR_W, gt + 16, 0xFF888888);
         g.text(font, "Arenas", sidebarX() + PANEL_PAD, gt + 4, 0xFFFFFFFF, false);
 
@@ -748,14 +747,14 @@ public class MobArenaScreen extends Screen {
         }
 
         if (detailView == DetailView.ADD_ARENA) {
-            arenaFormScreen.render(g, font, theme, dx, dt, dw, "New Arena");
+            arenaFormScreen.render(g, font, theme(), dx, dt, dw, "New Arena");
             return;
         }
 
         if (detailView == DetailView.EDIT_ARENA) {
             if (selectedArena < 0 || selectedArena >= arenas.size()) return;
             ArenaDataPayload.ArenaEntry arena = arenas.get(selectedArena);
-            arenaFormScreen.render(g, font, theme, dx, dt, dw, "Edit Arena: " + arena.name());
+            arenaFormScreen.render(g, font, theme(), dx, dt, dw, "Edit Arena: " + arena.name());
             return;
         }
 
@@ -764,7 +763,7 @@ public class MobArenaScreen extends Screen {
                     && selectedArena >= 0 && selectedArena < arenas.size())
                     ? "Participation Reward: " + arenas.get(selectedArena).name()
                     : "Participation Reward: New Arena";
-            rewardScreen.render(g, font, theme, dx, dt, dw, guiTop(), guiHeight(), title);
+            rewardScreen.render(g, font, theme(), dx, dt, dw, guiTop(), guiHeight(), title);
             return;
         }
 
@@ -773,12 +772,12 @@ public class MobArenaScreen extends Screen {
                     && selectedArena >= 0 && selectedArena < arenas.size())
                     ? "Rewards: " + arenas.get(selectedArena).name()
                     : "Rewards: New Arena";
-            rewardScreen.render(g, font, theme, dx, dt, dw, guiTop(), guiHeight(), title);
+            rewardScreen.render(g, font, theme(), dx, dt, dw, guiTop(), guiHeight(), title);
             return;
         }
 
         if (detailView == DetailView.REWARD_WAVE) {
-            rewardScreen.render(g, font, theme, dx, dt, dw, guiTop(), guiHeight(), "Rewards: Wave " + selectedWave);
+            rewardScreen.render(g, font, theme(), dx, dt, dw, guiTop(), guiHeight(), "Rewards: Wave " + selectedWave);
             return;
         }
 
@@ -789,7 +788,7 @@ public class MobArenaScreen extends Screen {
                     .filter(w -> w.waveNumber() == selectedWave).findFirst().orElse(null);
             String label = (wave != null && wave.name() != null && !wave.name().isEmpty())
                     ? wave.name() : "Wave " + selectedWave;
-            waveFormScreen.render(g, font, theme, dx, dt, dw, guiTop(), guiHeight(), "Edit Wave: " + label, wave);
+            waveFormScreen.render(g, font, theme(), dx, dt, dw, guiTop(), guiHeight(), "Edit Wave: " + label, wave);
             return;
         }
 
@@ -801,12 +800,12 @@ public class MobArenaScreen extends Screen {
                         .filter(w -> w.waveNumber() == selectedWave)
                         .findFirst().orElse(null);
             }
-            mobViewScreen.render(g, font, theme, dx, dt, dw, guiTop(), selectedWave, wave);
+            mobViewScreen.render(g, font, theme(), dx, dt, dw, guiTop(), selectedWave, wave);
             return;
         }
 
         if (detailView == DetailView.ADD_MOB) {
-            addMobScreen.render(g, font, theme, dx, dt, dw, guiTop(), guiHeight(), selectedWave);
+            addMobScreen.render(g, font, theme(), dx, dt, dw, guiTop(), guiHeight(), selectedWave);
             return;
         }
 
@@ -817,12 +816,12 @@ public class MobArenaScreen extends Screen {
                 wave = arena.waves().stream()
                         .filter(w -> w.waveNumber() == selectedWave).findFirst().orElse(null);
             }
-            delMobScreen.render(g, font, theme, dx, dt, dw, guiTop(), selectedWave, wave);
+            delMobScreen.render(g, font, theme(), dx, dt, dw, guiTop(), selectedWave, wave);
             return;
         }
 
         if (selectedArena < 0 || selectedArena >= arenas.size()) {
-            g.text(font, "Select an arena or create a new one.", dx + PANEL_PAD, dt + 24, theme.subtext(), false);
+            g.text(font, "Select an arena or create a new one.", dx + PANEL_PAD, dt + 24, theme().subtext.getRGB(), false);
             return;
         }
 
@@ -835,23 +834,23 @@ public class MobArenaScreen extends Screen {
 
         String groupLine = "X:" + (int)arena.x() + " Y:" + (int)arena.y() + " Z:" + (int)arena.z()
                 + "   Group: " + (arena.group() != null ? arena.group() : UNGROUPED_LABEL);
-        g.text(font, groupLine, dx + PANEL_PAD, dt + 20, theme.subtext(), false);
+        g.text(font, groupLine, dx + PANEL_PAD, dt + 20, theme().subtext.getRGB(), false);
         g.text(font, "Radius: " + arena.radius() + "  Delay: " + arena.delaySeconds() + "s"
                         + "   Rewards: " + arena.rewards().size(),
-                dx + PANEL_PAD, dt + 30, theme.subtext(), false);
+                dx + PANEL_PAD, dt + 30, theme().subtext.getRGB(), false);
 
-        g.fill(dx, dt + 42, dx + dw - 3, dt + 54, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
-        g.text(font, "Waves (" + arena.waves().size() + ")", dx + PANEL_PAD, dt + 45, theme.header(), false);
+        g.fill(dx, dt + 42, dx + dw - 3, dt + 54, theme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
+        g.text(font, "Waves (" + arena.waves().size() + ")", dx + PANEL_PAD, dt + 45, theme().header.getRGB(), false);
 
         int waveAreaY = guiTop() + 56;
         int maxWaves  = (guiHeight() - 76) / ROW_H;
         for (int i = waveScroll; i < Math.min(arena.waves().size(), waveScroll + maxWaves); i++) {
             ArenaDataPayload.WaveEntry wave = arena.waves().get(i);
             int ry = waveAreaY + (i - waveScroll) * ROW_H;
-            if (i % 2 == 0) g.fill(dx, ry, dx + dw - 3, ry + ROW_H, theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
+            if (i % 2 == 0) g.fill(dx, ry, dx + dw - 3, ry + ROW_H, theme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
             String label = (wave.name() != null && !wave.name().isEmpty())
                     ? wave.name() : "Wave " + wave.waveNumber();
-            g.text(font, label, dx + PANEL_PAD + 34, ry + 4, theme.text(), false);
+            g.text(font, label, dx + PANEL_PAD + 34, ry + 4, theme().text.getRGB(), false);
         }
 
         if (!pasteError.isEmpty()) {
@@ -878,11 +877,11 @@ public class MobArenaScreen extends Screen {
         int by = guiTop() + (guiHeight() - boxH) / 2;
 
         g.fill(guiLeft(), guiTop(), guiLeft() + guiWidth(), guiTop() + guiHeight(), 0x80000000);
-        g.fill(bx, by, bx + boxW, by + boxH, theme.panel());
-        g.outline(bx, by, boxW, boxH, theme.border());
-        g.text(font, "Delete Arena?", bx + PANEL_PAD, by + 6, theme.header(), false);
+        g.fill(bx, by, bx + boxW, by + boxH, theme().panel.getRGB());
+        g.outline(bx, by, boxW, boxH, theme().border.getRGB());
+        g.text(font, "Delete Arena?", bx + PANEL_PAD, by + 6, theme().header.getRGB(), false);
         g.text(font, "Delete \"" + arena.name() + "\"? This cannot be undone.",
-                bx + PANEL_PAD, by + 24, theme.subtext(), false);
+                bx + PANEL_PAD, by + 24, theme().subtext.getRGB(), false);
     }
 
     private void renderNewWavePrompt(GuiGraphicsExtractor g) {
@@ -893,11 +892,11 @@ public class MobArenaScreen extends Screen {
         int by = guiTop() + (guiHeight() - boxH) / 2;
 
         g.fill(guiLeft(), guiTop(), guiLeft() + guiWidth(), guiTop() + guiHeight(), 0x80000000);
-        g.fill(bx, by, bx + boxW, by + boxH, theme.panel());
-        g.outline(bx, by, boxW, boxH, theme.border());
-        g.text(font, "New Wave", bx + PANEL_PAD, by + 6, theme.header(), false);
-        g.text(font, "Name", bx + PANEL_PAD, by + 22, theme.subtext(), false);
-        g.text(font, "Delay (s)", bx + PANEL_PAD, by + 56, theme.subtext(), false);
+        g.fill(bx, by, bx + boxW, by + boxH, theme().panel.getRGB());
+        g.outline(bx, by, boxW, boxH, theme().border.getRGB());
+        g.text(font, "New Wave", bx + PANEL_PAD, by + 6, theme().header.getRGB(), false);
+        g.text(font, "Name", bx + PANEL_PAD, by + 22, theme().subtext.getRGB(), false);
+        g.text(font, "Delay (s)", bx + PANEL_PAD, by + 56, theme().subtext.getRGB(), false);
     }
 
     // ── Input handling ────────────────────────────────────────────────────────

@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
+import net.alek.succorstadiums.config.Theme;
 import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -902,7 +903,7 @@ public class AddMobScreen {
      * pass when DetailView.ADD_MOB is active — BEFORE the parent's super.extractRenderState
      * call renders the actual widgets.
      */
-    public void render(GuiGraphicsExtractor g, Font font, GuiTheme theme,
+    public void render(GuiGraphicsExtractor g, Font font, Theme theme,
                        int dx, int dt, int dw, int guiTop, int guiHeight, int waveNumber) {
         g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
         g.text(font, (editMode ? "Edit Mob in Wave " : "Add Mob(s) to Wave ") + waveNumber, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
@@ -915,7 +916,7 @@ public class AddMobScreen {
             int[] pos = inlineLabelPositions.get(i);
             int labelY = pos[1] - addMobScroll;
             if (labelY >= scissorTop && labelY < scissorBottom) {
-                g.text(font, inlineLabelTexts.get(i), pos[0], labelY, theme.subtext(), false);
+                g.text(font, inlineLabelTexts.get(i), pos[0], labelY, theme.subtext.getRGB(), false);
             }
         }
         g.disableScissor();

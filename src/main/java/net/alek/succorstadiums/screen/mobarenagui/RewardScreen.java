@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
+import net.alek.succorstadiums.config.Theme;
 import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -179,7 +180,7 @@ public class RewardScreen {
         ).bounds(x, y, w, 14).build());
     }
 
-    public void render(GuiGraphicsExtractor g, Font font, GuiTheme theme,
+    public void render(GuiGraphicsExtractor g, Font font, Theme theme,
                        int dx, int dt, int dw, int guiTop, int guiHeight, String headerTitle) {
         g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
         g.text(font, headerTitle, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
@@ -187,7 +188,7 @@ public class RewardScreen {
         int currentY = guiTop + 30;
 
         if (entries.isEmpty()) {
-            g.text(font, "No rewards set.", dx + PANEL_PAD, currentY + 2, theme.subtext(), false);
+            g.text(font, "No rewards set.", dx + PANEL_PAD, currentY + 2, theme.subtext.getRGB(), false);
             currentY += ROW_H;
         } else {
             for (String[] e : entries) {
@@ -196,7 +197,7 @@ public class RewardScreen {
                 String display = isXp
                         ? (e[1] + (isLevels ? " Level" + (e[1].equals("1") ? "" : "s") : " XP"))
                         : (e[1] + "x  " + formatIdentifierForDisplay(e[0]));
-                g.text(font, display, dx + PANEL_PAD, currentY + 2, theme.text(), false);
+                g.text(font, display, dx + PANEL_PAD, currentY + 2, theme.text.getRGB(), false);
                 currentY += ROW_H;
             }
         }
@@ -207,8 +208,8 @@ public class RewardScreen {
         int toggleW = 40, unitToggleW = 48, countW = 60, addW = 52;
         int itemW = fw - toggleW - 4 - unitToggleW - 4 - countW - 4 - addW - 4;
         int itemFieldX = dx + PANEL_PAD + toggleW + 4 + unitToggleW + 4;
-        g.text(font, "Item / XP", itemFieldX, currentY - 10, theme.subtext(), false);
-        g.text(font, "Amount", itemFieldX + itemW + 4, currentY - 10, theme.subtext(), false);
+        g.text(font, "Item / XP", itemFieldX, currentY - 10, theme.subtext.getRGB(), false);
+        g.text(font, "Amount", itemFieldX + itemW + 4, currentY - 10, theme.subtext.getRGB(), false);
 
         if (!validationError.isEmpty()) {
             g.text(font, validationError, dx + PANEL_PAD,

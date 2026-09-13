@@ -25,13 +25,31 @@ public class SuccorStadiumsConfigScreen {
 
         general.addEntry(
                 entries.startEnumSelector(
+                                Component.literal("GUI Theme"),
+                                Theme.class,
+                                CONFIG.mobArenaTheme
+                        )
+                        .setDefaultValue(Theme.DARK)
+                        .setSaveConsumer(value ->
+                                CONFIG.mobArenaTheme = value
+                        )
+                        .setEnumNameProvider(value ->
+                                Component.literal(
+                                        ((Theme) value).getDisplayName()
+                                )
+                        )
+                        .build()
+        );
+
+        general.addEntry(
+                entries.startEnumSelector(
                                 Component.literal("Magic Indicator"),
                                 MagicIndicatorMode.class,
                                 CONFIG.magicIndicatorMode
                         )
                         .setDefaultValue(MagicIndicatorMode.CROSSHAIR)
                         .setSaveConsumer(value ->
-                                CONFIG.magicIndicatorMode = (MagicIndicatorMode) value
+                                CONFIG.magicIndicatorMode = value
                         )
                         .setEnumNameProvider(value ->
                                 Component.literal(
@@ -46,5 +64,9 @@ public class SuccorStadiumsConfigScreen {
         });
 
         return builder.build();
+    }
+
+    public static SuccorStadiumsConfig getConfig() {
+        return CONFIG;
     }
 }

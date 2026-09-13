@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
+import net.alek.succorstadiums.config.Theme;
 import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -170,15 +171,15 @@ public class WaveFormScreen {
 
     // ── Rendering ──────────────────────────────────────────────────────────
 
-    public void render(GuiGraphicsExtractor g, Font font, GuiTheme theme,
+    public void render(GuiGraphicsExtractor g, Font font, Theme theme,
                        int dx, int dt, int dw, int guiTop, int guiHeight,
                        String headerTitle, ArenaDataPayload.WaveEntry wave) {
         g.fill(dx, dt, dx + 849, dt + 16, 0xFF5C7ABA);
         g.text(font, headerTitle, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
-        g.text(font, "Name / Delay (s)", dx + PANEL_PAD, dt + 20, theme.subtext(), false);
+        g.text(font, "Name / Delay (s)", dx + PANEL_PAD, dt + 20, theme.subtext.getRGB(), false);
 
         int cy = dt + 20;
-        g.text(font, "Mobs", dx + PANEL_PAD, cy + 42, theme.subtext(), false);
+        g.text(font, "Mobs", dx + PANEL_PAD, cy + 42, theme.subtext.getRGB(), false);
 
         int mobAreaTop = cy + 52;
         int by = guiTop + guiHeight - BTN_H - PANEL_PAD;
@@ -187,7 +188,7 @@ public class WaveFormScreen {
         if (wave == null) return;
 
         if (wave.mobs().isEmpty()) {
-            g.text(font, "No mobs in this wave.", dx + PANEL_PAD, mobAreaTop + 4, theme.subtext(), false);
+            g.text(font, "No mobs in this wave.", dx + PANEL_PAD, mobAreaTop + 4, theme.subtext.getRGB(), false);
             return;
         }
 
@@ -201,7 +202,7 @@ public class WaveFormScreen {
 
             if (rowIndex % 2 == 0) {
                 g.fill(dx, currentY, dx + dw - 3, currentY + rowHeight,
-                        theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
+                        theme != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
             }
 
             String display = MobViewScreen.formatIdentifierForDisplay(mob.mobType());
@@ -209,7 +210,7 @@ public class WaveFormScreen {
                 String variant = variantDisplayFor(mob);
                 display += !variant.isEmpty() ? " (" + variant + ")" : " (Variant: " + mob.size() + ")";
             }
-            g.text(font, mob.count() + "x  " + display, dx + PANEL_PAD, currentY + 4, theme.text(), false);
+            g.text(font, mob.count() + "x  " + display, dx + PANEL_PAD, currentY + 4, theme.text.getRGB(), false);
 
             MobViewScreen.renderMobDetailLines(g, font, theme, mob, dx + PANEL_PAD + 10, currentY + 18);
 

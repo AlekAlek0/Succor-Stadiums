@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
+import net.alek.succorstadiums.config.Theme;
 import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -33,7 +34,7 @@ public class MobViewScreen {
 
     // ── Rendering ──────────────────────────────────────────────────────────
 
-    public void render(GuiGraphicsExtractor g, Font font, GuiTheme theme,
+    public void render(GuiGraphicsExtractor g, Font font, Theme theme,
                        int dx, int dt, int dw, int guiTop,
                        int selectedWave, ArenaDataPayload.WaveEntry wave) {
 
@@ -41,7 +42,7 @@ public class MobViewScreen {
         g.text(font, "Mobs in Wave " + selectedWave, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
 
         if (wave == null || wave.mobs().isEmpty()) {
-            g.text(font, "No mobs in this wave.", dx + PANEL_PAD, guiTop + 28, theme.subtext(), false);
+            g.text(font, "No mobs in this wave.", dx + PANEL_PAD, guiTop + 28, theme.subtext.getRGB(), false);
             return;
         }
 
@@ -52,7 +53,7 @@ public class MobViewScreen {
             if (i % 2 == 0) {
                 int rowHeight = computeMobEntryHeight(mob);
                 g.fill(dx, currentY, dx + dw, currentY + rowHeight,
-                        theme.getTheme() != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
+                        theme != Theme.LIGHT ? 0x15FFFFFF : 0x11000000);
             }
 
             String mobDisplay = mob.count() + "x  " + formatIdentifierForDisplay(mob.mobType());
@@ -62,7 +63,7 @@ public class MobViewScreen {
                         ? " (Variant: " + mob.size() + ")"
                         : " (" + variantDisplay + ")";
             }
-            g.text(font, mobDisplay, dx + PANEL_PAD, currentY + 4, theme.text(), false);
+            g.text(font, mobDisplay, dx + PANEL_PAD, currentY + 4, theme.text.getRGB(), false);
             currentY += ROW_H;
 
             currentY = renderMobDetailLines(g, font, theme, mob, dx + PANEL_PAD + 10, currentY);
@@ -70,34 +71,34 @@ public class MobViewScreen {
         }
     }
 
-    static int renderMobDetailLines(GuiGraphicsExtractor g, Font font, GuiTheme theme,
+    static int renderMobDetailLines(GuiGraphicsExtractor g, Font font, Theme theme,
                                     ArenaDataPayload.MobEntry mob, int x, int startY) {
         int y = startY;
 
         if (mob.mainHandItem() != null && !mob.mainHandItem().isEmpty()) {
             g.text(font, "  Main Hand: " + formatIdentifierForDisplay(mob.mainHandItem()),
-                    x, y + 4, theme.subtext(), false);
+                    x, y + 4, theme.subtext.getRGB(), false);
             y += DETAIL_LINE_HEIGHT;
         }
         if (mob.offHandItem() != null && !mob.offHandItem().isEmpty()) {
             g.text(font, "  Off Hand: " + formatIdentifierForDisplay(mob.offHandItem()),
-                    x, y + 4, theme.subtext(), false);
+                    x, y + 4, theme.subtext.getRGB(), false);
             y += DETAIL_LINE_HEIGHT;
         }
         if (mob.armorItems() != null && !mob.armorItems().isEmpty()) {
             for (int s = 0; s < Math.min(mob.armorItems().size(), ARMOR_SLOTS.length); s++) {
                 g.text(font, "  " + ARMOR_SLOTS[s] + ": " + formatIdentifierForDisplay(mob.armorItems().get(s)),
-                        x, y + 4, theme.subtext(), false);
+                        x, y + 4, theme.subtext.getRGB(), false);
                 y += DETAIL_LINE_HEIGHT;
             }
         }
         if (mob.ridingMob() != null && !mob.ridingMob().isEmpty()) {
             g.text(font, "  Riding: " + formatIdentifierForDisplay(mob.ridingMob()),
-                    x, y + 4, theme.subtext(), false);
+                    x, y + 4, theme.subtext.getRGB(), false);
             y += DETAIL_LINE_HEIGHT;
         }
         if (mob.potionEffects() != null && !mob.potionEffects().isEmpty()) {
-            g.text(font, "  Potion Effects:", x, y + 4, theme.subtext(), false);
+            g.text(font, "  Potion Effects:", x, y + 4, theme.subtext.getRGB(), false);
             y += DETAIL_LINE_HEIGHT;
             for (String effect : mob.potionEffects().split(",")) {
                 String[] parts = effect.split(":");
@@ -108,13 +109,13 @@ public class MobViewScreen {
                     String durDisplay = ("-1".equals(durStr) || "0".equals(durStr)) ? "Infinite" : durStr + "s";
                     g.text(font, "    - " + formatIdentifierForDisplay(effectId)
                                     + " (" + durDisplay + ", Amp " + ampStr + ")",
-                            x + 10, y + 4, theme.subtext(), false);
+                            x + 10, y + 4, theme.subtext.getRGB(), false);
                     y += DETAIL_LINE_HEIGHT;
                 }
             }
         }
         if (mob.enchantments() != null && !mob.enchantments().isEmpty()) {
-            g.text(font, "  Enchantments:", x, y + 4, theme.subtext(), false);
+            g.text(font, "  Enchantments:", x, y + 4, theme.subtext.getRGB(), false);
             y += DETAIL_LINE_HEIGHT;
             for (String enchantment : mob.enchantments().split(",")) {
                 String[] parts = enchantment.split(":");
@@ -124,7 +125,7 @@ public class MobViewScreen {
                     String enchantId = String.join(":", Arrays.copyOfRange(parts, 1, parts.length - 1));
                     g.text(font, "    - " + formatIdentifierForDisplay(enchantId)
                                     + " (Lvl " + lvlStr + ") on " + targetDisplayFor(target),
-                            x + 10, y + 4, theme.subtext(), false);
+                            x + 10, y + 4, theme.subtext.getRGB(), false);
                     y += DETAIL_LINE_HEIGHT;
                 }
             }
