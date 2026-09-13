@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.config;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -21,6 +22,13 @@ public class SuccorStadiumsConfigScreen {
 
         ConfigCategory general = builder.getOrCreateCategory(
                 Component.literal("General")
+        );
+
+        general.addEntry(
+                entries.startTextDescription(
+                        Component.literal("TIP: Press \\ by default anytime in-game to open this menu quickly!")
+                                .withStyle(ChatFormatting.YELLOW)
+                ).build()
         );
 
         general.addEntry(
