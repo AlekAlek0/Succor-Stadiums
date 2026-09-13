@@ -54,7 +54,7 @@ public class RazorThornItem extends Item {
 
         // Set Cooldown, play a sound effect and return a success value for the interaction result
         player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
-        level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.RAZOR_THORN_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
+        level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.RAZOR_THORN_USE, SoundSource.PLAYERS, 0.25f, 1.0f);
         return InteractionResult.SUCCESS;
     }
 }
