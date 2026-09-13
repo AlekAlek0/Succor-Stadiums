@@ -18,6 +18,7 @@ import net.alek.succorstadiums.sound.ModSounds;
 
 import org.jspecify.annotations.NonNull;
 
+// SproutSickleItem class
 public class SproutSickleItem extends Item {
     public SproutSickleItem(Properties properties) {
         super(properties.component(
@@ -75,8 +76,10 @@ public class SproutSickleItem extends Item {
     public void hurtEnemy(@NonNull ItemStack itemStack, @NonNull LivingEntity mob, LivingEntity attacker) {
         Level level = attacker.level();
 
-        level.playSound(null, attacker.getX(), attacker.getY(),  attacker.getZ(), ModSounds.SPROUT_SICKLE_USE, SoundSource.PLAYERS, 100.0f, 1.0f);
+        // Play a sound effect when player hurts an enemy
+        level.playSound(null, attacker.getX(), attacker.getY(),  attacker.getZ(), ModSounds.SPROUT_SICKLE_USE, SoundSource.PLAYERS, 0.85f, 1.0f);
 
+        // 8% to apply paralysis mob effect to the mob attacked
         if (attacker.getRandom().nextFloat() < 0.08F) {
             mob.addEffect(new MobEffectInstance(ModEffects.PARALYSIS, 60, 0));
         }
