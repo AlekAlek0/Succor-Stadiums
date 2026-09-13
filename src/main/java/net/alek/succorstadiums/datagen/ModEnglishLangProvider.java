@@ -239,8 +239,9 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
         // Mod Keybindings translations
         translationBuilder.add("key.category.succorstadiums.general", "Succor Stadiums");
-        translationBuilder.add("key.succorstadiums.open_backpack", "Open Backpack");
+        translationBuilder.add("key.succorstadiums.open_config", "Open Config Screen");
         translationBuilder.add("key.succorstadiums.open_mob_arena", "Open Mob Arena GUI");
+        translationBuilder.add("key.succorstadiums.open_backpack", "Open Backpack");
 
         // Mod Backpack container translations
         translationBuilder.add("container.succorstadiums.backpack", "Backpack");

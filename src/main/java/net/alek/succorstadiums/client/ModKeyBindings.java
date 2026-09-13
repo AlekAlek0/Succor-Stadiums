@@ -10,16 +10,17 @@ public class ModKeyBindings {
 
     public static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("succorstadiums", "general"));
 
-    public static KeyMapping OPEN_BACKPACK;
+    public static KeyMapping OPEN_CONFIG;
     public static KeyMapping OPEN_MOB_ARENA_GUI;
+    public static KeyMapping OPEN_BACKPACK;
 
     public static void registerKeyBindings() {
 
-        OPEN_BACKPACK = KeyMappingHelper.registerKeyMapping(
+        OPEN_CONFIG = KeyMappingHelper.registerKeyMapping(
                 new KeyMapping(
-                        "key.succorstadiums.open_backpack",
+                        "key.succorstadiums.open_config",
                         InputConstants.Type.KEYSYM,
-                        GLFW.GLFW_KEY_B,
+                        GLFW.GLFW_KEY_BACKSLASH,
                         CATEGORY
                 )
         );
@@ -29,6 +30,15 @@ public class ModKeyBindings {
                         "key.succorstadiums.open_mob_arena",
                         InputConstants.Type.KEYSYM,
                         GLFW.GLFW_KEY_H,
+                        CATEGORY
+                )
+        );
+
+        OPEN_BACKPACK = KeyMappingHelper.registerKeyMapping(
+                new KeyMapping(
+                        "key.succorstadiums.open_backpack",
+                        InputConstants.Type.KEYSYM,
+                        GLFW.GLFW_KEY_B,
                         CATEGORY
                 )
         );
