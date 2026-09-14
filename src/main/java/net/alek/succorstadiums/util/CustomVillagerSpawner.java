@@ -190,6 +190,11 @@ public class CustomVillagerSpawner {
                 ModItems.GHRAMBLE_BAPPLE, 2,
                 9999999, 0, 0.0F);
 
+        addOffer(offers, Items.COPPER_NUGGET, 12,
+                ModItems.MAGIC_FLESH, 4,
+                ModItems.MANA_PASTE, 6,
+                9999999, 0, 0.0F);
+
         // Add villager to the level
         level.addFreshEntity(villager);
     }
