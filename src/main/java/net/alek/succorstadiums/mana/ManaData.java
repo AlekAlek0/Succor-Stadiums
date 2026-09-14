@@ -10,7 +10,7 @@ import net.minecraft.util.Mth;
 public final class ManaData {
     private static final int DEFAULT_MAX_MANA = 10;
     private static final int REGEN_DELAY_TICKS = 40;
-    private static final int REGEN_INTERVAL_TICKS = 5;
+    private static final int REGEN_INTERVAL_TICKS = 10;
     private static final int REGEN_AMOUNT = 1;
 
     public static final Codec<ManaData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
