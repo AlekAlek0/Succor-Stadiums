@@ -1,13 +1,14 @@
 package net.alek.succorstadiums.item.weapons.melee;
 
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.component.ItemAttributeModifiers;
 
+// FumblebringerForkItem class
 public class FumblebringerForkItem extends Item{
     public FumblebringerForkItem(Properties properties) {
         super(properties.component(

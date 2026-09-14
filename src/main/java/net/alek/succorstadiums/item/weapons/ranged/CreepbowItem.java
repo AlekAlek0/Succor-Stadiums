@@ -16,6 +16,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 import java.util.List;
 
+// CreepbowItem class
 public class CreepbowItem extends BowItem {
 
     // Vanilla velocity is 3.0F
@@ -35,28 +36,37 @@ public class CreepbowItem extends BowItem {
 
     @Override
     public boolean releaseUsing(final @NonNull ItemStack itemStack, final @NonNull Level level, final @NonNull LivingEntity entity, final int remainingTime) {
+
+        // Return false if instance is not a player
         if (!(entity instanceof Player player)) {
             return false;
         }
 
+        // Get player ammo and if projectile is empty return false
         ItemStack projectile = player.getProjectile(itemStack);
         if (projectile.isEmpty()) {
             return false;
         }
 
+        // Get how long the bow was drawn for and convert that to draw power
         int timeHeld = this.getUseDuration(itemStack, entity) - remainingTime;
         float pow = getPowerForTime(timeHeld);
+
+        // Check power for a minimum power before firing
         if (pow < 0.1F) {
             return false;
         }
 
+        // Resolve which projectile actually gets fired
         List<ItemStack> firedProjectiles = draw(itemStack, projectile, player);
+
+        // Check if level is instanceof server level and fire the projectile if it is not empty
         if (level instanceof ServerLevel serverLevel && !firedProjectiles.isEmpty()) {
             this.shoot(serverLevel, player, player.getUsedItemHand(), itemStack, firedProjectiles, pow * VELOCITY_MULTIPLIER, 1.0F, pow == 1.0F, null);
         }
 
+        // Play sound effect and return true
         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (level.getRandom().nextFloat() * 0.4F + 1.2F) + pow * 0.5F);
-        player.awardStat(net.minecraft.stats.Stats.ITEM_USED.get(this));
         return true;
     }
 

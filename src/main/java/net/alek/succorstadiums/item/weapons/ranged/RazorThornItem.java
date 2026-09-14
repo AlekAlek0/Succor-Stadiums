@@ -14,6 +14,7 @@ import net.alek.succorstadiums.sound.ModSounds;
 
 import org.jspecify.annotations.NonNull;
 
+// RazorThornItem class
 public class RazorThornItem extends Item {
 
     private static final int PROJECTILE_COUNT = 3;
