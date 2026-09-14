@@ -14,7 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 
-public class FirechargedCaneItem extends Item {
+public class FirechargedCaneItem extends Item implements MagicIndicator {
 
     private static final int COOLDOWN_TICKS = 30;
     private static final int MANA_COST = 4;
