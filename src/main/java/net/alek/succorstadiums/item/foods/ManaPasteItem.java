@@ -12,13 +12,12 @@ import org.jspecify.annotations.NonNull;
 import net.alek.succorstadiums.mana.ManaHelper;
 
 public class ManaPasteItem extends Item {
-
-    private static final Component MANA_FULL_MESSAGE =
-            Component.translatable("message.succorstadiums.mana_paste.mana_full");
-
     public ManaPasteItem(Properties properties) {
         super(properties);
     }
+
+    private static final Component MANA_FULL_MESSAGE =
+            Component.translatable("message.succorstadiums.mana_paste.mana_full");
 
     @Override
     public @NonNull InteractionResult use(@NonNull Level level, @NonNull Player player, @NonNull InteractionHand hand) {
