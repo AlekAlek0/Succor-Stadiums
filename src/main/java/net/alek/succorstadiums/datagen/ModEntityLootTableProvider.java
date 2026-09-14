@@ -1,24 +1,27 @@
 package net.alek.succorstadiums.datagen;
 
-import net.alek.succorstadiums.item.ModItems;
-import net.alek.succorstadiums.loottable.ModLootTables;
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableSubProvider;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.Items;
+
+import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableSubProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
+import net.alek.succorstadiums.loottable.ModLootTables;
+import net.alek.succorstadiums.item.ModItems;
+
+// ModEntityLootTableProvider class
 public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider {
     public ModEntityLootTableProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries, LootContextParamSets.ENTITY);
@@ -77,6 +80,50 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
                         .withPool(
                                 LootPool.lootPool()
                                         .when(LootItemRandomChanceCondition.randomChance(0.02f))
+                                        .add(
+                                                LootItem.lootTableItem(ModItems.ROTTEN_STEW)
+                                                        .apply(SetItemCountFunction.setCount(
+                                                                UniformGenerator.between(0, 2)))
+                                        )
+                        )
+        );
+
+        exporter.accept(ModLootTables.FARMBIE_BLUE_LOOT,
+                LootTable.lootTable()
+                        // 75% chance to drop 0-5 rotten flesh
+                        .withPool(
+                                LootPool.lootPool()
+                                        .when(LootItemRandomChanceCondition.randomChance(0.75f))
+                                        .add(
+                                                LootItem.lootTableItem(Items.ROTTEN_FLESH)
+                                                        .apply(SetItemCountFunction.setCount(
+                                                                UniformGenerator.between(0, 5)))
+                                        )
+                        )
+                        // 10% chance to drop 1-3 poisonous potatoes
+                        .withPool(
+                                LootPool.lootPool()
+                                        .when(LootItemRandomChanceCondition.randomChance(0.1f))
+                                        .add(
+                                                LootItem.lootTableItem(Items.POISONOUS_POTATO)
+                                                        .apply(SetItemCountFunction.setCount(
+                                                                UniformGenerator.between(1, 3)))
+                                        )
+                        )
+                        // 8% chance to drop 0-4 magic flesh
+                        .withPool(
+                                LootPool.lootPool()
+                                        .when(LootItemRandomChanceCondition.randomChance(0.08f))
+                                        .add(
+                                                LootItem.lootTableItem(ModItems.MAGIC_FLESH)
+                                                        .apply(SetItemCountFunction.setCount(
+                                                                UniformGenerator.between(0, 4)))
+                                        )
+                        )
+                        // 3% chance to drop 0-2 rotten stew
+                        .withPool(
+                                LootPool.lootPool()
+                                        .when(LootItemRandomChanceCondition.randomChance(0.03f))
                                         .add(
                                                 LootItem.lootTableItem(ModItems.ROTTEN_STEW)
                                                         .apply(SetItemCountFunction.setCount(
