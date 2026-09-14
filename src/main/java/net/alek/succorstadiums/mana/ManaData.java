@@ -1,11 +1,12 @@
 package net.alek.succorstadiums.mana;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
+
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.mojang.serialization.Codec;
 
 public final class ManaData {
     private static final int DEFAULT_MAX_MANA = 10;
@@ -67,6 +68,14 @@ public final class ManaData {
             return this;
         }
         return new ManaData(this.mana - amount, this.maxMana, 0, 0);
+    }
+
+    public ManaData withManaAdded(int amount) {
+        int newMana = Math.min(this.mana + amount, this.maxMana);
+        if (newMana == this.mana) {
+            return this;
+        }
+        return new ManaData(newMana, this.maxMana, this.ticksSinceLastUse, this.regenTickCounter);
     }
 
     public boolean hasEnoughMana(int amount) {

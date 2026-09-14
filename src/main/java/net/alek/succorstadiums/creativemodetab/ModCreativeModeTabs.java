@@ -1,15 +1,17 @@
 package net.alek.succorstadiums.creativemodetab;
 
-import net.alek.succorstadiums.SuccorStadiums;
-import net.alek.succorstadiums.item.ModItems;
-import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.core.Registry;
+
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+
+import net.alek.succorstadiums.SuccorStadiums;
+import net.alek.succorstadiums.item.ModItems;
 
 // Mod creative mode tabs class
 public class ModCreativeModeTabs {
@@ -164,6 +166,7 @@ public class ModCreativeModeTabs {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.GHRAMBLE_BAPPLE);
                         output.accept(ModItems.CREEPER_SALVE);
+                        output.accept(ModItems.MANA_PASTE);
                         output.accept(ModItems.PLANT_POWDER);
                         output.accept(ModItems.BEEF_STEW);
                         output.accept(ModItems.CHICKEN_STEW);

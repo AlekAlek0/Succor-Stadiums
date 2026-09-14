@@ -1,15 +1,19 @@
-package net.alek.succorstadiums.food;
+package net.alek.succorstadiums.food.consumeeffects;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
+import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.consume_effects.ConsumeEffect;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.world.level.Level;
+import com.mojang.serialization.Codec;
+
 import org.jspecify.annotations.NonNull;
+
+import net.alek.succorstadiums.food.ModConsumeEffects;
+
 
 public record HealConsumeEffect(float amount) implements ConsumeEffect {
 

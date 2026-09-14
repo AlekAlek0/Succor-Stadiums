@@ -5,10 +5,10 @@ import net.minecraft.core.HolderLookup;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 
-import net.alek.succorstadiums.item.ModItems;
 import java.util.concurrent.CompletableFuture;
-
 import org.jspecify.annotations.NonNull;
+
+import net.alek.succorstadiums.item.ModItems;
 
 // ModEnglishLangProvider class
 public class ModEnglishLangProvider extends FabricLanguageProvider {
@@ -84,6 +84,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Food translations
         translationBuilder.add(ModItems.GHRAMBLE_BAPPLE, "Ghramble Bapple");
         translationBuilder.add(ModItems.CREEPER_SALVE, "Creeper Salve");
+        translationBuilder.add(ModItems.MANA_PASTE, "Mana Paste");
         translationBuilder.add(ModItems.PLANT_POWDER, "Plant Powder");
         translationBuilder.add(ModItems.BEEF_STEW, "Beef Stew");
         translationBuilder.add(ModItems.CHICKEN_STEW, "Chicken Stew");
@@ -108,6 +109,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Gameplay message translations
         translationBuilder.add("death.attack.plant_powder_1", "%1$s tried to consume plant powder");
         translationBuilder.add("death.attack.plant_powder_2", "%1$s just wanted to know what it would do");
+        translationBuilder.add("message.succorstadiums.mana_paste.mana_full", "§cMana is already full");
         translationBuilder.add("message.succorstadiums.firecharged_cane.not_enough_mana", "§cNot enough mana to cast");
         translationBuilder.add("message.succorstadiums.aquaonduit.not_enough_mana", "§cNot enough mana to cast");
         translationBuilder.add("message.succorstadiums.arachno_double_jump.no_spider_leg", "§cNo spider leg ammo in inventory");
@@ -195,8 +197,9 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
         // Food Lore translations
         translationBuilder.add("item.succorstadiums.ghramble_bapple.lore", "Ghramble is my favorite bapple.");
-        translationBuilder.add("item.succorstadiums.rotten_stew.lore", "Cafeteria slop.");
+        translationBuilder.add("item.succorstadiums.mana_paste.lore", "Restores mana in seconds.");
         translationBuilder.add("item.succorstadiums.plant_powder.lore", "DO NOT CONSUME");
+        translationBuilder.add("item.succorstadiums.rotten_stew.lore", "Cafeteria slop.");
 
         // Food Tooltip translations
         translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_0", "Resistance II | 0:45 | 30%");

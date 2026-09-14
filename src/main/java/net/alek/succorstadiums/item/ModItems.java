@@ -1,31 +1,25 @@
 package net.alek.succorstadiums.item;
 
-import net.alek.succorstadiums.item.armor.ArmorOfTheForestItem;
-import net.alek.succorstadiums.item.armor.BaleArmorItem;
-import net.alek.succorstadiums.item.foods.CreeperSalveItem;
-import net.alek.succorstadiums.item.weapons.melee.*;
-import net.alek.succorstadiums.item.weapons.ranged.*;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.equipment.ArmorType;
-import java.util.function.Function;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
+import net.minecraft.core.Registry;
 
-import net.alek.succorstadiums.SuccorStadiums;
-import net.alek.succorstadiums.food.ModFoods;
-import net.alek.succorstadiums.item.armor.ArachnoCarapaceArmorItem;
-import net.alek.succorstadiums.item.armor.NannerWaterWadersItem;
-import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
-import net.alek.succorstadiums.item.trinkets.FlintCharmItem;
-import net.alek.succorstadiums.item.trinkets.ResurrectionAmuletItem;
-import net.alek.succorstadiums.item.weapons.magic.AquaonduitItem;
-import net.alek.succorstadiums.item.weapons.magic.FirechargedCaneItem;
+import java.util.function.Function;
 
 import static net.alek.succorstadiums.item.ModArmorMaterials.*;
 import static net.alek.succorstadiums.item.ModToolMaterials.*;
+import net.alek.succorstadiums.item.weapons.ranged.*;
+import net.alek.succorstadiums.item.weapons.melee.*;
+import net.alek.succorstadiums.item.weapons.magic.*;
+import net.alek.succorstadiums.item.trinkets.*;
+import net.alek.succorstadiums.SuccorStadiums;
+import net.alek.succorstadiums.food.ModFoods;
+import net.alek.succorstadiums.item.foods.*;
+import net.alek.succorstadiums.item.armor.*;
 
 public class ModItems {
 
@@ -167,6 +161,8 @@ public class ModItems {
     public static final Item CREEPER_SALVE = registerItem("creeper_salve", properties -> new CreeperSalveItem(properties.food(ModFoods.CREEPER_SALVE, ModFoods.CREEPER_SALVE_CONSUMABLE)
             .useCooldown(12)
             .stacksTo(8)));
+    public static final Item MANA_PASTE = registerItem("mana_paste", properties -> new ManaPasteItem(properties.food(ModFoods.MANA_PASTE, ModFoods.MANA_PASTE_CONSUMABLE)
+            .useCooldown(15)));
     public static final Item PLANT_POWDER = registerItem("plant_powder", properties -> new Item(properties.food(ModFoods.PLANT_POWDER, ModFoods.PLANT_POWDER_CONSUMABLE)));
     public static final Item BEEF_STEW = registerItem("beef_stew", properties -> new Item(properties.food(ModFoods.BEEF_STEW, ModFoods.BEEF_STEW_CONSUMABLE)
             .stacksTo(16)));

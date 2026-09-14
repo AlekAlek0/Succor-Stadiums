@@ -1,10 +1,11 @@
 package net.alek.succorstadiums.item.foods;
 
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.item.Item;
+
 import org.jspecify.annotations.NonNull;
 
 public class CreeperSalveItem extends Item {

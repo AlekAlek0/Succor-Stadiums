@@ -1,12 +1,15 @@
 package net.alek.succorstadiums.datagen;
 
-import net.alek.succorstadiums.item.ModItems;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.ItemModelGenerators;
+
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.minecraft.client.data.models.BlockModelGenerators;
-import net.minecraft.client.data.models.ItemModelGenerators;
-import net.minecraft.client.data.models.model.ModelTemplates;
+
 import org.jspecify.annotations.NonNull;
+
+import net.alek.succorstadiums.item.ModItems;
 
 public class ModModelProvider extends FabricModelProvider {
     public ModModelProvider(FabricPackOutput output) {
@@ -78,6 +81,7 @@ public class ModModelProvider extends FabricModelProvider {
         // Food datagen
         itemModelGenerators.generateFlatItem(ModItems.GHRAMBLE_BAPPLE, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.CREEPER_SALVE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.MANA_PASTE, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.PLANT_POWDER, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.BEEF_STEW, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.CHICKEN_STEW, ModelTemplates.FLAT_ITEM);

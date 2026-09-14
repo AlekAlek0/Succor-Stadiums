@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.food;
+package net.alek.succorstadiums.food.consumeeffects;
 
 import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -17,6 +17,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.Holder;
 
+import net.alek.succorstadiums.food.ModConsumeEffects;
 import net.alek.succorstadiums.datagen.ModDamageTypes;
 
 import org.jspecify.annotations.NonNull;

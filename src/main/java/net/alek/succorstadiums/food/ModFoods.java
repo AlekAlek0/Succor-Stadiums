@@ -1,12 +1,16 @@
 package net.alek.succorstadiums.food;
 
-import net.alek.succorstadiums.effect.ModEffects;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.component.Consumable;
-import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.consume_effects.ApplyStatusEffectsConsumeEffect;
+import net.minecraft.world.item.component.Consumables;
+import net.minecraft.world.item.component.Consumable;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.effect.MobEffects;
+
+import net.alek.succorstadiums.food.consumeeffects.RestoreManaConsumeEffect;
+import net.alek.succorstadiums.food.consumeeffects.ExplodeConsumeEffect;
+import net.alek.succorstadiums.food.consumeeffects.HealConsumeEffect;
+import net.alek.succorstadiums.effect.ModEffects;
 
 // Mod foods class
 public class ModFoods {
@@ -51,6 +55,20 @@ public class ModFoods {
             .consumeSeconds(0.4f)
 
             .onConsume(new HealConsumeEffect(3.0f))
+
+            .build();
+
+    // Create a new food called mana paste with the following nutrition and saturation and always edible
+    public static final FoodProperties MANA_PASTE = new FoodProperties.Builder()
+            .nutrition(0)
+            .saturationModifier(0)
+            .build();
+
+    // Create the consumable for the mana paste with the consume duration and restore mana consume effect
+    public static final Consumable MANA_PASTE_CONSUMABLE = Consumables.defaultFood()
+            .consumeSeconds(0.4f)
+
+            .onConsume(new RestoreManaConsumeEffect(5))
 
             .build();
 

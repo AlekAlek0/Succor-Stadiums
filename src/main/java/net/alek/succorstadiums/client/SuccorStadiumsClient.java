@@ -1,33 +1,32 @@
 package net.alek.succorstadiums.client;
 
-import net.alek.succorstadiums.client.particle.ForestAuraParticle;
-import net.alek.succorstadiums.client.render.entity.items.BaleArrowEntityRenderer;
-import net.alek.succorstadiums.client.render.entity.items.RazorThornEntityRenderer;
-import net.alek.succorstadiums.client.render.entity.monsters.*;
-import net.alek.succorstadiums.entity.ModEntityTypes;
-import net.alek.succorstadiums.item.ModItems;
-import net.alek.succorstadiums.network.arena.OpenMobArenaPayload;
-import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpPayload;
-import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpResultPayload;
-import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;
-import net.alek.succorstadiums.particle.ModParticles;
-import net.alek.succorstadiums.screen.mobarenagui.MobArenaScreen;
-import net.alek.succorstadiums.screen.mobarenagui.MobArenaScreenHandler;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.ChatFormatting;
+
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.fabricmc.api.ClientModInitializer;
+
+import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;
+import net.alek.succorstadiums.client.particle.ForestAuraParticle;
+import net.alek.succorstadiums.network.arena.OpenMobArenaPayload;
+import net.alek.succorstadiums.client.render.entity.monsters.*;
+import net.alek.succorstadiums.client.render.entity.items.*;
+import net.alek.succorstadiums.particle.ModParticles;
+import net.alek.succorstadiums.entity.ModEntityTypes;
+import net.alek.succorstadiums.screen.mobarenagui.*;
+import net.alek.succorstadiums.network.item.armor.*;
+import net.alek.succorstadiums.item.ModItems;
 
 public class SuccorStadiumsClient implements ClientModInitializer {
     private static boolean canDoubleJump;
@@ -494,15 +493,16 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.RED)
                 );
             }
+            if (stack.is(ModItems.MANA_PASTE)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.mana_paste.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
             if (stack.is(ModItems.PLANT_POWDER)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.plant_powder.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
-                );
-            }
-            if (stack.is(ModItems.CHICKEN_STEW)) {
-                tooltip.add(1,
-                        Component.translatable("item.succorstadiums.chicken_stew.tooltip").withStyle(ChatFormatting.RED)
                 );
             }
             if (stack.is(ModItems.ROTTEN_STEW)) {
@@ -514,7 +514,11 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.rotten_stew.tooltip").withStyle(ChatFormatting.RED)
                 );
             }
-
+            if (stack.is(ModItems.CHICKEN_STEW)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.chicken_stew.tooltip").withStyle(ChatFormatting.RED)
+                );
+            }
 
             // Trinket Tooltips
             if (stack.is(ModItems.FLINT_CHARM)) {

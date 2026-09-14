@@ -14,10 +14,18 @@ public final class ManaHelper {
     public static boolean consumeMana(Player player, int amount) {
         ManaData data = get(player);
         if (!data.hasEnoughMana(amount)) {
-            return false;
+            return true;
         }
         player.setAttached(ModAttachments.MANA, data.withManaConsumed(amount));
-        return true;
+        return false;
+    }
+
+    public static void addMana(Player player, int amount) {
+        ManaData data = get(player);
+        ManaData updated = data.withManaAdded(amount);
+        if (updated != data) {
+            player.setAttached(ModAttachments.MANA, updated);
+        }
     }
 
     public static void tick(ServerPlayer player) {
