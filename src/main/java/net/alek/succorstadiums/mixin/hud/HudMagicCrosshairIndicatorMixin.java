@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.mixin;
+package net.alek.succorstadiums.mixin.hud;
 
 import net.alek.succorstadiums.config.MagicIndicatorMode;
 import net.alek.succorstadiums.config.SuccorStadiumsConfigScreen;

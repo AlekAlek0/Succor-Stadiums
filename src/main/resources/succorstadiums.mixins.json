@@ -18,9 +18,9 @@
     "requireAnnotations": true
   },
   "client": [
-    "HudMagicCrosshairIndicatorMixin",
-    "HudMagicIndicatorMixin",
-    "HudManaMixin",
+    "hud.HudMagicCrosshairIndicatorMixin",
+    "hud.HudMagicIndicatorMixin",
+    "hud.HudManaMixin",
     "PlayerFovMixin"
   ]
 }
