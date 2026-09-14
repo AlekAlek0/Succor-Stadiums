@@ -1,20 +1,24 @@
 package net.alek.succorstadiums.loottable;
 
-import net.alek.succorstadiums.item.ModItems;
-import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Items;
 
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+
+import net.alek.succorstadiums.item.ModItems;
+
+// ModLootTableModifiers class
 public class ModLootTableModifiers {
 
+    // Create resource keys for the loot tables
     private static final ResourceKey<LootTable> ZOMBIE_LOOT =
             ResourceKey.create(Registries.LOOT_TABLE, Identifier.withDefaultNamespace("entities/zombie"));
 
@@ -25,6 +29,7 @@ public class ModLootTableModifiers {
             ResourceKey.create(Registries.LOOT_TABLE, Identifier.withDefaultNamespace("entities/creeper"));
 
 
+    // Register the mod loot table modifiers
     public static void registerModLootTableModifiers() {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
             if (source.isBuiltin() && key.equals(ZOMBIE_LOOT)) {
