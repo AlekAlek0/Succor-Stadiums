@@ -72,6 +72,24 @@ public class ModFoods {
 
             .build();
 
+    // Create a new food called magic flesh with the following nutrition and saturation
+    public static final FoodProperties MAGIC_FLESH = new FoodProperties.Builder()
+            .nutrition(5)
+            .saturationModifier(0.3f)
+            .build();
+
+    // Create the consumable for the magic flesh with the consume duration
+    public static final Consumable MAGIC_FLESH_CONSUMABLE = Consumables.defaultFood()
+            .consumeSeconds(1.6f)
+
+            .onConsume(new ApplyStatusEffectsConsumeEffect(
+                    new MobEffectInstance(MobEffects.HUNGER, 200, 0), 0.8f))
+
+            .onConsume(new ApplyStatusEffectsConsumeEffect(
+                    new MobEffectInstance(MobEffects.POISON, 100, 0), 0.1f))
+
+            .build();
+
     // Create a new food called plant powder with the following nutrition and saturation and always edible
     public static final FoodProperties PLANT_POWDER = new FoodProperties.Builder()
             .nutrition(0)

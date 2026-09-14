@@ -167,6 +167,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.GHRAMBLE_BAPPLE);
                         output.accept(ModItems.CREEPER_SALVE);
                         output.accept(ModItems.MANA_PASTE);
+                        output.accept(ModItems.MAGIC_FLESH);
                         output.accept(ModItems.PLANT_POWDER);
                         output.accept(ModItems.BEEF_STEW);
                         output.accept(ModItems.CHICKEN_STEW);

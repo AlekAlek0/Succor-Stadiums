@@ -163,6 +163,7 @@ public class ModItems {
             .stacksTo(8)));
     public static final Item MANA_PASTE = registerItem("mana_paste", properties -> new ManaPasteItem(properties.food(ModFoods.MANA_PASTE, ModFoods.MANA_PASTE_CONSUMABLE)
             .useCooldown(15)));
+    public static final Item MAGIC_FLESH = registerItem("magic_flesh", properties -> new Item(properties.food(ModFoods.MAGIC_FLESH, ModFoods.MAGIC_FLESH_CONSUMABLE)));
     public static final Item PLANT_POWDER = registerItem("plant_powder", properties -> new Item(properties.food(ModFoods.PLANT_POWDER, ModFoods.PLANT_POWDER_CONSUMABLE)));
     public static final Item BEEF_STEW = registerItem("beef_stew", properties -> new Item(properties.food(ModFoods.BEEF_STEW, ModFoods.BEEF_STEW_CONSUMABLE)
             .stacksTo(16)));
