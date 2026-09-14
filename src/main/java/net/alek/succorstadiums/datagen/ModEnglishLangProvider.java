@@ -108,6 +108,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Gameplay message translations
         translationBuilder.add("death.attack.plant_powder_1", "%1$s tried to consume plant powder");
         translationBuilder.add("death.attack.plant_powder_2", "%1$s just wanted to know what it would do");
+        translationBuilder.add("message.succorstadiums.firecharged_cane.not_enough_mana", "§cNot enough mana to cast");
+        translationBuilder.add("message.succorstadiums.aquaonduit.not_enough_mana", "§cNot enough mana to cast");
         translationBuilder.add("message.succorstadiums.arachno_double_jump.no_spider_leg", "§cNo spider leg ammo in inventory");
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

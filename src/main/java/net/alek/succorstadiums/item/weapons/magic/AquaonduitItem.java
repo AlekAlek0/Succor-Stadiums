@@ -1,8 +1,10 @@
 package net.alek.succorstadiums.item.weapons.magic;
 
+import net.alek.succorstadiums.mana.ManaHelper;
 import net.alek.succorstadiums.sound.ModSounds;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -41,6 +43,10 @@ public class AquaonduitItem extends Item {
     private static final int SLOW_FALLING_AMPLIFIER = 0;
     private static final int COOLDOWN_TICKS = 240;
     private static final int RING_DURATION_TICKS = 60;
+    private static final int MANA_COST = 7;
+
+    private static final Component NOT_ENOUGH_MANA_MESSAGE =
+            Component.translatable("message.succorstadiums.aquaonduit.not_enough_mana");
 
     private static final DustParticleOptions AQUA_DUST =
             new DustParticleOptions(0x00FFFF, 1.0f);
@@ -83,6 +89,12 @@ public class AquaonduitItem extends Item {
 
         // Check to see if level is a server level if false return a pass value for the interaction result
         if (!(level instanceof ServerLevel serverLevel)) return InteractionResult.PASS;
+
+        // Check if player has enough mana to cast staff
+        if (!ManaHelper.consumeMana(player, MANA_COST)) {
+            player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
+            return InteractionResult.FAIL;
+        }
 
         // Get the item in user hand as itemStack
         ItemStack itemStack = player.getItemInHand(hand);
@@ -154,8 +166,15 @@ public class AquaonduitItem extends Item {
                 List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, area, e -> true);
 
                 targets.forEach(entity -> {
-                    new MobEffectInstance(MobEffects.SLOWNESS, SLOWNESS_DURATION, SLOWNESS_AMPLIFIER);
-                    new MobEffectInstance(MobEffects.SLOW_FALLING, SLOW_FALLING_DURATION, SLOW_FALLING_AMPLIFIER);
+                    entity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS,
+                            SLOWNESS_DURATION,
+                            SLOWNESS_AMPLIFIER
+                    ));
+
+                    entity.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING,
+                            SLOW_FALLING_DURATION,
+                            SLOW_FALLING_AMPLIFIER
+                    ));
                 });
 
                 activeRings.add(new StaticRing(level, landPos));
@@ -190,8 +209,17 @@ public class AquaonduitItem extends Item {
                 );
                 List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, area, e -> true);
                 targets.forEach(entity -> {
-                    new MobEffectInstance(MobEffects.SLOW_FALLING, 40);
-                    new MobEffectInstance(MobEffects.SLOWNESS, 40, SLOW_FALLING_AMPLIFIER);
+                    entity.addEffect(new MobEffectInstance(
+                            MobEffects.SLOW_FALLING,
+                            40,
+                            SLOW_FALLING_AMPLIFIER
+                    ));
+
+                    entity.addEffect(new MobEffectInstance(
+                            MobEffects.SLOWNESS,
+                            40,
+                            SLOWNESS_AMPLIFIER
+                    ));
                 });
             }
         }

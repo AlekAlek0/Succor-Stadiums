@@ -1,6 +1,8 @@
 package net.alek.succorstadiums.item.weapons.magic;
 
+import net.alek.succorstadiums.mana.ManaHelper;
 import net.alek.succorstadiums.sound.ModSounds;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -14,7 +16,11 @@ import org.jspecify.annotations.NonNull;
 
 public class FirechargedCaneItem extends Item {
 
-    private static final int COOLDOWN_TICKS = 100;
+    private static final int COOLDOWN_TICKS = 30;
+    private static final int MANA_COST = 4;
+
+    private static final Component NOT_ENOUGH_MANA_MESSAGE =
+            Component.translatable("message.succorstadiums.firecharged_cane.not_enough_mana");
 
     public FirechargedCaneItem(Properties properties) {
         super(properties);
@@ -28,7 +34,12 @@ public class FirechargedCaneItem extends Item {
             return InteractionResult.PASS;
         }
 
-        // Get the item in player hand as itemStack
+        // Check if player has enough mana to cast staff
+        if (!ManaHelper.consumeMana(player, MANA_COST)) {
+            player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
+            return InteractionResult.FAIL;
+        }
+
         ItemStack itemStack = player.getItemInHand(hand);
 
         // Get player look vector and spawn position for fireball

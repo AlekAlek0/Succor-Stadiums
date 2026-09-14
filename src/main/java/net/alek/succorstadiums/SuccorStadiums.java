@@ -3,6 +3,7 @@ package net.alek.succorstadiums;
 import net.alek.succorstadiums.advancement.ModCriteria;
 import net.alek.succorstadiums.arena.ArenaSessionManager;
 import net.alek.succorstadiums.arena.MobArenaManager;
+import net.alek.succorstadiums.attachments.ModAttachments;
 import net.alek.succorstadiums.command.ModCommands;
 import net.alek.succorstadiums.creativemodetab.ModCreativeModeTabs;
 import net.alek.succorstadiums.effect.ModEffects;
@@ -12,6 +13,7 @@ import net.alek.succorstadiums.food.ModConsumeEffects;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
 import net.alek.succorstadiums.loottable.ModLootTableModifiers;
+import net.alek.succorstadiums.mana.ManaRegenHandler;
 import net.alek.succorstadiums.network.arena.*;
 import net.alek.succorstadiums.network.backpack.BackpackPacketHandler;
 import net.alek.succorstadiums.network.backpack.OpenBackpackPayload;
@@ -81,6 +83,10 @@ public class SuccorStadiums implements ModInitializer {
 		PayloadTypeRegistry.serverboundPlay().register(OpenMobArenaRequestPayload.TYPE, OpenMobArenaRequestPayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(ArenaActionPayload.TYPE, ArenaActionPayload.CODEC);
 		ArenaPacketHandler.register();
+
+		// Register Mana System
+		ModAttachments.MANA.toString();
+		ManaRegenHandler.register();
 
 		// Register backpack network packet
 		PayloadTypeRegistry.serverboundPlay().register(OpenBackpackPayload.TYPE, OpenBackpackPayload.CODEC);
