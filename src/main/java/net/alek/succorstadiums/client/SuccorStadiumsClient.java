@@ -401,7 +401,15 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(4,
                         Component.translatable("item.succorstadiums.fire_staff.tooltip_1")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.fire_staff.tooltip_2")
                                 .withStyle(ChatFormatting.AQUA)
+                );
+                tooltip.add(6,
+                        Component.translatable("item.succorstadiums.fire_staff.tooltip_3")
+                                .withStyle(ChatFormatting.RED)
                 );
             }
             if (stack.is(ModItems.AQUAONDUIT)) {
@@ -545,15 +553,15 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(4,
                         Component.translatable("item.succorstadiums.dog_whistle.tooltip_1")
-                                .withStyle(ChatFormatting.AQUA)
+                                .withStyle(ChatFormatting.DARK_GREEN)
                 );
                 tooltip.add(5,
                         Component.translatable("item.succorstadiums.dog_whistle.tooltip_2")
-                                .withStyle(ChatFormatting.AQUA)
+                                .withStyle(ChatFormatting.DARK_GREEN)
                 );
                 tooltip.add(6,
                         Component.translatable("item.succorstadiums.dog_whistle.tooltip_3")
-                                .withStyle(ChatFormatting.RED)
+                                .withStyle(ChatFormatting.DARK_GREEN)
                 );
                 tooltip.add(7,
                         Component.translatable("item.succorstadiums.dog_whistle.tooltip_4")
