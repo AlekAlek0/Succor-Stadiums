@@ -41,7 +41,7 @@ public class AquaonduitItem extends Item implements MagicIndicator {
     private static final int SLOW_FALLING_DURATION = 100;
     private static final int SLOWNESS_AMPLIFIER = 0;
     private static final int SLOW_FALLING_AMPLIFIER = 0;
-    private static final int COOLDOWN_TICKS = 240;
+    private static final int COOLDOWN_TICKS = 20 * 12; // 12 Seconds
     private static final int RING_DURATION_TICKS = 60;
     private static final int MANA_COST = 7;
 
