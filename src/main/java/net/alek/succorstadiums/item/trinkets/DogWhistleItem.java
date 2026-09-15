@@ -31,7 +31,7 @@ public class DogWhistleItem extends Item {
     }
 
     // Ticks for cooldown and despawn timers
-    private static final int COOLDOWN_TICKS = 700; // 35 seconds
+    private static final int COOLDOWN_TICKS = 20 * 10; // 10 seconds
     private static final int DESPAWN_TICKS = 600; // 30 seconds
 
     // Tracks wolves and the game time they should despawn at
@@ -67,15 +67,20 @@ public class DogWhistleItem extends Item {
                     // Set wolf position to the player x, y and z, with offsets
                     wolf.setPos(playerPos.x + offsetX, playerPos.y, playerPos.z + offsetZ);
 
-                    // Set the wolf owner, tamed state, hp to 2 1/2 hearts, and target to null
+                    // Set the wolf owner, tamed state, hp to 4 hearts, and target to null
                     wolf.setOwner(player);
                     wolf.setTame(true, false);
-                    wolf.setHealth(4.5F);
+                    wolf.setHealth(8F);
                     wolf.setTarget(null);
 
-                    // Set wolf attack damage to 2 hearts
+                    // Set wolf max health to 4 hearts
+                    if (wolf.getAttribute(Attributes.MAX_HEALTH) != null) {
+                        Objects.requireNonNull(wolf.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(8.0);
+                    }
+
+                    // Set wolf attack damage to 1.5 hearts
                     if (wolf.getAttribute(Attributes.ATTACK_DAMAGE) != null) {
-                        Objects.requireNonNull(wolf.getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(4.0);
+                        Objects.requireNonNull(wolf.getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(3.0);
                     }
 
                     // Set wolf attack range to 5 blocks
@@ -98,7 +103,6 @@ public class DogWhistleItem extends Item {
             if (itemStack.isDamageableItem()) {
                 itemStack.hurtAndBreak(1, player, hand);
             }
-
 
             // Play the wolf growl sound and set a cooldown
             level.playSound(null, playerPos.x, playerPos.y, playerPos.z, SoundEvents.WOLF_GROWL_BABY, SoundSource.PLAYERS, 1.0F, 1.0F);
