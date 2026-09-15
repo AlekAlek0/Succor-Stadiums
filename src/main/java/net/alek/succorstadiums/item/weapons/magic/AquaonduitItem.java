@@ -39,14 +39,14 @@ public class AquaonduitItem extends Item implements MagicIndicator {
     private static final int PARTICLE_COUNT = 48;
     private static final int SLOWNESS_DURATION = 100;
     private static final int SLOW_FALLING_DURATION = 100;
-    private static final int SLOWNESS_AMPLIFIER = 0;
+    private static final int SLOWNESS_AMPLIFIER = 1;
     private static final int SLOW_FALLING_AMPLIFIER = 0;
     private static final int COOLDOWN_TICKS = 20 * 12; // 12 Seconds
-    private static final int RING_DURATION_TICKS = 60;
-    private static final int MANA_COST = 7;
+    private static final int RING_DURATION_TICKS = 20 * 12; // 12 Seconds
+    private static final int MANA_COST = 7; // 3.5 Stars
 
     private static final Component NOT_ENOUGH_MANA_MESSAGE =
-            Component.translatable("message.succorstadiums.aquaonduit.not_enough_mana");
+            Component.translatable("message.succorstadiums.not_enough_mana");
 
     private static final DustParticleOptions AQUA_DUST =
             new DustParticleOptions(0x00FFFF, 1.0f);

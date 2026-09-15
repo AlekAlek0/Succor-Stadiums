@@ -424,11 +424,27 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(4,
                         Component.translatable("item.succorstadiums.aqua_staff.tooltip_1")
-                                .withStyle(ChatFormatting.AQUA)
+                                .withStyle(ChatFormatting.DARK_GREEN)
                 );
                 tooltip.add(5,
                         Component.translatable("item.succorstadiums.aqua_staff.tooltip_2")
                                 .withStyle(ChatFormatting.AQUA)
+                );
+                tooltip.add(6,
+                        Component.translatable("item.succorstadiums.aqua_staff.tooltip_3")
+                                .withStyle(ChatFormatting.AQUA)
+                );
+                tooltip.add(7,
+                        Component.translatable("item.succorstadiums.aqua_staff.tooltip_4")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+                tooltip.add(8,
+                        Component.translatable("item.succorstadiums.aqua_staff.tooltip_5")
+                                .withStyle(ChatFormatting.RED)
+                );
+                tooltip.add(9,
+                        Component.translatable("item.succorstadiums.aqua_staff.tooltip_6")
+                                .withStyle(ChatFormatting.RED)
                 );
             }
             if (stack.is(ModItems.BOWNANA)) {

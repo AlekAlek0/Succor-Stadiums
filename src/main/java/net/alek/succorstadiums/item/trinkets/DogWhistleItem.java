@@ -1,5 +1,7 @@
 package net.alek.succorstadiums.item.trinkets;
 
+import net.alek.succorstadiums.mana.ManaHelper;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -32,7 +34,11 @@ public class DogWhistleItem extends Item {
 
     // Ticks for cooldown and despawn timers
     private static final int COOLDOWN_TICKS = 20 * 10; // 10 seconds
-    private static final int DESPAWN_TICKS = 600; // 30 seconds
+    private static final int DESPAWN_TICKS = 20 * 30; // 30 seconds
+    private static final int MANA_COST = 8; // 4 Stars
+
+    private static final Component NOT_ENOUGH_MANA_MESSAGE =
+            Component.translatable("message.succorstadiums.not_enough_mana");
 
     // Tracks wolves and the game time they should despawn at
     public static final Map<UUID, Long> SUMMONED_WOLVES = new HashMap<>();
@@ -51,6 +57,12 @@ public class DogWhistleItem extends Item {
 
             // Get the item in player hand as itemStack
             ItemStack itemStack = player.getItemInHand(hand);
+
+            // Check if player has enough mana to cast staff
+            if (ManaHelper.consumeMana(player, MANA_COST)) {
+                player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
+                return InteractionResult.FAIL;
+            }
 
             int WOLF_COUNT = 3;
             for (int i = 0; i < WOLF_COUNT; i++) {

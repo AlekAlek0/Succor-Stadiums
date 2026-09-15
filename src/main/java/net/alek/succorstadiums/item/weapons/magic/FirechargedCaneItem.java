@@ -17,10 +17,10 @@ import org.jspecify.annotations.NonNull;
 public class FirechargedCaneItem extends Item implements MagicIndicator {
 
     private static final int COOLDOWN_TICKS = 30; // 1.5 seconds
-    private static final int MANA_COST = 4;
+    private static final int MANA_COST = 4; // 2 Stars
 
     private static final Component NOT_ENOUGH_MANA_MESSAGE =
-            Component.translatable("message.succorstadiums.firecharged_cane.not_enough_mana");
+            Component.translatable("message.succorstadiums.not_enough_mana");
 
     public FirechargedCaneItem(Properties properties) {
         super(properties);

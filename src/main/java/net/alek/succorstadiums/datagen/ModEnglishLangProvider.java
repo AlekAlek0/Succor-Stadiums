@@ -111,8 +111,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("death.attack.plant_powder_1", "%1$s tried to consume plant powder");
         translationBuilder.add("death.attack.plant_powder_2", "%1$s just wanted to know what it would do");
         translationBuilder.add("message.succorstadiums.mana_paste.mana_full", "§cMana is already full");
-        translationBuilder.add("message.succorstadiums.firecharged_cane.not_enough_mana", "§cNot enough mana to cast");
-        translationBuilder.add("message.succorstadiums.aquaonduit.not_enough_mana", "§cNot enough mana to cast");
+        translationBuilder.add("message.succorstadiums.not_enough_mana", "§cInsufficient Mana");
         translationBuilder.add("message.succorstadiums.arachno_double_jump.no_spider_leg", "§cNo spider leg ammo in inventory");
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -179,10 +178,17 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
         // Magic Weapon Tooltip translations
         translationBuilder.add("item.succorstadiums.fire_staff.tooltip_0", "When Used:");
-        translationBuilder.add("item.succorstadiums.fire_staff.tooltip_1", "⏳ Cooldown: 00:05");
+        translationBuilder.add("item.succorstadiums.fire_staff.tooltip_1", " 3 Magic Damage");
+        translationBuilder.add("item.succorstadiums.fire_staff.tooltip_2", " 1.5s Cooldown");
+        translationBuilder.add("item.succorstadiums.fire_staff.tooltip_3", "-2 Mana");
         translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_0", "When Used:");
-        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_1", "⏳ Cooldown: 00:12");
-        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_2", "⌚ Ring Duration: 00:03");
+        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_1", " 0 Magic Damage");
+        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_2", " 12s Cooldown");
+        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_3", " 12s Ring Duration");
+        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_4", " Slow Falling I | 00:15 | 100%");
+        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_5", " Slowness II | 00:15 | 100%");
+        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_6", "-3.5 Mana");
+
         //--------------------------
 
         // Ranged Weapon Lore translations
@@ -219,10 +225,10 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
         // Trinket Tooltip translations
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_0", "When Used:");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_1", "⏳ Cooldown: 0:35");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", "⌚ Despawn: 0:30");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_3", "❤ Health: 2.5 ");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_4", "⚔ Damage: 1 ");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_1", " 1.5 Summon Damage");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", " 30s Summon Duration");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_3", " 10s Cooldown");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_4", "-4 Mana");
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
