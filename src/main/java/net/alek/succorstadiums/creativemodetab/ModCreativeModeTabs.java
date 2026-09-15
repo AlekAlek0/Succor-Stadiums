@@ -125,7 +125,6 @@ public class ModCreativeModeTabs {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.FLINT_CHARM);
                         output.accept(ModItems.RESURRECTION_AMULET);
-                        output.accept(ModItems.DOG_WHISTLE);
 
 
 
