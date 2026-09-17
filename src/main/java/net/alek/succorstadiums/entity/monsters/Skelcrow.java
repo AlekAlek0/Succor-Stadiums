@@ -5,25 +5,22 @@ import net.minecraft.world.entity.ai.goal.RangedBowAttackGoal;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.monster.skeleton.Stray;
-import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 
+import org.jspecify.annotations.NonNull;
+
 import net.alek.succorstadiums.item.weapons.ranged.CreepbowItem;
 import net.alek.succorstadiums.entity.ai.CreepbowAttackGoal;
 import net.alek.succorstadiums.item.ModItems;
-
-import org.jspecify.annotations.NonNull;
 
 public class Skelcrow extends Stray {
 
@@ -67,10 +64,6 @@ public class Skelcrow extends Stray {
 
         ItemStack projectileStack = this.getProjectile(bowStack);
         AbstractArrow arrow = ProjectileUtil.getMobArrow(this, projectileStack, power, bowStack);
-
-        if (arrow instanceof Arrow tippedArrow) {
-            tippedArrow.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 0));
-        }
 
         double xd = target.getX() - this.getX();
         double yd = target.getY(0.3333333333333333) - arrow.getY();
