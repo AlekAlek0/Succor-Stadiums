@@ -372,10 +372,6 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.sword_of_the_forest.tooltip_2")
                                 .withStyle(ChatFormatting.RED)
                 );
-                tooltip.add(6,
-                        Component.translatable("item.succorstadiums.sword_of_the_forest.tooltip_3")
-                                .withStyle(ChatFormatting.RED)
-                );
             }
             if (stack.is(ModItems.SPROUT_SICKLE)) {
                 tooltip.add(1,

@@ -169,8 +169,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Melee Weapon Tooltip translations
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_0", "Armor of the Forest Bonus:");
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_1", "+1 Attack Damage");
-        translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_2", "-0.2 Attack Speed");
-        translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_3", "  Poison I | 0:04 | 25%");
+        translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_2", "  Poison I | 0:04 | 25%");
 
         translationBuilder.add("item.succorstadiums.sprout_sickle.tooltip_0", "Paralysis | 0:03 | 8%");
 

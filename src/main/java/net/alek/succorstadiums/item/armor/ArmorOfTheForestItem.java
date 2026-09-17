@@ -24,7 +24,6 @@ import org.jspecify.annotations.Nullable;
 public class ArmorOfTheForestItem extends Item {
 
     public static final double KB_RESISTANCE_SET_MODIFIER = 0.2; // 20%
-    public static final double ATTACK_SPEED_SET_MODIFIER = -0.2;
     public static final int ATTACK_DAMAGE_SET_MODIFIER = 1;
 
     private static final Identifier ARMOR_OF_THE_FOREST_KNOCKBACK_RESISTANCE_ID =
@@ -32,9 +31,6 @@ public class ArmorOfTheForestItem extends Item {
 
     private static final Identifier ARMOR_OF_THE_FOREST_ATTACK_DAMAGE_ID =
             Identifier.withDefaultNamespace("armor_of_the_forest_attack_damage");
-
-    private static final Identifier ARMOR_OF_THE_FOREST_ATTACK_SPEED_ID =
-            Identifier.withDefaultNamespace("armor_of_the_forest_attack_speed");
 
     public ArmorOfTheForestItem(Item.Properties properties, ArmorType armorType) {
         super(properties.component(
@@ -65,9 +61,6 @@ public class ArmorOfTheForestItem extends Item {
 
         applyOrRemove(player.getAttribute(Attributes.KNOCKBACK_RESISTANCE),
                 ARMOR_OF_THE_FOREST_KNOCKBACK_RESISTANCE_ID, KB_RESISTANCE_SET_MODIFIER, fullSet);
-
-        applyOrRemove(player.getAttribute(Attributes.ATTACK_SPEED),
-                ARMOR_OF_THE_FOREST_ATTACK_SPEED_ID, ATTACK_SPEED_SET_MODIFIER, fullSet && holdingForestSword);
 
         applyOrRemove(player.getAttribute(Attributes.ATTACK_DAMAGE),
                 ARMOR_OF_THE_FOREST_ATTACK_DAMAGE_ID, ATTACK_DAMAGE_SET_MODIFIER, fullSet && holdingForestSword);

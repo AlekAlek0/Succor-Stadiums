@@ -32,7 +32,7 @@ public class SwordOfTheForestItem extends Item {
                                 Attributes.ATTACK_DAMAGE,
                                 new AttributeModifier(
                                         Item.BASE_ATTACK_DAMAGE_ID,
-                                        2.5,
+                                        4,
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 EquipmentSlotGroup.MAINHAND
@@ -41,7 +41,7 @@ public class SwordOfTheForestItem extends Item {
                                 Attributes.ATTACK_SPEED,
                                 new AttributeModifier(
                                         Item.BASE_ATTACK_SPEED_ID,
-                                        -3.2,
+                                        -2.4,
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 EquipmentSlotGroup.MAINHAND
