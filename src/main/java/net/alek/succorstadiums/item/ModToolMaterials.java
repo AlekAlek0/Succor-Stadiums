@@ -62,7 +62,7 @@ public class ModToolMaterials {
             420,
             0,
             0,
-            15,
+            25,
             null
     );
 }
