@@ -60,6 +60,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerators.generateSpear(ModItems.FUMBLEBRINGER_FORK);
         itemModelGenerators.generateFlatItem(ModItems.SWORD_OF_THE_FOREST, ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.SPROUT_SICKLE, ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.OAK_SWORD, ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.RAZOR_THORN, ModelTemplates.FLAT_HANDHELD_ITEM);
 
         // Magic weapon datagen

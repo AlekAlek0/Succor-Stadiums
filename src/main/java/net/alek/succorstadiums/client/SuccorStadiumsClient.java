@@ -389,6 +389,13 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.RED)
                 );
             }
+            if (stack.is(ModItems.OAK_SWORD)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.oak_sword.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
+
             if (stack.is(ModItems.FIRECHARGED_CANE)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.fire_staff.lore")

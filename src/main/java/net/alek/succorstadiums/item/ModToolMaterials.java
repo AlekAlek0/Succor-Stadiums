@@ -65,4 +65,15 @@ public class ModToolMaterials {
             25,
             null
     );
+
+
+    // Create oak sword tool material
+    public static final ToolMaterial OAK_SWORD_TOOL_MATERIAL = new ToolMaterial(
+            BlockTags.INCORRECT_FOR_WOODEN_TOOL,
+            320,
+            0,
+            0,
+            25,
+            null
+    );
 }

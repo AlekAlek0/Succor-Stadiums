@@ -69,6 +69,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.FUMBLEBRINGER_FORK, "Fumblebringer Fork");
         translationBuilder.add(ModItems.SWORD_OF_THE_FOREST, "§2Sword of the Forest");
         translationBuilder.add(ModItems.SPROUT_SICKLE, "Sprout Sickle");
+        translationBuilder.add(ModItems.OAK_SWORD, "Oak Sword");
 
         // Magic Weapon translations
         translationBuilder.add(ModItems.FIRECHARGED_CANE, "§4Firecharged Cane");
@@ -163,6 +164,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.fumblebringer_fork.lore", "This weapon was once used to bring upon \"The Great Fumbling\".");
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.lore", "Recommended for big hoards.");
         translationBuilder.add("item.succorstadiums.sprout_sickle.lore", "Inflicts Paralysis…");
+        translationBuilder.add("item.succorstadiums.oak_sword.lore", "Your first proper weapon.");
 
         // Melee Weapon Tooltip translations
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_0", "Armor of the Forest Bonus:");

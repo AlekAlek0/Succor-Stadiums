@@ -77,6 +77,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.FUMBLEBRINGER_FORK);
                         output.accept(ModItems.SWORD_OF_THE_FOREST);
                         output.accept(ModItems.SPROUT_SICKLE);
+                        output.accept(ModItems.OAK_SWORD);
 
 
 

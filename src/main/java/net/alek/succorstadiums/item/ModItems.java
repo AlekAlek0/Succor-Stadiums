@@ -141,6 +141,12 @@ public class ModItems {
                     0f)
     ));
 
+    public static final Item OAK_SWORD = registerItem("oak_sword", properties -> new Item(
+            properties.sword(OAK_SWORD_TOOL_MATERIAL,
+                    3,
+                    -2.4F)
+    ));
+
     public static final Item FIRECHARGED_CANE = registerItem("firecharged_cane", properties -> new FirechargedCaneItem(properties
             .durability(300)));
     public static final Item AQUAONDUIT = registerItem("aquaonduit", properties -> new AquaonduitItem(properties
