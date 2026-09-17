@@ -96,6 +96,8 @@
   "item.succorstadiums.firecharged_cane": "§4Firecharged Cane",
   "item.succorstadiums.flint_charm": "Flint Charm",
   "item.succorstadiums.flint_charm.lore": "Flint Charm? I just don't see it.",
+  "item.succorstadiums.flint_charm.tooltip_0": "When in Off Hand:",
+  "item.succorstadiums.flint_charm.tooltip_1": " +1 Melee Attack Damage",
   "item.succorstadiums.fumblebringer_fork": "Fumblebringer Fork",
   "item.succorstadiums.fumblebringer_fork.lore": "This weapon was once used to bring upon \"The Great Fumbling\".",
   "item.succorstadiums.ghramble_bapple": "Ghramble Bapple",

@@ -225,6 +225,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.dog_whistle.lore", "Summons 3 doggies to help you fight!");
 
         // Trinket Tooltip translations
+        translationBuilder.add("item.succorstadiums.flint_charm.tooltip_0", "When in Off Hand:");
+        translationBuilder.add("item.succorstadiums.flint_charm.tooltip_1", " +1 Melee Attack Damage");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_0", "When Used:");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_1", " 1.5 Summon Damage");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", " 30s Summon Duration");

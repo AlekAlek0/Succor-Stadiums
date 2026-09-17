@@ -553,6 +553,15 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.flint_charm.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.flint_charm.tooltip_0")
+                                .withStyle(ChatFormatting.GRAY)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.flint_charm.tooltip_1")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
             }
             if (stack.is(ModItems.RESURRECTION_AMULET)) {
                 tooltip.add(1,
