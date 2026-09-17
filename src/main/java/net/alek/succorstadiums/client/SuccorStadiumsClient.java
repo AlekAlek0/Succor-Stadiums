@@ -193,7 +193,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(5,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_2")
-                                .withStyle(ChatFormatting.GRAY)
+                                .withStyle(ChatFormatting.RED)
                 );
                 tooltip.add(6, Component.translatable("item.succorstadiums.spacer"));
             }
@@ -213,7 +213,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(5,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_2")
-                                .withStyle(ChatFormatting.GRAY)
+                                .withStyle(ChatFormatting.RED)
                 );
                 tooltip.add(6, Component.translatable("item.succorstadiums.spacer"));
             }
@@ -233,7 +233,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(5,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_2")
-                                .withStyle(ChatFormatting.GRAY)
+                                .withStyle(ChatFormatting.RED)
                 );
                 tooltip.add(6, Component.translatable("item.succorstadiums.spacer"));
             }
@@ -253,7 +253,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(5,
                         Component.translatable("item.succorstadiums.arachno_carapace_armor.tooltip_2")
-                                .withStyle(ChatFormatting.GRAY)
+                                .withStyle(ChatFormatting.RED)
                 );
                 tooltip.add(6, Component.translatable("item.succorstadiums.spacer"));
             }

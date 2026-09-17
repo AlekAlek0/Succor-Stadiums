@@ -151,7 +151,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Armor Tooltip translations
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_0", "Full Set Bonus:");
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_1", "+1 Mid-air Jump");
-        translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_2", "Requires 1 Spider Leg");
+        translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_2", " Consumes 4 Mana");
         translationBuilder.add("item.succorstadiums.nanner_water_waders.tooltip", "Increased Speed on Soul Sand / Soil, Mud and Underwater.");
         translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_0", "Full Set Bonus:");
         translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_1", " 20% Knockback Resist");
