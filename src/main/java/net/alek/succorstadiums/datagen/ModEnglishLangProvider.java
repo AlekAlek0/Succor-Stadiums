@@ -181,14 +181,14 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.fire_staff.tooltip_0", "When Used:");
         translationBuilder.add("item.succorstadiums.fire_staff.tooltip_1", " 3 Magic Damage");
         translationBuilder.add("item.succorstadiums.fire_staff.tooltip_2", " 1.5s Cooldown");
-        translationBuilder.add("item.succorstadiums.fire_staff.tooltip_3", "-2 Mana");
+        translationBuilder.add("item.succorstadiums.fire_staff.tooltip_3", "-4 Mana");
         translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_0", "When Used:");
         translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_1", " 0 Magic Damage");
         translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_2", " 12s Cooldown");
         translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_3", " 12s Ring Duration");
         translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_4", " Slow Falling I | 00:15 | 100%");
         translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_5", " Slowness II | 00:15 | 100%");
-        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_6", "-3.5 Mana");
+        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_6", "-7 Mana");
 
         //--------------------------
 
@@ -229,7 +229,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_1", " 1.5 Summon Damage");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", " 30s Summon Duration");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_3", " 10s Cooldown");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_4", "-4 Mana");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_4", "-8 Mana");
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
