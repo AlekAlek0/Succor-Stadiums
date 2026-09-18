@@ -122,6 +122,16 @@ public enum Theme {
             new Color(0xFFF0EAD6, true), // Header
             new Color(0xFFF5F1E3, true), // Text
             new Color(0xFFA79F7C, true)  // Subtext
+    ),
+
+    ROSE(
+            new Color(0xFFFDD1D0, true), // Background
+            new Color(0xFFFA9A98, true), // Sidebar
+            new Color(0xFFFBB7B5, true), // Panel
+            new Color(0xFFF98986, true), // Border
+            new Color(0xFFF55854, true), // Header
+            new Color(0xFFF23631, true), // Text
+            new Color(0xFFEE120D, true)  // Subtext
     );
 
     public final Color bg;
@@ -164,6 +174,7 @@ public enum Theme {
             case MIDNIGHT -> "Midnight";
             case BEIGE -> "Beige";
             case  OLIVE -> "Olive";
+            case ROSE -> "Rose";
         };
     }
 }
