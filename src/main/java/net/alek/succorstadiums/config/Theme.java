@@ -102,6 +102,26 @@ public enum Theme {
             new Color(0xFFE6ECF8, true), // Header
             new Color(0xFFF8FAFF, true), // Text
             new Color(0xFFA6B4CC, true)  // Subtext
+    ),
+
+    BEIGE(
+            new Color(0xFFF5F0E6, true), // Background
+            new Color(0xFFEDE4D3, true), // Sidebar
+            new Color(0xFFE3D7C0, true), // Panel
+            new Color(0xFFC9B896, true), // Border
+            new Color(0xFF3A2E1F, true), // Header
+            new Color(0xFF2B2118, true), // Text
+            new Color(0xFF7A6A52, true)  // Subtext
+    ),
+
+    OLIVE(
+            new Color(0xFF3C3C2E, true), // Background
+            new Color(0xFF2C291F, true), // Sidebar
+            new Color(0xFF323024, true), // Panel
+            new Color(0xFF847B42, true), // Border
+            new Color(0xFFF0EAD6, true), // Header
+            new Color(0xFFF5F1E3, true), // Text
+            new Color(0xFFA79F7C, true)  // Subtext
     );
 
     public final Color bg;
@@ -142,6 +162,8 @@ public enum Theme {
             case PURPLE -> "Purple";
             case EMERALD -> "Emerald";
             case MIDNIGHT -> "Midnight";
+            case BEIGE -> "Beige";
+            case  OLIVE -> "Olive";
         };
     }
 }
