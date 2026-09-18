@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.mixin;
+package net.alek.succorstadiums.mixin.item.armor;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EquipmentSlot;

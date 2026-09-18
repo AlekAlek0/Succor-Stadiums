@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.mixin;
+package net.alek.succorstadiums.mixin.item.trinkets;
 
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;

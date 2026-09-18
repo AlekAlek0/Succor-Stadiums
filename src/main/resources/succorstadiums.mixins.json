@@ -7,9 +7,9 @@
     "MobDamageMixin",
     "MobHealthMixin",
     "MobXpMixin",
-    "NannerWaterWadersMixin",
+    "item.armor.NannerWaterWadersMixin",
     "PlayerAttributesMixin",
-    "ResurrectionAmuletMixin"
+    "item.trinkets.ResurrectionAmuletMixin"
   ],
   "injectors": {
     "defaultRequire": 1
