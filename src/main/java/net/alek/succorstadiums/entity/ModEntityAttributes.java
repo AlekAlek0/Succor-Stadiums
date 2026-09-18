@@ -30,7 +30,7 @@ public class ModEntityAttributes {
         FabricDefaultAttributeRegistry.register(
                 ModEntityTypes.FARMBIE_BLUE,
                 Zombie.createAttributes()
-                        .add(Attributes.MOVEMENT_SPEED, 0.24D)
+                        .add(Attributes.MOVEMENT_SPEED, 0.25D)
                         .add(Attributes.ATTACK_DAMAGE, 2.5D)
                         .add(Attributes.ATTACK_SPEED, 0.5D)
                         .add(Attributes.MAX_HEALTH, 16.0D)
