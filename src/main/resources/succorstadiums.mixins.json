@@ -7,9 +7,10 @@
     "MobDamageMixin",
     "MobHealthMixin",
     "MobXpMixin",
-    "item.armor.NannerWaterWadersMixin",
     "PlayerAttributesMixin",
-    "item.trinkets.ResurrectionAmuletMixin"
+    "item.armor.NannerWaterWadersMixin",
+    "item.trinkets.ResurrectionAmuletMixin",
+    "item.weapons.melee.BoneDaggerCritMixin"
   ],
   "injectors": {
     "defaultRequire": 1
@@ -18,9 +19,9 @@
     "requireAnnotations": true
   },
   "client": [
+    "PlayerFovMixin",
     "hud.HudMagicCrosshairIndicatorMixin",
     "hud.HudMagicIndicatorMixin",
-    "hud.HudManaMixin",
-    "PlayerFovMixin"
+    "hud.HudManaMixin"
   ]
 }
