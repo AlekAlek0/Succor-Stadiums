@@ -58,6 +58,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerators.generateFlatItem(ModItems.BONE_DAGGER, ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.BANANNER_BLADE, ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModelGenerators.generateSpear(ModItems.FUMBLEBRINGER_FORK);
+        itemModelGenerators.generateFlatItem(ModItems.GREAT_SWORD_OF_THE_FOREST, ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.SWORD_OF_THE_FOREST, ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.SPROUT_SICKLE, ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.OAK_SWORD, ModelTemplates.FLAT_HANDHELD_ITEM);

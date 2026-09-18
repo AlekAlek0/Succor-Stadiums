@@ -67,6 +67,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.BONE_DAGGER, "Bone Dagger");
         translationBuilder.add(ModItems.BANANNER_BLADE, "Bananner Blade");
         translationBuilder.add(ModItems.FUMBLEBRINGER_FORK, "Fumblebringer Fork");
+        translationBuilder.add(ModItems.GREAT_SWORD_OF_THE_FOREST, "Great Sword of The Forest");
         translationBuilder.add(ModItems.SWORD_OF_THE_FOREST, "§2Sword of the Forest");
         translationBuilder.add(ModItems.SPROUT_SICKLE, "Sprout Sickle");
         translationBuilder.add(ModItems.OAK_SWORD, "Oak Sword");

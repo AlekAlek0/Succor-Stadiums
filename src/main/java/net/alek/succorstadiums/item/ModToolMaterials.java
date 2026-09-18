@@ -46,6 +46,16 @@ public class ModToolMaterials {
             null
     );
 
+    // Create great sword of the forest tool material
+    public static final ToolMaterial GREAT_SWORD_OF_THE_FOREST_TOOL_MATERIAL = new ToolMaterial(
+            BlockTags.INCORRECT_FOR_WOODEN_TOOL,
+            380,
+            0,
+            0,
+            25,
+            null
+    );
+
     // Create sword of the forest tool material
     public static final ToolMaterial SWORD_OF_THE_FOREST_TOOL_MATERIAL = new ToolMaterial(
             BlockTags.INCORRECT_FOR_WOODEN_TOOL,

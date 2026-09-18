@@ -100,14 +100,14 @@ public class ModItems {
 
     public static final Item BEAN_POLE = registerItem("bean_pole", properties -> new BeanPoleItem(
             properties.sword(BEAN_POLE_TOOL_MATERIAL,
-                    0f,
-                    0f)
+                    0F,
+                    0F)
     ));
 
     public static final Item BONE_DAGGER = registerItem("bone_dagger", properties -> new BoneDaggerItem(
             properties.sword(BONE_DAGGER_TOOL_MATERIAL,
-                    0f,
-                    0f)
+                    0F,
+                    0F)
     ));
 
     public static final Item BANANNER_BLADE = registerItem("bananner_blade", properties -> new BannanerBladeItem(
@@ -118,27 +118,33 @@ public class ModItems {
 
     public static final Item FUMBLEBRINGER_FORK = registerItem("fumblebringer_fork", properties -> new FumblebringerForkItem(
             properties.spear(FUMBLEBRINGER_FORK_TOOL_MATERIAL,
-            0.65f,
-            0.50f,
-            0.6f,
-            5.0f,
-            14.0f,
-            8.0f,
-            5.1f,
-            8.0f,
-            4.6f)
+            0.65F,
+            0.50F,
+            0.6F,
+            5.0F,
+            14.0F,
+            8.0F,
+            5.1F,
+            8.0F,
+            4.6F)
+    ));
+
+    public static final Item GREAT_SWORD_OF_THE_FOREST = registerItem("great_sword_of_the_forest", properties -> new Item(
+            properties.sword(GREAT_SWORD_OF_THE_FOREST_TOOL_MATERIAL,
+                    11,
+                    -3.3F)
     ));
 
     public static final Item SWORD_OF_THE_FOREST = registerItem("sword_of_the_forest", properties -> new SwordOfTheForestItem(
             properties.sword(SWORD_OF_THE_FOREST_TOOL_MATERIAL,
-                    0f,
-                    0f)
+                    0F,
+                    0F)
     ));
 
     public static final Item SPROUT_SICKLE = registerItem("sprout_sickle", properties -> new SproutSickleItem(
             properties.sword(SPROUT_SICKLE_TOOL_MATERIAL,
-                    0f,
-                    0f)
+                    0F,
+                    0F)
     ));
 
     public static final Item OAK_SWORD = registerItem("oak_sword", properties -> new Item(

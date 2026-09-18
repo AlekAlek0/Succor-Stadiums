@@ -75,6 +75,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.BONE_DAGGER);
                         output.accept(ModItems.BANANNER_BLADE);
                         output.accept(ModItems.FUMBLEBRINGER_FORK);
+                        output.accept(ModItems.GREAT_SWORD_OF_THE_FOREST);
                         output.accept(ModItems.SWORD_OF_THE_FOREST);
                         output.accept(ModItems.SPROUT_SICKLE);
                         output.accept(ModItems.OAK_SWORD);
