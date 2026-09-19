@@ -20,6 +20,9 @@ public class RazorThornItem extends Item {
     private static final int PROJECTILE_COUNT = 3;
     private static final int COOLDOWN_TICKS = 40;
 
+    // Degrees each side knife is offset
+    private static final float SPREAD_ANGLE_DEGREES = 10.0f;
+
     public RazorThornItem(Properties properties) {
         super(properties);
     }
@@ -35,11 +38,15 @@ public class RazorThornItem extends Item {
         // Get the item in player hand as itemStack
         ItemStack itemStack = player.getItemInHand(hand);
 
-        // Spawn the given amount of razor thorn entity knives
+        // Fixed yaw offsets per knife: straight, left, right (in that spawn order)
+        float[] yawOffsets = { 0.0f, -SPREAD_ANGLE_DEGREES, SPREAD_ANGLE_DEGREES };
+
+        // Spawn the given amount of razor thorn entity knives, each on its own fixed trajectory
         for (int i = 0; i < PROJECTILE_COUNT; i++) {
 
             RazorThornEntity knife = new RazorThornEntity(ModEntityTypes.RAZOR_THORN, player, level, itemStack);
-            knife.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0f, 2.5f, 5.0f);
+            float yaw = player.getYRot() + yawOffsets[i];
+            knife.shootFromRotation(player, player.getXRot(), yaw, 0.0f, 2.5f, 0.0f);
             level.addFreshEntity(knife);
         }
 
