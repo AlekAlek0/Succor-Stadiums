@@ -4,6 +4,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,6 +20,9 @@ import java.util.List;
 
 // CreepbowItem class
 public class CreepbowItem extends BowItem {
+    public CreepbowItem(Properties properties) {
+        super(properties);
+    }
 
     // Vanilla velocity is 3.0F
     public static final float VELOCITY_MULTIPLIER = 0.80F;
@@ -30,8 +35,17 @@ public class CreepbowItem extends BowItem {
     private static final float MOB_DAMAGE = 3.0F;
     private static final double KNOCKBACK_MULTIPLIER = 1.5;
 
-    public CreepbowItem(Properties properties) {
-        super(properties);
+    private static final double DETONATION_ARROW_DAMAGE = 8.0;
+
+    private boolean firingDetonationArrow = false;
+
+    @Override
+    protected @NonNull Projectile createProjectile(@NonNull Level level, @NonNull LivingEntity shooter, @NonNull ItemStack weapon, @NonNull ItemStack ammo, boolean isCrit) {
+        Projectile projectile = super.createProjectile(level, shooter, weapon, ammo, isCrit);
+        if (firingDetonationArrow && projectile instanceof AbstractArrow arrow) {
+            arrow.setBaseDamage(DETONATION_ARROW_DAMAGE);
+        }
+        return projectile;
     }
 
     @Override
@@ -83,7 +97,12 @@ public class CreepbowItem extends BowItem {
 
         if (ticksInUse == TRIGGER_TICK) {
             if (!level.isClientSide()) {
-                this.releaseUsing(stack, level, livingEntity, 0);
+                firingDetonationArrow = true;
+                try {
+                    this.releaseUsing(stack, level, livingEntity, 0);
+                } finally {
+                    firingDetonationArrow = false;
+                }
             }
             detonate(level, livingEntity);
         }
