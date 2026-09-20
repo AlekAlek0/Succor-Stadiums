@@ -109,24 +109,24 @@ public class CustomVillagerSpawner {
 
         // Add new offers to villager
         addOffer(offers, Items.ROTTEN_FLESH, 10,
-                Items.COPPER_NUGGET, 3,
+                ModItems.EMERALD_COIN, 3,
                 9999999, 0, 0.0F);
 
         addOffer(offers, Items.BONE, 8,
-                Items.COPPER_NUGGET, 4,
+                ModItems.EMERALD_COIN, 4,
                 9999999, 0, 0.0F);
 
         addOffer(offers, Items.ARROW, 12,
-                Items.COPPER_NUGGET, 6,
+                ModItems.EMERALD_COIN, 6,
                 9999999, 0, 0.0F);
 
         addOffer(offers, Items.ROTTEN_FLESH, 16,
                 Items.BONE, 8,
-                Items.COPPER_NUGGET, 10,
+                ModItems.EMERALD_COIN, 10,
                 9999999, 0, 0.0F);
 
         addOffer(offers, ModItems.PLANT_POWDER, 2,
-                Items.COPPER_NUGGET, 3,
+                ModItems.EMERALD_COIN, 3,
                 9999999, 0, 0.0F);
 
         // Add villager to the level
@@ -143,23 +143,23 @@ public class CustomVillagerSpawner {
         offers.clear();
 
         // Add new offers to villager
-        addOffer(offers, Items.COPPER_NUGGET, 8,
+        addOffer(offers, ModItems.EMERALD_COIN, 8,
                 ModItems.BONE_DAGGER, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, Items.COPPER_NUGGET, 12,
+        addOffer(offers, ModItems.EMERALD_COIN, 12,
                 ModItems.BEAN_POLE, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, Items.COPPER_NUGGET, 24,
+        addOffer(offers, ModItems.EMERALD_COIN, 24,
                 ModItems.SWORD_OF_THE_FOREST, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, Items.COPPER_NUGGET, 36,
+        addOffer(offers, ModItems.EMERALD_COIN, 36,
                 ModItems.FLINT_CHARM, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, Items.COPPER_NUGGET, 32,
+        addOffer(offers, ModItems.EMERALD_COIN, 32,
                 ModItems.SPROUT_SICKLE, 1,
                 9999999, 0, 0.0F);
 
@@ -177,20 +177,20 @@ public class CustomVillagerSpawner {
         offers.clear();
 
         // Add new offers to villager
-        addOffer(offers, Items.COPPER_NUGGET, 4,
+        addOffer(offers, ModItems.EMERALD_COIN, 4,
                 ModItems.ROTTEN_STEW, 16,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, Items.COPPER_NUGGET, 4,
+        addOffer(offers, ModItems.EMERALD_COIN, 4,
                 ModItems.PLANT_POWDER, 6,
                 ModItems.CREEPER_SALVE, 4,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, Items.COPPER_NUGGET, 4,
+        addOffer(offers, ModItems.EMERALD_COIN, 4,
                 ModItems.GHRAMBLE_BAPPLE, 2,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, Items.COPPER_NUGGET, 12,
+        addOffer(offers, ModItems.EMERALD_COIN, 12,
                 ModItems.MAGIC_FLESH, 4,
                 ModItems.MANA_PASTE, 6,
                 9999999, 0, 0.0F);
@@ -209,7 +209,7 @@ public class CustomVillagerSpawner {
         offers.clear();
 
         // Add new offers to villager
-        addOffer(offers, Items.COPPER_NUGGET, 12,
+        addOffer(offers, ModItems.EMERALD_COIN, 12,
                 ModItems.DOG_WHISTLE, 1,
                 9999999, 0, 0.0F);
 
@@ -227,23 +227,23 @@ public class CustomVillagerSpawner {
         offers.clear();
 
         // Add new offers to villager
-        addOffer(offers, Items.COPPER_NUGGET, 12,
+        addOffer(offers, ModItems.EMERALD_COIN, 12,
                 ModItems.BALE_HELMET, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, Items.COPPER_NUGGET, 16,
+        addOffer(offers, ModItems.EMERALD_COIN, 16,
                 ModItems.BALE_CHESTPLATE, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, Items.COPPER_NUGGET, 14,
+        addOffer(offers, ModItems.EMERALD_COIN, 14,
                 ModItems.BALE_LEGGINGS, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, Items.COPPER_NUGGET, 10,
+        addOffer(offers, ModItems.EMERALD_COIN, 10,
                 ModItems.BALE_BOOTS, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, Items.COPPER_NUGGET, 20,
+        addOffer(offers, ModItems.EMERALD_COIN, 20,
                 ModItems.FUMBLEBRINGER_FORK, 1,
                 9999999, 0, 0.0F);
 
@@ -262,7 +262,7 @@ public class CustomVillagerSpawner {
 
         // Add new offers to villager
         addOffer(offers, Items.POISONOUS_POTATO, 2,
-                Items.COPPER_NUGGET, 3,
+                ModItems.EMERALD_COIN, 3,
                 9999999, 0, 0.0F);
 
         addOffer(offers, Items.POISONOUS_POTATO, 2,
