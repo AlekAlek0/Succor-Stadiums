@@ -28,7 +28,7 @@ public class CreepbowItem extends BowItem {
     public static final float VELOCITY_MULTIPLIER = 0.80F;
 
     private static final int FULL_CHARGE_TICKS = 20;
-    private static final int HOLD_AFTER_FULL_CHARGE_TICKS = 60;
+    private static final int HOLD_AFTER_FULL_CHARGE_TICKS = 30;
     private static final int TRIGGER_TICK = FULL_CHARGE_TICKS + HOLD_AFTER_FULL_CHARGE_TICKS;
 
     private static final double BLAST_RADIUS = 3.0;
