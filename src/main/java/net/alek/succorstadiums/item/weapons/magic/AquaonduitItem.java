@@ -91,7 +91,7 @@ public class AquaonduitItem extends Item implements MagicIndicator {
         if (!(level instanceof ServerLevel serverLevel)) return InteractionResult.PASS;
 
         // Check if player has enough mana to cast staff
-        if (ManaHelper.consumeMana(player, MANA_COST)) {
+        if (!ManaHelper.consumeMana(player, MANA_COST)) {
             player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
             return InteractionResult.FAIL;
         }

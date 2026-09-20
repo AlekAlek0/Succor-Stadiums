@@ -42,7 +42,7 @@ public class ArachnoDoubleJumpHandler {
         if (USED_DOUBLE_JUMP.contains(player.getUUID())) return;
 
         // Check if player has enough mana to double jump if not send success false to jump result payload and return
-        if (ManaHelper.consumeMana(player, MANA_COST)) {
+        if (!ManaHelper.consumeMana(player, MANA_COST)) {
             player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
             ServerPlayNetworking.send(player, new ArachnoDoubleJumpResultPayload(false));
             return;

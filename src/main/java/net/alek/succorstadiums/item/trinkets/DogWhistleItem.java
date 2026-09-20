@@ -59,7 +59,7 @@ public class DogWhistleItem extends Item {
             ItemStack itemStack = player.getItemInHand(hand);
 
             // Check if player has enough mana to cast staff
-            if (ManaHelper.consumeMana(player, MANA_COST)) {
+            if (!ManaHelper.consumeMana(player, MANA_COST)) {
                 player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
                 return InteractionResult.FAIL;
             }
