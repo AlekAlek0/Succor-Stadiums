@@ -88,6 +88,8 @@
   "item.succorstadiums.dog_whistle.tooltip_2": " 30s Summon Duration",
   "item.succorstadiums.dog_whistle.tooltip_3": " 10s Cooldown",
   "item.succorstadiums.dog_whistle.tooltip_4": "-8 Mana",
+  "item.succorstadiums.emerald_coin": "Emerald Coin",
+  "item.succorstadiums.emerald_coin.lore": "Common tender in the plains.",
   "item.succorstadiums.fire_staff.lore": "Fireball.",
   "item.succorstadiums.fire_staff.tooltip_0": "When Used:",
   "item.succorstadiums.fire_staff.tooltip_1": " 3 Magic Damage",

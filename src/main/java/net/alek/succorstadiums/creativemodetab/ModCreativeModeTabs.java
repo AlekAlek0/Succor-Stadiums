@@ -26,6 +26,7 @@ public class ModCreativeModeTabs {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.BRENNON_ORE);
                         output.accept(ModItems.SILVER_INGOT);
+                        output.accept(ModItems.EMERALD_COIN);
                         output.accept(ModItems.SILK_WEAVE);
                         output.accept(ModItems.SILK_SPOOL);
                         output.accept(ModItems.BONE_BROTH);

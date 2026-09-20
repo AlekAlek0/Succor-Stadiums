@@ -108,6 +108,14 @@ public class SuccorStadiumsClient implements ClientModInitializer {
 
                 );
             }
+            if (stack.is(ModItems.EMERALD_COIN)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.emerald_coin.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+
+                );
+            }
+
             if (stack.is(ModItems.SILK_SPOOL)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.silk_spool.lore")

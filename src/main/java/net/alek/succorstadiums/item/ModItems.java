@@ -25,6 +25,8 @@ public class ModItems {
 
     public static final Item BRENNON_ORE = registerItem("brennon_ore", Item::new);
     public static final Item SILVER_INGOT = registerItem("silver_ingot", Item::new);
+    public static final Item EMERALD_COIN = registerItem("emerald_coin", properties -> new Item(properties
+            .stacksTo(99)));
     public static final Item SILK_SPOOL = registerItem("silk_spool", Item::new);
     public static final Item SILK_WEAVE = registerItem("silk_weave", Item::new);
     public static final Item BONE_BROTH = registerItem("bone_broth", Item::new);

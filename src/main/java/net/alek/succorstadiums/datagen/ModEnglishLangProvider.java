@@ -39,6 +39,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Item translations
         translationBuilder.add(ModItems.BRENNON_ORE, "Brennon Ore");
         translationBuilder.add(ModItems.SILVER_INGOT, "Silver Ingot");
+        translationBuilder.add(ModItems.EMERALD_COIN, "Emerald Coin");
         translationBuilder.add(ModItems.SILK_SPOOL, "Silk Spool");
         translationBuilder.add(ModItems.SILK_WEAVE, "Silk Weave");
         translationBuilder.add(ModItems.BONE_BROTH, "Bone Broth");
@@ -123,6 +124,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Item Lore translations
         translationBuilder.add("item.succorstadiums.brennon_ore.lore", "Finally!");
         translationBuilder.add("item.succorstadiums.silver_ingot.lore", "Shiny!");
+        translationBuilder.add("item.succorstadiums.emerald_coin.lore", "Common tender in the plains.");
         translationBuilder.add("item.succorstadiums.silk_spool.lore", "Used to make the Spider Silk Bow and Silkweave.");
         translationBuilder.add("item.succorstadiums.silk_weave.lore", "Used to make the Silkweave armor set.");
         translationBuilder.add("item.succorstadiums.bone_broth.lore", "Looks inedible, but may have a use...");
