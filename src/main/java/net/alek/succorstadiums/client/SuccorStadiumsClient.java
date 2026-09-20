@@ -349,6 +349,12 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
+            if (stack.is(ModItems.BONE_DAGGER)) {
+                tooltip.add(6,
+                        Component.translatable("item.succorstadiums.bone_dagger.tooltip_0")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+            }
             if (stack.is(ModItems.BANANNER_BLADE)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.bananner_blade.lore")

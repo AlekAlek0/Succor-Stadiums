@@ -170,6 +170,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.oak_sword.lore", "Your first proper weapon.");
 
         // Melee Weapon Tooltip translations
+        translationBuilder.add("item.succorstadiums.bone_dagger.tooltip_0", " 2x Crit Damage");
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_0", "Armor of the Forest Bonus:");
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_1", "+1 Attack Damage");
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_2", "  Poison I | 0:04 | 25%");
