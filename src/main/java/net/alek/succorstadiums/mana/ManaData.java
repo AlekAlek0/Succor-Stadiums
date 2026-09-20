@@ -1,17 +1,19 @@
 package net.alek.succorstadiums.mana;
 
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.util.Mth;
-
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.Codec;
+import net.minecraft.util.Mth;
 
 public final class ManaData {
     private static final int DEFAULT_MAX_MANA = 10;
+
     private static final int REGEN_DELAY_TICKS = 40;
+    private static final int REGEN_DELAY_TICKS_SICK = 60;
     private static final int REGEN_INTERVAL_TICKS = 10;
+    private static final int REGEN_INTERVAL_TICKS_SICK = 20;
     private static final int REGEN_AMOUNT = 1;
 
     public static final Codec<ManaData> CODEC = RecordCodecBuilder.create(instance -> instance.group(

@@ -8,9 +8,9 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.Mth;
 
 public final class HypermanaData {
-    private static final int REGEN_DELAY_TICKS = 10;
-    private static final int REGEN_INTERVAL_TICKS = 20;
-    private static final int REGEN_AMOUNT = 2;
+    private static final int REGEN_DELAY_TICKS = 10; // Half a second
+    private static final int REGEN_INTERVAL_TICKS = 20; // 1 Second
+    private static final int REGEN_AMOUNT = 2; // 1 Full Star
 
     public static final Codec<HypermanaData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
                     Codec.INT.fieldOf("hypermana").forGetter(HypermanaData::getHypermana),
@@ -67,17 +67,24 @@ public final class HypermanaData {
     }
 
     public HypermanaData ticked() {
+        if (this.hypermana <= 0) {
+            return this;
+        }
+
         if (this.hypermana >= this.maxHypermana) {
             return this;
         }
+
         if (this.ticksSinceLastUse < REGEN_DELAY_TICKS) {
             return new HypermanaData(this.hypermana, this.maxHypermana, this.ticksSinceLastUse + 1, this.regenTickCounter);
         }
+
         int newCounter = this.regenTickCounter + 1;
         if (newCounter >= REGEN_INTERVAL_TICKS) {
             int newAmount = Math.min(this.hypermana + REGEN_AMOUNT, this.maxHypermana);
             return new HypermanaData(newAmount, this.maxHypermana, this.ticksSinceLastUse, 0);
         }
+
         return new HypermanaData(this.hypermana, this.maxHypermana, this.ticksSinceLastUse, newCounter);
     }
 }

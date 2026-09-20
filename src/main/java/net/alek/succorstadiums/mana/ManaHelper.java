@@ -14,6 +14,14 @@ public final class ManaHelper {
         return player.getAttachedOrCreate(ModAttachments.HYPERMANA, HypermanaData::new);
     }
 
+    public static void addMana(Player player, int amount) {
+        ManaData data = get(player);
+        ManaData updated = data.withManaAdded(amount);
+        if (updated != data) {
+            player.setAttached(ModAttachments.MANA, updated);
+        }
+    }
+
     public static boolean consumeMana(Player player, int amount) {
         HypermanaData hyperData = getHypermana(player);
         ManaData manaData = get(player);
@@ -34,18 +42,18 @@ public final class ManaHelper {
         return true;
     }
 
-    public static void addMana(Player player, int amount) {
-        ManaData data = get(player);
-        ManaData updated = data.withManaAdded(amount);
-        if (updated != data) {
-            player.setAttached(ModAttachments.MANA, updated);
-        }
-    }
-
     public static void addHypermana(Player player, int amount) {
         HypermanaData data = getHypermana(player);
         HypermanaData updated = data.withHypermanaGranted(amount);
         player.setAttached(ModAttachments.HYPERMANA, updated);
+    }
+
+    public static void consumeHypermana(Player player, int amount) {
+        HypermanaData data = getHypermana(player);
+        if (!data.hasEnoughHypermana(amount)) {
+            return;
+        }
+        player.setAttached(ModAttachments.HYPERMANA, data.withHypermanaConsumed(amount));
     }
 
     public static void tick(ServerPlayer player) {
