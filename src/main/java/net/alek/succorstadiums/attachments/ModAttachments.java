@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 
+import net.alek.succorstadiums.mana.HypermanaData;
 import net.alek.succorstadiums.mana.ManaData;
 
 public class ModAttachments {
@@ -15,6 +16,14 @@ public class ModAttachments {
                     builder -> builder
                             .persistent(ManaData.CODEC)
                             .syncWith(ManaData.STREAM_CODEC, AttachmentSyncPredicate.targetOnly())
+            );
+
+    public static final AttachmentType<HypermanaData> HYPERMANA =
+            AttachmentRegistry.create(
+                    Identifier.fromNamespaceAndPath("succorstadiums", "hypermana"),
+                    builder -> builder
+                            .persistent(HypermanaData.CODEC)
+                            .syncWith(HypermanaData.STREAM_CODEC, AttachmentSyncPredicate.targetOnly())
             );
 
     private ModAttachments() {}
