@@ -85,7 +85,7 @@ public class ModCommands {
                                             )
                                     )
                             )
-                            .then(Commands.literal("remove")
+                            .then(Commands.literal("consume")
                                     .then(Commands.argument("targets", EntityArgument.players())
                                             .then(Commands.argument("amount", IntegerArgumentType.integer(0))
                                                     .executes(ModCommands::executeConsumeMana)

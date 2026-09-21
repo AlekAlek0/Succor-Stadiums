@@ -33,7 +33,7 @@ public final class ManaHelper {
         int remainder = amount - fromHyper;
 
         if (!manaData.hasEnoughMana(remainder)) {
-            return true;
+            return false;
         }
 
         if (fromHyper > 0) {
@@ -42,7 +42,7 @@ public final class ManaHelper {
         if (remainder > 0) {
             player.setAttached(ModAttachments.MANA, manaData.withManaConsumed(remainder));
         }
-        return false;
+        return true;
     }
 
     public static void consumeManaOnly(Player player, int amount) {
