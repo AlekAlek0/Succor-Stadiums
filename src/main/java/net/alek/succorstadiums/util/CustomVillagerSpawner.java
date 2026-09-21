@@ -18,7 +18,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.Holder;
 
 import net.alek.succorstadiums.item.ModItems;
-import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.Optional;
 
