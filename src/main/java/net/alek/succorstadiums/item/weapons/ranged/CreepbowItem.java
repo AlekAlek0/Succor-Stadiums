@@ -1,11 +1,11 @@
 package net.alek.succorstadiums.item.weapons.ranged;
 
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -94,6 +94,11 @@ public class CreepbowItem extends BowItem {
 
         int useDuration = getUseDuration(stack, livingEntity);
         int ticksInUse = useDuration - remainingUseDuration;
+
+        // Start the sound o the first tick the bow is pulled back and if level is not client side
+        if (ticksInUse == 1 && !level.isClientSide()) {
+            level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.CREEPER_PRIMED, SoundSource.PLAYERS, 1.0F, 1.0F);
+        }
 
         if (ticksInUse == TRIGGER_TICK) {
             if (!level.isClientSide()) {
