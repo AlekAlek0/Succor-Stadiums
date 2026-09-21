@@ -35,7 +35,7 @@ public class CreepbowItem extends BowItem {
     private static final float MOB_DAMAGE = 3.0F;
     private static final double KNOCKBACK_MULTIPLIER = 1.5;
 
-    private static final double DETONATION_ARROW_DAMAGE = 8.0;
+    private static final double DETONATION_ARROW_DAMAGE = 16.0;
 
     private boolean firingDetonationArrow = false;
 
