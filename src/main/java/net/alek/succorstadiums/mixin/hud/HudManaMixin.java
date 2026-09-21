@@ -51,27 +51,30 @@ public abstract class HudManaMixin {
     // Hypermana textures
     @Unique
     private static final Identifier HYPERMANA_FULL =
-            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/hypermana_star_full.png");
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/hypermana/hypermana_star_full.png");
     @Unique
     private static final Identifier HYPERMANA_HALF =
-            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/hypermana_star_half.png");
-    @Unique
-    private static final Identifier HYPERMANA_EMPTY =
-            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/mana_star_empty.png");
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/hypermana/hypermana_star_half.png");
     @Unique
     private static final Identifier HYPERMANA_FULL_BLINKING =
-            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/hypermana_star_full_blinking.png");
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/hypermana/hypermana_star_full_blinking.png");
     @Unique
     private static final Identifier HYPERMANA_HALF_BLINKING =
-            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/hypermana_star_half_blinking.png");
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/hypermana/hypermana_star_half_blinking.png");
 
     // Mana Sickness textures
     @Unique
+    private static final Identifier MANASICK_FULL =
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/manasick/manasick_star_full.png");
+    @Unique
+    private static final Identifier MANASICK_HALF =
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/manasick/manasick_star_half.png");
+    @Unique
     private static final Identifier MANASICK_FULL_BLINKING =
-            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/manasick_star_full_blinking.png");
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/manasick/manasick_star_full_blinking.png");
     @Unique
     private static final Identifier MANASICK_HALF_BLINKING =
-            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/manasick_star_half_blinking.png");
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/manasick/manasick_star_half_blinking.png");
 
     @Unique
     private static final int ICON_SIZE = 9;
@@ -111,7 +114,7 @@ public abstract class HudManaMixin {
 
         boolean sick = player.hasEffect(ModEffects.MANA_SICKNESS);
 
-        // Mana change blink
+        // Mana change blink (only used while NOT sick)
         if (this.succorstadiums$lastMana != -1 && mana != this.succorstadiums$lastMana) {
             this.succorstadiums$manaBlinkEndTick = this.tickCount + BLINK_DURATION_TICKS;
         }
@@ -136,17 +139,25 @@ public abstract class HudManaMixin {
         int yLineBase = graphics.guiHeight() - 39;
         int yLine = yLineBase - 10;
 
-        Identifier manaEmpty = (!sick && manaChangeBlink) ? MANA_EMPTY_BLINKING : MANA_EMPTY;
-        Identifier manaFull = sick ? MANASICK_FULL_BLINKING : (manaChangeBlink ? MANA_FULL_BLINKING : MANA_FULL);
-        Identifier manaHalf = sick ? MANASICK_HALF_BLINKING : (manaChangeBlink ? MANA_HALF_BLINKING : MANA_HALF);
+        Identifier manaEmpty;
+        Identifier manaFull;
+        Identifier manaHalf;
 
-        for (int i = 0; i < manaIcons; i++) {
-            int index = i;
+        manaEmpty = manaChangeBlink ? MANA_EMPTY_BLINKING : MANA_EMPTY;
+        if (sick) {
+            manaFull = manaChangeBlink ? MANASICK_FULL_BLINKING : MANASICK_FULL;
+            manaHalf = manaChangeBlink ? MANASICK_HALF_BLINKING : MANASICK_HALF;
+        } else {
+            manaFull = manaChangeBlink ? MANA_FULL_BLINKING : MANA_FULL;
+            manaHalf = manaChangeBlink ? MANA_HALF_BLINKING : MANA_HALF;
+        }
+
+        for (int index = 0; index < manaIcons; index++) {
             int row = index / ROW_CAPACITY;
             int column = index % ROW_CAPACITY;
             int xo = xRight - column * ICON_SPACING - 9;
             int yo = yLine - row * 10;
-            int pointsForThisIcon = (i + 1) * POINTS_PER_ICON;
+            int pointsForThisIcon = (index + 1) * POINTS_PER_ICON;
 
             graphics.blit(RenderPipelines.GUI_TEXTURED, manaEmpty, xo, yo,
                     0.0F, 0.0F, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE, ARGB.opaque(-1));
@@ -161,6 +172,7 @@ public abstract class HudManaMixin {
         }
 
         if (hypermana > 0) {
+            Identifier hyperEmpty = hyperChangeBlink ? MANA_EMPTY_BLINKING : MANA_EMPTY;
             Identifier hyperFull = hyperChangeBlink ? HYPERMANA_FULL_BLINKING : HYPERMANA_FULL;
             Identifier hyperHalf = hyperChangeBlink ? HYPERMANA_HALF_BLINKING : HYPERMANA_HALF;
 
@@ -172,7 +184,7 @@ public abstract class HudManaMixin {
                 int yo = yLine - row * 10;
                 int pointsForThisIcon = (i + 1) * POINTS_PER_ICON;
 
-                graphics.blit(RenderPipelines.GUI_TEXTURED, HYPERMANA_EMPTY, xo, yo,
+                graphics.blit(RenderPipelines.GUI_TEXTURED, hyperEmpty, xo, yo,
                         0.0F, 0.0F, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE, ARGB.opaque(-1));
 
                 if (pointsForThisIcon <= hypermana) {
