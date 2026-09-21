@@ -108,25 +108,21 @@ public class CustomVillagerSpawner {
         offers.clear();
 
         // Add new offers to villager
+        addOffer(offers, Items.BONE, 4,
+                ModItems.EMERALD_COIN, 2,
+                9999999, 0, 0.0F);
+
         addOffer(offers, Items.ROTTEN_FLESH, 10,
                 ModItems.EMERALD_COIN, 3,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, Items.BONE, 8,
-                ModItems.EMERALD_COIN, 4,
-                9999999, 0, 0.0F);
-
-        addOffer(offers, Items.ARROW, 12,
-                ModItems.EMERALD_COIN, 6,
-                9999999, 0, 0.0F);
-
-        addOffer(offers, Items.ROTTEN_FLESH, 16,
-                Items.BONE, 8,
-                ModItems.EMERALD_COIN, 10,
-                9999999, 0, 0.0F);
-
         addOffer(offers, ModItems.PLANT_POWDER, 2,
                 ModItems.EMERALD_COIN, 3,
+                9999999, 0, 0.0F);
+
+        addOffer(offers, Items.ROTTEN_FLESH, 20,
+                Items.BONE, 4,
+                ModItems.EMERALD_COIN, 10,
                 9999999, 0, 0.0F);
 
         // Add villager to the level
