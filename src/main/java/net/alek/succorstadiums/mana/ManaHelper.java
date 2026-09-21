@@ -61,6 +61,12 @@ public final class ManaHelper {
         }
     }
 
+    public static void addHypermana(Player player, int amount) {
+        HypermanaData data = getHypermana(player);
+        HypermanaData updated = data.withHypermanaGranted(amount);
+        player.setAttached(ModAttachments.HYPERMANA, updated);
+    }
+
     public static void addHypermanaOnly(Player player, int amount) {
         HypermanaData data = getHypermana(player);
         HypermanaData updated = data.withHypermanaAdded(amount);

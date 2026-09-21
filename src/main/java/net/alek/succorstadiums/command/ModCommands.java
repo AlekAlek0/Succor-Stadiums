@@ -262,7 +262,7 @@ public class ModCommands {
         Player player = (Player) ctx.getSource().getEntity();
         int amount = IntegerArgumentType.getInteger(ctx, "amount");
 
-        ManaHelper.addHypermanaOnly(player, amount);
+        ManaHelper.addHypermana(player, amount);
 
         return 0;
     }
