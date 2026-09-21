@@ -67,14 +67,6 @@ public final class ManaHelper {
         player.setAttached(ModAttachments.HYPERMANA, updated);
     }
 
-    public static void addHypermanaOnly(Player player, int amount) {
-        HypermanaData data = getHypermana(player);
-        HypermanaData updated = data.withHypermanaAdded(amount);
-        if (updated != data) {
-            player.setAttached(ModAttachments.HYPERMANA, updated);
-        }
-    }
-
     public static void tick(ServerPlayer player) {
         boolean sick = player.hasEffect(ModEffects.MANA_SICKNESS);
 
