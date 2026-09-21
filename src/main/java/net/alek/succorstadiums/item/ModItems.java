@@ -131,10 +131,10 @@ public class ModItems {
             4.6F)
     ));
 
-    public static final Item GREAT_SWORD_OF_THE_FOREST = registerItem("great_sword_of_the_forest", properties -> new Item(
+    public static final Item GREAT_SWORD_OF_THE_FOREST = registerItem("great_sword_of_the_forest", properties -> new GreatSwordOfTheForestItem(
             properties.sword(GREAT_SWORD_OF_THE_FOREST_TOOL_MATERIAL,
-                    11,
-                    -3.3F)
+                    0,
+                    0)
     ));
 
     public static final Item SWORD_OF_THE_FOREST = registerItem("sword_of_the_forest", properties -> new SwordOfTheForestItem(

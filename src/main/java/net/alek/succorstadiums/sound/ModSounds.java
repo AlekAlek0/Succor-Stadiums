@@ -12,6 +12,7 @@ public class ModSounds {
     public static final SoundEvent AQUAONDUIT_USE = registerSound("aquaonduit_use");
     public static final SoundEvent FIRECHARGED_CANE_USE = registerSound("firecharged_cane_use");
     public static final SoundEvent SPROUT_SICKLE_USE = registerSound("sprout_sickle_use");
+    public static final SoundEvent GREAT_SWORD_OF_THE_FOREST_USE = registerSound("great_sword_of_the_forest_use");
     public static final SoundEvent RAZOR_THORN_USE = registerSound("razor_thorn_use");
     public static final SoundEvent RAZOR_THORN_HIT = registerSound("razor_thorn_hit");
 

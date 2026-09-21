@@ -8,6 +8,9 @@
   "sprout_sickle_use": {
     "sounds": ["succorstadiums:sprout_sickle_use"]
   },
+  "great_sword_of_the_forest_use": {
+    "sounds": ["succorstadiums:great_sword_of_the_forest_use"]
+  },
   "razor_thorn_use": {
     "sounds": ["succorstadiums:razor_thorn_use"]
   },
