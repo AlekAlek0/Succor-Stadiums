@@ -109,6 +109,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
         // Mob Effect translations
         translationBuilder.add("effect.succorstadiums.paralysis", "Paralysis");
+        translationBuilder.add("effect.succorstadiums.mana_sickness", "Mana Sickness");
 
         // Gameplay message translations
         translationBuilder.add("death.attack.plant_powder_1", "%1$s tried to consume plant powder");
