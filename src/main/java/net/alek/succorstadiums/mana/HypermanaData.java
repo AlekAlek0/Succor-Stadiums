@@ -57,6 +57,14 @@ public final class HypermanaData {
         return new HypermanaData(this.hypermana - amount, this.maxHypermana, 0, 0);
     }
 
+    public HypermanaData withHypermanaConsumedClamped(int amount) {
+        int newAmount = Math.max(0, this.hypermana - amount);
+        if (newAmount == this.hypermana) {
+            return this;
+        }
+        return new HypermanaData(newAmount, this.maxHypermana, 0, 0);
+    }
+
     public boolean hasEnoughHypermana(int amount) {
         return this.hypermana >= amount;
     }
@@ -64,6 +72,14 @@ public final class HypermanaData {
     public HypermanaData withHypermanaGranted(int amount) {
         int newMax = Math.max(this.maxHypermana, this.hypermana + amount);
         return new HypermanaData(this.hypermana + amount, newMax, this.ticksSinceLastUse, this.regenTickCounter);
+    }
+
+    public HypermanaData withHypermanaAdded(int amount) {
+        int newAmount = Math.min(this.hypermana + amount, this.maxHypermana);
+        if (newAmount == this.hypermana) {
+            return this;
+        }
+        return new HypermanaData(newAmount, this.maxHypermana, this.ticksSinceLastUse, this.regenTickCounter);
     }
 
     public HypermanaData ticked() {

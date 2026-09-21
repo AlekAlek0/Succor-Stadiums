@@ -1,6 +1,7 @@
 package net.alek.succorstadiums.command;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import net.alek.succorstadiums.mana.ManaData;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -24,6 +25,9 @@ import net.alek.succorstadiums.mana.ManaHelper;
 
 // Mod commands class
 public class ModCommands {
+
+    private static final Component MANA_FULL_MESSAGE =
+            Component.translatable("message.succorstadiums.mana_full");
 
     // Register method for the mod commands
     public static void registerModCommands() {
@@ -231,6 +235,13 @@ public class ModCommands {
         Player player = (Player) ctx.getSource().getEntity();
         int amount = IntegerArgumentType.getInteger(ctx, "amount");
 
+        assert player != null;
+        ManaData current = ManaHelper.get(player);
+        if (current.getMana() >= current.getMaxMana()) {
+            player.sendOverlayMessage(MANA_FULL_MESSAGE);
+            return 0;
+        }
+
         ManaHelper.addMana(player, amount);
 
         return 0;
@@ -241,7 +252,7 @@ public class ModCommands {
         Player player = (Player) ctx.getSource().getEntity();
         int amount = IntegerArgumentType.getInteger(ctx, "amount");
 
-        ManaHelper.consumeManaOnly(player, amount);
+        ManaHelper.consumeManaOnlyClamped(player, amount);
 
         return 0;
     }
@@ -251,7 +262,7 @@ public class ModCommands {
         Player player = (Player) ctx.getSource().getEntity();
         int amount = IntegerArgumentType.getInteger(ctx, "amount");
 
-        ManaHelper.addHypermana(player, amount);
+        ManaHelper.addHypermanaOnly(player, amount);
 
         return 0;
     }
@@ -261,7 +272,7 @@ public class ModCommands {
         Player player = (Player) ctx.getSource().getEntity();
         int amount = IntegerArgumentType.getInteger(ctx, "amount");
 
-        ManaHelper.consumeHypermana(player, amount);
+        ManaHelper.consumeHypermanaClamped(player, amount);
 
         return 0;
     }

@@ -45,26 +45,28 @@ public final class ManaHelper {
         return true;
     }
 
-    public static void consumeManaOnly(Player player, int amount) {
+    public static void consumeManaOnlyClamped(Player player, int amount) {
         ManaData data = get(player);
-        if (!data.hasEnoughMana(amount)) {
-            return;
+        ManaData updated = data.withManaConsumedClamped(amount);
+        if (updated != data) {
+            player.setAttached(ModAttachments.MANA, updated);
         }
-        player.setAttached(ModAttachments.MANA, data.withManaConsumed(amount));
     }
 
-    public static void addHypermana(Player player, int amount) {
+    public static void consumeHypermanaClamped(Player player, int amount) {
         HypermanaData data = getHypermana(player);
-        HypermanaData updated = data.withHypermanaGranted(amount);
-        player.setAttached(ModAttachments.HYPERMANA, updated);
+        HypermanaData updated = data.withHypermanaConsumedClamped(amount);
+        if (updated != data) {
+            player.setAttached(ModAttachments.HYPERMANA, updated);
+        }
     }
 
-    public static void consumeHypermana(Player player, int amount) {
+    public static void addHypermanaOnly(Player player, int amount) {
         HypermanaData data = getHypermana(player);
-        if (!data.hasEnoughHypermana(amount)) {
-            return;
+        HypermanaData updated = data.withHypermanaAdded(amount);
+        if (updated != data) {
+            player.setAttached(ModAttachments.HYPERMANA, updated);
         }
-        player.setAttached(ModAttachments.HYPERMANA, data.withHypermanaConsumed(amount));
     }
 
     public static void tick(ServerPlayer player) {

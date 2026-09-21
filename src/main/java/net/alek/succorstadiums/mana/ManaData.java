@@ -81,6 +81,14 @@ public final class ManaData {
         return new ManaData(newMana, this.maxMana, this.ticksSinceLastUse, this.regenTickCounter);
     }
 
+    public ManaData withManaConsumedClamped(int amount) {
+        int newMana = Math.max(0, this.mana - amount);
+        if (newMana == this.mana) {
+            return this;
+        }
+        return new ManaData(newMana, this.maxMana, 0, 0);
+    }
+
     public boolean hasEnoughMana(int amount) {
         return this.mana >= amount;
     }
