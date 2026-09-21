@@ -70,8 +70,7 @@ public final class HypermanaData {
     }
 
     public HypermanaData withHypermanaGranted(int amount) {
-        int newMax = Math.max(this.maxHypermana, this.hypermana + amount);
-        return new HypermanaData(this.hypermana + amount, newMax, this.ticksSinceLastUse, this.regenTickCounter);
+        return new HypermanaData(amount, amount, this.ticksSinceLastUse, this.regenTickCounter);
     }
 
     public HypermanaData withHypermanaAdded(int amount) {
