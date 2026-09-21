@@ -1,23 +1,26 @@
 package net.alek.succorstadiums.mixin.hud;
 
-import net.alek.succorstadiums.attachments.ModAttachments;
-import net.alek.succorstadiums.mana.HypermanaData;
-import net.alek.succorstadiums.mana.ManaData;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.Hud;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.player.Player;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
+
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+
+import net.alek.succorstadiums.attachments.ModAttachments;
+import net.alek.succorstadiums.effect.ModEffects;
+import net.alek.succorstadiums.mana.HypermanaData;
+import net.alek.succorstadiums.mana.ManaData;
 
 @Mixin(Hud.class)
 public abstract class HudManaMixin {
@@ -55,6 +58,20 @@ public abstract class HudManaMixin {
     @Unique
     private static final Identifier HYPERMANA_EMPTY =
             Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/mana_star_empty.png");
+    @Unique
+    private static final Identifier HYPERMANA_FULL_BLINKING =
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/hypermana_star_full_blinking.png");
+    @Unique
+    private static final Identifier HYPERMANA_HALF_BLINKING =
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/hypermana_star_half_blinking.png");
+
+    // Mana Sickness textures
+    @Unique
+    private static final Identifier MANASICK_FULL_BLINKING =
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/manasick_star_full_blinking.png");
+    @Unique
+    private static final Identifier MANASICK_HALF_BLINKING =
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/manastar/manasick_star_half_blinking.png");
 
     @Unique
     private static final int ICON_SIZE = 9;
@@ -72,6 +89,11 @@ public abstract class HudManaMixin {
     @Unique
     private int succorstadiums$manaBlinkEndTick = 0;
 
+    @Unique
+    private int succorstadiums$lastHypermana = -1;
+    @Unique
+    private int succorstadiums$hyperBlinkEndTick = 0;
+
     @Inject(method = "extractPlayerHealth", at = @At("TAIL"))
     private void succorstadiums$extractMana(GuiGraphicsExtractor graphics, CallbackInfo ci) {
         Player player = this.minecraft.player;
@@ -85,32 +107,46 @@ public abstract class HudManaMixin {
         int mana = manaData.getMana();
         int maxMana = manaData.getMaxMana();
         int hypermana = hyperData.getHypermana();
+        int maxHypermana = hyperData.getMaxHypermana();
 
+        boolean sick = player.hasEffect(ModEffects.MANA_SICKNESS);
+
+        // Mana change blink
         if (this.succorstadiums$lastMana != -1 && mana != this.succorstadiums$lastMana) {
             this.succorstadiums$manaBlinkEndTick = this.tickCount + BLINK_DURATION_TICKS;
         }
         this.succorstadiums$lastMana = mana;
 
-        boolean blink = this.succorstadiums$manaBlinkEndTick > this.tickCount
+        boolean manaChangeBlink = this.succorstadiums$manaBlinkEndTick > this.tickCount
                 && (this.succorstadiums$manaBlinkEndTick - this.tickCount) / 3 % 2 == 1;
 
+        // Hypermana change blink
+        if (this.succorstadiums$lastHypermana != -1 && hypermana != this.succorstadiums$lastHypermana) {
+            this.succorstadiums$hyperBlinkEndTick = this.tickCount + BLINK_DURATION_TICKS;
+        }
+        this.succorstadiums$lastHypermana = hypermana;
+
+        boolean hyperChangeBlink = this.succorstadiums$hyperBlinkEndTick > this.tickCount
+                && (this.succorstadiums$hyperBlinkEndTick - this.tickCount) / 3 % 2 == 1;
+
         int manaIcons = Mth.ceil((float) maxMana / POINTS_PER_ICON);
-        int hyperIcons = Mth.ceil((float) hypermana / POINTS_PER_ICON);
+        int hyperIcons = Mth.ceil((float) maxHypermana / POINTS_PER_ICON);
 
         int xRight = graphics.guiWidth() / 2 + 91;
         int yLineBase = graphics.guiHeight() - 39;
         int yLine = yLineBase - 10;
 
-        Identifier manaEmpty = blink ? MANA_EMPTY_BLINKING : MANA_EMPTY;
-        Identifier manaFull = blink ? MANA_FULL_BLINKING : MANA_FULL;
-        Identifier manaHalf = blink ? MANA_HALF_BLINKING : MANA_HALF;
+        Identifier manaEmpty = (!sick && manaChangeBlink) ? MANA_EMPTY_BLINKING : MANA_EMPTY;
+        Identifier manaFull = sick ? MANASICK_FULL_BLINKING : (manaChangeBlink ? MANA_FULL_BLINKING : MANA_FULL);
+        Identifier manaHalf = sick ? MANASICK_HALF_BLINKING : (manaChangeBlink ? MANA_HALF_BLINKING : MANA_HALF);
 
-        for (int index = 0; index < manaIcons; index++) {
+        for (int i = 0; i < manaIcons; i++) {
+            int index = i;
             int row = index / ROW_CAPACITY;
             int column = index % ROW_CAPACITY;
             int xo = xRight - column * ICON_SPACING - 9;
             int yo = yLine - row * 10;
-            int pointsForThisIcon = (index + 1) * POINTS_PER_ICON;
+            int pointsForThisIcon = (i + 1) * POINTS_PER_ICON;
 
             graphics.blit(RenderPipelines.GUI_TEXTURED, manaEmpty, xo, yo,
                     0.0F, 0.0F, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE, ARGB.opaque(-1));
@@ -125,6 +161,9 @@ public abstract class HudManaMixin {
         }
 
         if (hypermana > 0) {
+            Identifier hyperFull = hyperChangeBlink ? HYPERMANA_FULL_BLINKING : HYPERMANA_FULL;
+            Identifier hyperHalf = hyperChangeBlink ? HYPERMANA_HALF_BLINKING : HYPERMANA_HALF;
+
             for (int i = 0; i < hyperIcons; i++) {
                 int index = manaIcons + i;
                 int row = index / ROW_CAPACITY;
@@ -137,10 +176,10 @@ public abstract class HudManaMixin {
                         0.0F, 0.0F, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE, ARGB.opaque(-1));
 
                 if (pointsForThisIcon <= hypermana) {
-                    graphics.blit(RenderPipelines.GUI_TEXTURED, HYPERMANA_FULL, xo, yo,
+                    graphics.blit(RenderPipelines.GUI_TEXTURED, hyperFull, xo, yo,
                             0.0F, 0.0F, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE, ARGB.opaque(-1));
                 } else if (pointsForThisIcon - 1 <= hypermana) {
-                    graphics.blit(RenderPipelines.GUI_TEXTURED, HYPERMANA_HALF, xo, yo,
+                    graphics.blit(RenderPipelines.GUI_TEXTURED, hyperHalf, xo, yo,
                             0.0F, 0.0F, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE, ARGB.opaque(-1));
                 }
             }
