@@ -3,7 +3,6 @@ package net.alek.succorstadiums.command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
-import com.mojang.brigadier.arguments.DoubleArgumentType;
 import net.minecraft.commands.arguments.EntityArgument;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.core.component.DataComponents;
@@ -242,7 +241,7 @@ public class ModCommands {
         Player player = (Player) ctx.getSource().getEntity();
         int amount = IntegerArgumentType.getInteger(ctx, "amount");
 
-        ManaHelper.consumeMana(player, amount);
+        ManaHelper.consumeManaOnly(player, amount);
 
         return 0;
     }

@@ -33,7 +33,7 @@ public final class ManaHelper {
         int remainder = amount - fromHyper;
 
         if (!manaData.hasEnoughMana(remainder)) {
-            return false;
+            return true;
         }
 
         if (fromHyper > 0) {
@@ -42,7 +42,15 @@ public final class ManaHelper {
         if (remainder > 0) {
             player.setAttached(ModAttachments.MANA, manaData.withManaConsumed(remainder));
         }
-        return true;
+        return false;
+    }
+
+    public static void consumeManaOnly(Player player, int amount) {
+        ManaData data = get(player);
+        if (!data.hasEnoughMana(amount)) {
+            return;
+        }
+        player.setAttached(ModAttachments.MANA, data.withManaConsumed(amount));
     }
 
     public static void addHypermana(Player player, int amount) {
@@ -51,13 +59,12 @@ public final class ManaHelper {
         player.setAttached(ModAttachments.HYPERMANA, updated);
     }
 
-    public static boolean consumeHypermana(Player player, int amount) {
+    public static void consumeHypermana(Player player, int amount) {
         HypermanaData data = getHypermana(player);
         if (!data.hasEnoughHypermana(amount)) {
-            return false;
+            return;
         }
         player.setAttached(ModAttachments.HYPERMANA, data.withHypermanaConsumed(amount));
-        return true;
     }
 
     public static void tick(ServerPlayer player) {
