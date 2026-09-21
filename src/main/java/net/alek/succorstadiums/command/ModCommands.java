@@ -69,6 +69,11 @@ public class ModCommands {
                                                 .executes(ModCommands::executeSummonPropung)
                                         )
                                 )
+                                .then(Commands.literal("villagers")
+                                        .then(Commands.literal("boe")
+                                                .executes(ModCommands::executeSummonBoe)
+                                        )
+                                )
                                 // Dev subcommand group
                                 .then(Commands.literal("dev")
                                         .then(Commands.literal("disenchant")
@@ -205,6 +210,19 @@ public class ModCommands {
         CustomVillagerSpawner.spawnPropung(level, pos, yaw);
 
         source.sendSuccess(() -> Component.literal("Spawned Propung Giewish"), true);
+        return 1;
+    }
+
+    // Helper method for the villagers boe command
+    private static int executeSummonBoe(CommandContext<CommandSourceStack> ctx) {
+        CommandSourceStack source = ctx.getSource();
+        ServerLevel level = source.getLevel();
+        Vec3 pos = source.getPosition();
+        float yaw = source.getEntity() instanceof ServerPlayer player ? player.getYRot() : source.getRotation().x;
+
+        CustomVillagerSpawner.spawnBoe(level, pos, yaw);
+
+        source.sendSuccess(() -> Component.literal("Spawned Boe Narrow"), true);
         return 1;
     }
 

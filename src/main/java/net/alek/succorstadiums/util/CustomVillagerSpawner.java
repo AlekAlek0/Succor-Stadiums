@@ -18,6 +18,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.Holder;
 
 import net.alek.succorstadiums.item.ModItems;
+import org.apache.logging.log4j.core.jmx.Server;
 
 import java.util.Optional;
 
@@ -272,4 +273,33 @@ public class CustomVillagerSpawner {
         // Add the villager to the level
         level.addFreshEntity(villager);
     }
+
+    public static void spawnBoe(ServerLevel level, Vec3 pos, float yaw) {
+
+        // Create a new villager object
+        Villager villager = createVillager(level, pos, yaw, VillagerProfession.FLETCHER, 2, VillagerType.PLAINS, "Boe Narrow");
+
+        // Get default vanilla offers and clear them
+        MerchantOffers offers = villager.getOffers();
+        offers.clear();
+
+        // Add new offers to villager
+
+        addOffer(offers, Items.ARROW, 8,
+                ModItems.EMERALD_COIN, 1,
+                9999999, 0, 0.0F);
+
+        addOffer(offers, ModItems.BALE_ARROW, 8,
+                ModItems.EMERALD_COIN, 2,
+                9999999, 0, 0.0F);
+
+        addOffer(offers, ModItems.EMERALD_COIN, 18,
+                ModItems.PLANT_POWDER, 2,
+                ModItems.CREEPBOW, 1,
+                9999999, 0, 0.0F);
+
+        // Add the villager to the level
+        level.addFreshEntity(villager);
+    }
+
 }
