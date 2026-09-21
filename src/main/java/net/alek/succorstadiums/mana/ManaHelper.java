@@ -1,9 +1,12 @@
 package net.alek.succorstadiums.mana;
 
-import net.alek.succorstadiums.attachments.ModAttachments;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 
+import net.alek.succorstadiums.attachments.ModAttachments;
+import net.alek.succorstadiums.effect.ModEffects;
+
+// ManaHelper class
 public final class ManaHelper {
 
     public static ManaData get(Player player) {
@@ -48,17 +51,20 @@ public final class ManaHelper {
         player.setAttached(ModAttachments.HYPERMANA, updated);
     }
 
-    public static void consumeHypermana(Player player, int amount) {
+    public static boolean consumeHypermana(Player player, int amount) {
         HypermanaData data = getHypermana(player);
         if (!data.hasEnoughHypermana(amount)) {
-            return;
+            return false;
         }
         player.setAttached(ModAttachments.HYPERMANA, data.withHypermanaConsumed(amount));
+        return true;
     }
 
     public static void tick(ServerPlayer player) {
+        boolean sick = player.hasEffect(ModEffects.MANA_SICKNESS);
+
         ManaData data = get(player);
-        ManaData updated = data.ticked();
+        ManaData updated = data.ticked(sick);
         if (updated != data) {
             player.setAttached(ModAttachments.MANA, updated);
         }

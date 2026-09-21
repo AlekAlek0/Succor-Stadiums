@@ -7,6 +7,7 @@ import net.minecraft.network.codec.StreamCodec;
 import com.mojang.serialization.Codec;
 import net.minecraft.util.Mth;
 
+// ManaData class
 public final class ManaData {
     private static final int DEFAULT_MAX_MANA = 10;
 
@@ -84,17 +85,23 @@ public final class ManaData {
         return this.mana >= amount;
     }
 
-    public ManaData ticked() {
+    /**
+     * @param sick whether Mana Sickness is active: delay 40->60 ticks, interval 10->20 ticks
+     */
+    public ManaData ticked(boolean sick) {
         if (this.mana >= this.maxMana) {
             return this;
         }
 
-        if (this.ticksSinceLastUse < REGEN_DELAY_TICKS) {
+        int delay = sick ? REGEN_DELAY_TICKS_SICK : REGEN_DELAY_TICKS;
+        int interval = sick ? REGEN_INTERVAL_TICKS_SICK : REGEN_INTERVAL_TICKS;
+
+        if (this.ticksSinceLastUse < delay) {
             return new ManaData(this.mana, this.maxMana, this.ticksSinceLastUse + 1, this.regenTickCounter);
         }
 
         int newCounter = this.regenTickCounter + 1;
-        if (newCounter >= REGEN_INTERVAL_TICKS) {
+        if (newCounter >= interval) {
             int newMana = Math.min(this.mana + REGEN_AMOUNT, this.maxMana);
             return new ManaData(newMana, this.maxMana, this.ticksSinceLastUse, 0);
         }

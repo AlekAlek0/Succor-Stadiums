@@ -1,21 +1,30 @@
 package net.alek.succorstadiums.effect;
 
-import net.alek.succorstadiums.SuccorStadiums;
-import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
-import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.resources.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.Holder;
 
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
+
+import net.alek.succorstadiums.SuccorStadiums;
+
+// ModEffects class
 public class ModEffects {
 
     public static final Holder<MobEffect> PARALYSIS = Registry.registerForHolder(
             BuiltInRegistries.MOB_EFFECT,
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "paralysis"),
             new ParalysisEffect()
+    );
+
+    public static final Holder<MobEffect> MANA_SICKNESS = Registry.registerForHolder(
+            BuiltInRegistries.MOB_EFFECT,
+            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "mana_sickness"),
+            new ManaSicknessEffect()
     );
 
     public static void registerModEffects() {
