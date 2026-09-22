@@ -10,7 +10,7 @@ import net.minecraft.core.Registry;
 
 import java.util.function.Function;
 
-import net.alek.succorstadiums.item.equipment.PlainsCoinPouchItem;
+import net.alek.succorstadiums.item.equipment.pouch.PlainsCoinPouchItem;
 import static net.alek.succorstadiums.item.ModArmorMaterials.*;
 import static net.alek.succorstadiums.item.ModToolMaterials.*;
 import net.alek.succorstadiums.item.weapons.ranged.*;
