@@ -1,13 +1,20 @@
 package net.alek.succorstadiums.config;
 
-import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
 
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+
+import net.alek.succorstadiums.network.item.equipment.pouch.SetPouchAutoDepositPayload;
+import net.alek.succorstadiums.item.ModItems;
+
+// SuccorStadiumsConfigScreen class
 public class SuccorStadiumsConfigScreen {
 
     private static final SuccorStadiumsConfig CONFIG = SuccorStadiumsConfigManager.load();
@@ -64,6 +71,29 @@ public class SuccorStadiumsConfigScreen {
                                         ((MagicIndicatorMode) value).getDisplayName()
                                 )
                         )
+                        .build()
+        );
+
+        ConfigCategory pouchAutoDeposit = builder.getOrCreateCategory(
+                Component.literal("Pouch Auto Deposit")
+        );
+
+        pouchAutoDeposit.addEntry(
+                entries.startBooleanToggle(
+                                Component.literal("Plains Coin Pouch: Auto Deposit"),
+                                CONFIG.plainsPouchAutoDepositEnabled
+                        )
+                        .setDefaultValue(true)
+                        .setTooltip(Component.literal("Automatically deposit coins picked up off the ground into your pouch."))
+                        .setSaveConsumer(value -> {
+                            CONFIG.plainsPouchAutoDepositEnabled = value;
+                            ClientPlayNetworking.send(
+                                    new SetPouchAutoDepositPayload(
+                                            BuiltInRegistries.ITEM.getKey(ModItems.PLAINS_COIN_POUCH),
+                                            value
+                                    )
+                            );
+                        })
                         .build()
         );
 
