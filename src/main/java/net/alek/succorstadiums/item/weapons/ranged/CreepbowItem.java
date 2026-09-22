@@ -95,7 +95,7 @@ public class CreepbowItem extends BowItem {
         int useDuration = getUseDuration(stack, livingEntity);
         int ticksInUse = useDuration - remainingUseDuration;
 
-        // Start the sound o the first tick the bow is pulled back and if level is not client side
+        // Start the sound the first tick the bow is pulled back and if level is not client side
         if (ticksInUse == 1 && !level.isClientSide()) {
             level.playSound(null, livingEntity.getX(), livingEntity.getY(), livingEntity.getZ(), SoundEvents.CREEPER_PRIMED, SoundSource.PLAYERS, 1.0F, 1.0F);
         }
