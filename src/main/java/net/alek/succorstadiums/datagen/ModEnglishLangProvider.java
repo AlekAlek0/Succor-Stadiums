@@ -272,8 +272,9 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("key.succorstadiums.open_mob_arena", "Open Mob Arena GUI");
         translationBuilder.add("key.succorstadiums.open_backpack", "Open Backpack");
 
-        // Mod Backpack container translations
+        // Mod container translations
         translationBuilder.add("container.succorstadiums.backpack", "Backpack");
+        translationBuilder.add("container.succorstadiums.plains_coin_pouch", "Plains Coin Pouch");
 
     }
 }
