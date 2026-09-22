@@ -1,11 +1,14 @@
 package net.alek.succorstadiums.client;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
+import net.minecraft.client.KeyMapping;
+
+import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+
 import org.lwjgl.glfw.GLFW;
 
+// ModKeyBindings class
 public class ModKeyBindings {
 
     public static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("succorstadiums", "general"));
@@ -13,6 +16,7 @@ public class ModKeyBindings {
     public static KeyMapping OPEN_CONFIG;
     public static KeyMapping OPEN_MOB_ARENA_GUI;
     public static KeyMapping OPEN_BACKPACK;
+    public static KeyMapping COIN_POUCH_TRANSFER_MODIFIER;
 
     public static void registerKeyBindings() {
 
@@ -39,6 +43,15 @@ public class ModKeyBindings {
                         "key.succorstadiums.open_backpack",
                         InputConstants.Type.KEYSYM,
                         GLFW.GLFW_KEY_B,
+                        CATEGORY
+                )
+        );
+
+        COIN_POUCH_TRANSFER_MODIFIER = KeyMappingHelper.registerKeyMapping(
+                new KeyMapping(
+                        "key.succorstadiums.coin.pouch_transfer_modifier",
+                        InputConstants.Type.KEYSYM,
+                        GLFW.GLFW_KEY_LEFT_CONTROL,
                         CATEGORY
                 )
         );
