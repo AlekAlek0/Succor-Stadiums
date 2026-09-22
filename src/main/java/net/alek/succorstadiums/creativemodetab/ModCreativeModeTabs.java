@@ -5,7 +5,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.core.Registry;
 
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
@@ -138,10 +137,10 @@ public class ModCreativeModeTabs {
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "succor_stadium_equipment"),
 
             // Set the icon, title, and items for the creative tab menu
-            FabricCreativeModeTab.builder().icon(() -> new ItemStack(Items.BARRIER))
+            FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.PLAINS_COIN_POUCH))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_equipment"))
                     .displayItems((parameters, output) -> {
-                        output.accept(Items.BARRIER);
+                        output.accept(ModItems.PLAINS_COIN_POUCH);
 
 
                     }).build());

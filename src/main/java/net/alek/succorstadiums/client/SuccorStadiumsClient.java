@@ -610,6 +610,12 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.RED)
                 );
             }
+            if (stack.is(ModItems.PLAINS_COIN_POUCH)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.plains_coin_pouch.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
         });
     }
 

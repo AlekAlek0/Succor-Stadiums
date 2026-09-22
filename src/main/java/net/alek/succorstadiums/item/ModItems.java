@@ -10,6 +10,7 @@ import net.minecraft.core.Registry;
 
 import java.util.function.Function;
 
+import net.alek.succorstadiums.item.equipment.PlainsCoinPouchItem;
 import static net.alek.succorstadiums.item.ModArmorMaterials.*;
 import static net.alek.succorstadiums.item.ModToolMaterials.*;
 import net.alek.succorstadiums.item.weapons.ranged.*;
@@ -198,6 +199,9 @@ public class ModItems {
             .stacksTo(1)));
     public static final Item DOG_WHISTLE = registerItem("dog_whistle", properties -> new DogWhistleItem(properties
             .durability(48)
+            .stacksTo(1)));
+
+    public static final Item PLAINS_COIN_POUCH = registerItem("plains_coin_pouch", properties -> new PlainsCoinPouchItem(properties
             .stacksTo(1)));
 
     private static Item registerItem(String name, Function<Item.Properties, Item> function) {

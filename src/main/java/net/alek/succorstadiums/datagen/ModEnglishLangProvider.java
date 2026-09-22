@@ -102,6 +102,9 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.RESURRECTION_AMULET, "Resurrection Amulet");
         translationBuilder.add(ModItems.DOG_WHISTLE, "Dog Whistle");
 
+        // Equipment translations
+        translationBuilder.add(ModItems.PLAINS_COIN_POUCH, "Plains Coin Pouch");
+
         // Enchantment translations
         translationBuilder.add("enchantment.succorstadiums.vipers_bite", "Vipers Bite");
         translationBuilder.add("enchantment.succorstadiums.rose_thorn", "Rose Thorn");
@@ -237,6 +240,12 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", " 30s Summon Duration");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_3", " 10s Cooldown");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_4", "-8 Mana");
+
+        // Equipment Lore translations
+        translationBuilder.add("item.succorstadiums.plains_coin_pouch.lore", "A pouch for your coins.");
+
+        // Equipment Tooltip translations
+        // ----------------------
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
