@@ -9,6 +9,7 @@
     "MobXpMixin",
     "PlayerAttributesMixin",
     "item.armor.NannerWaterWadersMixin",
+    "item.equipment.ItemEntityPouchPickupMixin",
     "item.trinkets.ResurrectionAmuletMixin",
     "item.weapons.melee.BoneDaggerCritMixin"
   ],
@@ -22,6 +23,7 @@
     "PlayerFovMixin",
     "hud.HudMagicCrosshairIndicatorMixin",
     "hud.HudMagicIndicatorMixin",
-    "hud.HudManaMixin"
+    "hud.HudManaMixin",
+    "item.equipment.HotbarPouchScrollMixin"
   ]
 }
