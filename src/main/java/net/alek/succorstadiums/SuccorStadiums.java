@@ -5,6 +5,7 @@ import net.alek.succorstadiums.arena.ArenaSessionManager;
 import net.alek.succorstadiums.arena.MobArenaManager;
 import net.alek.succorstadiums.attachments.ModAttachments;
 import net.alek.succorstadiums.command.ModCommands;
+import net.alek.succorstadiums.components.*;
 import net.alek.succorstadiums.creativemodetab.ModCreativeModeTabs;
 import net.alek.succorstadiums.effect.ModEffects;
 import net.alek.succorstadiums.entity.ModEntityAttributes;
@@ -20,6 +21,10 @@ import net.alek.succorstadiums.network.backpack.OpenBackpackPayload;
 import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpHandler;
 import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpPayload;
 import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpResultPayload;
+import net.alek.succorstadiums.network.item.equipment.pouch.PouchScrollTransferHandler;
+import net.alek.succorstadiums.network.item.equipment.pouch.PouchScrollTransferPayload;
+import net.alek.succorstadiums.network.item.equipment.pouch.SetPouchAutoDepositHandler;
+import net.alek.succorstadiums.network.item.equipment.pouch.SetPouchAutoDepositPayload;
 import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;
 import net.alek.succorstadiums.particle.ModParticles;
 import net.alek.succorstadiums.sound.ModSounds;
@@ -57,6 +62,7 @@ public class SuccorStadiums implements ModInitializer {
 		ModSounds.registerModSounds();
 		ModEffects.registerModEffects();
 		ModItems.registerModItems();
+		ModComponents.registerModComponents();
 		ModConsumeEffects.registerModConsumeEffects();
 		ModCriteria.registerModCriteria();
 		ModParticles.registerModParticles();
@@ -88,7 +94,11 @@ public class SuccorStadiums implements ModInitializer {
 		ModAttachments.MANA.toString();
 		ManaRegenHandler.register();
 
-		// Register backpack network packet
+		// Register plains coin pouch network packets and backpack network packet
+		PayloadTypeRegistry.serverboundPlay().register(PouchScrollTransferPayload.TYPE, PouchScrollTransferPayload.CODEC);
+		PouchScrollTransferHandler.register();
+		PayloadTypeRegistry.serverboundPlay().register(SetPouchAutoDepositPayload.TYPE, SetPouchAutoDepositPayload.CODEC);
+		SetPouchAutoDepositHandler.register();
 		PayloadTypeRegistry.serverboundPlay().register(OpenBackpackPayload.TYPE, OpenBackpackPayload.CODEC);
 		BackpackPacketHandler.register();
 
