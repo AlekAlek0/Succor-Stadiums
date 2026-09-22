@@ -119,7 +119,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("death.attack.plant_powder_2", "%1$s just wanted to know what it would do");
         translationBuilder.add("message.succorstadiums.mana_full", "§cMana is already full");
         translationBuilder.add("message.succorstadiums.not_enough_mana", "§cInsufficient Mana");
-        translationBuilder.add("message.succorstadiums.arachno_double_jump.no_spider_leg", "§cNo spider leg ammo in inventory");
+        translationBuilder.add("message.succorstadiums.no_coins_to_deposit", "§cNo coins left to deposit in pouch");
+        translationBuilder.add("message.succorstadiums.no_coins_to_withdraw", "§cNo coins left to withdraw from pouch");
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -271,6 +272,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("key.succorstadiums.open_config", "Open Config Screen");
         translationBuilder.add("key.succorstadiums.open_mob_arena", "Open Mob Arena GUI");
         translationBuilder.add("key.succorstadiums.open_backpack", "Open Backpack");
+        translationBuilder.add("key.succorstadiums.coin.pouch_transfer_modifier", "Coin Pouch Transfer Modifier");
 
         // Mod container translations
         translationBuilder.add("container.succorstadiums.backpack", "Backpack");
