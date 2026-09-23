@@ -29,7 +29,7 @@ public class PlainsCoinPouchItem extends Item {
         // Only do something if level is server sided
         if (!level.isClientSide()) {
 
-            // Get the pouchs current contents and create a new pouch container with the contents
+            // Get the pouches current contents and create a new pouch container with the contents
             PouchContents contents = stack.getOrDefault(ModComponents.POUCH_CONTENTS, PouchContents.EMPTY);
             PouchContainer container = new PouchContainer(contents, updated -> stack.set(ModComponents.POUCH_CONTENTS, updated));
 
