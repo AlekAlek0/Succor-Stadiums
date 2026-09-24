@@ -68,7 +68,7 @@ public final class PouchContents {
         return copy;
     }
 
-    // Sums every slot's count
+    // Gets a total count of items in the pouch contents
     public int getTotalCount() {
         int total = 0;
         for (ItemStack stack : this.items) {

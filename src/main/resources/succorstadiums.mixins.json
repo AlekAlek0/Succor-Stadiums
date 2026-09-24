@@ -24,6 +24,7 @@
     "hud.HudMagicCrosshairIndicatorMixin",
     "hud.HudMagicIndicatorMixin",
     "hud.HudManaMixin",
-    "item.equipment.HotbarPouchScrollMixin"
+    "item.equipment.HotbarPouchScrollMixin",
+    "item.equipment.HudPouchMixin"
   ]
 }
