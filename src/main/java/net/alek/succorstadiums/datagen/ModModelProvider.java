@@ -70,6 +70,9 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerators.generateFlatItem(ModItems.AQUAONDUIT, ModelTemplates.FLAT_HANDHELD_ITEM);
 
         // Ranged weapon datagen
+        itemModelGenerators.createFlatItemModel(ModItems.OAK_BOW, ModelTemplates.BOW);
+        itemModelGenerators.generateBow(ModItems.OAK_BOW);
+
         itemModelGenerators.createFlatItemModel(ModItems.BOWNANA, ModelTemplates.BOW);
         itemModelGenerators.generateBow(ModItems.BOWNANA);
 

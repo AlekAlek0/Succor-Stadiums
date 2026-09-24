@@ -78,6 +78,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.AQUAONDUIT, "§3Aquaonduit");
 
         // Ranged Weapon translations
+        translationBuilder.add(ModItems.OAK_BOW, "Oak Bow");
         translationBuilder.add(ModItems.BOWNANA, "§eBownana");
         translationBuilder.add(ModItems.ARACHNO_CROSSBOW, "§4Arachno Crossbow");
         translationBuilder.add(ModItems.CREEPBOW, "Creepbow");
@@ -202,6 +203,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         //--------------------------
 
         // Ranged Weapon Lore translations
+        translationBuilder.add("item.succorstadiums.oak_bow.lore", "Not as powerful as you might expect.");
         translationBuilder.add("item.succorstadiums.bownana.lore", "Nana Nana.");
         translationBuilder.add("item.succorstadiums.arachno_crossbow.lore", "Slow but powerful, a promising ranged option.");
         translationBuilder.add("item.succorstadiums.razor_thorn.lore", "Just a sharp branch.");

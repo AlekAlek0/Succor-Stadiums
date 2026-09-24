@@ -161,6 +161,8 @@ public class ModItems {
     public static final Item AQUAONDUIT = registerItem("aquaonduit", properties -> new AquaonduitItem(properties
             .durability(300)));
 
+    public static final Item OAK_BOW = registerItem("oak_bow", properties -> new OakBowItem(properties
+            .durability(320)));
     public static final Item BOWNANA = registerItem("bownana", properties -> new BownanaItem(properties
             .durability(384)));
     public static final Item ARACHNO_CROSSBOW = registerItem("arachno_crossbow", properties -> new ArachnoCrossbowItem(properties

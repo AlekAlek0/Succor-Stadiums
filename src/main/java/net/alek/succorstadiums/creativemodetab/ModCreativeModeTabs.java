@@ -92,6 +92,7 @@ public class ModCreativeModeTabs {
             FabricCreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BOWNANA))
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_ranged"))
                     .displayItems((parameters, output) -> {
+                        output.accept(ModItems.OAK_BOW);
                         output.accept(ModItems.BOWNANA);
                         output.accept(ModItems.ARACHNO_CROSSBOW);
                         output.accept(ModItems.CREEPBOW);
