@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.mixin.hud;
+package net.alek.succorstadiums.mixin.mana;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;

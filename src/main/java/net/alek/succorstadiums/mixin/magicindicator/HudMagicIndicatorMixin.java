@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.mixin.hud;
+package net.alek.succorstadiums.mixin.magicindicator;
 
 import net.alek.succorstadiums.config.MagicIndicatorMode;
 import net.alek.succorstadiums.config.SuccorStadiumsConfigScreen;
@@ -11,6 +11,7 @@ import net.minecraft.client.gui.Hud;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
@@ -22,36 +23,30 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Hud.class)
-public abstract class HudMagicCrosshairIndicatorMixin {
+public abstract class HudMagicIndicatorMixin {
 
     @Shadow @Final private Minecraft minecraft;
 
     @Unique
     private static final Identifier MAGIC_INDICATOR_BACKGROUND =
-            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/crosshair_magic_indicator_background.png");
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/hotbar_magic_indicator_background.png");
     @Unique
     private static final Identifier MAGIC_INDICATOR_PROGRESS =
-            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/crosshair_magic_indicator_progress.png");
+            Identifier.fromNamespaceAndPath("succorstadiums", "textures/gui/hud/hotbar_magic_indicator_progress.png");
 
     @Unique
-    private static final int ICON_WIDTH = 16;
+    private static final int ICON_SIZE = 18;
     @Unique
-    private static final int ICON_HEIGHT = 4;
-    @Unique
-    private static final int VANILLA_OVERLAP_SHIFT = ICON_HEIGHT + 2;
+    private static final int OVERLAP_SHIFT = ICON_SIZE + 2;
 
-    @Inject(method = "extractCrosshair", at = @At("TAIL"))
-    private void succorstadiums$extractMagicCrosshairIndicator(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        if (SuccorStadiumsConfigScreen.getConfig().magicIndicatorMode != MagicIndicatorMode.CROSSHAIR) {
+    @Inject(method = "extractItemHotbar", at = @At("TAIL"))
+    private void succorstadiums$extractMagicIndicator(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+        if (SuccorStadiumsConfigScreen.getConfig().magicIndicatorMode != MagicIndicatorMode.HOTBAR) {
             return;
         }
 
         Player player = this.minecraft.player;
         if (player == null) {
-            return;
-        }
-
-        if (!this.minecraft.options.getCameraType().isFirstPerson()) {
             return;
         }
 
@@ -67,25 +62,36 @@ public abstract class HudMagicCrosshairIndicatorMixin {
             return;
         }
 
-        int x = graphics.guiWidth() / 2 - ICON_WIDTH / 2;
-        int y = graphics.guiHeight() / 2 - 7 + 16;
+        int screenCenter = graphics.guiWidth() / 2;
+        HumanoidArm offhandArm = player.getMainArm().getOpposite();
 
-        if (isVanillaCrosshairIndicatorShowing(player)) {
-            y += VANILLA_OVERLAP_SHIFT;
+        int x = screenCenter + 91 + 6;
+        if (offhandArm == HumanoidArm.RIGHT) {
+            x = screenCenter - 91 - 22;
+        }
+        int y = graphics.guiHeight() - 20;
+
+        if (isVanillaAttackIndicatorShowing(player)) {
+            if (offhandArm == HumanoidArm.RIGHT) {
+                x -= OVERLAP_SHIFT;
+            } else {
+                x += OVERLAP_SHIFT;
+            }
         }
 
         graphics.blit(RenderPipelines.GUI_TEXTURED, MAGIC_INDICATOR_BACKGROUND,
-                x, y, 0.0F, 0.0F, ICON_WIDTH, ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT, ARGB.opaque(-1));
+                x, y, 0.0F, 0.0F, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE, ARGB.opaque(-1));
 
-        int fillWidth = (int) ((1.0F - cooldownPercent) * (float) ICON_WIDTH);
+        int fillHeight = (int) ((1.0F - cooldownPercent) * (float) ICON_SIZE);
+        int fillY = ICON_SIZE - fillHeight;
 
         graphics.blit(RenderPipelines.GUI_TEXTURED, MAGIC_INDICATOR_PROGRESS,
-                x, y, 0.0F, 0.0F, fillWidth, ICON_HEIGHT, ICON_WIDTH, ICON_HEIGHT, ARGB.opaque(-1));
+                x, y + fillY, 0.0F, (float) fillY, ICON_SIZE, fillHeight, ICON_SIZE, ICON_SIZE, ARGB.opaque(-1));
     }
 
     @Unique
-    private boolean isVanillaCrosshairIndicatorShowing(Player player) {
-        if (this.minecraft.options.attackIndicator().get() != AttackIndicatorStatus.CROSSHAIR) {
+    private boolean isVanillaAttackIndicatorShowing(Player player) {
+        if (this.minecraft.options.attackIndicator().get() != AttackIndicatorStatus.HOTBAR) {
             return false;
         }
         return player.getAttackStrengthScale(0.0F) < 1.0F;
