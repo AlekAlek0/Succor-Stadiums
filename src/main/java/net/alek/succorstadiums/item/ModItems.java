@@ -197,7 +197,7 @@ public class ModItems {
 
     public static final Item FLINT_CHARM = registerItem("flint_charm", properties -> new FlintCharmItem(properties
             .stacksTo(1)));
-    public static final Item RESURRECTION_AMULET = registerItem("resurrection_amulet", properties -> new ResurrectionAmuletItem(properties
+    public static final Item RESURRECTION_AMULET = registerItem("resurrection_amulet", properties -> new Item(properties
             .stacksTo(1)));
     public static final Item DOG_WHISTLE = registerItem("dog_whistle", properties -> new DogWhistleItem(properties
             .durability(48)
