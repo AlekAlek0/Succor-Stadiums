@@ -72,7 +72,7 @@ public class ModItems {
             ArmorType.BOOTS
     ));
 
-    public static final Item NANNER_WATER_WADERS = registerItem("nanner_water_waders", properties -> new NannerWaterWadersItem(
+    public static final Item NANNER_WATER_WADERS = registerItem("nanner_water_waders", properties -> new Item(
                     properties.humanoidArmor(NANNER_WADERS_MATERIAL , ArmorType.BOOTS)
                             .durability(100))
     );

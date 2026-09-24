@@ -1,28 +1,28 @@
 package net.alek.succorstadiums.mixin.item.armor;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.core.BlockPos;
 
-import net.alek.succorstadiums.item.armor.NannerWaterWadersItem;
-
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.Mixin;
 
-// Mixin to handle special logic for Nanner Water Waders speed boost on certain blocks
+// NannerWaterWadersMixin class
 @Mixin(Player.class)
 public class NannerWaterWadersMixin {
+    // Mixin to handle special logic for Nanner Water Waders speed boost on certain blocks
 
     // Helper method to check if player is wearing nanner water waders
     @Unique
     private boolean isWearingWaders(Player player) {
-        return player.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof NannerWaterWadersItem;
+        return player.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof Item;
     }
 
     // Helper method to get the block under the player, and suppress level resource warning
