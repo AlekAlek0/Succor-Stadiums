@@ -169,7 +169,7 @@ public class ModItems {
             .durability(450)));
     public static final Item CREEPBOW = registerItem("creepbow", properties -> new CreepbowItem(properties
             .durability(450)));
-    public static final Item RAZOR_THORN = registerItem("razor_thorn", properties -> new RazorThornItem(properties));
+    public static final Item RAZOR_THORN = registerItem("razor_thorn", RazorThornItem::new);
     public static final Item BALE_ARROW = registerItem("bale_arrow", properties -> new BaleArrowItem(properties
             .stacksTo(64)));
 
