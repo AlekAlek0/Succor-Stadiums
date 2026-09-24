@@ -21,7 +21,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 import net.alek.succorstadiums.network.item.equipment.pouch.PouchScrollTransferPayload;
 import net.alek.succorstadiums.item.equipment.pouch.PouchContents;
-import net.alek.succorstadiums.components.ModComponents;
+import net.alek.succorstadiums.component.ModComponents;
 import net.alek.succorstadiums.client.ModKeyBindings;
 import net.alek.succorstadiums.item.ModItems;
 

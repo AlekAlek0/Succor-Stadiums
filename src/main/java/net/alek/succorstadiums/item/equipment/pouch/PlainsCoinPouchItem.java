@@ -14,7 +14,7 @@ import net.minecraft.world.item.Item;
 
 import org.jspecify.annotations.NonNull;
 
-import net.alek.succorstadiums.components.ModComponents;
+import net.alek.succorstadiums.component.ModComponents;
 
 // PlainsCoinPouchItem class
 public class PlainsCoinPouchItem extends Item {

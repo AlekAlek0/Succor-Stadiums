@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.attachments;
+package net.alek.succorstadiums.attachment;
 
 import net.minecraft.resources.Identifier;
 

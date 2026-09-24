@@ -3,7 +3,7 @@ package net.alek.succorstadiums.mana;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 
-import net.alek.succorstadiums.attachments.ModAttachments;
+import net.alek.succorstadiums.attachment.ModAttachments;
 import net.alek.succorstadiums.effect.ModEffects;
 
 // ManaHelper class

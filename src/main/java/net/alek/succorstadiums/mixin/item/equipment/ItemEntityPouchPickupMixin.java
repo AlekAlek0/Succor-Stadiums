@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.Mixin;
 
 import net.alek.succorstadiums.item.equipment.pouch.PouchSettingsHelper;
 import net.alek.succorstadiums.item.equipment.pouch.PouchContents;
-import net.alek.succorstadiums.components.ModComponents;
+import net.alek.succorstadiums.component.ModComponents;
 import net.alek.succorstadiums.item.ModItems;
 
 // ItemEntityPouchPickupMixin class

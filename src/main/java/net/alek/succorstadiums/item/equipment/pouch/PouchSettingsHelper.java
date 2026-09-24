@@ -3,7 +3,7 @@ package net.alek.succorstadiums.item.equipment.pouch;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.resources.Identifier;
 
-import net.alek.succorstadiums.attachments.ModAttachments;
+import net.alek.succorstadiums.attachment.ModAttachments;
 
 // PouchSettingsHelper class
 public final class PouchSettingsHelper {

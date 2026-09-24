@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.components;
+package net.alek.succorstadiums.component;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.component.DataComponentType;

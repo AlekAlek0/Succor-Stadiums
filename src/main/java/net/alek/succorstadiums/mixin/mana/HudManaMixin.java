@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 
-import net.alek.succorstadiums.attachments.ModAttachments;
+import net.alek.succorstadiums.attachment.ModAttachments;
 import net.alek.succorstadiums.effect.ModEffects;
 import net.alek.succorstadiums.mana.HypermanaData;
 import net.alek.succorstadiums.mana.ManaData;
