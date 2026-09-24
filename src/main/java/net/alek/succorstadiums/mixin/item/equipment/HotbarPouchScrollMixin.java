@@ -82,7 +82,7 @@ public abstract class HotbarPouchScrollMixin {
     }
 
 
-    // Iterate through the inventory and find what stack contains the plains coin pouch and return it else return empty
+    // Iterate through the hotbar and find what stack contains the plains coin pouch and return it else return empty
     @Unique
     private ItemStack succorstadiums$findPouchInHotbar(Player player) {
         Inventory inventory = player.getInventory();
