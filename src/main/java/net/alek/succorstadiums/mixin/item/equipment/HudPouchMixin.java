@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.mixin.item.equipment;
 
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.Hud;
 import net.minecraft.client.Minecraft;
@@ -34,8 +35,8 @@ public abstract class HudPouchMixin {
     @Unique
     private static final int BOTTOM_OFFSET = 4;
 
-    @Inject(method = "extractPlayerHealth", at = @At("TAIL"))
-    private void succorstadiums$extractPouchCounter(GuiGraphicsExtractor graphics, CallbackInfo ci) {
+    @Inject(method = "extractItemHotbar", at = @At("TAIL"))
+    private void succorstadiums$extractPouchCounter(GuiGraphicsExtractor graphics, DeltaTracker deltaTracker, CallbackInfo ci) {
 
         // Get the player and total coins count in pouch
         Player player = this.minecraft.player;
