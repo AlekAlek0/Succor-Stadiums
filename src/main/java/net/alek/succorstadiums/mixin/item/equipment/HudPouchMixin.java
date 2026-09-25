@@ -31,7 +31,7 @@ public abstract class HudPouchMixin {
     @Unique
     private static final int ICON_SIZE = 16;
     @Unique
-    private static final int PADDING_FROM_HOTBAR = 4;
+    private static final int PADDING_FROM_HOTBAR = 45;
     @Unique
     private static final int BOTTOM_OFFSET = 4;
 
