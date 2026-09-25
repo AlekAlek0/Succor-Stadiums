@@ -98,7 +98,6 @@ public class PouchScrollTransferHandler {
         }
     }
 
-
     private static void withdrawOneCoin(ServerPlayer player, ItemStack pouchStack) {
 
         // Get pouch current contents component and unpack it into a mutable working list
