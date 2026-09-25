@@ -7,6 +7,7 @@ public class SuccorStadiumsConfig {
 
     public MagicIndicatorMode magicIndicatorMode = MagicIndicatorMode.CROSSHAIR;
 
+    public PouchScrollDirection pouchScrollDirection = PouchScrollDirection.DEFAULT;
     public boolean plainsPouchAutoDepositEnabled = true;
 
 

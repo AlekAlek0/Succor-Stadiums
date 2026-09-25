@@ -21,6 +21,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 import net.alek.succorstadiums.network.item.equipment.pouch.PouchScrollTransferPayload;
 import net.alek.succorstadiums.item.equipment.pouch.PouchContents;
+import net.alek.succorstadiums.config.SuccorStadiumsConfigScreen;
+import net.alek.succorstadiums.config.PouchScrollDirection;
 import net.alek.succorstadiums.component.ModComponents;
 import net.alek.succorstadiums.client.ModKeyBindings;
 import net.alek.succorstadiums.item.ModItems;
@@ -66,7 +68,8 @@ public abstract class HotbarPouchScrollMixin {
             return;
         }
 
-        boolean deposit = yoffset > 0;
+        boolean scrollUp = yoffset > 0;
+        boolean deposit = (SuccorStadiumsConfigScreen.getConfig().pouchScrollDirection == PouchScrollDirection.DEFAULT) == scrollUp;
 
         // If player cant transfer then send the corresponding message depending on the deposit boolean
         if (!succorstadiums$canTransfer(player, pouchStack, deposit)) {

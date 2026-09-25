@@ -79,6 +79,25 @@ public class SuccorStadiumsConfigScreen {
         );
 
         pouchAutoDeposit.addEntry(
+                entries.startEnumSelector(
+                                Component.literal("Pouch Scroll Direction - DEFAULT (Scroll Up Deposits) - INVERTED (Scroll Up Withdraws)"),
+
+                                PouchScrollDirection.class,
+                                CONFIG.pouchScrollDirection
+                        )
+                        .setDefaultValue(PouchScrollDirection.DEFAULT)
+                        .setSaveConsumer(value ->
+                                CONFIG.pouchScrollDirection = value
+                        )
+                        .setEnumNameProvider(value ->
+                                Component.literal(
+                                        ((PouchScrollDirection) value).getDisplayName()
+                                )
+                        )
+                        .build()
+        );
+
+        pouchAutoDeposit.addEntry(
                 entries.startBooleanToggle(
                                 Component.literal("Plains Coin Pouch: Auto Deposit"),
                                 CONFIG.plainsPouchAutoDepositEnabled
