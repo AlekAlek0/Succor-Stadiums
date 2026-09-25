@@ -20,7 +20,7 @@ public class OakBowItem extends BowItem {
     }
 
     // Vanilla velocity is 3.0F
-    private static final float VELOCITY_MULTIPLIER = 1.2F;
+    private static final float VELOCITY_MULTIPLIER = 2.0F;
 
     @Override
     public boolean releaseUsing(final @NonNull ItemStack itemStack, final @NonNull Level level, final @NonNull LivingEntity entity, final int remainingTime) {
