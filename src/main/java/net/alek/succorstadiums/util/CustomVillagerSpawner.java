@@ -151,7 +151,7 @@ public class CustomVillagerSpawner {
                 ModItems.SWORD_OF_THE_FOREST, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, ModItems.EMERALD_COIN, 36,
+        addOffer(offers, ModItems.EMERALD_COIN, 32,
                 ModItems.FLINT_CHARM, 1,
                 9999999, 0, 0.0F);
 
