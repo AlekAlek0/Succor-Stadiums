@@ -292,6 +292,10 @@ public class CustomVillagerSpawner {
                 ModItems.EMERALD_COIN, 2,
                 9999999, 0, 0.0F);
 
+        addOffer(offers, ModItems.EMERALD_COIN, 12,
+                ModItems.OAK_BOW, 1,
+                9999999, 0, 0.0F);
+
         addOffer(offers, ModItems.EMERALD_COIN, 18,
                 ModItems.PLANT_POWDER, 2,
                 ModItems.CREEPBOW, 1,
