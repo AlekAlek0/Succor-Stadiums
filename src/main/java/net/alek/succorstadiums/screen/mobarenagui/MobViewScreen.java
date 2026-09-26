@@ -39,9 +39,9 @@ public class MobViewScreen {
                        int selectedWave, ArenaDataPayload.WaveEntry wave) {
 
         g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
-        g.text(font, "Mobs in Wave " + selectedWave, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
+        g.text(font, "Mobs in Wave " + selectedWave + " (" + wave.name() + ")", dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
 
-        if (wave == null || wave.mobs().isEmpty()) {
+        if (wave.mobs().isEmpty()) {
             g.text(font, "No mobs in this wave.", dx + PANEL_PAD, guiTop + 28, theme.subtext.getRGB(), false);
             return;
         }
