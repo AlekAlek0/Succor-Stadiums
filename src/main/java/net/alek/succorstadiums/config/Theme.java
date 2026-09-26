@@ -126,8 +126,8 @@ public enum Theme {
 
     ROSE(
             new Color(0xFFFDD1D0, true), // Background
-            new Color(0xFFFA9A98, true), // Sidebar
-            new Color(0xFFFBB7B5, true), // Panel
+            new Color(0xFFFBB7B5, true), // Sidebar
+            new Color(0xFFFA9A98, true), // Panel
             new Color(0xFFF98986, true), // Border
             new Color(0xFFF55854, true), // Header
             new Color(0xFF700D0D, true), // Text
