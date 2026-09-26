@@ -163,6 +163,22 @@ public class CustomVillagerSpawner {
                 ModItems.GREAT_SWORD_OF_THE_FOREST, 1,
                 9999999, 0, 0.0F);
 
+        addOffer(offers, ModItems.EMERALD_COIN, 24,
+                ModItems.HELM_OF_THE_FOREST, 1,
+                9999999, 0, 0.0F);
+
+        addOffer(offers, ModItems.EMERALD_COIN, 32,
+                ModItems.CHESTPLATE_OF_THE_FOREST, 1,
+                9999999, 0, 0.0F);
+
+        addOffer(offers, ModItems.EMERALD_COIN, 28,
+                ModItems.LEGGINGS_OF_THE_FOREST, 1,
+                9999999, 0, 0.0F);
+
+        addOffer(offers, ModItems.EMERALD_COIN, 20,
+                ModItems.BOOTS_OF_THE_FOREST, 1,
+                9999999, 0, 0.0F);
+
         // Add villager to the level
         level.addFreshEntity(villager);
     }
