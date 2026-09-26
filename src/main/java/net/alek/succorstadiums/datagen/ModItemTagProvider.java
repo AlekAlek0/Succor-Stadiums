@@ -37,6 +37,8 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
 
         builder(ItemTags.SWORDS)
                 .add(ResourceKey.create(Registries.ITEM,
+                        Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "oak_sword")))
+                .add(ResourceKey.create(Registries.ITEM,
                         Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "sword_of_the_forest")))
                 .add(ResourceKey.create(Registries.ITEM,
                         Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "sprout_sickle")));
