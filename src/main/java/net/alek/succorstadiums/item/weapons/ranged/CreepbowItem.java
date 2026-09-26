@@ -25,7 +25,7 @@ public class CreepbowItem extends BowItem {
     }
 
     // Vanilla velocity is 3.0F
-    public static final float VELOCITY_MULTIPLIER = 0.80F;
+    public static final float VELOCITY_MULTIPLIER = 2.60F;
 
     private static final int FULL_CHARGE_TICKS = 20;
     private static final int HOLD_AFTER_FULL_CHARGE_TICKS = 30;
