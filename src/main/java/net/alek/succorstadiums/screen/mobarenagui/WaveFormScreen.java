@@ -164,7 +164,7 @@ public class WaveFormScreen {
         if (wave == null || wave.mobs().isEmpty()) return false;
 
         int maxScroll = Math.max(0, wave.mobs().size() - 1);
-        mobScroll = (int) Math.max(0, Math.min(mobScroll - vertical, maxScroll));
+        mobScroll = (int) Math.clamp(mobScroll - vertical, 0, maxScroll);
         rebuild.run();
         return true;
     }
