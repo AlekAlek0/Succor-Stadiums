@@ -1,7 +1,6 @@
 package net.alek.succorstadiums.mixin.item.equipment;
 
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -45,7 +44,7 @@ public abstract class HotbarPouchScrollMixin {
         // Get player and pouch stack
         Player player = this.minecraft.player;
         assert player != null;
-        ItemStack pouchStack = succorstadiums$findPouchInHotbar(player);
+        ItemStack pouchStack = succorstadiums$findPouch(player);
 
         // If player is a screen or gui overlay return
         if (this.minecraft.gui.screen() != null || this.minecraft.gui.overlay() != null) {
@@ -85,12 +84,11 @@ public abstract class HotbarPouchScrollMixin {
     }
 
 
-    // Iterate through the hotbar and find what stack contains the plains coin pouch and return it else return empty
+    // Iterate through the inventory and find what stack contains the plains coin pouch
+    // and return it else return empty
     @Unique
-    private ItemStack succorstadiums$findPouchInHotbar(Player player) {
-        Inventory inventory = player.getInventory();
-        for (int i = 0; i < 9; i++) {
-            ItemStack stack = inventory.getNonEquipmentItems().get(i);
+    private ItemStack succorstadiums$findPouch(Player player) {
+        for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
             if (stack.is(ModItems.PLAINS_COIN_POUCH)) {
                 return stack;
             }
@@ -98,7 +96,8 @@ public abstract class HotbarPouchScrollMixin {
         return ItemStack.EMPTY;
     }
 
-    // Method to check if the player can transfer if they have emerald coins in their inventory or in their pouch contents else return false
+    // Method to check if the player can transfer if they have emerald coins in their inventory
+    // or in their pouch contents else return false
     @Unique
     private boolean succorstadiums$canTransfer(Player player, ItemStack pouchStack, boolean deposit) {
         if (deposit) {

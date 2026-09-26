@@ -23,7 +23,7 @@ public class PouchScrollTransferHandler {
 
             // Get the player and pouch stack
             ServerPlayer player = context.player();
-            ItemStack pouchStack = findPouchInHotbar(player);
+            ItemStack pouchStack = findPouch(player);
 
             // If pouch is empty return
             if (pouchStack.isEmpty()) {
@@ -39,11 +39,10 @@ public class PouchScrollTransferHandler {
         });
     }
 
-    // Iterate through the hotbar and find what stack contains the plains coin pouch and return it else return empty
-    private static ItemStack findPouchInHotbar(ServerPlayer player) {
-        Inventory inventory = player.getInventory();
-        for (int i = 0; i < 9; i++) {
-            ItemStack stack = inventory.getNonEquipmentItems().get(i);
+    // Iterate through the inventory and find what stack contains the plains coin pouch
+    // and return it else return empty
+    private static ItemStack findPouch(ServerPlayer player) {
+        for (ItemStack stack : player.getInventory().getNonEquipmentItems()) {
             if (stack.is(ModItems.PLAINS_COIN_POUCH)) {
                 return stack;
             }
@@ -75,7 +74,8 @@ public class PouchScrollTransferHandler {
                     }
                 }
 
-                // Second pass if first pass found nothing find the next available empty slot and place a fresh 1 count copy of the coin
+                // Second pass if first pass found nothing find the next available empty slot
+                // and place a fresh 1 count copy of the coin
                 if (!inserted) {
                     for (int slot = 0; slot < items.size() && !inserted; slot++) {
                         if (items.get(slot).isEmpty()) {
@@ -85,7 +85,8 @@ public class PouchScrollTransferHandler {
                     }
                 }
 
-                // If either pass succeeded write the item list back to pouch contents shrink the stack by 1 and return
+                // If either pass succeeded write the item list back to pouch contents
+                // shrink the stack by 1 and return
                 if (inserted) {
                     pouchStack.set(ModComponents.POUCH_CONTENTS, PouchContents.of(items));
                     stack.shrink(1);
@@ -110,7 +111,8 @@ public class PouchScrollTransferHandler {
             if (slotStack.is(ModItemTagProvider.COINS)) {
                 ItemStack single = slotStack.copyWithCount(1);
 
-                // Try to insert into players inventory if full drop the coin and shrink the stack by 1 clears it if empty
+                // Try to insert into players inventory if full drop the coin
+                // and shrink the stack by 1 clears it if empty
                 if (!player.getInventory().add(single)) {
                     player.drop(single, false);
                 }
