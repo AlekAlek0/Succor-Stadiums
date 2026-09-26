@@ -15,7 +15,7 @@ import java.util.EnumSet;
 public class CreepbowAttackGoal<T extends Mob & RangedAttackMob> extends Goal {
     private final T mob;
     private final double speedModifier;
-    private int attackIntervalMin;
+    private final int attackIntervalMin;
     private final float attackRadiusSqr;
     private int attackTime = -1;
     private int seeTime;
