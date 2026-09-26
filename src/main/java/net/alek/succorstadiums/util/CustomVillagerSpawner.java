@@ -159,6 +159,10 @@ public class CustomVillagerSpawner {
                 ModItems.SPROUT_SICKLE, 1,
                 9999999, 0, 0.0F);
 
+        addOffer(offers, ModItems.EMERALD_COIN, 64,
+                ModItems.GREAT_SWORD_OF_THE_FOREST, 1,
+                9999999, 0, 0.0F);
+
         // Add villager to the level
         level.addFreshEntity(villager);
     }
