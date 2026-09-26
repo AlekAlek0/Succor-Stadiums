@@ -21,10 +21,10 @@
   },
   "client": [
     "PlayerFovMixin",
+    "item.equipment.HudPouchMixin",
+    "item.equipment.PouchScrollMixin",
     "magicindicator.HudMagicCrosshairIndicatorMixin",
     "magicindicator.HudMagicIndicatorMixin",
-    "mana.HudManaMixin",
-    "item.equipment.HotbarPouchScrollMixin",
-    "item.equipment.HudPouchMixin"
+    "mana.HudManaMixin"
   ]
 }

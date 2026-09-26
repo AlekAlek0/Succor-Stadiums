@@ -26,9 +26,9 @@ import net.alek.succorstadiums.component.ModComponents;
 import net.alek.succorstadiums.client.ModKeyBindings;
 import net.alek.succorstadiums.item.ModItems;
 
-// HotbarPouchScrollMixin class
+// PouchScrollMixin class
 @Mixin(MouseHandler.class)
-public abstract class HotbarPouchScrollMixin {
+public abstract class PouchScrollMixin {
 
     @Final @Shadow private Minecraft minecraft;
 
@@ -39,7 +39,7 @@ public abstract class HotbarPouchScrollMixin {
     private static final Component NO_COINS_TO_WITHDRAW_MESSAGE = Component.translatable("message.succorstadiums.no_coins_to_withdraw");
 
     @Inject(method = "onScroll", at = @At("HEAD"), cancellable = true)
-    private void succorstadiums$hotbarPouchScroll(long handle, double xoffset, double yoffset, CallbackInfo ci) {
+    private void succorstadiums$pouchScroll(long handle, double xoffset, double yoffset, CallbackInfo ci) {
 
         // Get player and pouch stack
         Player player = this.minecraft.player;
