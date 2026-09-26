@@ -139,7 +139,7 @@ public class CustomVillagerSpawner {
         offers.clear();
 
         // Add new offers to villager
-        addOffer(offers, ModItems.EMERALD_COIN, 8,
+        addOffer(offers, ModItems.EMERALD_COIN, 12,
                 ModItems.BONE_DAGGER, 1,
                 9999999, 0, 0.0F);
 
@@ -147,16 +147,36 @@ public class CustomVillagerSpawner {
                 ModItems.BEAN_POLE, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, ModItems.EMERALD_COIN, 24,
+        addOffer(offers, ModItems.EMERALD_COIN, 32,
                 ModItems.SWORD_OF_THE_FOREST, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, ModItems.EMERALD_COIN, 36,
+        addOffer(offers, ModItems.EMERALD_COIN, 32,
                 ModItems.FLINT_CHARM, 1,
                 9999999, 0, 0.0F);
 
         addOffer(offers, ModItems.EMERALD_COIN, 32,
                 ModItems.SPROUT_SICKLE, 1,
+                9999999, 0, 0.0F);
+
+        addOffer(offers, ModItems.EMERALD_COIN, 64,
+                ModItems.GREAT_SWORD_OF_THE_FOREST, 1,
+                9999999, 0, 0.0F);
+
+        addOffer(offers, ModItems.EMERALD_COIN, 24,
+                ModItems.HELM_OF_THE_FOREST, 1,
+                9999999, 0, 0.0F);
+
+        addOffer(offers, ModItems.EMERALD_COIN, 32,
+                ModItems.CHESTPLATE_OF_THE_FOREST, 1,
+                9999999, 0, 0.0F);
+
+        addOffer(offers, ModItems.EMERALD_COIN, 28,
+                ModItems.LEGGINGS_OF_THE_FOREST, 1,
+                9999999, 0, 0.0F);
+
+        addOffer(offers, ModItems.EMERALD_COIN, 20,
+                ModItems.BOOTS_OF_THE_FOREST, 1,
                 9999999, 0, 0.0F);
 
         // Add villager to the level
@@ -284,12 +304,16 @@ public class CustomVillagerSpawner {
 
         // Add new offers to villager
 
-        addOffer(offers, Items.ARROW, 8,
-                ModItems.EMERALD_COIN, 1,
+        addOffer(offers, ModItems.EMERALD_COIN, 8,
+                Items.ARROW, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, ModItems.BALE_ARROW, 8,
-                ModItems.EMERALD_COIN, 2,
+        addOffer(offers, ModItems.EMERALD_COIN, 8,
+                ModItems.BALE_ARROW, 2,
+                9999999, 0, 0.0F);
+
+        addOffer(offers, ModItems.EMERALD_COIN, 12,
+                ModItems.OAK_BOW, 1,
                 9999999, 0, 0.0F);
 
         addOffer(offers, ModItems.EMERALD_COIN, 18,

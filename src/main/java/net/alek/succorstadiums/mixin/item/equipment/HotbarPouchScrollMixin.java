@@ -80,7 +80,7 @@ public abstract class HotbarPouchScrollMixin {
 
         // Send the PouchScrollTransferPayload and play a sound effect
         ClientPlayNetworking.send(new PouchScrollTransferPayload(deposit));
-        this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.ITEM_PICKUP, 1.0F, 1.0F));
+        this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(deposit ? SoundEvents.BUNDLE_INSERT : SoundEvents.BUNDLE_REMOVE_ONE, 1.0F, 1.0F));
         ci.cancel();
     }
 

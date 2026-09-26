@@ -42,7 +42,7 @@ public class Skelcrow extends Stray {
 
     @Override
     protected void populateDefaultEquipmentSlots(final RandomSource random, final DifficultyInstance difficulty) {
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.CREEPBOW));
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(ModItems.OAK_BOW));
 
         if (random.nextFloat() < 0.15F * difficulty.getSpecialMultiplier()) {
             int armorType = random.nextInt(3);

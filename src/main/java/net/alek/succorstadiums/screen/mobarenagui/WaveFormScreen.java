@@ -164,7 +164,7 @@ public class WaveFormScreen {
         if (wave == null || wave.mobs().isEmpty()) return false;
 
         int maxScroll = Math.max(0, wave.mobs().size() - 1);
-        mobScroll = (int) Math.max(0, Math.min(mobScroll - vertical, maxScroll));
+        mobScroll = (int) Math.clamp(mobScroll - vertical, 0, maxScroll);
         rebuild.run();
         return true;
     }
@@ -174,7 +174,7 @@ public class WaveFormScreen {
     public void render(GuiGraphicsExtractor g, Font font, Theme theme,
                        int dx, int dt, int dw, int guiTop, int guiHeight,
                        String headerTitle, ArenaDataPayload.WaveEntry wave) {
-        g.fill(dx, dt, dx + 849, dt + 16, 0xFF5C7ABA);
+        g.fill(dx, dt, dx + dw, dt + 16, 0xFF5C7ABA);
         g.text(font, headerTitle, dx + PANEL_PAD, dt + 4, 0xFFFFFFFF, false);
         g.text(font, "Name / Delay (s)", dx + PANEL_PAD, dt + 20, theme.subtext.getRGB(), false);
 
