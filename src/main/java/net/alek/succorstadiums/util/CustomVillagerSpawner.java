@@ -147,7 +147,7 @@ public class CustomVillagerSpawner {
                 ModItems.BEAN_POLE, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, ModItems.EMERALD_COIN, 24,
+        addOffer(offers, ModItems.EMERALD_COIN, 28,
                 ModItems.SWORD_OF_THE_FOREST, 1,
                 9999999, 0, 0.0F);
 
