@@ -130,8 +130,8 @@ public enum Theme {
             new Color(0xFFFBB7B5, true), // Panel
             new Color(0xFFF98986, true), // Border
             new Color(0xFFF55854, true), // Header
-            new Color(0xFFF23631, true), // Text
-            new Color(0xFFEE120D, true)  // Subtext
+            new Color(0xFF700D0D, true), // Text
+            new Color(0xFFA51A1A, true)  // Subtext
     );
 
     public final Color bg;
