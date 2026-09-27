@@ -280,5 +280,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("container.succorstadiums.backpack", "Backpack");
         translationBuilder.add("container.succorstadiums.plains_coin_pouch", "Plains Coin Pouch");
 
+        // Mod button translations
+        translationBuilder.add("button.succorstadiums.withdraw_coins", "Withdraw Coins");
+
     }
 }

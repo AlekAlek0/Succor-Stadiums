@@ -22,7 +22,9 @@
   "client": [
     "PlayerFovMixin",
     "item.equipment.HudPouchMixin",
+    "item.equipment.MerchantWithdrawButtonMixin",
     "item.equipment.PouchScrollMixin",
+    "item.equipment.ScreenInvokerMixin",
     "magicindicator.HudMagicCrosshairIndicatorMixin",
     "magicindicator.HudMagicIndicatorMixin",
     "mana.HudManaMixin"

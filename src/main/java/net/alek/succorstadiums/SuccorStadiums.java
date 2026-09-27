@@ -21,10 +21,7 @@ import net.alek.succorstadiums.network.backpack.OpenBackpackPayload;
 import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpHandler;
 import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpPayload;
 import net.alek.succorstadiums.network.item.armor.ArachnoDoubleJumpResultPayload;
-import net.alek.succorstadiums.network.item.equipment.pouch.PouchScrollTransferHandler;
-import net.alek.succorstadiums.network.item.equipment.pouch.PouchScrollTransferPayload;
-import net.alek.succorstadiums.network.item.equipment.pouch.SetPouchAutoDepositHandler;
-import net.alek.succorstadiums.network.item.equipment.pouch.SetPouchAutoDepositPayload;
+import net.alek.succorstadiums.network.item.equipment.pouch.*;
 import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;
 import net.alek.succorstadiums.particle.ModParticles;
 import net.alek.succorstadiums.sound.ModSounds;
@@ -99,6 +96,8 @@ public class SuccorStadiums implements ModInitializer {
 		PouchScrollTransferHandler.register();
 		PayloadTypeRegistry.serverboundPlay().register(SetPouchAutoDepositPayload.TYPE, SetPouchAutoDepositPayload.CODEC);
 		SetPouchAutoDepositHandler.register();
+		PayloadTypeRegistry.serverboundPlay().register(WithdrawExactCoinsPayload.TYPE, WithdrawExactCoinsPayload.CODEC);
+		WithdrawExactCoinsHandler.register();
 		PayloadTypeRegistry.serverboundPlay().register(OpenBackpackPayload.TYPE, OpenBackpackPayload.CODEC);
 		BackpackPacketHandler.register();
 
