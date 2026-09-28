@@ -17,6 +17,7 @@ import net.alek.succorstadiums.item.ModItems;
 // SuccorStadiumsConfigScreen class
 public class SuccorStadiumsConfigScreen {
 
+    // Load the config file
     private static final SuccorStadiumsConfig CONFIG = SuccorStadiumsConfigManager.load();
 
     public static Screen create(Screen parent) {
@@ -27,10 +28,12 @@ public class SuccorStadiumsConfigScreen {
 
         ConfigEntryBuilder entries = builder.entryBuilder();
 
+        // Create a new category called general
         ConfigCategory general = builder.getOrCreateCategory(
                 Component.literal("General")
         );
 
+        // Add entries to the general category
         general.addEntry(
                 entries.startTextDescription(
                         Component.literal("TIP: Press \\ by default anytime in-game to open this menu quickly!")
@@ -74,10 +77,12 @@ public class SuccorStadiumsConfigScreen {
                         .build()
         );
 
+        // Create a new category called pouch auto deposit
         ConfigCategory pouchAutoDeposit = builder.getOrCreateCategory(
                 Component.literal("Pouch Auto Deposit")
         );
 
+        // Add entries to the pouch auto deposit category
         pouchAutoDeposit.addEntry(
                 entries.startEnumSelector(
                                 Component.literal("Pouch Scroll Direction - DEFAULT (Scroll Up Deposits) - INVERTED (Scroll Up Withdraws)"),
@@ -116,11 +121,13 @@ public class SuccorStadiumsConfigScreen {
                         .build()
         );
 
+        // Save the config file
         builder.setSavingRunnable(() -> SuccorStadiumsConfigManager.save(CONFIG));
 
         return builder.build();
     }
 
+    // Accessor method to get the config file
     public static SuccorStadiumsConfig getConfig() {
         return CONFIG;
     }
