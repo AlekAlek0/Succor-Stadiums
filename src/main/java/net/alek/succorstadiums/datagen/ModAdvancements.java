@@ -1,8 +1,6 @@
 package net.alek.succorstadiums.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancements.triggers.InventoryChangeTrigger;
-import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.advancements.predicates.ItemPredicate;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
@@ -12,22 +10,28 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.Items;
 
-import net.alek.succorstadiums.advancement.PlayerDeathCriterion;
-import net.alek.succorstadiums.advancement.ModCriteria;
-import net.alek.succorstadiums.item.ModItems;
-import net.alek.succorstadiums.SuccorStadiums;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 
 import java.util.concurrent.CompletableFuture;
 import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 import java.util.Optional;
 
+import net.alek.succorstadiums.advancement.PlayerDeathCriterion;
+import net.alek.succorstadiums.advancement.ModCriteria;
+import net.alek.succorstadiums.item.ModItems;
+import net.alek.succorstadiums.SuccorStadiums;
+
+// ModAdvancements class
 public class ModAdvancements extends FabricAdvancementProvider {
 
+    // Public constructor
     public ModAdvancements(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
+    // Override method to generate advancements
     @Override
     public void generateAdvancement(HolderLookup.@NonNull Provider wrapperLookup, @NonNull Consumer<AdvancementHolder> consumer) {
 
@@ -46,6 +50,7 @@ public class ModAdvancements extends FabricAdvancementProvider {
                 .addCriterion("root", InventoryChangeTrigger.TriggerInstance.hasItems(new ItemPredicate[0]))
                 .save(consumer, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "root"));
 
+        // Create vincible advancement
         AdvancementHolder VINCIBLE = Advancement.Builder.advancement()
                 .parent(ROOT)
                 .display(
