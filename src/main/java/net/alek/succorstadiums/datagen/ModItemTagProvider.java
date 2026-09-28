@@ -31,6 +31,10 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
     public static final TagKey<Item> BONE_DAGGERS = TagKey.create(Registries.ITEM,
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "bone_daggers"));
 
+
+    public static final TagKey<Item> NO_CRIT_WEAPONS = TagKey.create(Registries.ITEM,
+            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "no_crit_weapons"));
+
     @Override
     protected void addTags(HolderLookup.@NonNull Provider wrapperLookup) {
 
@@ -65,6 +69,10 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
         builder(BONE_DAGGERS)
                 .add(ResourceKey.create(Registries.ITEM,
                         Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "bone_dagger")));
+
+        builder(NO_CRIT_WEAPONS)
+                .add(ResourceKey.create(Registries.ITEM,
+                        Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "sprout_sickle")));
 
     }
 }
