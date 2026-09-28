@@ -49,6 +49,8 @@
   "item.succorstadiums.arachno_crossbow.lore": "Slow but powerful, a promising ranged option.",
   "item.succorstadiums.armor_of_the_forest.tooltip_0": "Full Set Bonus:",
   "item.succorstadiums.armor_of_the_forest.tooltip_1": " 20% Knockback Resist",
+  "item.succorstadiums.bale_armor.tooltip_0": "Full Set Bonus:",
+  "item.succorstadiums.bale_armor.tooltip_1": " 3% Bale Arrows not consumed on use",
   "item.succorstadiums.bale_arrow": "Bale Arrow",
   "item.succorstadiums.bale_arrow.lore": "Knockback.",
   "item.succorstadiums.bale_boots": "§fBale Boots",

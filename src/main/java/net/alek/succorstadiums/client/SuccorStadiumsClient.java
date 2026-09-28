@@ -166,24 +166,64 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.bale_helmet.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.bale_armor.tooltip_0")
+                                .withStyle(ChatFormatting.DARK_PURPLE)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.bale_armor.tooltip_1")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+                tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
             }
             if (stack.is(ModItems.BALE_CHESTPLATE)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.bale_chestplate.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.bale_armor.tooltip_0")
+                                .withStyle(ChatFormatting.DARK_PURPLE)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.bale_armor.tooltip_1")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+                tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
             }
             if (stack.is(ModItems.BALE_LEGGINGS)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.bale_leggings.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.bale_armor.tooltip_0")
+                                .withStyle(ChatFormatting.DARK_PURPLE)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.bale_armor.tooltip_1")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+                tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
             }
             if (stack.is(ModItems.BALE_BOOTS)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.bale_boots.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.bale_armor.tooltip_0")
+                                .withStyle(ChatFormatting.DARK_PURPLE)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.bale_armor.tooltip_1")
+                                .withStyle(ChatFormatting.BLUE)
+                );
+                tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
             }
             if (stack.is(ModItems.ARACHNO_CARAPACE_HELMET)) {
                 tooltip.add(1,

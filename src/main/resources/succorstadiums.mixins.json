@@ -8,6 +8,7 @@
     "MobHealthMixin",
     "MobXpMixin",
     "PlayerAttributesMixin",
+    "item.armor.BaleArmorSaveAmmoMixin",
     "item.armor.NannerWaterWadersMixin",
     "item.equipment.ItemEntityPouchPickupMixin",
     "item.trinkets.ResurrectionAmuletMixin",

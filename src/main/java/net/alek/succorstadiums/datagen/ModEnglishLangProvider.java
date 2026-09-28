@@ -158,13 +158,14 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.boots_of_the_forest.lore", "Boots of a Forest Guardian.");
 
         // Armor Tooltip translations
+        translationBuilder.add("item.succorstadiums.bale_armor.tooltip_0", "Full Set Bonus:");
+        translationBuilder.add("item.succorstadiums.bale_armor.tooltip_1", " 3% Bale Arrows not consumed on use");
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_0", "Full Set Bonus:");
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_1", "+1 Mid-air Jump");
         translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_2", " Consumes 4 Mana");
         translationBuilder.add("item.succorstadiums.nanner_water_waders.tooltip", "Increased Speed on Soul Sand / Soil, Mud and Underwater.");
         translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_0", "Full Set Bonus:");
         translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_1", " 20% Knockback Resist");
-
 
         // Melee Weapon Lore translations
         translationBuilder.add("item.succorstadiums.bean_pole.lore", "I wouldn't even touch you with a...");
@@ -180,7 +181,6 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_0", "Armor of the Forest Bonus:");
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_1", "+1 Attack Damage");
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_2", "  Poison I | 0:04 | 25%");
-
         translationBuilder.add("item.succorstadiums.sprout_sickle.tooltip_0", "Paralysis | 0:03 | 8%");
 
         // Magic Weapon Lore translations

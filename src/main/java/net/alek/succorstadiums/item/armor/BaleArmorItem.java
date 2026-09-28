@@ -5,6 +5,8 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Item;
 
@@ -17,6 +19,14 @@ public class BaleArmorItem extends Item {
                 properties.humanoidArmor(material, type)
                         .durability(getDurability(type))
         ));
+    }
+
+    // Accessor method to get if player is wearing full bale armor set
+    public static boolean isWearingFullBaleSet(LivingEntity entity) {
+        return entity.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof BaleArmorItem
+                && entity.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof BaleArmorItem
+                && entity.getItemBySlot(EquipmentSlot.LEGS).getItem() instanceof BaleArmorItem
+                && entity.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof BaleArmorItem;
     }
 
     private static int getDurability(ArmorType type) {
