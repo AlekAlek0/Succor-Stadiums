@@ -10,11 +10,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.core.Direction;
 
-import net.alek.succorstadiums.sound.ModSounds;
-import net.alek.succorstadiums.item.ModItems;
-
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+
+import net.alek.succorstadiums.sound.ModSounds;
+import net.alek.succorstadiums.item.ModItems;
 
 public class RazorThornEntity extends AbstractArrow implements ItemSupplier {
 
@@ -22,6 +23,9 @@ public class RazorThornEntity extends AbstractArrow implements ItemSupplier {
 
     @Nullable
     private Direction stuckFace;
+
+    @Nullable
+    private AtomicBoolean pickupClaim;
 
     public RazorThornEntity(EntityType<? extends RazorThornEntity> type, Level level) {
         super(type, level);
@@ -35,6 +39,10 @@ public class RazorThornEntity extends AbstractArrow implements ItemSupplier {
         this.setPickupItemStack(this.getDefaultPickupItem());
     }
 
+    public void setPickupClaim(@Nullable AtomicBoolean pickupClaim) {
+        this.pickupClaim = pickupClaim;
+    }
+
     public boolean isPlantedInGround() {
         return this.isInGround() && this.stuckFace == Direction.UP;
     }
@@ -43,6 +51,12 @@ public class RazorThornEntity extends AbstractArrow implements ItemSupplier {
     protected void onHitBlock(@NonNull BlockHitResult result) {
         super.onHitBlock(result);
         this.stuckFace = result.getDirection();
+
+        if (!this.level().isClientSide() && this.pickupClaim != null) {
+            if (!this.pickupClaim.compareAndSet(false, true)) {
+                this.discard();
+            }
+        }
     }
 
     @Override
