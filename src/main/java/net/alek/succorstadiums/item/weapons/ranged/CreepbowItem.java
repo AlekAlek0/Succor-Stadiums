@@ -19,7 +19,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 // CreepbowItem class
-public class CreepbowItem extends BowItem {
+public class CreepbowItem extends BowItem implements ModdedBow {
     public CreepbowItem(Properties properties) {
         super(properties);
     }
@@ -170,5 +170,11 @@ public class CreepbowItem extends BowItem {
 
         mob.setDeltaMovement(mob.getDeltaMovement().add(direction.scale(strength)));
         mob.hurtMarked = true;
+    }
+
+    // Return the custom velocity multiplier for ModdedBow interface for mobs
+    @Override
+    public float getVelocityMultiplier() {
+        return VELOCITY_MULTIPLIER;
     }
 }

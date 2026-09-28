@@ -14,7 +14,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 // OakBowItem class
-public class OakBowItem extends BowItem {
+public class OakBowItem extends BowItem implements ModdedBow {
     public OakBowItem(Properties properties) {
         super(properties);
     }
@@ -63,5 +63,11 @@ public class OakBowItem extends BowItem {
                 }
             }
         }
+    }
+
+    // Return the custom velocity multiplier for ModdedBow interface for mobs
+    @Override
+    public float getVelocityMultiplier() {
+        return VELOCITY_MULTIPLIER;
     }
 }

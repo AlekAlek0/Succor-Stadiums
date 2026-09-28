@@ -14,7 +14,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.List;
 
 // BownanaItem class
-public class BownanaItem extends BowItem {
+public class BownanaItem extends BowItem implements ModdedBow {
     public BownanaItem(Item.Properties properties) {
         super(properties);
     }
@@ -63,5 +63,11 @@ public class BownanaItem extends BowItem {
                 }
             }
         }
+    }
+
+    // Return the custom velocity multiplier for ModdedBow interface for mobs
+    @Override
+    public float getVelocityMultiplier() {
+        return VELOCITY_MULTIPLIER;
     }
 }
