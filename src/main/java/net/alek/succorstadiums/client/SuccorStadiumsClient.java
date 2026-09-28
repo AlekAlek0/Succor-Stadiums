@@ -173,7 +173,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(4,
                         Component.translatable("item.succorstadiums.bale_armor.tooltip_1")
-                                .withStyle(ChatFormatting.BLUE)
+                                .withStyle(ChatFormatting.GOLD)
                 );
                 tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
             }
@@ -189,7 +189,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(4,
                         Component.translatable("item.succorstadiums.bale_armor.tooltip_1")
-                                .withStyle(ChatFormatting.BLUE)
+                                .withStyle(ChatFormatting.GOLD)
                 );
                 tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
             }
@@ -205,7 +205,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(4,
                         Component.translatable("item.succorstadiums.bale_armor.tooltip_1")
-                                .withStyle(ChatFormatting.BLUE)
+                                .withStyle(ChatFormatting.GOLD)
                 );
                 tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
             }
@@ -221,7 +221,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
                 tooltip.add(4,
                         Component.translatable("item.succorstadiums.bale_armor.tooltip_1")
-                                .withStyle(ChatFormatting.BLUE)
+                                .withStyle(ChatFormatting.GOLD)
                 );
                 tooltip.add(5, Component.translatable("item.succorstadiums.spacer"));
             }
