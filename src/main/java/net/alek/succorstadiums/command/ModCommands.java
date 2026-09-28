@@ -1,13 +1,12 @@
 package net.alek.succorstadiums.command;
 
-import com.mojang.brigadier.arguments.IntegerArgumentType;
-import net.alek.succorstadiums.mana.ManaData;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.minecraft.commands.arguments.EntityArgument;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.network.chat.Component;
@@ -22,10 +21,12 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.alek.succorstadiums.network.arena.OpenMobArenaPayload;
 import net.alek.succorstadiums.util.CustomVillagerSpawner;
 import net.alek.succorstadiums.mana.ManaHelper;
+import net.alek.succorstadiums.mana.ManaData;
 
 // Mod commands class
 public class ModCommands {
 
+    // Initialize message when mana is full
     private static final Component MANA_FULL_MESSAGE =
             Component.translatable("message.succorstadiums.mana_full");
 
