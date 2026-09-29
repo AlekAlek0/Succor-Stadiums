@@ -1,15 +1,22 @@
 package net.alek.succorstadiums.datagen;
 
+import net.alek.succorstadiums.client.render.item.CardboardShieldSpecialRenderer;
 import net.minecraft.client.data.models.BlockModelGenerators;
-import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.data.models.ItemModelGenerators;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 
+import net.minecraft.client.resources.model.sprite.Material;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import org.jspecify.annotations.NonNull;
 
 import net.alek.succorstadiums.item.ModItems;
+
+import java.util.Optional;
 
 public class ModModelProvider extends FabricModelProvider {
     public ModModelProvider(FabricPackOutput output) {
@@ -104,6 +111,35 @@ public class ModModelProvider extends FabricModelProvider {
 
         // Equipment datagen
         itemModelGenerators.generateFlatItem(ModItems.PLAINS_COIN_POUCH, ModelTemplates.FLAT_ITEM);
+
+        // Shield datagen
+        Identifier vanillaShieldModelLocation = ModelLocationUtils.getModelLocation(Items.SHIELD);
+        Identifier cardboardShieldModelLocation = ModelLocationUtils.getModelLocation(ModItems.CARDBOARD_SHIELD);
+
+        // Item models (inherit vanilla's transforms, only the particle texture is ours)
+        ModelTemplate shieldTemplate = new ModelTemplate(Optional.of(vanillaShieldModelLocation), Optional.empty(), TextureSlot.PARTICLE);
+        shieldTemplate.create(
+                cardboardShieldModelLocation,
+                TextureMapping.singleSlot(TextureSlot.PARTICLE, new Material(ModelLocationUtils.getModelLocation(Blocks.OAK_PLANKS))),
+                itemModelGenerators.modelOutput);
+
+        ModelTemplate blockingShieldTemplate = new ModelTemplate(Optional.of(vanillaShieldModelLocation.withSuffix("_blocking")), Optional.empty(), TextureSlot.PARTICLE);
+        blockingShieldTemplate.create(
+                cardboardShieldModelLocation.withSuffix("_blocking"),
+                TextureMapping.singleSlot(TextureSlot.PARTICLE, new Material(ModelLocationUtils.getModelLocation(Blocks.OAK_PLANKS))),
+                itemModelGenerators.modelOutput);
+
+        // Client item (switches to the blocking model while the shield is in use)
+        CardboardShieldSpecialRenderer.Unbaked cardboardShieldRenderer = new CardboardShieldSpecialRenderer.Unbaked(
+                Identifier.fromNamespaceAndPath("succorstadiums", "cardboard_shield_base"),
+                Identifier.fromNamespaceAndPath("succorstadiums", "cardboard_shield_base_nopattern"));
+
+        itemModelGenerators.itemModelOutput.accept(ModItems.CARDBOARD_SHIELD,
+                ItemModelUtils.conditional(
+                        CardboardShieldSpecialRenderer.DEFAULT_TRANSFORMATION,
+                        ItemModelUtils.isUsingItem(),
+                        ItemModelUtils.specialModel(cardboardShieldModelLocation.withSuffix("_blocking"), cardboardShieldRenderer),
+                        ItemModelUtils.specialModel(cardboardShieldModelLocation, cardboardShieldRenderer)));
 
     }
 }

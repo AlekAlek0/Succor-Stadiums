@@ -142,6 +142,7 @@ public class ModCreativeModeTabs {
                     .title(Component.translatable("creativemodetab.succorstadiums.succor_stadium_equipment"))
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.PLAINS_COIN_POUCH);
+                        output.accept(ModItems.CARDBOARD_SHIELD);
 
 
                     }).build());

@@ -1,8 +1,14 @@
 package net.alek.succorstadiums.client;
 
+import net.alek.succorstadiums.client.render.item.CardboardShieldLayers;
+import net.alek.succorstadiums.client.render.item.CardboardShieldSpecialRenderer;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
+import net.minecraft.client.model.object.equipment.ShieldModel;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.special.SpecialModelRenderers;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
@@ -47,6 +53,9 @@ public class SuccorStadiumsClient implements ClientModInitializer {
         EntityRenderers.register(ModEntityTypes.FARMBIE_BLUE, FarmbieBlueRenderer::new);
         EntityRenderers.register(ModEntityTypes.GRASS_CREEPER, GrassCreeperRenderer::new);
         EntityRenderers.register(ModEntityTypes.SKELCROW, SkelcrowRenderer::new);
+
+        SpecialModelRenderers.ID_MAPPER.put(Identifier.fromNamespaceAndPath("succorstadiums", "cardboard_shield"), CardboardShieldSpecialRenderer.Unbaked.MAP_CODEC);
+        ModelLayerRegistry.registerModelLayer(CardboardShieldLayers.CARDBOARD_SHIELD, ShieldModel::createLayer);
 
         ParticleProviderRegistry.getInstance().register(ModParticles.FOREST_ANGRY, sprites -> new ForestAuraParticle.Provider(sprites, false));
         ParticleProviderRegistry.getInstance().register(ModParticles.FOREST_ANGRY_SMALL, sprites -> new ForestAuraParticle.Provider(sprites, true));
@@ -654,6 +663,12 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 tooltip.add(7,
                         Component.translatable("item.succorstadiums.dog_whistle.tooltip_4")
                                 .withStyle(ChatFormatting.RED)
+                );
+            }
+            if (stack.is(ModItems.CARDBOARD_SHIELD)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.cardboard_shield.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
             if (stack.is(ModItems.PLAINS_COIN_POUCH)) {

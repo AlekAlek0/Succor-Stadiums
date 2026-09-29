@@ -1,6 +1,12 @@
 package net.alek.succorstadiums.item;
 
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -8,6 +14,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.core.Registry;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import net.alek.succorstadiums.item.equipment.pouch.PlainsCoinPouchItem;
@@ -21,6 +29,7 @@ import net.alek.succorstadiums.SuccorStadiums;
 import net.alek.succorstadiums.food.ModFoods;
 import net.alek.succorstadiums.item.foods.*;
 import net.alek.succorstadiums.item.armor.*;
+import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
 public class ModItems {
 
@@ -205,6 +214,21 @@ public class ModItems {
 
     public static final Item PLAINS_COIN_POUCH = registerItem("plains_coin_pouch", properties -> new PlainsCoinPouchItem(properties
             .stacksTo(1)));
+    public static final Item CARDBOARD_SHIELD = registerItem("cardboard_shield",
+            properties -> new ShieldItem(properties.durability(64)
+                    .component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY)
+                    .equippableUnswappable(EquipmentSlot.OFFHAND)
+                    .delayedComponent(DataComponents.BLOCKS_ATTACKS, context -> new BlocksAttacks(
+                            0.25F, 1.0F,
+                            List.of(new BlocksAttacks.DamageReduction(
+                                    90.0F,
+                                    Optional.of(context.getOrThrow(DamageTypeTags.IS_PROJECTILE)),
+                                    0.0F, 1.0F)),
+                            new BlocksAttacks.ItemDamageFunction(3.0F, 1.0F, 1.0F),
+                            Optional.of(context.getOrThrow(DamageTypeTags.BYPASSES_SHIELD)),
+                            Optional.of(SoundEvents.SHIELD_BLOCK),
+                            Optional.of(SoundEvents.SHIELD_BREAK)))
+                    .component(DataComponents.BREAK_SOUND, SoundEvents.SHIELD_BREAK)));
 
     private static Item registerItem(String name, Function<Item.Properties, Item> function) {
         return Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, name),

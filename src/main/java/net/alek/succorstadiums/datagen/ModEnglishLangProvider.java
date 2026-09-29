@@ -104,6 +104,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.DOG_WHISTLE, "Dog Whistle");
 
         // Equipment translations
+        translationBuilder.add(ModItems.CARDBOARD_SHIELD, "Cardboard Shield");
         translationBuilder.add(ModItems.PLAINS_COIN_POUCH, "Plains Coin Pouch");
 
         // Enchantment translations
@@ -245,6 +246,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_4", "-8 Mana");
 
         // Equipment Lore translations
+        translationBuilder.add("item.succorstadiums.cardboard_shield.lore", "Only Blocks Projectiles.");
         translationBuilder.add("item.succorstadiums.plains_coin_pouch.lore", "A pouch for your coins.");
 
         // Equipment Tooltip translations
