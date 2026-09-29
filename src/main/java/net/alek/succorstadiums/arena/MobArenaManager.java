@@ -61,12 +61,6 @@ public class MobArenaManager {
         save();
     }
 
-    // Mutator method to remove an existing mob arena
-    public static void removeArena(String name) {
-        boolean removed = arenas.remove(name) != null;
-        if (removed) save();
-    }
-
     // Accessor method to get a given mob arena
     public static MobArena getArena(String name) {
         return arenas.get(name);
@@ -75,6 +69,12 @@ public class MobArenaManager {
     // Accessor method to get all created mob arenas
     public static Collection<MobArena> getAllArenas() {
         return arenas.values();
+    }
+
+    // Mutator method to remove an existing mob arena
+    public static void removeArena(String name) {
+        boolean removed = arenas.remove(name) != null;
+        if (removed) save();
     }
 
     // Mutator method to rename an existing mob arena
