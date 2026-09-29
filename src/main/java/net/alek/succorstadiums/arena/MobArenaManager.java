@@ -1,43 +1,54 @@
 package net.alek.succorstadiums.arena;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.server.MinecraftServer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.*;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.io.IOException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
+import java.io.Reader;
+import java.io.Writer;
 import java.util.Map;
+
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.GsonBuilder;
+import org.slf4j.LoggerFactory;
+import com.google.gson.Gson;
+import org.slf4j.Logger;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
 
 // Mob arena manager class
 public class MobArenaManager {
 
+    // Initialize a logger and gson instance
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    // Create a map of mob arenas and initialize a path to the save file
     private static final Map<String, MobArena> arenas = new HashMap<>();
     private static Path saveFile;
 
-    // Called once on server start from your ModInitializer
+    // Called on server start from Mod initialize
     public static void init(MinecraftServer server) {
-        Path dir = server.getWorldPath(net.minecraft.world.level.storage.LevelResource.ROOT)
+
+        // Get the world's root folder then build folder and arena.json file
+        Path dir = server.getWorldPath(LevelResource.ROOT)
                 .resolve("succorstadiums");
         saveFile = dir.resolve("arenas.json");
 
+        // Try and create succor stadiums folder if it doesn't already exist
         try {
             Files.createDirectories(dir);
         } catch (IOException e) {
-            LOGGER.error("", e);
+            LOGGER.error("Failed to create arena directory: ", e);
         }
 
         load();
@@ -88,6 +99,8 @@ public class MobArenaManager {
 
     // Load the data in the arena JSON file
     private static void load() {
+
+        // If save file doesnt exist return
         if (!Files.exists(saveFile)) return;
 
         try (Reader reader = new FileReader(saveFile.toFile())) {
