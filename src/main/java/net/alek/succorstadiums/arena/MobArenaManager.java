@@ -51,6 +51,7 @@ public class MobArenaManager {
             LOGGER.error("Failed to create arena directory: ", e);
         }
 
+        // Load arena JSON file
         load();
     }
 
