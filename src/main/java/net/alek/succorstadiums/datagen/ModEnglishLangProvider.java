@@ -104,8 +104,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.DOG_WHISTLE, "Dog Whistle");
 
         // Equipment translations
-        translationBuilder.add(ModItems.CARDBOARD_SHIELD, "Cardboard Shield");
         translationBuilder.add(ModItems.PLAINS_COIN_POUCH, "Plains Coin Pouch");
+        translationBuilder.add(ModItems.CARDBOARD_SHIELD, "Cardboard Shield");
 
         // Enchantment translations
         translationBuilder.add("enchantment.succorstadiums.vipers_bite", "Vipers Bite");
