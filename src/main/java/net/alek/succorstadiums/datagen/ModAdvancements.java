@@ -1,6 +1,8 @@
 package net.alek.succorstadiums.datagen;
 
 import net.minecraft.advancements.triggers.InventoryChangeTrigger;
+import net.minecraft.advancements.triggers.ImpossibleTrigger;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.advancements.predicates.ItemPredicate;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
@@ -65,5 +67,37 @@ public class ModAdvancements extends FabricAdvancementProvider {
                 )
                 .addCriterion("player_death", ModCriteria.PLAYER_DEATH.createCriterion(new PlayerDeathCriterion.Conditions(Optional.empty())))
                 .save(consumer, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "vincible"));
+
+        // Create baby's first arena advancement
+        AdvancementHolder BABYS_FIRST_ARENA = Advancement.Builder.advancement()
+                .parent(ROOT)
+                .display(
+                        Items.IRON_SWORD,
+                        Component.literal("Baby's First Arena"),
+                        Component.literal("Complete the first arena"),
+                        null,
+                        AdvancementType.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
+                .save(consumer, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "babys_first_arena"));
+
+        // Create off to the big city advancement
+        AdvancementHolder OFF_TO_THE_BIG_CITY = Advancement.Builder.advancement()
+                .parent(ROOT)
+                .display(
+                        Items.OAK_SAPLING,
+                        Component.literal("Off to the Big City"),
+                        Component.literal("Complete the plains arena"),
+                        null,
+                        AdvancementType.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
+                .save(consumer, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "off_to_the_big_city"));
     }
 }

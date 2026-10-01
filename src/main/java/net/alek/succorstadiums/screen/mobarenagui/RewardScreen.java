@@ -102,7 +102,7 @@ public class RewardScreen {
 
         int itemFieldX = unitToggleX + unitToggleW + 4;
         String itemHint = pendingIsXp ? "N/A (XP reward)"
-                : pendingIsAdvancement ? "e.g. succorstadiums:copper_farmer_badge"
+                : pendingIsAdvancement ? "e.g. succorstadiums:vincible"
                   : "e.g. minecraft:diamond";
 
         pendingItemField = new EditBox(font, itemFieldX, currentY, itemW, 14, Component.literal(itemHint));

@@ -1,0 +1,21 @@
+{
+  "parent": "succorstadiums:root",
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "description": "Complete the plains arena",
+    "icon": {
+      "id": "minecraft:oak_sapling"
+    },
+    "title": "Off to the Big City"
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

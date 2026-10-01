@@ -1,0 +1,21 @@
+{
+  "parent": "succorstadiums:root",
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "description": "Complete the first arena",
+    "icon": {
+      "id": "minecraft:iron_sword"
+    },
+    "title": "Baby's First Arena"
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
