@@ -1,18 +1,22 @@
 package net.alek.succorstadiums.network.arena;
 
-import net.alek.succorstadiums.SuccorStadiums;
-import net.alek.succorstadiums.arena.MobArena;
-import net.alek.succorstadiums.arena.MobArenaManager;
-import net.alek.succorstadiums.arena.ArenaSessionManager;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.Identifier;
+
+import net.alek.succorstadiums.arena.ArenaSessionManager;
+import net.alek.succorstadiums.arena.MobArenaManager;
+
+import net.alek.succorstadiums.arena.RewardItem;
+import net.alek.succorstadiums.arena.MobArena;
+import net.alek.succorstadiums.SuccorStadiums;
+
 import org.jspecify.annotations.NonNull;
-
-import java.util.*;
 import java.util.stream.Collectors;
+import java.util.*;
 
+// ArenaDataPayload
 public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<ArenaDataPayload> TYPE =
@@ -32,19 +36,36 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
             String potionEffects, String enchantments
     ) {}
 
-    public record RewardEntry(String itemId, int count, boolean xp, boolean levels) {}
+    // advancementId == null means this is not an advancement reward (it's an item or XP reward)
+    public record RewardEntry(String itemId, int count, boolean xp, boolean levels, String advancementId) {
 
-    private static void writeRewards(FriendlyByteBuf buf, List<RewardEntry> rewards) {
+        // Convenience constructor for item/XP rewards, so existing call sites keep compiling
+        public RewardEntry(String itemId, int count, boolean xp, boolean levels) {
+            this(itemId, count, xp, levels, null);
+        }
+
+        public static RewardEntry ofAdvancement(String advancementId) {
+            return new RewardEntry(null, 1, false, false, advancementId);
+        }
+
+        public boolean isAdvancement() {
+            return advancementId != null;
+        }
+    }
+
+    // Shared with ArenaSetRewardsPayload so both payloads always use the same reward wire format
+    public static void writeRewards(FriendlyByteBuf buf, List<RewardEntry> rewards) {
         buf.writeInt(rewards.size());
         for (RewardEntry r : rewards) {
             buf.writeUtf(r.itemId() == null ? "" : r.itemId());
             buf.writeInt(r.count());
             buf.writeBoolean(r.xp());
             buf.writeBoolean(r.levels());
+            buf.writeUtf(r.advancementId() == null ? "" : r.advancementId());
         }
     }
 
-    private static List<RewardEntry> readRewards(FriendlyByteBuf buf) {
+    public static List<RewardEntry> readRewards(FriendlyByteBuf buf) {
         int count = buf.readInt();
         List<RewardEntry> rewards = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -52,7 +73,10 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
             int c = buf.readInt();
             boolean xp = buf.readBoolean();
             boolean levels = buf.readBoolean();
-            rewards.add(new RewardEntry(itemId.isEmpty() ? null : itemId, c, xp, levels));
+            String advancementId = buf.readUtf();
+            rewards.add(new RewardEntry(
+                    itemId.isEmpty() ? null : itemId, c, xp, levels,
+                    advancementId.isEmpty() ? null : advancementId));
         }
         return rewards;
     }
@@ -159,6 +183,13 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
         return TYPE;
     }
 
+    // Converts a server-side RewardItem into its network representation
+    public static RewardEntry toRewardEntry(RewardItem r) {
+        return new RewardEntry(
+                r.getItemId(), r.getCount(), r.isXp(), r.isXpLevels(),
+                r.isAdvancement() ? r.getAdvancementId() : null);
+    }
+
     public static ArenaDataPayload fromServer() {
         List<ArenaEntry> entries = new ArrayList<>();
         for (MobArena arena : MobArenaManager.getAllArenas()) {
@@ -173,17 +204,17 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                 )));
 
                 List<RewardEntry> waveRewards = wave.getRewards().stream()
-                        .map(r -> new RewardEntry(r.getItemId(), r.getCount(), r.isXp(), r.isXpLevels()))
+                        .map(ArenaDataPayload::toRewardEntry)
                         .collect(Collectors.toList());
 
                 waves.add(new WaveEntry(wave.getWaveNumber(), wave.getName(), wave.getDelaySeconds(), waveRewards, mobs));
             });
 
             List<RewardEntry> arenaRewards = arena.getRewards().stream()
-                    .map(r -> new RewardEntry(r.getItemId(), r.getCount(), r.isXp(), r.isXpLevels()))
+                    .map(ArenaDataPayload::toRewardEntry)
                     .collect(Collectors.toList());
             List<RewardEntry> arenaParticipationRewards = arena.getParticipationRewards().stream()
-                    .map(r -> new RewardEntry(r.getItemId(), r.getCount(), r.isXp(), r.isXpLevels()))
+                    .map(ArenaDataPayload::toRewardEntry)
                     .collect(Collectors.toList());
 
             entries.add(new ArenaEntry(

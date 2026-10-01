@@ -1,22 +1,25 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
-import net.alek.succorstadiums.config.Theme;
-import net.alek.succorstadiums.network.arena.ArenaDataPayload;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.client.gui.Font;
 
+import java.util.stream.Collectors;
+import java.util.function.Consumer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
+import net.alek.succorstadiums.network.arena.AdvancementIdCache;
+import net.alek.succorstadiums.network.arena.ArenaDataPayload;
+import net.alek.succorstadiums.config.Theme;
+
+// RewardScreen class
 public class RewardScreen {
 
     private static final int PANEL_PAD = 8;
@@ -28,13 +31,15 @@ public class RewardScreen {
         void submit(List<ArenaDataPayload.RewardEntry> rewards);
     }
 
-    // Each entry: {itemId (empty if xp), count, "true"/"false" for xp}
+    // Each entry: {itemId (empty if xp/advancement), count, "true"/"false" for xp, "true"/"false" for levels, advancementId (empty if not an advancement)}
     private final List<String[]> entries = new ArrayList<>();
 
     private EditBox pendingItemField, pendingCountField;
     private String pendingItemId = "";
+    private String pendingAdvancementId = "";
     private String pendingCount = "1";
     private boolean pendingIsXp = false;
+    private boolean pendingIsAdvancement = false;
     private boolean pendingIsLevels = false;
     private SuggestionManager pendingItemSuggestionManager;
 
@@ -48,13 +53,16 @@ public class RewardScreen {
                         r.itemId() == null ? "" : r.itemId(),
                         String.valueOf(r.count()),
                         String.valueOf(r.xp()),
-                        String.valueOf(r.levels())
+                        String.valueOf(r.levels()),
+                        r.advancementId() == null ? "" : r.advancementId()
                 });
             }
         }
         pendingItemId = "";
+        pendingAdvancementId = "";
         pendingCount = "1";
         pendingIsXp = false;
+        pendingIsAdvancement = false;
         pendingIsLevels = false;
         validationError = "";
     }
@@ -93,38 +101,79 @@ public class RewardScreen {
         ).bounds(unitToggleX, currentY, unitToggleW, 14).build());
 
         int itemFieldX = unitToggleX + unitToggleW + 4;
-        pendingItemField = new EditBox(font, itemFieldX, currentY, itemW, 14,
-                Component.literal("e.g. minecraft:diamond"));
+        String itemHint = pendingIsXp ? "N/A (XP reward)"
+                : pendingIsAdvancement ? "e.g. succorstadiums:copper_farmer_badge"
+                  : "e.g. minecraft:diamond";
+
+        pendingItemField = new EditBox(font, itemFieldX, currentY, itemW, 14, Component.literal(itemHint));
         pendingItemField.setBordered(true);
-        pendingItemField.setMaxLength(64);
+        pendingItemField.setMaxLength(128);
         pendingItemField.setEditable(!pendingIsXp);
-        pendingItemField.setValue(pendingIsXp ? "" : pendingItemId);
-        pendingItemField.setHint(Component.literal(pendingIsXp ? "N/A (XP reward)" : "e.g. minecraft:diamond"));
+        pendingItemField.setValue(pendingIsXp ? "" : (pendingIsAdvancement ? pendingAdvancementId : pendingItemId));
+        pendingItemField.setHint(Component.literal(itemHint));
         adder.accept(pendingItemField);
 
-        pendingItemSuggestionManager = new SuggestionManager(
-                pendingItemField, BuiltInRegistries.ITEM, MAX_VISIBLE_SUGGESTIONS, 14, false);
+        // Item mode suggests from the item registry, Adv mode from the advancement IDs the server sent, XP mode has none.
+        if (pendingIsAdvancement) {
+            pendingItemSuggestionManager = new SuggestionManager(
+                    pendingItemField, AdvancementIdCache.get(), MAX_VISIBLE_SUGGESTIONS, 14, false);
+        } else if (!pendingIsXp) {
+            pendingItemSuggestionManager = new SuggestionManager(
+                    pendingItemField, BuiltInRegistries.ITEM, MAX_VISIBLE_SUGGESTIONS, 14, false);
+        } else {
+            pendingItemSuggestionManager = null;
+        }
         pendingItemField.setResponder(text -> {
-            pendingItemId = text;
-            pendingItemSuggestionManager.filterSuggestions(text);
+            if (pendingIsAdvancement) {
+                pendingAdvancementId = text;
+            } else {
+                pendingItemId = text;
+            }
+            if (pendingItemSuggestionManager != null) pendingItemSuggestionManager.filterSuggestions(text);
         });
 
+        String countHint = pendingIsAdvancement ? "N/A"
+                : pendingIsXp ? (pendingIsLevels ? "Levels" : "XP points")
+                  : "Count";
         pendingCountField = new EditBox(font, itemFieldX + itemW + 4, currentY, countW, 14,
-                Component.literal(pendingIsXp ? (pendingIsLevels ? "Levels" : "XP points") : "Count"));
+                Component.literal(countHint));
         pendingCountField.setBordered(true);
-        pendingCountField.setHint(Component.literal(pendingIsXp ? (pendingIsLevels ? "Levels" : "XP points") : "Count"));
-        pendingCountField.setValue(pendingCount);
-        pendingCountField.setResponder(text -> pendingCount = text);
+        pendingCountField.setHint(Component.literal(countHint));
+        pendingCountField.setEditable(!pendingIsAdvancement);
+        pendingCountField.setValue(pendingIsAdvancement ? "" : pendingCount);
+        pendingCountField.setResponder(text -> { if (!pendingIsAdvancement) pendingCount = text; });
         adder.accept(pendingCountField);
 
         int addX = itemFieldX + itemW + 4 + countW + 4;
         adder.accept(Button.builder(Component.literal("+ Add"),
                 btn -> {
+                    if (pendingIsAdvancement) {
+                        String advId = pendingItemField.getValue().trim();
+                        if (advId.isEmpty()) return;
+                        boolean validFormat;
+                        try {
+                            Identifier.parse(advId);
+                            validFormat = true;
+                        } catch (Exception e) {
+                            validFormat = false;
+                        }
+                        if (!validFormat) {
+                            validationError = "Invalid advancement ID '" + advId + "'.";
+                            rebuildScreen.run();
+                            return;
+                        }
+                        entries.add(new String[]{"", "1", "false", "false", advId});
+                        pendingAdvancementId = "";
+                        validationError = "";
+                        rebuildScreen.run();
+                        return;
+                    }
+
                     if (pendingIsXp) {
                         int amount = 1;
                         try { amount = Integer.parseInt(pendingCountField.getValue().trim()); } catch (Exception ignored) {}
                         amount = Math.max(1, amount);
-                        entries.add(new String[]{"", String.valueOf(amount), "true", String.valueOf(pendingIsLevels)});
+                        entries.add(new String[]{"", String.valueOf(amount), "true", String.valueOf(pendingIsLevels), ""});
                         pendingCount = "1";
                         validationError = "";
                         rebuildScreen.run();
@@ -148,7 +197,7 @@ public class RewardScreen {
                     try { count = Integer.parseInt(pendingCountField.getValue().trim()); } catch (Exception ignored) {}
                     count = Math.max(1, count);
 
-                    entries.add(new String[]{id, String.valueOf(count), "false", "false"});
+                    entries.add(new String[]{id, String.valueOf(count), "false", "false", ""});
                     pendingItemId = "";
                     pendingCount = "1";
                     validationError = "";
@@ -163,7 +212,8 @@ public class RewardScreen {
                                     e[0].isEmpty() ? null : e[0],
                                     Integer.parseInt(e[1]),
                                     Boolean.parseBoolean(e[2]),
-                                    Boolean.parseBoolean(e[3])))
+                                    Boolean.parseBoolean(e[3]),
+                                    e[4].isEmpty() ? null : e[4]))
                             .collect(Collectors.toList());
                     onSubmit.submit(result);
                 }
@@ -174,9 +224,22 @@ public class RewardScreen {
         ).bounds(cx + 54, by, 50, BTN_H).build());
     }
 
+    // Cycles the pending reward type: Item -> XP -> Adv -> Item
     private void addRowToggleButton(Consumer<AbstractWidget> adder, int x, int y, int w, Runnable rebuildScreen) {
-        adder.accept(Button.builder(Component.literal(pendingIsXp ? "XP" : "Item"),
-                btn -> { pendingIsXp = !pendingIsXp; rebuildScreen.run(); }
+        String label = pendingIsAdvancement ? "Adv" : (pendingIsXp ? "XP" : "Item");
+        adder.accept(Button.builder(Component.literal(label),
+                btn -> {
+                    if (pendingIsAdvancement) {
+                        pendingIsAdvancement = false;
+                    } else if (pendingIsXp) {
+                        pendingIsXp = false;
+                        pendingIsAdvancement = true;
+                    } else {
+                        pendingIsXp = true;
+                    }
+                    validationError = "";
+                    rebuildScreen.run();
+                }
         ).bounds(x, y, w, 14).build());
     }
 
@@ -194,9 +257,15 @@ public class RewardScreen {
             for (String[] e : entries) {
                 boolean isXp = Boolean.parseBoolean(e[2]);
                 boolean isLevels = Boolean.parseBoolean(e[3]);
-                String display = isXp
-                        ? (e[1] + (isLevels ? " Level" + (e[1].equals("1") ? "" : "s") : " XP"))
-                        : (e[1] + "x  " + formatIdentifierForDisplay(e[0]));
+                boolean isAdvancement = !e[4].isEmpty();
+                String display;
+                if (isAdvancement) {
+                    display = "Advancement: " + e[4];
+                } else if (isXp) {
+                    display = e[1] + (isLevels ? " Level" + (e[1].equals("1") ? "" : "s") : " XP");
+                } else {
+                    display = e[1] + "x  " + formatIdentifierForDisplay(e[0]);
+                }
                 g.text(font, display, dx + PANEL_PAD, currentY + 2, theme.text.getRGB(), false);
                 currentY += ROW_H;
             }
@@ -208,7 +277,7 @@ public class RewardScreen {
         int toggleW = 40, unitToggleW = 48, countW = 60, addW = 52;
         int itemW = fw - toggleW - 4 - unitToggleW - 4 - countW - 4 - addW - 4;
         int itemFieldX = dx + PANEL_PAD + toggleW + 4 + unitToggleW + 4;
-        g.text(font, "Item / XP", itemFieldX, currentY - 10, theme.subtext.getRGB(), false);
+        g.text(font, pendingIsAdvancement ? "Advancement ID" : "Item / XP", itemFieldX, currentY - 10, theme.subtext.getRGB(), false);
         g.text(font, "Amount", itemFieldX + itemW + 4, currentY - 10, theme.subtext.getRGB(), false);
 
         if (!validationError.isEmpty()) {

@@ -1,18 +1,15 @@
 package net.alek.succorstadiums.client;
 
-import net.alek.succorstadiums.client.render.item.CardboardShieldLayers;
-import net.alek.succorstadiums.client.render.item.CardboardShieldSpecialRenderer;
-import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
+import net.minecraft.client.renderer.special.SpecialModelRenderers;
 import net.minecraft.client.model.object.equipment.ShieldModel;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.client.renderer.special.SpecialModelRenderers;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.Identifier;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.ChatFormatting;
@@ -20,12 +17,17 @@ import net.minecraft.ChatFormatting;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.api.ClientModInitializer;
 
+import net.alek.succorstadiums.client.render.item.CardboardShieldSpecialRenderer;
 import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;
+import net.alek.succorstadiums.client.render.item.CardboardShieldLayers;
+import net.alek.succorstadiums.network.arena.AdvancementListPayload;
 import net.alek.succorstadiums.client.particle.ForestAuraParticle;
 import net.alek.succorstadiums.network.arena.OpenMobArenaPayload;
+import net.alek.succorstadiums.network.arena.AdvancementIdCache;
 import net.alek.succorstadiums.client.render.entity.monsters.*;
 import net.alek.succorstadiums.client.render.entity.items.*;
 import net.alek.succorstadiums.particle.ModParticles;
@@ -87,6 +89,9 @@ public class SuccorStadiumsClient implements ClientModInitializer {
 
         ClientPlayNetworking.registerGlobalReceiver(OpenMobArenaPayload.TYPE, (payload, context) -> context.client().execute(() ->
                 Minecraft.getInstance().gui.setScreen(new MobArenaScreen(Component.literal("Mob Arena Manager")))));
+
+        ClientPlayNetworking.registerGlobalReceiver(AdvancementListPayload.TYPE,
+                (payload, context) -> AdvancementIdCache.set(payload.ids()));
 
         ClientPlayNetworking.registerGlobalReceiver(ArachnoDoubleJumpResultPayload.TYPE, (payload, context) -> context.client().execute(() -> {
             if (!payload.success()) return;

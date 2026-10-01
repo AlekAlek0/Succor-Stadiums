@@ -1,13 +1,15 @@
 package net.alek.succorstadiums.screen.mobarenagui;
 
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.Identifier;
+import net.minecraft.core.Registry;
 
+import java.util.stream.Collectors;
+import java.util.Collection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+// SuggestionManager class
 public class SuggestionManager {
     private final EditBox editBox;
     private final List<String> allSuggestions;
@@ -19,8 +21,15 @@ public class SuggestionManager {
     private final boolean isCommaSeparated;
 
     public SuggestionManager(EditBox editBox, Registry<?> registry, int maxVisibleSuggestions, int dropdownYOffset, boolean isCommaSeparated) {
+        this(editBox,
+                registry.keySet().stream().map(Identifier::toString).sorted().collect(Collectors.toList()),
+                maxVisibleSuggestions, dropdownYOffset, isCommaSeparated);
+    }
+
+    // For suggestion sources that aren't a registry like advancement IDs sent from the server
+    public SuggestionManager(EditBox editBox, Collection<String> suggestions, int maxVisibleSuggestions, int dropdownYOffset, boolean isCommaSeparated) {
         this.editBox = editBox;
-        this.allSuggestions = registry.keySet().stream().map(Identifier::toString).sorted().collect(Collectors.toList());
+        this.allSuggestions = suggestions.stream().sorted().collect(Collectors.toList());
         this.maxVisibleSuggestions = maxVisibleSuggestions;
         this.dropdownYOffset = dropdownYOffset;
         this.isCommaSeparated = isCommaSeparated;
@@ -30,7 +39,7 @@ public class SuggestionManager {
         selectedSuggestion = 0;
         suggestionScrollOffset = 0;
         String textToFilter = text;
-        
+
         if (isCommaSeparated) {
             int lastComma = text.lastIndexOf(',');
             if (lastComma != -1) {

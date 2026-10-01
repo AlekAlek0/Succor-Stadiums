@@ -80,6 +80,7 @@ public class SuccorStadiums implements ModInitializer {
 		// Register mob arena network packets
 		PayloadTypeRegistry.clientboundPlay().register(OpenMobArenaPayload.TYPE, OpenMobArenaPayload.CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(ArenaDataPayload.TYPE, ArenaDataPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(AdvancementListPayload.TYPE, AdvancementListPayload.CODEC);
 
 		PayloadTypeRegistry.serverboundPlay().register(ArenaPasteWavePayload.TYPE, ArenaPasteWavePayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(ArenaSetRewardsPayload.TYPE, ArenaSetRewardsPayload.CODEC);

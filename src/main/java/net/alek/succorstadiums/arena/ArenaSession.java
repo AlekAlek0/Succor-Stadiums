@@ -1,31 +1,33 @@
 package net.alek.succorstadiums.arena;
 
-import net.alek.succorstadiums.entity.ModEntityTypes;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.monster.cubemob.Slime;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.advancements.AdvancementProgress;
+import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.server.level.ServerBossEvent;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.BossEvent;
-import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.BossEvent;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.entity.*;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.*;
-import java.util.stream.Collectors;
+import net.minecraft.util.Mth;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
+import net.alek.succorstadiums.entity.ModEntityTypes;
+
+import java.util.stream.Collectors;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import java.util.*;
 
 // Arena session class
 public class ArenaSession {
@@ -120,14 +122,14 @@ public class ArenaSession {
             int secsLeft = (delayTicksRemaining / 20) + 1;
 
             bossBar.setName(Component.literal((firstWave
-                            ? "§eFirst wave in " + secsLeft + "s..."
-                            : "§eNext wave in " + secsLeft + "s...")
-                            + " §f| §aPlayers: " + activePlayerUUIDs.size()
+                    ? "§eFirst wave in " + secsLeft + "s..."
+                    : "§eNext wave in " + secsLeft + "s...")
+                    + " §f| §aPlayers: " + activePlayerUUIDs.size()
             ));
 
             bossBar.setProgress(currentDelayDurationTicks > 0
-                            ? (float) delayTicksRemaining / currentDelayDurationTicks
-                            : 0f
+                    ? (float) delayTicksRemaining / currentDelayDurationTicks
+                    : 0f
             );
 
             bossBar.setColor(BossEvent.BossBarColor.YELLOW);
@@ -175,7 +177,7 @@ public class ArenaSession {
                 grantParticipationRewards();
                 endArena(ArenaState.WIN);
 
-            // if arena isn't won start setup for next
+                // if arena isn't won start setup for next
             } else {
                 Wave nextWave = arena.getWaves().get(currentWaveIndex);
                 int delaySecs = nextWave.getEffectiveDelay(arena.getDelayBetweenWaves());
@@ -542,6 +544,10 @@ public class ArenaSession {
                 }
                 continue;
             }
+            if (reward.isAdvancement()) {
+                grantAdvancement(player, reward.getAdvancementId());
+                continue;
+            }
             try {
                 var itemOpt = BuiltInRegistries.ITEM.getOptional(Identifier.parse(reward.getItemId()));
                 if (itemOpt.isEmpty()) {
@@ -555,6 +561,27 @@ public class ArenaSession {
             } catch (Exception e) {
                 broadcast("§cFailed to grant reward '" + reward.getItemId() + "': " + e.getMessage());
             }
+        }
+    }
+
+    // Awards every remaining criterion of the advancement so it completes. Already-completed advancements are a no-op.
+    private void grantAdvancement(ServerPlayer player, String advancementId) {
+        try {
+            if (advancementId == null || advancementId.isBlank()) {
+                broadcast("§cAdvancement reward has no advancement ID, skipping.");
+                return;
+            }
+            AdvancementHolder holder = level.getServer().getAdvancements().get(Identifier.parse(advancementId));
+            if (holder == null) {
+                broadcast("§cUnknown reward advancement '" + advancementId + "', skipping.");
+                return;
+            }
+            AdvancementProgress progress = player.getAdvancements().getOrStartProgress(holder);
+            for (String criterion : progress.getRemainingCriteria()) {
+                player.getAdvancements().award(holder, criterion);
+            }
+        } catch (Exception e) {
+            broadcast("§cFailed to grant advancement '" + advancementId + "': " + e.getMessage());
         }
     }
 

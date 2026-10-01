@@ -1,14 +1,14 @@
 package net.alek.succorstadiums.network.arena;
 
-import net.alek.succorstadiums.SuccorStadiums;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.Identifier;
-import org.jspecify.annotations.NonNull;
 
-import java.util.ArrayList;
+import org.jspecify.annotations.NonNull;
 import java.util.List;
+
+import net.alek.succorstadiums.SuccorStadiums;
 
 public record ArenaSetRewardsPayload(String arenaName, int waveNumber, boolean participation,
                                      List<ArenaDataPayload.RewardEntry> rewards) implements CustomPacketPayload {
@@ -21,27 +21,13 @@ public record ArenaSetRewardsPayload(String arenaName, int waveNumber, boolean p
                 buf.writeUtf(p.arenaName());
                 buf.writeInt(p.waveNumber());
                 buf.writeBoolean(p.participation());
-                buf.writeInt(p.rewards().size());
-                for (ArenaDataPayload.RewardEntry r : p.rewards()) {
-                    buf.writeUtf(r.itemId() == null ? "" : r.itemId());
-                    buf.writeInt(r.count());
-                    buf.writeBoolean(r.xp());
-                    buf.writeBoolean(r.levels());
-                }
+                ArenaDataPayload.writeRewards(buf, p.rewards());
             },
             buf -> {
                 String arenaName = buf.readUtf();
                 int waveNumber = buf.readInt();
                 boolean participation = buf.readBoolean();
-                int count = buf.readInt();
-                List<ArenaDataPayload.RewardEntry> rewards = new ArrayList<>();
-                for (int i = 0; i < count; i++) {
-                    String itemId = buf.readUtf();
-                    int c = buf.readInt();
-                    boolean xp = buf.readBoolean();
-                    boolean levels = buf.readBoolean();
-                    rewards.add(new ArenaDataPayload.RewardEntry(itemId.isEmpty() ? null : itemId, c, xp, levels));
-                }
+                List<ArenaDataPayload.RewardEntry> rewards = ArenaDataPayload.readRewards(buf);
                 return new ArenaSetRewardsPayload(arenaName, waveNumber, participation, rewards);
             }
     );

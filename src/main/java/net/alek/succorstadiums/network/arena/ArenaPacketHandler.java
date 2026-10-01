@@ -1,13 +1,16 @@
 package net.alek.succorstadiums.network.arena;
 
-import net.alek.succorstadiums.arena.*;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.MinecraftServer;
+
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import net.alek.succorstadiums.arena.*;
+
+// ArenaPacketHandler class
 public class ArenaPacketHandler {
 
     private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger("SuccorStadiums/Packets");
@@ -26,6 +29,12 @@ public class ArenaPacketHandler {
             ServerPlayNetworking.send(
                     player,
                     new OpenMobArenaPayload()
+            );
+
+            // Advancement IDs for the reward screen's autofill; sent once per GUI open
+            ServerPlayNetworking.send(
+                    player,
+                    AdvancementListPayload.fromServer(context.server())
             );
 
         }));
@@ -55,7 +64,11 @@ public class ArenaPacketHandler {
             if (arena != null) {
                 List<RewardItem> rewards = new ArrayList<>();
                 for (ArenaDataPayload.RewardEntry r : payload.rewards()) {
-                    rewards.add(new RewardItem(r.itemId(), r.count(), r.xp(), r.levels()));
+                    if (r.isAdvancement()) {
+                        rewards.add(RewardItem.ofAdvancement(r.advancementId()));
+                    } else {
+                        rewards.add(new RewardItem(r.itemId(), r.count(), r.xp(), r.levels()));
+                    }
                 }
                 if (payload.participation()) {
                     arena.setParticipationRewards(rewards);
