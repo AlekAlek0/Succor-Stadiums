@@ -20,6 +20,7 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 import java.util.Optional;
 
+import net.alek.succorstadiums.advancement.criterion.summon.SummonItemUseCriterion;
 import net.alek.succorstadiums.advancement.criterion.BackpackOpenCriterion;
 import net.alek.succorstadiums.advancement.criterion.PlayerDeathCriterion;
 import net.alek.succorstadiums.advancement.ModCriteria;
@@ -116,5 +117,21 @@ public class ModAdvancements extends FabricAdvancementProvider {
                 )
                 .addCriterion("backpack_open", ModCriteria.BACKPACK_OPEN.createCriterion(new BackpackOpenCriterion.Conditions(Optional.empty())))
                 .save(consumer, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "pocket_dimension"));
+
+        // Create endless companions advancement
+        AdvancementHolder ENDLESS_COMPANIONS = Advancement.Builder.advancement()
+                .parent(ROOT)
+                .display(
+                        Items.BONE,
+                        Component.literal("Endless Companions"),
+                        Component.literal("Use a summon item for the first time"),
+                        null,
+                        AdvancementType.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .addCriterion("summon_item_use", ModCriteria.SUMMON_ITEM_USE.createCriterion(new SummonItemUseCriterion.Conditions(Optional.empty())))
+                .save(consumer, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "endless_companions"));
     }
 }

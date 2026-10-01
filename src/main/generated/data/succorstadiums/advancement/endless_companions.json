@@ -1,0 +1,21 @@
+{
+  "parent": "succorstadiums:root",
+  "criteria": {
+    "summon_item_use": {
+      "trigger": "succorstadiums:summon_item_use"
+    }
+  },
+  "display": {
+    "description": "Use a summon item for the first time",
+    "icon": {
+      "id": "minecraft:bone"
+    },
+    "title": "Endless Companions"
+  },
+  "requirements": [
+    [
+      "summon_item_use"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

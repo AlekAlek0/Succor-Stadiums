@@ -1,6 +1,7 @@
 package net.alek.succorstadiums;
 
 import net.alek.succorstadiums.advancement.ModCriteria;
+import net.alek.succorstadiums.advancement.criterion.summon.SummonItemHandler;
 import net.alek.succorstadiums.arena.ArenaSessionManager;
 import net.alek.succorstadiums.arena.MobArenaManager;
 import net.alek.succorstadiums.attachment.ModAttachments;
@@ -76,6 +77,7 @@ public class SuccorStadiums implements ModInitializer {
 		PayloadTypeRegistry.serverboundPlay().register(ArachnoDoubleJumpPayload.TYPE, ArachnoDoubleJumpPayload.CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(ArachnoDoubleJumpResultPayload.TYPE, ArachnoDoubleJumpResultPayload.CODEC);
 		ArachnoDoubleJumpHandler.register();
+		SummonItemHandler.register();
 
 		// Register mob arena network packets
 		PayloadTypeRegistry.clientboundPlay().register(OpenMobArenaPayload.TYPE, OpenMobArenaPayload.CODEC);
