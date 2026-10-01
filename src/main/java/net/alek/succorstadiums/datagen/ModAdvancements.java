@@ -87,7 +87,7 @@ public class ModAdvancements extends FabricAdvancementProvider {
 
         // Create off to the big city advancement
         AdvancementHolder OFF_TO_THE_BIG_CITY = Advancement.Builder.advancement()
-                .parent(ROOT)
+                .parent(BABYS_FIRST_ARENA)
                 .display(
                         Items.OAK_SAPLING,
                         Component.literal("Off to the Big City"),
