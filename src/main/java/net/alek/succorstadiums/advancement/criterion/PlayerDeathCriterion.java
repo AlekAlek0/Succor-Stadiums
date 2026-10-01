@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.advancement;
+package net.alek.succorstadiums.advancement.criterion;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.advancements.predicates.ContextAwarePredicate;

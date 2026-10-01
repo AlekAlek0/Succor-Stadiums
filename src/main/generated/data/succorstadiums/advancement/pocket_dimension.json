@@ -1,0 +1,21 @@
+{
+  "parent": "succorstadiums:root",
+  "criteria": {
+    "backpack_open": {
+      "trigger": "succorstadiums:backpack_open"
+    }
+  },
+  "display": {
+    "description": "Open your backpack for the first time",
+    "icon": {
+      "id": "minecraft:ender_chest"
+    },
+    "title": "Pocket Dimension"
+  },
+  "requirements": [
+    [
+      "backpack_open"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -20,7 +20,8 @@ import org.jspecify.annotations.NonNull;
 import java.util.function.Consumer;
 import java.util.Optional;
 
-import net.alek.succorstadiums.advancement.PlayerDeathCriterion;
+import net.alek.succorstadiums.advancement.criterion.BackpackOpenCriterion;
+import net.alek.succorstadiums.advancement.criterion.PlayerDeathCriterion;
 import net.alek.succorstadiums.advancement.ModCriteria;
 import net.alek.succorstadiums.item.ModItems;
 import net.alek.succorstadiums.SuccorStadiums;
@@ -99,5 +100,21 @@ public class ModAdvancements extends FabricAdvancementProvider {
                 )
                 .addCriterion("impossible", CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()))
                 .save(consumer, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "off_to_the_big_city"));
+
+        // Create pocket dimension advancement
+        AdvancementHolder POCKET_DIMENSION = Advancement.Builder.advancement()
+                .parent(ROOT)
+                .display(
+                        Items.ENDER_CHEST,
+                        Component.literal("Pocket Dimension"),
+                        Component.literal("Open your backpack for the first time"),
+                        null,
+                        AdvancementType.TASK,
+                        true,
+                        true,
+                        false
+                )
+                .addCriterion("backpack_open", ModCriteria.BACKPACK_OPEN.createCriterion(new BackpackOpenCriterion.Conditions(Optional.empty())))
+                .save(consumer, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "pocket_dimension"));
     }
 }
