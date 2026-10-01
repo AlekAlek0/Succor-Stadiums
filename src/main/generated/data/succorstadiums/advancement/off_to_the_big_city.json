@@ -1,5 +1,5 @@
 {
-  "parent": "succorstadiums:root",
+  "parent": "succorstadiums:babys_first_arena",
   "criteria": {
     "impossible": {
       "trigger": "minecraft:impossible"
