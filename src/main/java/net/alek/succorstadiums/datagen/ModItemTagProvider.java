@@ -28,8 +28,12 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
     public static final TagKey<Item> MODDED_BOWS = TagKey.create(Registries.ITEM,
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "modded_bows"));
 
+    public static final TagKey<Item> SUMMON_ITEMS = TagKey.create(Registries.ITEM,
+            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "summon_items"));
+
     public static final TagKey<Item> BONE_DAGGERS = TagKey.create(Registries.ITEM,
             Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "bone_daggers"));
+
 
     @Override
     protected void addTags(HolderLookup.@NonNull Provider wrapperLookup) {
@@ -45,6 +49,10 @@ public class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
                         Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "bownana")))
                 .add(ResourceKey.create(Registries.ITEM,
                         Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "creepbow")));
+
+        builder(SUMMON_ITEMS)
+                .add(ResourceKey.create(Registries.ITEM,
+                        Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "dog_whistle")));
 
         builder(ItemTags.SWORDS)
                 .add(ResourceKey.create(Registries.ITEM,
