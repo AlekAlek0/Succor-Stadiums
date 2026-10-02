@@ -304,7 +304,7 @@ public class CustomVillagerSpawner {
 
         // Add new offers to villager
 
-            addOffer(offers, ModItems.EMERALD_COIN, 8,
+            addOffer(offers, ModItems.EMERALD_COIN, 1,
                 Items.ARROW, 8,
                 9999999, 0, 0.0F);
 
