@@ -239,7 +239,7 @@ public class ArenaSession {
                             if (waveMob.getSize() != null) {
                                 ((Slime) mob).setSize(waveMob.getSize(), true);
                             }
-                        } else if (entityType == EntityTypes.ZOMBIE || entityType == EntityTypes.ZOMBIE_VILLAGER || entityType == ModEntityTypes.FARMBIE) {
+                        } else if (entityType == EntityTypes.ZOMBIE || entityType == EntityTypes.ZOMBIE_VILLAGER || entityType == ModEntityTypes.FARMBIE || entityType == ModEntityTypes.FARMBIE_BLUE) {
                             mob.setBaby(waveMob.getSize() != null && waveMob.getSize() == -1);
                         }
 
