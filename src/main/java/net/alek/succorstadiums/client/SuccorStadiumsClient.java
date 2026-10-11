@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.client;
 
+import net.alek.succorstadiums.client.render.arena.ArenaRadiusRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderers;
 import net.minecraft.client.model.object.equipment.ShieldModel;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -65,6 +66,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(SuccorStadiumsClient::handleArachnoDoubleJumpInput);
 
         MobArenaScreenHandler.register();
+        ArenaRadiusRenderer.register();
 
         ClientPlayNetworking.registerGlobalReceiver(ResurrectionAmuletPayload.TYPE, (payload, context) -> context.client().execute(() -> {
             ItemStack stack = new ItemStack(ModItems.RESURRECTION_AMULET);
