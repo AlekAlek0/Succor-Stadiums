@@ -6,7 +6,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.advancements.AdvancementProgress;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
@@ -488,7 +487,7 @@ public class ArenaSession {
 
         level.getChunk(blockX >> 4, blockZ >> 4);
 
-        int heightmapY = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, blockX, blockZ);
+        int heightmapY = SpawnSpot.surfaceY(level, blockX, blockZ);
 
         int surfaceY = findValidSpawnY(blockX, heightmapY, blockZ);
 
@@ -513,11 +512,9 @@ public class ArenaSession {
         return startY;
     }
 
+    // Shared with the client-side invalid spawn indicator (see SpawnSpot) so both always use the same rule
     private boolean isValidStandingSpot(BlockPos.MutableBlockPos pos) {
-        boolean groundSolid = level.getBlockState(pos.below()).isCollisionShapeFullBlock(level, pos.below());
-        boolean feetClear = !level.getBlockState(pos).isCollisionShapeFullBlock(level, pos);
-        boolean headClear = !level.getBlockState(pos.above()).isCollisionShapeFullBlock(level, pos.above());
-        return groundSolid && feetClear && headClear;
+        return SpawnSpot.isValidStandingSpot(level, pos);
     }
 
     // Accessor methods to get arena, arena state, and if a player is in the arena

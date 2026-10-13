@@ -288,6 +288,14 @@ public class MobArenaScreen extends Screen {
                 }
         ).bounds(detailX() + detailW() - PANEL_PAD - 70 - 4 - 86, guiTop() + 18, 86, 14).build());
 
+        addRenderableWidget(Button.builder(
+                Component.literal(ArenaRadiusRenderer.isInvalidEnabled(arena.name()) ? "Hide Invalid" : "Show Invalid"),
+                btn -> {
+                    ArenaRadiusRenderer.toggleInvalid(arena);
+                    rebuildWidgets();
+                }
+        ).bounds(detailX() + detailW() - PANEL_PAD - 70 - 4 - 86 - 4 - 90, guiTop() + 18, 90, 14).build());
+
         addRenderableWidget(Button.builder(Component.literal("+ Wave"),
                 btn -> { showNewWavePrompt = true; rebuildWidgets(); }
         ).bounds(bx + 84, by, 50, BTN_H).build());
