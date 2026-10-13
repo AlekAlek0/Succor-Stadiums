@@ -59,9 +59,9 @@ public class ArenaFormScreen {
         if (existing != null && savedName.isEmpty() && savedX.isEmpty()) {
             savedName = existing.name();
             savedGroup = existing.group() != null ? existing.group() : "";
-            savedX = String.valueOf((int) existing.x());
-            savedY = String.valueOf((int) existing.y());
-            savedZ = String.valueOf((int) existing.z());
+            savedX = formatCoord(existing.x());
+            savedY = formatCoord(existing.y());
+            savedZ = formatCoord(existing.z());
             savedRadius = String.valueOf(existing.radius());
             savedDelay = String.valueOf(existing.delaySeconds());
         }
@@ -98,9 +98,11 @@ public class ArenaFormScreen {
                 btn -> {
                     var player = Minecraft.getInstance().player;
                     if (player != null) {
-                        savedX = String.valueOf((int) player.getX());
-                        savedY = String.valueOf((int) player.getY());
-                        savedZ = String.valueOf((int) player.getZ());
+                        // Middle of the block you're standing in. A plain (int) cast would snap to the block's
+                        // corner (and round toward zero for negatives), which put the arena center off-block.
+                        savedX = formatCoord(Math.floor(player.getX()) + 0.5);
+                        savedY = formatCoord(Math.floor(player.getY()));
+                        savedZ = formatCoord(Math.floor(player.getZ()) + 0.5);
                         xField.setValue(savedX);
                         yField.setValue(savedY);
                         zField.setValue(savedZ);
@@ -167,6 +169,12 @@ public class ArenaFormScreen {
         g.text(font, "Name", dx + PANEL_PAD + halfW + 4, dt + 20, theme.subtext.getRGB(), false);
         g.text(font, "Position", dx + PANEL_PAD, dt + 60, theme.subtext.getRGB(), false);
         g.text(font, "Radius / Delay (s)", dx + PANEL_PAD, dt + 100, theme.subtext.getRGB(), false);
+    }
+
+    // Whole numbers show without a decimal point (83), anything else keeps its fraction (83.5),
+    // so opening and saving an arena never silently rounds its stored center.
+    private static String formatCoord(double v) {
+        return v == Math.rint(v) ? String.valueOf((long) v) : String.valueOf(v);
     }
 
     private static EditBox makeField(Consumer<AbstractWidget> addRenderableWidget,

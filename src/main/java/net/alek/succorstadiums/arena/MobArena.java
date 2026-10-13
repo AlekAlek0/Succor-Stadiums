@@ -5,6 +5,8 @@ import java.util.List;
 
 public class MobArena {
 
+    public static final String DEFAULT_DIMENSION = "minecraft:overworld";
+
     private String name;
     private double centerX;
     private double centerY;
@@ -12,6 +14,7 @@ public class MobArena {
     private int radius;
     private int delayBetweenWaves;
     private String group; // null/blank = "Ungrouped"
+    private String dimension; // dimension id, e.g. "minecraft:the_nether"; null = Overworld (saves predating this field)
     private List<RewardItem> rewards = new ArrayList<>();
     private List<RewardItem> participationRewards = new ArrayList<>(); // "Good Luck Next Time" reward for players who died but the arena finished
     private final List<Wave> waves = new ArrayList<>();
@@ -32,6 +35,12 @@ public class MobArena {
     public int getRadius() { return radius; }
     public int getDelayBetweenWaves() { return delayBetweenWaves; }
     public String getGroup() { return group; }
+
+    // Null-guarded: old save data predating this field deserializes with dimension == null via Gson.
+    public String getDimension() {
+        return (dimension == null || dimension.isBlank()) ? DEFAULT_DIMENSION : dimension;
+    }
+
     public List<Wave> getWaves() { return waves; }
     public int getWaveCount() { return waves.size(); }
 
@@ -66,6 +75,7 @@ public class MobArena {
     public void setRadius(int radius) { this.radius = radius; }
     public void setDelayBetweenWaves(int delay) { this.delayBetweenWaves = delay; }
     public void setGroup(String group) { this.group = (group == null || group.isBlank()) ? null : group; }
+    public void setDimension(String dimension) { this.dimension = (dimension == null || dimension.isBlank()) ? null : dimension; }
 
     public void addWave() {
         waves.add(new Wave(waves.size() + 1));
@@ -121,6 +131,6 @@ public class MobArena {
 
     @Override
     public String toString() {
-        return "MobArena{name='" + name + "', center=(" + centerX + ", " + centerY + ", " + centerZ + "), radius=" + radius + ", delayBetweenWaves=" + delayBetweenWaves + ", group=" + group + ", waves=" + waves.size() + "}";
+        return "MobArena{name='" + name + "', center=(" + centerX + ", " + centerY + ", " + centerZ + "), radius=" + radius + ", delayBetweenWaves=" + delayBetweenWaves + ", dimension=" + getDimension() + ", group=" + group + ", waves=" + waves.size() + "}";
     }
 }

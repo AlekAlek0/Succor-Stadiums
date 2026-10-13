@@ -478,7 +478,7 @@ public class ArenaSession {
 
     private Vec3 randomPositionInRadius() {
         double angle = level.getRandom().nextDouble() * 2 * Math.PI;
-        double actualRadius = arena.getRadius() / 2.0;
+        double actualRadius = arena.getRadius();
         double distance = Math.sqrt(level.getRandom().nextDouble()) * actualRadius;
         double x = arena.getCenterX() + distance * Math.cos(angle);
         double z = arena.getCenterZ() + distance * Math.sin(angle);

@@ -128,7 +128,7 @@ public class MobArenaScreen extends Screen {
 
     public void receiveData(ArenaDataPayload payload) {
         this.arenas = new ArrayList<>(payload.arenas());
-        syncRadiusOverlay();
+        ArenaRadiusRenderer.onArenaData(payload);
 
         if (selectedArena >= arenas.size()) {
             selectedArena = arenas.size() - 1;
@@ -280,15 +280,10 @@ public class MobArenaScreen extends Screen {
                 btn -> { arenaFormScreen.reset(); detailView = DetailView.EDIT_ARENA; rebuildWidgets(); }
         ).bounds(detailX() + detailW() - PANEL_PAD - 70, guiTop() + 18, 70, 14).build());
 
-        boolean showingRadius = ArenaRadiusRenderer.isShowing(arena.name());
         addRenderableWidget(Button.builder(
-                Component.literal(showingRadius ? "Hide Radius" : "Show Radius"),
+                Component.literal(ArenaRadiusRenderer.isEnabled(arena.name()) ? "Hide Radius" : "Show Radius"),
                 btn -> {
-                    if (showingRadius) {
-                        ArenaRadiusRenderer.hide();
-                    } else {
-                        ArenaRadiusRenderer.show(arena.name(), arena.x(), arena.y(), arena.z(), arena.radius());
-                    }
+                    ArenaRadiusRenderer.toggle(arena);
                     rebuildWidgets();
                 }
         ).bounds(detailX() + detailW() - PANEL_PAD - 70 - 4 - 86, guiTop() + 18, 86, 14).build());
@@ -815,6 +810,7 @@ public class MobArenaScreen extends Screen {
                         .filter(w -> w.waveNumber() == selectedWave)
                         .findFirst().orElse(null);
             }
+            assert wave != null;
             mobViewScreen.render(g, font, theme(), dx, dt, dw, guiTop(), selectedWave, wave);
             return;
         }
@@ -994,20 +990,6 @@ public class MobArenaScreen extends Screen {
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────
-
-    // Refreshes the in-world radius overlay from the latest arena data (handles edits, hides it if the arena is gone)
-    private void syncRadiusOverlay() {
-        String shown = ArenaRadiusRenderer.shownArena();
-        if (shown == null) return;
-
-        for (ArenaDataPayload.ArenaEntry a : arenas) {
-            if (a.name().equals(shown)) {
-                ArenaRadiusRenderer.show(a.name(), a.x(), a.y(), a.z(), a.radius());
-                return;
-            }
-        }
-        ArenaRadiusRenderer.hide();
-    }
 
     private String truncate(String s, int maxWidth) {
         if (font.width(s) <= maxWidth) return s;

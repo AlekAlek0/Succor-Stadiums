@@ -25,8 +25,25 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
     public record ArenaEntry(
             String name, double x, double y, double z,
             int radius, int delaySeconds, boolean running, String group,
-            List<RewardEntry> rewards, List<RewardEntry> participationRewards, List<WaveEntry> waves
-    ) {}
+            List<RewardEntry> rewards, List<RewardEntry> participationRewards, List<WaveEntry> waves,
+            String dimension
+    ) {
+
+        public static final String DEFAULT_DIMENSION = "minecraft:overworld";
+
+        // Convenience constructor so call sites that predate the dimension field keep compiling (assumes the Overworld)
+        public ArenaEntry(
+                String name, double x, double y, double z,
+                int radius, int delaySeconds, boolean running, String group,
+                List<RewardEntry> rewards, List<RewardEntry> participationRewards, List<WaveEntry> waves) {
+            this(name, x, y, z, radius, delaySeconds, running, group, rewards, participationRewards, waves, DEFAULT_DIMENSION);
+        }
+
+        // Never null/blank, so the client can always resolve a dimension
+        public ArenaEntry {
+            if (dimension == null || dimension.isBlank()) dimension = DEFAULT_DIMENSION;
+        }
+    }
 
     public record WaveEntry(int waveNumber, String name, Integer delaySeconds, List<RewardEntry> rewards, List<MobEntry> mobs) {}
 
@@ -93,6 +110,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                     buf.writeInt(arena.delaySeconds());
                     buf.writeBoolean(arena.running());
                     buf.writeUtf(arena.group() == null ? "" : arena.group());
+                    buf.writeUtf(arena.dimension());
 
                     writeRewards(buf, arena.rewards());
                     writeRewards(buf, arena.participationRewards());
@@ -131,6 +149,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                     int radius = buf.readInt(), delay = buf.readInt();
                     boolean running = buf.readBoolean();
                     String group = buf.readUtf();
+                    String dimension = buf.readUtf();
 
                     List<RewardEntry> arenaRewards = readRewards(buf);
                     List<RewardEntry> arenaParticipationRewards = readRewards(buf);
@@ -172,7 +191,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                         waves.add(new WaveEntry(waveNum, waveName.isEmpty() ? null : waveName, waveDelay, waveRewards, mobs));
                     }
                     arenas.add(new ArenaEntry(name, x, y, z, radius, delay, running,
-                            group.isEmpty() ? null : group, arenaRewards, arenaParticipationRewards, waves));
+                            group.isEmpty() ? null : group, arenaRewards, arenaParticipationRewards, waves, dimension));
                 }
                 return new ArenaDataPayload(arenas);
             }
@@ -221,7 +240,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                     arena.getName(), arena.getCenterX(), arena.getCenterY(), arena.getCenterZ(),
                     arena.getRadius(), arena.getDelayBetweenWaves(),
                     ArenaSessionManager.isRunning(arena.getName()), arena.getGroup(),
-                    arenaRewards, arenaParticipationRewards, waves
+                    arenaRewards, arenaParticipationRewards, waves, arena.getDimension()
             ));
         }
         Collections.reverse(entries);
