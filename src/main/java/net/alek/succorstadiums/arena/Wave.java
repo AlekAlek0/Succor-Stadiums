@@ -87,7 +87,7 @@ public class Wave {
                     potionEffects, enchantments
             )) {
 
-                // get the available mobs, the count to remove and the new count after we remove
+                // Get the available mobs, the count to remove and the new count after we remove
                 int available = mob.getCount();
                 int toRemove = count == -1 ? available : Math.min(count, available);
                 int newCount = available - toRemove;
