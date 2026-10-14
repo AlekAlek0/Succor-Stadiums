@@ -50,7 +50,8 @@ public class Wave {
                        String mainHandItem, String offHandItem, List<String> armorItems,
                        String potionEffects, String enchantments) {
 
-        // Check if a mob with the same type matching passed arguments already exist in the wave
+        // Check if a mob with the same type matching passed arguments already exist
+        // in the wave by using the WaveMob matches method
         WaveMob existingMob = mobs.stream()
                 .filter(mob -> mob.matches(
                         mobType,
@@ -79,25 +80,23 @@ public class Wave {
                           String mainHandItem, String offHandItem, List<String> armorItems,
                           String potionEffects, String enchantments) {
 
+        // For each wave mob in the wave mobs list if mob matches then
         for (WaveMob mob : mobs) {
-            if (mob.matches(
-                    mobType,
-                    size,
-                    ridingMob,
-                    mainHandItem,
-                    offHandItem,
-                    armorItems,
-                    potionEffects,
-                    enchantments
+            if (mob.matches(mobType, size, ridingMob,
+                    mainHandItem, offHandItem, armorItems,
+                    potionEffects, enchantments
             )) {
 
+                // get the available mobs, the count to remove and the new count after we remove
                 int available = mob.getCount();
                 int toRemove = count == -1 ? available : Math.min(count, available);
                 int newCount = available - toRemove;
 
+                // If the new count is greater than or equal to 0 remove mob from wave mob list
                 if (newCount <= 0) {
                     mobs.remove(mob);
                 } else {
+                    // Else set the mob count in the list to the new count
                     mob.setCount(newCount);
                 }
                 return;
@@ -116,6 +115,7 @@ public class Wave {
         return rewards;
     }
 
+    // Mutator method to set rewards in a wave
     public void setRewards(List<RewardItem> newRewards) {
         if (rewards == null) rewards = new ArrayList<>();
         rewards.clear();
