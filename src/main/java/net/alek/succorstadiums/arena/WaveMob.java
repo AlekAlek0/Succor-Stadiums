@@ -1,8 +1,9 @@
 package net.alek.succorstadiums.arena;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.List;
 
+// WaveMob class
 public class WaveMob {
 
     private String mobType;
@@ -28,6 +29,7 @@ public class WaveMob {
         this.enchantments = enchantments;
     }
 
+    // Method to get if given wave mob matches an existing wave mob already in wave
     public boolean matches(String mobType, Integer size, String ridingMob,
                            String mainHandItem, String offHandItem,
                            List<String> armorItems, String potionEffects,
