@@ -286,15 +286,8 @@ public class MobArenaScreen extends Screen {
                     ArenaRadiusRenderer.toggle(arena);
                     rebuildWidgets();
                 }
-        ).bounds(detailX() + detailW() - PANEL_PAD - 70 - 4 - 86, guiTop() + 18, 86, 14).build());
-
-        addRenderableWidget(Button.builder(
-                Component.literal(ArenaRadiusRenderer.isInvalidEnabled(arena.name()) ? "Hide Invalid" : "Show Invalid"),
-                btn -> {
-                    ArenaRadiusRenderer.toggleInvalid(arena);
-                    rebuildWidgets();
-                }
-        ).bounds(detailX() + detailW() - PANEL_PAD - 70 - 4 - 86 - 4 - 90, guiTop() + 18, 90, 14).build());
+        ).bounds(detailX() + detailW() - PANEL_PAD - 70 - 4 - 86,
+                guiTop() + 18, 86, 14).build());
 
         addRenderableWidget(Button.builder(Component.literal("+ Wave"),
                 btn -> { showNewWavePrompt = true; rebuildWidgets(); }
@@ -818,7 +811,6 @@ public class MobArenaScreen extends Screen {
                         .filter(w -> w.waveNumber() == selectedWave)
                         .findFirst().orElse(null);
             }
-            assert wave != null;
             mobViewScreen.render(g, font, theme(), dx, dt, dw, guiTop(), selectedWave, wave);
             return;
         }

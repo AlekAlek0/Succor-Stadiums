@@ -53,10 +53,10 @@ import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
 // Draws the radius of any number of mob arenas in the world: translucent cylinder walls plus a ground ring
 // per arena, and floating info text (name, radius, coordinates) above each arena center.
 //
-// Optionally (per arena) it also marks the invalid spawn tiles: every block column inside the circle where the
-// spawner's standing-spot check (SpawnSpot, the same code ArenaSession uses) fails gets a red tile on the ground.
+// It also marks the invalid spawn tiles: every block column inside the circle where the spawner's standing-spot
+// check (SpawnSpot, the same code ArenaSession uses) fails gets a red tile on the ground.
 //
-// - Toggled per arena from MobArenaScreen (toggle / isEnabled, toggleInvalid / isInvalidEnabled).
+// - Toggled per arena from MobArenaScreen (toggle / isEnabled). The invalid spawn tiles show with the circle.
 // - Only arenas in the dimension the player is currently in are drawn.
 // - Keeps its own copy of the arena data, refreshed from every ArenaDataPayload (onArenaData) and by polling the
 //   server once a second while any overlay is on, so it never depends on the screen being open.
@@ -133,11 +133,10 @@ public final class ArenaRadiusRenderer {
 
     private static volatile Map<String, ArenaInfo> known = Map.of();
 
-    // Names of the arenas whose overlay is switched on, and the subset that also shows invalid spawn tiles
+    // Names of the arenas whose overlay is switched on
     private static final Set<String> enabled = ConcurrentHashMap.newKeySet();
-    private static final Set<String> invalidEnabled = ConcurrentHashMap.newKeySet();
 
-    // One incremental column scan per arena that shows invalid tiles
+    // One incremental column scan per enabled arena (feeds the invalid spawn tiles)
     private static final Map<String, ArenaScan> scans = new ConcurrentHashMap<>();
 
     private static final int[] NO_TILES = new int[0];
@@ -170,15 +169,11 @@ public final class ArenaRadiusRenderer {
         return enabled.contains(arenaName);
     }
 
-    public static boolean isInvalidEnabled(String arenaName) {
-        return invalidEnabled.contains(arenaName);
-    }
-
-    // Switches one arena's overlay on or off and returns whether it is now on. Other arenas are unaffected.
-    // Turning the overlay off also turns off its invalid spawn tiles.
+    // Switches one arena's overlay (circle, label and invalid spawn tiles) on or off and returns whether it is now on.
+    // Other arenas are unaffected.
     public static boolean toggle(ArenaDataPayload.ArenaEntry arena) {
         if (enabled.remove(arena.name())) {
-            invalidEnabled.remove(arena.name());
+            scans.remove(arena.name());
             return false;
         }
 
@@ -191,16 +186,6 @@ public final class ArenaRadiusRenderer {
         return true;
     }
 
-    // Switches one arena's invalid spawn tiles on or off and returns whether they are now on.
-    // Turning them on also turns the arena's radius overlay on.
-    public static boolean toggleInvalid(ArenaDataPayload.ArenaEntry arena) {
-        if (invalidEnabled.remove(arena.name())) return false;
-
-        if (!enabled.contains(arena.name())) toggle(arena);
-        invalidEnabled.add(arena.name());
-        return true;
-    }
-
     // Feed this every ArenaDataPayload that arrives, whether or not a screen is open.
     // Refreshes the cached arena data and drops overlays of arenas that no longer exist (deleted or renamed).
     public static void onArenaData(ArenaDataPayload payload) {
@@ -210,7 +195,6 @@ public final class ArenaRadiusRenderer {
         }
         known = Collections.unmodifiableMap(next);
         enabled.retainAll(next.keySet());
-        invalidEnabled.retainAll(next.keySet());
     }
 
     // ── Data helpers ──────────────────────────────────────────────────────────
@@ -243,7 +227,6 @@ public final class ArenaRadiusRenderer {
 
     private static void clear() {
         enabled.clear();
-        invalidEnabled.clear();
         scans.clear();
         known = Map.of();
         frameStates = List.of();
@@ -351,17 +334,17 @@ public final class ArenaRadiusRenderer {
     }
 
     private static void scanInvalidTiles(Minecraft client) {
-        if (invalidEnabled.isEmpty() || client.level == null || client.player == null) {
+        if (enabled.isEmpty() || client.level == null || client.player == null) {
             scans.clear();
             return;
         }
 
-        // Forget scans for arenas that no longer show invalid tiles
-        scans.keySet().removeIf(name -> !invalidEnabled.contains(name));
+        // Forget scans for arenas whose overlay is off
+        scans.keySet().removeIf(name -> !enabled.contains(name));
 
         ResourceKey<Level> currentDimension = client.level.dimension();
         List<ArenaInfo> active = new ArrayList<>();
-        for (String name : invalidEnabled) {
+        for (String name : enabled) {
             ArenaInfo arena = known.get(name);
             if (arena == null || arena.radius() <= 0 || arena.radius() > MAX_SCAN_RADIUS) {
                 scans.remove(name);
@@ -402,15 +385,14 @@ public final class ArenaRadiusRenderer {
             if (arena == null || arena.radius() <= 0) continue;
             if (!arena.dimension().equals(currentDimension)) continue;
 
-            boolean wantInvalid = invalidEnabled.contains(name);
-            ArenaScan scan = wantInvalid ? scans.get(name) : null;
+            ArenaScan scan = scans.get(name);
             int[] tiles = scan == null ? null : scan.published; // null until the first pass has finished
 
             next.add(new RadiusState(arena.x(), arena.y(), arena.z(), arena.radius(), ARENA_COLOR,
                     tiles == null ? NO_TILES : tiles));
 
             if (playerPos.distanceToSqr(arena.x(), arena.y(), arena.z()) <= labelRangeSqr) {
-                submitLabel(arena, wantInvalid, tiles);
+                submitLabel(arena, tiles);
             }
         }
         frameStates = List.copyOf(next);
@@ -418,7 +400,7 @@ public final class ArenaRadiusRenderer {
 
     // ── Floating text (Mojang's Gizmos API) ───────────────────────────────────
 
-    private static void submitLabel(ArenaInfo arena, boolean wantInvalid, int[] invalidTiles) {
+    private static void submitLabel(ArenaInfo arena, int[] invalidTiles) {
         if (labelsBroken) return;
 
         try {
@@ -430,17 +412,15 @@ public final class ArenaRadiusRenderer {
             text("X: " + Mth.floor(arena.x()) + "  Y: " + Mth.floor(arena.y()) + "  Z: " + Mth.floor(arena.z()),
                     arena.x(), topY - 2 * LABEL_LINE_SPACING, arena.z(), 0xFFBBBBBB, INFO_SCALE);
 
-            if (wantInvalid) {
-                String line;
-                if (arena.radius() > MAX_SCAN_RADIUS) {
-                    line = "Invalid spawn tiles: radius too large to scan";
-                } else if (invalidTiles == null) {
-                    line = "Invalid spawn tiles: scanning...";
-                } else {
-                    line = "Invalid spawn tiles: " + (invalidTiles.length / 3);
-                }
-                text(line, arena.x(), topY - 3 * LABEL_LINE_SPACING, arena.z(), 0xFFFF5555, INFO_SCALE);
+            String line;
+            if (arena.radius() > MAX_SCAN_RADIUS) {
+                line = "Invalid spawn tiles: radius too large to scan";
+            } else if (invalidTiles == null) {
+                line = "Invalid spawn tiles: scanning...";
+            } else {
+                line = "Invalid spawn tiles: " + (invalidTiles.length / 3);
             }
+            text(line, arena.x(), topY - 3 * LABEL_LINE_SPACING, arena.z(), 0xFFFF5555, INFO_SCALE);
         } catch (RuntimeException e) {
             // Most likely no gizmo collector is active at this point of the frame. Keep the walls working.
             labelsBroken = true;
@@ -547,7 +527,7 @@ public final class ArenaRadiusRenderer {
 
         int segments = segmentsFor(s.radius());
         wall(b, m, s.x(), s.z(), s.radius(), yBottom, yTop, segments, wallColor);
-        flatRing(b, m, s.x(), s.y() + 0.02, s.z(), s.radius(), segments, ringColor);
+        flatRing(b, m, s.x(), s.y() + 0.02, s.z(), s.radius(), RING_HALF_WIDTH, segments, ringColor);
     }
 
     // Red tile on the ground of every invalid column near the camera. Returns how many tiles were drawn.
@@ -601,9 +581,9 @@ public final class ArenaRadiusRenderer {
 
     // Flat horizontal ring strip at height y
     private static void flatRing(VertexConsumer b, Matrix4fc m, double cx, double y, double cz,
-                                 double radius, int segments, float[] color) {
-        double inner = Math.max(0.0, radius - ArenaRadiusRenderer.RING_HALF_WIDTH);
-        double outer = radius + ArenaRadiusRenderer.RING_HALF_WIDTH;
+                                 double radius, double halfWidth, int segments, float[] color) {
+        double inner = Math.max(0.0, radius - halfWidth);
+        double outer = radius + halfWidth;
         for (int i = 0; i < segments; i++) {
             double a0 = (Math.PI * 2.0) * i / segments;
             double a1 = (Math.PI * 2.0) * (i + 1) / segments;
