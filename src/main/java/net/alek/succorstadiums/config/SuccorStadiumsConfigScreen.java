@@ -273,7 +273,7 @@ public class SuccorStadiumsConfigScreen {
         addSlider(arenaRendering, entries, "Max Arenas Drawn",
                 "When more arenas are switched on than this, only the nearest ones are drawn.",
                 CONFIG.arenaMaxArenasDrawn, DEFAULTS.arenaMaxArenasDrawn, SuccorStadiumsConfig.ARENA_MAX_ARENAS_DRAWN,
-                value -> String.valueOf(value),
+                String::valueOf,
                 value -> CONFIG.arenaMaxArenasDrawn = value);
 
         addSlider(arenaRendering, entries, "Arena Data Refresh",
