@@ -3,18 +3,21 @@ package net.alek.succorstadiums.config;
 // SuccorStadiumsConfig class
 public class SuccorStadiumsConfig {
 
+    // ── General Category ──────────────────────────────────────────────────
+
     public Theme mobArenaTheme = Theme.DARK;
 
     public MagicIndicatorMode magicIndicatorMode = MagicIndicatorMode.CROSSHAIR;
 
+    // ── Pouch Auto Deposit Category ──────────────────────────────────────────────────
+
     public PouchScrollDirection pouchScrollDirection = PouchScrollDirection.DEFAULT;
     public boolean plainsPouchAutoDepositEnabled = true;
 
-    // ── Mob Arena Rendering ──────────────────────────────────────────────────
-    // Used by ArenaRadiusRenderer. The defaults below match how the overlay looked before it was configurable.
-    // Values are clamped to their Range by clampArenaRendering(), so a hand-edited config file can't break rendering.
+    // ── Mob Arena Rendering Category ──────────────────────────────────────────────────
 
     // Inclusive int range, shared by the config screen (slider / field limits) and clampArenaRendering()
+    // Values are clamped to their Range by clampArenaRendering(), so a hand-edited config file can't break rendering.
     public record Range(int min, int max) {
         public int clamp(int value) {
             return Math.clamp(value, min, max);
@@ -30,7 +33,6 @@ public class SuccorStadiumsConfig {
     public static final Range ARENA_LABEL_LINE_SPACING = new Range(25, 200);    // hundredths of a block
     public static final Range ARENA_TEXT_SCALE = new Range(30, 300);            // percent
     public static final Range ARENA_TILE_DRAW_DISTANCE = new Range(8, 128);     // blocks
-    // The renderer's vertex buffer is sized for the maximums of ARENA_MAX_ARENAS_DRAWN and ARENA_MAX_TILES_DRAWN
     public static final Range ARENA_MAX_TILES_DRAWN = new Range(100, 20000);
     public static final Range ARENA_TILE_INSET = new Range(0, 30);              // hundredths of a block
     public static final Range ARENA_TILE_LIFT = new Range(1, 20);               // hundredths of a block
