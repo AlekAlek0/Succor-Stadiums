@@ -106,7 +106,7 @@ public final class ArenaRadiusRenderer {
 
     // Immutable snapshot of one arena, taken during extraction and used while drawing.
     // invalidTiles holds x, y, z triples (the ground cell of each invalid column).
-    private record RadiusState(double x, double y, double z, double radius, int rgb, int[] invalidTiles) {}
+    private record RadiusState(double x, double y, double z, double radius, int wallRgb, int ringRgb, int[] invalidTiles) {}
 
     // Immutable snapshot of the config values the drawing code needs
     private record RenderSettings(
@@ -378,7 +378,8 @@ public final class ArenaRadiusRenderer {
         ResourceKey<Level> currentDimension = client.level.dimension();
         Vec3 playerPos = client.player.position();
         double labelRangeSqr = (double) cfg.arenaLabelRange * cfg.arenaLabelRange;
-        int rgb = cfg.arenaColor & 0xFFFFFF;
+        int wallRgb = cfg.arenaWallColor & 0xFFFFFF;
+        int ringRgb = cfg.arenaRingColor & 0xFFFFFF;
 
         List<RadiusState> next = new ArrayList<>();
         for (String name : enabled) {
@@ -389,11 +390,11 @@ public final class ArenaRadiusRenderer {
             ArenaScan scan = cfg.arenaShowInvalidTiles ? scans.get(name) : null;
             int[] tiles = scan == null ? null : scan.published; // null until the first pass has finished
 
-            next.add(new RadiusState(arena.x(), arena.y(), arena.z(), arena.radius(), rgb,
+            next.add(new RadiusState(arena.x(), arena.y(), arena.z(), arena.radius(), wallRgb, ringRgb,
                     tiles == null ? NO_TILES : tiles));
 
             if (cfg.arenaShowLabel && playerPos.distanceToSqr(arena.x(), arena.y(), arena.z()) <= labelRangeSqr) {
-                submitLabel(arena, tiles, cfg, rgb);
+                submitLabel(arena, tiles, cfg);
             }
         }
         frame = new Frame(List.copyOf(next), settingsFrom(cfg));
@@ -401,7 +402,7 @@ public final class ArenaRadiusRenderer {
 
     // ── Floating text (Mojang's Gizmos API) ───────────────────────────────────
 
-    private static void submitLabel(ArenaInfo arena, int[] invalidTiles, SuccorStadiumsConfig cfg, int rgb) {
+    private static void submitLabel(ArenaInfo arena, int[] invalidTiles, SuccorStadiumsConfig cfg) {
         if (labelsBroken) return;
 
         try {
@@ -413,11 +414,11 @@ public final class ArenaRadiusRenderer {
             int linesBelowName = cfg.arenaShowInvalidTiles ? 3 : 2;
             double topY = arena.y() + cfg.arenaLabelHeight + linesBelowName * spacing;
 
-            text(arena.name(), arena.x(), topY, arena.z(), 0xFF000000 | rgb, nameScale);
+            text(arena.name(), arena.x(), topY, arena.z(), argb(cfg.arenaNameColor), nameScale);
             text("Radius: " + arena.radius(),
-                    arena.x(), topY - spacing, arena.z(), 0xFFFFFFFF, infoScale);
+                    arena.x(), topY - spacing, arena.z(), argb(cfg.arenaRadiusLineColor), infoScale);
             text("X: " + Mth.floor(arena.x()) + "  Y: " + Mth.floor(arena.y()) + "  Z: " + Mth.floor(arena.z()),
-                    arena.x(), topY - 2 * spacing, arena.z(), 0xFFBBBBBB, infoScale);
+                    arena.x(), topY - 2 * spacing, arena.z(), argb(cfg.arenaCoordsLineColor), infoScale);
 
             if (cfg.arenaShowInvalidTiles) {
                 String line;
@@ -428,13 +429,17 @@ public final class ArenaRadiusRenderer {
                 } else {
                     line = "Invalid spawn tiles: " + (invalidTiles.length / 3);
                 }
-                text(line, arena.x(), topY - 3 * spacing, arena.z(), 0xFFFF5555, infoScale);
+                text(line, arena.x(), topY - 3 * spacing, arena.z(), argb(cfg.arenaInvalidLineColor), infoScale);
             }
         } catch (RuntimeException e) {
             // Most likely no gizmo collector is active at this point of the frame. Keep the walls working.
             labelsBroken = true;
             LOGGER.error("Arena radius labels disabled: could not submit gizmo text", e);
         }
+    }
+
+    private static int argb(int rgb) {
+        return 0xFF000000 | (rgb & 0xFFFFFF);
     }
 
     private static void text(String text, double x, double y, double z, int argb, float scale) {
@@ -529,11 +534,8 @@ public final class ArenaRadiusRenderer {
         double yBottom = a.y() - set.wallBelow();
         double yTop = a.y() + set.wallAbove();
 
-        float r = ((a.rgb() >> 16) & 0xFF) / 255f;
-        float g = ((a.rgb() >> 8) & 0xFF) / 255f;
-        float bl = (a.rgb() & 0xFF) / 255f;
-        float[] wallColor = {r, g, bl, set.wallAlpha()};
-        float[] ringColor = {r, g, bl, set.ringAlpha()};
+        float[] wallColor = rgba(a.wallRgb(), set.wallAlpha());
+        float[] ringColor = rgba(a.ringRgb(), set.ringAlpha());
 
         int segments = segmentsFor(a.radius());
         if (set.showWall()) {
@@ -542,6 +544,10 @@ public final class ArenaRadiusRenderer {
         if (set.showRing()) {
             flatRing(b, m, a.x(), a.y() + 0.02, a.z(), a.radius(), set.ringHalfWidth(), segments, ringColor);
         }
+    }
+
+    private static float[] rgba(int rgb, float alpha) {
+        return new float[]{((rgb >> 16) & 0xFF) / 255f, ((rgb >> 8) & 0xFF) / 255f, (rgb & 0xFF) / 255f, alpha};
     }
 
     // Tile on the ground of every invalid column near the camera. Returns how many tiles were drawn.

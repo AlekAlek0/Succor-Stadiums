@@ -161,10 +161,15 @@ public class SuccorStadiumsConfigScreen {
 
         addHeader(arenaRendering, entries, "Circle");
 
-        addColor(arenaRendering, entries, "Circle Color",
-                "Color of the wall, the ground ring and the arena name in the label.",
-                CONFIG.arenaColor, DEFAULTS.arenaColor,
-                value -> CONFIG.arenaColor = value);
+        addColor(arenaRendering, entries, "Wall Color",
+                "Color of the arena wall.",
+                CONFIG.arenaWallColor, DEFAULTS.arenaWallColor,
+                value -> CONFIG.arenaWallColor = value);
+
+        addColor(arenaRendering, entries, "Ring Color",
+                "Color of the ground ring.",
+                CONFIG.arenaRingColor, DEFAULTS.arenaRingColor,
+                value -> CONFIG.arenaRingColor = value);
 
         addSlider(arenaRendering, entries, "Wall Opacity",
                 "How visible the wall is at the bottom. It fades out toward the top.",
@@ -197,6 +202,26 @@ public class SuccorStadiumsConfigScreen {
                 value -> CONFIG.arenaRingWidth = value);
 
         addHeader(arenaRendering, entries, "Floating Label");
+
+        addColor(arenaRendering, entries, "Name Color",
+                "Color of the arena name line.",
+                CONFIG.arenaNameColor, DEFAULTS.arenaNameColor,
+                value -> CONFIG.arenaNameColor = value);
+
+        addColor(arenaRendering, entries, "Radius Line Color",
+                "Color of the \"Radius: N\" line.",
+                CONFIG.arenaRadiusLineColor, DEFAULTS.arenaRadiusLineColor,
+                value -> CONFIG.arenaRadiusLineColor = value);
+
+        addColor(arenaRendering, entries, "Coordinates Line Color",
+                "Color of the X / Y / Z line.",
+                CONFIG.arenaCoordsLineColor, DEFAULTS.arenaCoordsLineColor,
+                value -> CONFIG.arenaCoordsLineColor = value);
+
+        addColor(arenaRendering, entries, "Invalid Tiles Line Color",
+                "Color of the \"Invalid spawn tiles\" line.",
+                CONFIG.arenaInvalidLineColor, DEFAULTS.arenaInvalidLineColor,
+                value -> CONFIG.arenaInvalidLineColor = value);
 
         addNumber(arenaRendering, entries, "Label Range",
                 "The label is only shown when you are within this many blocks of the arena center.",

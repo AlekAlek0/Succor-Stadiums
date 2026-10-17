@@ -49,8 +49,9 @@ public class SuccorStadiumsConfig {
     public boolean arenaShowLabel = true;
     public boolean arenaShowInvalidTiles = true;
 
-    // Circle (wall and ground ring)
-    public int arenaColor = 0xFF69B4;          // RGB, pink
+    // Circle
+    public int arenaWallColor = 0xFF69B4;      // RGB, pink
+    public int arenaRingColor = 0xFF69B4;      // RGB, pink
     public int arenaWallOpacity = 35;          // percent, strongest at the bottom edge and fades to 0 at the top
     public int arenaRingOpacity = 90;          // percent
     public int arenaWallBelow = 4;             // blocks below the arena center Y
@@ -58,6 +59,10 @@ public class SuccorStadiumsConfig {
     public int arenaRingWidth = 12;            // hundredths of a block
 
     // Floating label
+    public int arenaNameColor = 0xFF69B4;         // RGB, pink
+    public int arenaRadiusLineColor = 0xFFFFFF;   // RGB, white
+    public int arenaCoordsLineColor = 0xBBBBBB;   // RGB, light gray
+    public int arenaInvalidLineColor = 0xFF5555;  // RGB, light red
     public int arenaLabelRange = 128;          // shown when the player is within this many blocks of the arena center
     public int arenaLabelHeight = 3;           // blocks above the arena center Y
     public int arenaLabelLineSpacing = 75;     // hundredths of a block between lines
@@ -82,7 +87,12 @@ public class SuccorStadiumsConfig {
 
     // Clamps every Mob Arena Rendering value into its allowed range (call before reading the values)
     public void clampArenaRendering() {
-        arenaColor &= 0xFFFFFF;
+        arenaWallColor &= 0xFFFFFF;
+        arenaRingColor &= 0xFFFFFF;
+        arenaNameColor &= 0xFFFFFF;
+        arenaRadiusLineColor &= 0xFFFFFF;
+        arenaCoordsLineColor &= 0xFFFFFF;
+        arenaInvalidLineColor &= 0xFFFFFF;
         arenaTileColor &= 0xFFFFFF;
 
         arenaWallOpacity = ARENA_OPACITY.clamp(arenaWallOpacity);
