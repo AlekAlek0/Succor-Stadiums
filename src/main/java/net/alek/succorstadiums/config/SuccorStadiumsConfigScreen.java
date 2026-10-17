@@ -159,6 +159,16 @@ public class SuccorStadiumsConfigScreen {
                 CONFIG.arenaShowInvalidTiles, DEFAULTS.arenaShowInvalidTiles,
                 value -> CONFIG.arenaShowInvalidTiles = value);
 
+        addToggle(arenaRendering, entries, "Show Valid Spawn Percentage",
+                "Adds a line to the label with the share of the arena where mobs can spawn. Needs Show Invalid Spawn Tiles.",
+                CONFIG.arenaShowValidPercent, DEFAULTS.arenaShowValidPercent,
+                value -> CONFIG.arenaShowValidPercent = value);
+
+        addToggle(arenaRendering, entries, "Remember Shown Arenas",
+                "Arenas you switched on with Show Radius stay on after restarting the game.",
+                CONFIG.arenaRememberToggles, DEFAULTS.arenaRememberToggles,
+                value -> CONFIG.arenaRememberToggles = value);
+
         addHeader(arenaRendering, entries, "Circle");
 
         addColor(arenaRendering, entries, "Wall Color",
@@ -201,6 +211,11 @@ public class SuccorStadiumsConfigScreen {
                 SuccorStadiumsConfigScreen::hundredthsOfBlocks,
                 value -> CONFIG.arenaRingWidth = value);
 
+        addToggle(arenaRendering, entries, "Ring Follows Terrain",
+                "The ground ring rises and falls with the terrain instead of staying at the arena center height.",
+                CONFIG.arenaRingFollowsTerrain, DEFAULTS.arenaRingFollowsTerrain,
+                value -> CONFIG.arenaRingFollowsTerrain = value);
+
         addHeader(arenaRendering, entries, "Floating Label");
 
         addColor(arenaRendering, entries, "Name Color",
@@ -222,6 +237,11 @@ public class SuccorStadiumsConfigScreen {
                 "Color of the \"Invalid spawn tiles\" line.",
                 CONFIG.arenaInvalidLineColor, DEFAULTS.arenaInvalidLineColor,
                 value -> CONFIG.arenaInvalidLineColor = value);
+
+        addColor(arenaRendering, entries, "Valid Area Line Color",
+                "Color of the \"Valid spawn area\" line.",
+                CONFIG.arenaValidLineColor, DEFAULTS.arenaValidLineColor,
+                value -> CONFIG.arenaValidLineColor = value);
 
         addNumber(arenaRendering, entries, "Label Range",
                 "The label is only shown when you are within this many blocks of the arena center.",
@@ -254,10 +274,25 @@ public class SuccorStadiumsConfigScreen {
 
         addHeader(arenaRendering, entries, "Invalid Spawn Tiles");
 
-        addColor(arenaRendering, entries, "Tile Color",
-                "Color of the tiles that mark invalid spawn blocks.",
+        addToggle(arenaRendering, entries, "Color Tiles By Reason",
+                "Use a different color for each reason a block is invalid. When off, every invalid tile uses the Ground Tile Color.",
+                CONFIG.arenaColorTilesByReason, DEFAULTS.arenaColorTilesByReason,
+                value -> CONFIG.arenaColorTilesByReason = value);
+
+        addColor(arenaRendering, entries, "Ground Tile Color",
+                "Mobs can't stand here because the block below isn't a full solid block (air, slab, fence, ...).",
                 CONFIG.arenaTileColor, DEFAULTS.arenaTileColor,
                 value -> CONFIG.arenaTileColor = value);
+
+        addColor(arenaRendering, entries, "Liquid Tile Color",
+                "Mobs can't stand here because of water or lava.",
+                CONFIG.arenaTileLiquidColor, DEFAULTS.arenaTileLiquidColor,
+                value -> CONFIG.arenaTileLiquidColor = value);
+
+        addColor(arenaRendering, entries, "Blocked Tile Color",
+                "Mobs can't stand here because a block is in the way (a ceiling, leaves, ...).",
+                CONFIG.arenaTileBlockedColor, DEFAULTS.arenaTileBlockedColor,
+                value -> CONFIG.arenaTileBlockedColor = value);
 
         addSlider(arenaRendering, entries, "Tile Opacity",
                 "How visible the invalid spawn tiles are.",

@@ -1,5 +1,8 @@
 package net.alek.succorstadiums.config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // SuccorStadiumsConfig class
 public class SuccorStadiumsConfig {
 
@@ -48,6 +51,9 @@ public class SuccorStadiumsConfig {
     public boolean arenaShowRing = true;
     public boolean arenaShowLabel = true;
     public boolean arenaShowInvalidTiles = true;
+    public boolean arenaShowValidPercent = true;     // "Valid spawn area: 87%" line (needs invalid tiles on)
+    public boolean arenaRememberToggles = true;      // keep the shown arenas across restarts
+    public List<String> arenaShownArenas = new ArrayList<>();   // names of the arenas currently shown (saved automatically)
 
     // Circle
     public int arenaWallColor = 0xFF69B4;      // RGB, pink
@@ -57,12 +63,14 @@ public class SuccorStadiumsConfig {
     public int arenaWallBelow = 4;             // blocks below the arena center Y
     public int arenaWallAbove = 16;            // blocks above the arena center Y
     public int arenaRingWidth = 12;            // hundredths of a block
+    public boolean arenaRingFollowsTerrain = true;   // ring hugs the ground instead of staying at the arena center height
 
     // Floating label
     public int arenaNameColor = 0xFF69B4;         // RGB, pink
     public int arenaRadiusLineColor = 0xFFFFFF;   // RGB, white
     public int arenaCoordsLineColor = 0xBBBBBB;   // RGB, light gray
     public int arenaInvalidLineColor = 0xFF5555;  // RGB, light red
+    public int arenaValidLineColor = 0x55FF55;    // RGB, light green
     public int arenaLabelRange = 128;          // shown when the player is within this many blocks of the arena center
     public int arenaLabelHeight = 3;           // blocks above the arena center Y
     public int arenaLabelLineSpacing = 75;     // hundredths of a block between lines
@@ -70,7 +78,10 @@ public class SuccorStadiumsConfig {
     public int arenaInfoScale = 70;            // percent
 
     // Invalid spawn tiles
-    public int arenaTileColor = 0xFF2626;      // RGB, red
+    public boolean arenaColorTilesByReason = true;   // false = every invalid tile uses the ground color
+    public int arenaTileColor = 0xFF2626;      // RGB, red: block below isn't solid ground
+    public int arenaTileLiquidColor = 0x3A8DFF;   // RGB, blue: water or lava
+    public int arenaTileBlockedColor = 0xFFB020;  // RGB, orange: ceiling, leaves or a block in the way
     public int arenaTileOpacity = 45;          // percent
     public int arenaTileDrawDistance = 48;     // blocks from the camera
     public int arenaMaxTilesDrawn = 8000;      // per frame
@@ -93,6 +104,10 @@ public class SuccorStadiumsConfig {
         arenaRadiusLineColor &= 0xFFFFFF;
         arenaCoordsLineColor &= 0xFFFFFF;
         arenaInvalidLineColor &= 0xFFFFFF;
+        arenaValidLineColor &= 0xFFFFFF;
+        arenaTileLiquidColor &= 0xFFFFFF;
+        arenaTileBlockedColor &= 0xFFFFFF;
+        if (arenaShownArenas == null) arenaShownArenas = new ArrayList<>();
         arenaTileColor &= 0xFFFFFF;
 
         arenaWallOpacity = ARENA_OPACITY.clamp(arenaWallOpacity);
