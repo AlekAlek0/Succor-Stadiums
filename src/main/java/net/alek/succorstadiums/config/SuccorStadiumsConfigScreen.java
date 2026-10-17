@@ -234,9 +234,19 @@ public class SuccorStadiumsConfigScreen {
                 value -> CONFIG.arenaCoordsLineColor = value);
 
         addColor(arenaRendering, entries, "Invalid Tiles Line Color",
-                "Color of the \"Invalid spawn tiles\" line.",
+                "Color of the \"Invalid Tiles\" line (blocks with no solid ground). Defaults to the Ground Tile Color.",
                 CONFIG.arenaInvalidLineColor, DEFAULTS.arenaInvalidLineColor,
                 value -> CONFIG.arenaInvalidLineColor = value);
+
+        addColor(arenaRendering, entries, "Blocked Tiles Line Color",
+                "Color of the \"Blocked Tiles\" line. Defaults to the Blocked Tile Color.",
+                CONFIG.arenaBlockedLineColor, DEFAULTS.arenaBlockedLineColor,
+                value -> CONFIG.arenaBlockedLineColor = value);
+
+        addColor(arenaRendering, entries, "Liquid Tiles Line Color",
+                "Color of the \"Liquid Tiles\" line. Defaults to the Liquid Tile Color.",
+                CONFIG.arenaLiquidLineColor, DEFAULTS.arenaLiquidLineColor,
+                value -> CONFIG.arenaLiquidLineColor = value);
 
         addColor(arenaRendering, entries, "Valid Area Line Color",
                 "Color of the \"Valid spawn area\" line.",

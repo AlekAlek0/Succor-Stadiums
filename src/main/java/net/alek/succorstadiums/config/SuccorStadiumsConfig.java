@@ -69,7 +69,9 @@ public class SuccorStadiumsConfig {
     public int arenaNameColor = 0xFF69B4;         // RGB, pink
     public int arenaRadiusLineColor = 0xFFFFFF;   // RGB, white
     public int arenaCoordsLineColor = 0xBBBBBB;   // RGB, light gray
-    public int arenaInvalidLineColor = 0xFF5555;  // RGB, light red
+    public int arenaInvalidLineColor = 0xFF2626;  // RGB, red: "Invalid Tiles" (no solid ground)
+    public int arenaBlockedLineColor = 0xFFB020;  // RGB, orange: "Blocked Tiles"
+    public int arenaLiquidLineColor = 0x3A8DFF;   // RGB, blue: "Liquid Tiles"
     public int arenaValidLineColor = 0x55FF55;    // RGB, light green
     public int arenaLabelRange = 128;          // shown when the player is within this many blocks of the arena center
     public int arenaLabelHeight = 3;           // blocks above the arena center Y
@@ -91,10 +93,10 @@ public class SuccorStadiumsConfig {
     // Performance
     public int arenaMaxDrawDistance = 256;     // arenas whose edge is farther than this from the camera are skipped
     public int arenaMaxArenasDrawn = 16;       // nearest first
-    public int arenaDataRefreshTicks = 20;     // how often fresh arena data is requested while an overlay is on
+    public int arenaDataRefreshTicks = 10;     // how often fresh arena data is requested while an overlay is on
     public int arenaMaxScanRadius = 96;        // arenas with a larger radius are not scanned for invalid tiles
     public int arenaScanColumnsPerTick = 500;  // invalid tile scan speed, shared by all scanned arenas
-    public int arenaRescanDelayTicks = 40;     // pause between full scans
+    public int arenaRescanDelayTicks = 5;     // pause between full scans
 
     // Clamps every Mob Arena Rendering value into its allowed range (call before reading the values)
     public void clampArenaRendering() {
@@ -104,6 +106,8 @@ public class SuccorStadiumsConfig {
         arenaRadiusLineColor &= 0xFFFFFF;
         arenaCoordsLineColor &= 0xFFFFFF;
         arenaInvalidLineColor &= 0xFFFFFF;
+        arenaBlockedLineColor &= 0xFFFFFF;
+        arenaLiquidLineColor &= 0xFFFFFF;
         arenaValidLineColor &= 0xFFFFFF;
         arenaTileLiquidColor &= 0xFFFFFF;
         arenaTileBlockedColor &= 0xFFFFFF;

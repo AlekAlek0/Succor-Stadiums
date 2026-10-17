@@ -125,8 +125,9 @@ public final class ArenaRadiusRenderer {
     private static final Map<String, RingHeights> ringHeights = new ConcurrentHashMap<>();
     private static int ringTicks = 0;
 
-    // Result of one finished invalid tile scan: the invalid tiles, and how many loaded columns were checked
-    private record ScanResult(int[] tiles, int scanned) {}
+    // Result of one finished invalid tile scan: the invalid tiles, how many loaded columns were checked,
+    // and how many invalid tiles there are per reason (indexed by SpawnSpot.Spot ordinal)
+    private record ScanResult(int[] tiles, int scanned, int[] reasonCounts) {}
 
     private static final int[] NO_TILES = new int[0];
 
@@ -293,6 +294,7 @@ public final class ArenaRadiusRenderer {
         int cooldown = 0;
         int[] found = new int[192];   // x, y, z, reason quads
         int scannedColumns = 0;
+        int[] reasonCounts = new int[SpawnSpot.Spot.values().length];
         int foundCount = 0;
 
         // Null until the first full pass has finished
@@ -364,7 +366,8 @@ public final class ArenaRadiusRenderer {
             }
 
             if (cursor >= colX.length) {
-                published = new ScanResult(Arrays.copyOf(found, foundCount * TILE_STRIDE), scannedColumns);
+                published = new ScanResult(Arrays.copyOf(found, foundCount * TILE_STRIDE), scannedColumns, reasonCounts);
+                reasonCounts = new int[SpawnSpot.Spot.values().length];
                 foundCount = 0;
                 scannedColumns = 0;
                 cursor = 0;
@@ -378,6 +381,7 @@ public final class ArenaRadiusRenderer {
             found[foundCount * TILE_STRIDE + 1] = y;
             found[foundCount * TILE_STRIDE + 2] = z;
             found[foundCount * TILE_STRIDE + 3] = reason;
+            reasonCounts[reason]++;
             foundCount++;
         }
     }
@@ -498,7 +502,19 @@ public final class ArenaRadiusRenderer {
 
     // ── Floating text (Mojang's Gizmos API) ───────────────────────────────────
 
-    private record Line(String text, int argb) {}
+    // One piece of text with its own color, and a label line made of one or more pieces side by side
+    private record Seg(String text, int argb) {}
+
+    private record Line(List<Seg> segs) {}
+
+    private static Line line(String text, int argb) {
+        return new Line(List.of(new Seg(text, argb)));
+    }
+
+    // Size of one font pixel in the world at text scale 1.0. Measured from the in-game gizmo text: 0.025 made the
+    // pieces overlap, 0.05 still overlapped slightly. If pieces still overlap raise it, if gaps are too wide lower it.
+    private static final double TEXT_WORLD_PER_PIXEL = 0.056;
+    private static final String SEGMENT_GAP = "    ";
 
     private static void submitLabel(ArenaInfo arena, ScanResult scan, SuccorStadiumsConfig cfg) {
         if (labelsBroken) return;
@@ -510,28 +526,43 @@ public final class ArenaRadiusRenderer {
 
             // Lines below the name: radius, coordinates and, with invalid tiles on, the invalid count and valid share
             List<Line> lines = new ArrayList<>();
-            lines.add(new Line("Radius: " + arena.radius(), argb(cfg.arenaRadiusLineColor)));
-            lines.add(new Line("X: " + Mth.floor(arena.x()) + "  Y: " + Mth.floor(arena.y())
+            lines.add(line("Radius: " + arena.radius(), argb(cfg.arenaRadiusLineColor)));
+            lines.add(line("X: " + Mth.floor(arena.x()) + "  Y: " + Mth.floor(arena.y())
                     + "  Z: " + Mth.floor(arena.z()), argb(cfg.arenaCoordsLineColor)));
 
             if (cfg.arenaShowInvalidTiles) {
                 int invalidColor = argb(cfg.arenaInvalidLineColor);
+                int blockedColor = argb(cfg.arenaBlockedLineColor);
+                int liquidColor = argb(cfg.arenaLiquidLineColor);
                 int validColor = argb(cfg.arenaValidLineColor);
 
                 if (arena.radius() > cfg.arenaMaxScanRadius) {
-                    lines.add(new Line("Invalid spawn tiles: radius too large to scan", invalidColor));
+                    lines.add(line("Invalid Tiles: radius too large to scan", invalidColor));
                 } else if (scan == null) {
-                    lines.add(new Line("Invalid spawn tiles: scanning...", invalidColor));
-                    if (cfg.arenaShowValidPercent) lines.add(new Line("Valid spawn area: scanning...", validColor));
+                    lines.add(line("Invalid Tiles: scanning...", invalidColor));
                 } else {
-                    int invalid = scan.tiles().length / TILE_STRIDE;
-                    lines.add(new Line("Invalid spawn tiles: " + invalid, invalidColor));
-                    if (cfg.arenaShowValidPercent) {
-                        String percent = scan.scanned() == 0
-                                ? "no loaded chunks"
-                                : String.format(Locale.ROOT, "%.1f%%", (scan.scanned() - invalid) * 100.0 / scan.scanned());
-                        lines.add(new Line("Valid spawn area: " + percent, validColor));
+                    // The counts share one line, each in its own color. Reasons with no tiles are left out.
+                    List<Seg> counts = new ArrayList<>();
+                    int noGround = scan.reasonCounts()[SpawnSpot.Spot.NO_GROUND.ordinal()];
+                    int blocked = scan.reasonCounts()[SpawnSpot.Spot.BLOCKED.ordinal()];
+                    int liquid = scan.reasonCounts()[SpawnSpot.Spot.LIQUID.ordinal()];
+                    if (noGround > 0) counts.add(new Seg("Invalid Tiles: " + noGround, invalidColor));
+                    if (blocked > 0) counts.add(new Seg("Blocked Tiles: " + blocked, blockedColor));
+                    if (liquid > 0) counts.add(new Seg("Liquid Tiles: " + liquid, liquidColor));
+
+                    if (counts.isEmpty()) lines.add(line("No invalid tiles", validColor));
+                    else lines.add(new Line(counts));
+                }
+
+                if (cfg.arenaShowValidPercent && arena.radius() <= cfg.arenaMaxScanRadius) {
+                    String percent;
+                    if (scan == null) percent = "scanning...";
+                    else if (scan.scanned() == 0) percent = "no loaded chunks";
+                    else {
+                        int invalid = scan.tiles().length / TILE_STRIDE;
+                        percent = String.format(Locale.ROOT, "%.1f%%", (scan.scanned() - invalid) * 100.0 / scan.scanned());
                     }
+                    lines.add(line("Valid spawn area: " + percent, validColor));
                 }
             }
 
@@ -539,13 +570,45 @@ public final class ArenaRadiusRenderer {
             double topY = arena.y() + cfg.arenaLabelHeight + lines.size() * spacing;
             text(arena.name(), arena.x(), topY, arena.z(), argb(cfg.arenaNameColor), nameScale);
             for (int i = 0; i < lines.size(); i++) {
-                Line line = lines.get(i);
-                text(line.text(), arena.x(), topY - (i + 1) * spacing, arena.z(), line.argb(), infoScale);
+                textLine(lines.get(i), arena.x(), topY - (i + 1) * spacing, arena.z(), infoScale);
             }
         } catch (RuntimeException e) {
             // Most likely no gizmo collector is active at this point of the frame. Keep the walls working.
             labelsBroken = true;
             LOGGER.error("Arena radius labels disabled: could not submit gizmo text", e);
+        }
+    }
+
+    // Draws a line centered on (x, z). A line of several pieces is laid out left to right across the screen
+    // (perpendicular to where the player looks), with the whole line centered.
+    private static void textLine(Line line, double x, double y, double z, float scale) {
+        List<Seg> segs = line.segs();
+        if (segs.size() == 1) {
+            text(segs.get(0).text(), x, y, z, segs.get(0).argb(), scale);
+            return;
+        }
+
+        Minecraft client = Minecraft.getInstance();
+        double unit = TEXT_WORLD_PER_PIXEL * scale;
+        double gap = client.font.width(SEGMENT_GAP) * unit;
+
+        double[] widths = new double[segs.size()];
+        double total = gap * (segs.size() - 1);
+        for (int i = 0; i < widths.length; i++) {
+            widths[i] = client.font.width(segs.get(i).text()) * unit;
+            total += widths[i];
+        }
+
+        // Horizontal direction that points to the right of the screen
+        double yaw = Math.toRadians(client.player == null ? 0.0 : client.player.getYRot());
+        double rightX = -Math.cos(yaw);
+        double rightZ = -Math.sin(yaw);
+
+        double cursor = -total / 2.0;
+        for (int i = 0; i < widths.length; i++) {
+            double center = cursor + widths[i] / 2.0;
+            text(segs.get(i).text(), x + rightX * center, y, z + rightZ * center, segs.get(i).argb(), scale);
+            cursor += widths[i] + gap;
         }
     }
 
