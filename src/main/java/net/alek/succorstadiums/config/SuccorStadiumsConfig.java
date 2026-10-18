@@ -48,7 +48,7 @@ public class SuccorStadiumsConfig {
     public boolean arenaShowRing = true;
     public boolean arenaShowLabel = true;
     public boolean arenaShowInvalidTiles = true;
-    public boolean arenaShowValidPercent = true;                // "Valid spawn area: 87%" line (needs invalid tiles on)
+    public boolean arenaShowValidPercent = true;     // "Valid spawn area: 87%" line (needs invalid tiles on)
 
     // Circle
     public int arenaWallColor = 0xFF69B4;            // RGB, pink
@@ -61,18 +61,18 @@ public class SuccorStadiumsConfig {
     public boolean arenaRingFollowsTerrain = true;   // ring hugs the ground instead of staying at the arena center height
 
     // Floating label
-    public int arenaNameColor = 0xFF69B4;         // RGB, pink
-    public int arenaRadiusLineColor = 0xFFFFFF;   // RGB, white
-    public int arenaCoordsLineColor = 0xBBBBBB;   // RGB, light gray
-    public int arenaInvalidLineColor = 0xFF2626;  // RGB, red
-    public int arenaBlockedLineColor = 0xFFB020;  // RGB, orange
-    public int arenaLiquidLineColor = 0x3A8DFF;   // RGB, blue
-    public int arenaValidLineColor = 0x55FF55;    // RGB, light green
-    public int arenaLabelRange = 128;             // shown when the player is within this many blocks of the arena center
-    public int arenaLabelHeight = 3;              // blocks above the arena center Y
-    public int arenaLabelLineSpacing = 75;        // hundredths of a block between lines
-    public int arenaNameScale = 100;              // percent
-    public int arenaInfoScale = 70;               // percent
+    public int arenaNameColor = 0xFF69B4;            // RGB, pink
+    public int arenaRadiusLineColor = 0xFFFFFF;      // RGB, white
+    public int arenaCoordsLineColor = 0xBBBBBB;      // RGB, light gray
+    public int arenaInvalidLineColor = 0xFF2626;     // RGB, red
+    public int arenaBlockedLineColor = 0xFFB020;     // RGB, orange
+    public int arenaLiquidLineColor = 0x3A8DFF;      // RGB, blue
+    public int arenaValidLineColor = 0x55FF55;       // RGB, light green
+    public int arenaLabelRange = 128;                // shown when the player is within this many blocks of the arena center
+    public int arenaLabelHeight = 3;                 // blocks above the arena center Y
+    public int arenaLabelLineSpacing = 75;           // hundredths of a block between lines
+    public int arenaNameScale = 100;                 // percent
+    public int arenaInfoScale = 70;                  // percent
 
     // Invalid spawn tiles
     public boolean arenaColorTilesByReason = true;   // false = every invalid tile uses the ground color
