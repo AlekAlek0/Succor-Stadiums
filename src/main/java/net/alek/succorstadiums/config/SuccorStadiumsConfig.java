@@ -16,8 +16,7 @@ public class SuccorStadiumsConfig {
 
     // ── Mob Arena Rendering Category ──────────────────────────────────────────────────
 
-    // Inclusive int range, shared by the config screen (slider / field limits) and clampArenaRendering()
-    // Values are clamped to their Range by clampArenaRendering(), so a hand-edited config file can't break rendering.
+    // An allowed min/max range for a setting with clamp to force a value back inside it
     public record Range(int min, int max) {
         public int clamp(int value) {
             return Math.clamp(value, min, max);
@@ -93,7 +92,7 @@ public class SuccorStadiumsConfig {
     public int arenaScanColumnsPerTick = 500;  // invalid tile scan speed, shared by all scanned arenas
     public int arenaRescanDelayTicks = 5;      // pause between full scans
 
-    // Clamps every Mob Arena Rendering value into its allowed range (call before reading the values)
+    // Clamps every Mob Arena Rendering value into its allowed range to then call before reading the values
     public void clampArenaRendering() {
         arenaWallColor &= 0xFFFFFF;
         arenaRingColor &= 0xFFFFFF;
