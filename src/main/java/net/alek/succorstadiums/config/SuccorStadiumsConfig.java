@@ -1,8 +1,5 @@
 package net.alek.succorstadiums.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
 // SuccorStadiumsConfig class
 public class SuccorStadiumsConfig {
 
@@ -52,8 +49,6 @@ public class SuccorStadiumsConfig {
     public boolean arenaShowLabel = true;
     public boolean arenaShowInvalidTiles = true;
     public boolean arenaShowValidPercent = true;                // "Valid spawn area: 87%" line (needs invalid tiles on)
-    public boolean arenaRememberToggles = true;                 // keep the shown arenas across restarts
-    public List<String> arenaShownArenas = new ArrayList<>();   // names of the arenas currently shown (saved automatically)
 
     // Circle
     public int arenaWallColor = 0xFF69B4;            // RGB, pink
@@ -111,7 +106,6 @@ public class SuccorStadiumsConfig {
         arenaValidLineColor &= 0xFFFFFF;
         arenaTileLiquidColor &= 0xFFFFFF;
         arenaTileBlockedColor &= 0xFFFFFF;
-        if (arenaShownArenas == null) arenaShownArenas = new ArrayList<>();
         arenaTileColor &= 0xFFFFFF;
 
         arenaWallOpacity = ARENA_OPACITY.clamp(arenaWallOpacity);
