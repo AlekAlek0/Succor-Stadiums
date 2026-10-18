@@ -69,9 +69,9 @@ public class SuccorStadiumsConfig {
     public int arenaNameColor = 0xFF69B4;         // RGB, pink
     public int arenaRadiusLineColor = 0xFFFFFF;   // RGB, white
     public int arenaCoordsLineColor = 0xBBBBBB;   // RGB, light gray
-    public int arenaInvalidLineColor = 0xFF2626;  // RGB, red: "Invalid Tiles" (no solid ground)
-    public int arenaBlockedLineColor = 0xFFB020;  // RGB, orange: "Blocked Tiles"
-    public int arenaLiquidLineColor = 0x3A8DFF;   // RGB, blue: "Liquid Tiles"
+    public int arenaInvalidLineColor = 0xFF2626;  // RGB, red
+    public int arenaBlockedLineColor = 0xFFB020;  // RGB, orange
+    public int arenaLiquidLineColor = 0x3A8DFF;   // RGB, blue
     public int arenaValidLineColor = 0x55FF55;    // RGB, light green
     public int arenaLabelRange = 128;             // shown when the player is within this many blocks of the arena center
     public int arenaLabelHeight = 3;              // blocks above the arena center Y
@@ -81,9 +81,9 @@ public class SuccorStadiumsConfig {
 
     // Invalid spawn tiles
     public boolean arenaColorTilesByReason = true;   // false = every invalid tile uses the ground color
-    public int arenaTileColor = 0xFF2626;            // RGB, red: block below isn't solid ground
-    public int arenaTileLiquidColor = 0x3A8DFF;      // RGB, blue: water or lava
-    public int arenaTileBlockedColor = 0xFFB020;     // RGB, orange: ceiling, leaves or a block in the way
+    public int arenaTileColor = 0xFF2626;            // RGB, red
+    public int arenaTileLiquidColor = 0x3A8DFF;      // RGB, blue
+    public int arenaTileBlockedColor = 0xFFB020;     // RGB, orange
     public int arenaTileOpacity = 45;                // percent
     public int arenaTileDrawDistance = 48;           // blocks from the camera
     public int arenaMaxTilesDrawn = 8000;            // per frame
