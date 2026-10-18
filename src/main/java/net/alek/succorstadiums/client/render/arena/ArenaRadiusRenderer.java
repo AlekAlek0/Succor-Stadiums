@@ -7,7 +7,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.alek.succorstadiums.arena.SpawnSpot;
 import net.alek.succorstadiums.config.SuccorStadiumsConfig;
-import net.alek.succorstadiums.config.SuccorStadiumsConfigManager;
 import net.alek.succorstadiums.config.SuccorStadiumsConfigScreen;
 import net.alek.succorstadiums.network.arena.ArenaActionPayload;
 import net.alek.succorstadiums.network.arena.ArenaDataPayload;
@@ -50,7 +49,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
@@ -61,7 +59,7 @@ import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
 // It also marks the invalid spawn tiles: every block column inside the circle where the spawner's standing-spot
 // check (SpawnSpot, the same code ArenaSession uses) fails gets a tile on the ground, colored by the reason.
 // The label shows how many tiles are invalid and what share of the arena is valid.
-// The ground ring can follow the terrain, and the arenas you switched on are remembered across restarts.
+// The ground ring can follow the terrain. All overlays switch off when you disconnect.
 //
 // - Toggled per arena from MobArenaScreen (toggle / isEnabled). The invalid spawn tiles show with the circle.
 // - How it looks and what it costs is configurable: SuccorStadiumsConfig, "Mob Arena Rendering" category.
@@ -186,9 +184,6 @@ public final class ArenaRadiusRenderer {
     // ── Public API ────────────────────────────────────────────────────────────
 
     public static void register() {
-        SuccorStadiumsConfig cfg = config();
-        if (cfg.arenaRememberToggles) enabled.addAll(cfg.arenaShownArenas);
-
         LevelExtractionEvents.END_EXTRACTION.register(ArenaRadiusRenderer::extract);
         LevelRenderEvents.AFTER_TRANSLUCENT_TERRAIN.register(ArenaRadiusRenderer::renderAndDraw);
         ClientTickEvents.END_CLIENT_TICK.register(ArenaRadiusRenderer::pollArenaData);
@@ -208,7 +203,6 @@ public final class ArenaRadiusRenderer {
         if (enabled.remove(arena.name())) {
             scans.remove(arena.name());
             ringHeights.remove(arena.name());
-            persist();
             return;
         }
 
@@ -218,7 +212,6 @@ public final class ArenaRadiusRenderer {
         known = Collections.unmodifiableMap(next);
 
         enabled.add(arena.name());
-        persist();
     }
 
     // Feed this every ArenaDataPayload that arrives, whether or not a screen is open.
@@ -229,15 +222,7 @@ public final class ArenaRadiusRenderer {
             next.put(entry.name(), toInfo(entry));
         }
         known = Collections.unmodifiableMap(next);
-        if (enabled.retainAll(next.keySet())) persist();
-    }
-
-    // Saves which arenas are shown, so they come back after a restart
-    private static void persist() {
-        SuccorStadiumsConfig cfg = config();
-        if (!cfg.arenaRememberToggles) return;
-        cfg.arenaShownArenas = new ArrayList<>(new TreeSet<>(enabled));
-        SuccorStadiumsConfigManager.save(cfg);
+        enabled.retainAll(next.keySet());
     }
 
     // ── Data helpers ──────────────────────────────────────────────────────────
@@ -269,8 +254,7 @@ public final class ArenaRadiusRenderer {
     }
 
     private static void clear() {
-        // Remembered arenas stay switched on, they just have nothing to draw until arena data arrives again
-        if (!config().arenaRememberToggles) enabled.clear();
+        enabled.clear();
         scans.clear();
         ringHeights.clear();
         known = Map.of();
