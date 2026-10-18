@@ -11,13 +11,14 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
-import net.alek.succorstadiums.network.item.equipment.pouch.SetPouchAutoDepositPayload;
-import net.alek.succorstadiums.item.ModItems;
+import java.util.function.IntFunction;
+import java.util.function.Consumer;
+import java.util.Optional;
 
 import java.util.Locale;
-import java.util.Optional;
-import java.util.function.Consumer;
-import java.util.function.IntFunction;
+
+import net.alek.succorstadiums.network.item.equipment.pouch.SetPouchAutoDepositPayload;
+import net.alek.succorstadiums.item.ModItems;
 
 // SuccorStadiumsConfigScreen class
 public class SuccorStadiumsConfigScreen {
@@ -28,9 +29,10 @@ public class SuccorStadiumsConfigScreen {
     // A fresh config, used as the single source of truth for the "reset to default" values
     private static final SuccorStadiumsConfig DEFAULTS = new SuccorStadiumsConfig();
 
-    // Create a config screen with parent screen and title
+    // Crate screen method
     public static Screen create(Screen parent) {
 
+        // Create the config builder with parent screen and succor stadiums title
         ConfigBuilder builder = ConfigBuilder.create()
                 .setParentScreen(parent)
                 .setTitle(Component.literal("Succor Stadiums"));
@@ -52,39 +54,19 @@ public class SuccorStadiumsConfigScreen {
         );
 
         general.addEntry(
-                entries.startEnumSelector(
-                                Component.literal("GUI Theme"),
-                                Theme.class,
-                                CONFIG.mobArenaTheme
-                        )
+                entries.startEnumSelector(Component.literal("GUI Theme"), Theme.class,
+                                CONFIG.mobArenaTheme)
                         .setDefaultValue(Theme.DARK)
-                        .setSaveConsumer(value ->
-                                CONFIG.mobArenaTheme = value
-                        )
-                        .setEnumNameProvider(value ->
-                                Component.literal(
-                                        ((Theme) value).getDisplayName()
-                                )
-                        )
-                        .build()
+                        .setSaveConsumer(value -> CONFIG.mobArenaTheme = value)
+                        .setEnumNameProvider(value -> Component.literal(((Theme) value).getDisplayName())).build()
         );
 
         general.addEntry(
-                entries.startEnumSelector(
-                                Component.literal("Magic Indicator"),
-                                MagicIndicatorMode.class,
-                                CONFIG.magicIndicatorMode
-                        )
+                entries.startEnumSelector(Component.literal("Magic Indicator"), MagicIndicatorMode.class,
+                                CONFIG.magicIndicatorMode)
                         .setDefaultValue(MagicIndicatorMode.CROSSHAIR)
-                        .setSaveConsumer(value ->
-                                CONFIG.magicIndicatorMode = value
-                        )
-                        .setEnumNameProvider(value ->
-                                Component.literal(
-                                        ((MagicIndicatorMode) value).getDisplayName()
-                                )
-                        )
-                        .build()
+                        .setSaveConsumer(value -> CONFIG.magicIndicatorMode = value)
+                        .setEnumNameProvider(value -> Component.literal(((MagicIndicatorMode) value).getDisplayName())).build()
         );
 
         // Create a new category called pouch auto deposit
@@ -94,41 +76,20 @@ public class SuccorStadiumsConfigScreen {
 
         // Add entries to the pouch auto deposit category
         pouchAutoDeposit.addEntry(
-                entries.startEnumSelector(
-                                Component.literal("Pouch Scroll Direction - DEFAULT (Scroll Up Deposits) - INVERTED (Scroll Up Withdraws)"),
-
-                                PouchScrollDirection.class,
-                                CONFIG.pouchScrollDirection
-                        )
+                entries.startEnumSelector(Component.literal("Pouch Scroll Direction - DEFAULT (Scroll Up Deposits) - INVERTED (Scroll Up Withdraws)"), PouchScrollDirection.class,
+                                CONFIG.pouchScrollDirection)
                         .setDefaultValue(PouchScrollDirection.DEFAULT)
-                        .setSaveConsumer(value ->
-                                CONFIG.pouchScrollDirection = value
-                        )
-                        .setEnumNameProvider(value ->
-                                Component.literal(
-                                        ((PouchScrollDirection) value).getDisplayName()
-                                )
-                        )
-                        .build()
+                        .setSaveConsumer(value -> CONFIG.pouchScrollDirection = value)
+                        .setEnumNameProvider(value -> Component.literal(((PouchScrollDirection) value).getDisplayName())).build()
         );
 
         pouchAutoDeposit.addEntry(
-                entries.startBooleanToggle(
-                                Component.literal("Plains Coin Pouch: Auto Deposit"),
-                                CONFIG.plainsPouchAutoDepositEnabled
-                        )
+                entries.startBooleanToggle(Component.literal("Plains Coin Pouch: Auto Deposit"), CONFIG.plainsPouchAutoDepositEnabled)
                         .setDefaultValue(true)
                         .setTooltip(Component.literal("Automatically deposit coins picked up off the ground into your pouch."))
-                        .setSaveConsumer(value -> {
-                            CONFIG.plainsPouchAutoDepositEnabled = value;
-                            ClientPlayNetworking.send(
-                                    new SetPouchAutoDepositPayload(
-                                            BuiltInRegistries.ITEM.getKey(ModItems.PLAINS_COIN_POUCH),
-                                            value
-                                    )
-                            );
-                        })
-                        .build()
+                        .setSaveConsumer(value -> {CONFIG.plainsPouchAutoDepositEnabled = value;
+                            ClientPlayNetworking.send(new SetPouchAutoDepositPayload(BuiltInRegistries.ITEM.getKey(ModItems.PLAINS_COIN_POUCH), value));
+                        }).build()
         );
 
         // Create a new category called mob arena rendering
@@ -168,11 +129,6 @@ public class SuccorStadiumsConfigScreen {
                 "Adds a line to the label with the share of the arena where mobs can spawn. Needs Show Invalid Spawn Tiles.",
                 CONFIG.arenaShowValidPercent, DEFAULTS.arenaShowValidPercent,
                 value -> CONFIG.arenaShowValidPercent = value);
-
-        addToggle(arenaRendering, entries, "Remember Shown Arenas",
-                "Arenas you switched on with Show Radius stay on after restarting the game.",
-                CONFIG.arenaRememberToggles, DEFAULTS.arenaRememberToggles,
-                value -> CONFIG.arenaRememberToggles = value);
 
         // Create header for circle config options
         addHeader(arenaRendering, entries, "Circle");
@@ -395,6 +351,7 @@ public class SuccorStadiumsConfigScreen {
 
     // ── Entry helpers ─────────────────────────────────────────────────────────
 
+    // Helper method to add a header entry
     private static void addHeader(ConfigCategory category, ConfigEntryBuilder entries, String text) {
         category.addEntry(
                 entries.startTextDescription(
@@ -403,6 +360,7 @@ public class SuccorStadiumsConfigScreen {
         );
     }
 
+    // Helper method to add a toggle field entry
     private static void addToggle(ConfigCategory category, ConfigEntryBuilder entries, String name, String tooltip,
                                   boolean value, boolean defaultValue, Consumer<Boolean> save) {
         category.addEntry(
@@ -414,6 +372,7 @@ public class SuccorStadiumsConfigScreen {
         );
     }
 
+    // Helper method to add a slider field entry
     private static void addSlider(ConfigCategory category, ConfigEntryBuilder entries, String name, String tooltip,
                                   int value, int defaultValue, SuccorStadiumsConfig.Range range,
                                   IntFunction<String> format, Consumer<Integer> save) {
@@ -427,7 +386,7 @@ public class SuccorStadiumsConfigScreen {
         );
     }
 
-    // Typed number field, used where the range is too wide for a slider to be precise
+    // Helper method to add a int field entry
     private static void addNumber(ConfigCategory category, ConfigEntryBuilder entries, String name, String tooltip,
                                   int value, int defaultValue, SuccorStadiumsConfig.Range range, Consumer<Integer> save) {
         category.addEntry(
@@ -441,8 +400,7 @@ public class SuccorStadiumsConfigScreen {
         );
     }
 
-    // Hex color field (like #FF69B4). Cloth's own color field needs me.shedaniel.math.Color on the compile
-    // classpath, so this uses a plain text field with validation instead.
+    // Helper method for our custom color field entry
     private static void addColor(ConfigCategory category, ConfigEntryBuilder entries, String name, String tooltip,
                                  int value, int defaultValue, Consumer<Integer> save) {
         category.addEntry(
@@ -459,20 +417,24 @@ public class SuccorStadiumsConfigScreen {
         );
     }
 
+    // Helper method to return an integer to string hex format
     private static String toHex(int rgb) {
         return String.format(Locale.ROOT, "#%06X", rgb & 0xFFFFFF);
     }
 
+    // Helper method for if a string of text is a hex color
     private static boolean isHexColor(String text) {
         return text != null && text.trim().matches("#?[0-9A-Fa-f]{6}");
     }
 
+    // Helper method to parse a string of hex to integers
     private static int parseHex(String text) {
         String digits = text.trim();
         if (digits.startsWith("#")) digits = digits.substring(1);
         return Integer.parseInt(digits, 16) & 0xFFFFFF;
     }
 
+    // Helper method to get hundredths of blocks from a passed value
     private static String hundredthsOfBlocks(int value) {
         return String.format(Locale.ROOT, "%.2f blocks", value / 100.0);
     }
