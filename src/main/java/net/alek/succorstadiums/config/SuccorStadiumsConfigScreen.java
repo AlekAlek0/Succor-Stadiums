@@ -28,12 +28,14 @@ public class SuccorStadiumsConfigScreen {
     // A fresh config, used as the single source of truth for the "reset to default" values
     private static final SuccorStadiumsConfig DEFAULTS = new SuccorStadiumsConfig();
 
+    // Create a config screen with parent screen and title
     public static Screen create(Screen parent) {
 
         ConfigBuilder builder = ConfigBuilder.create()
                 .setParentScreen(parent)
                 .setTitle(Component.literal("Succor Stadiums"));
 
+        // Create entries
         ConfigEntryBuilder entries = builder.entryBuilder();
 
         // Create a new category called general
@@ -137,8 +139,11 @@ public class SuccorStadiumsConfigScreen {
         // Make sure old or hand-edited values show up inside their slider / field limits
         CONFIG.clampArenaRendering();
 
+
+        // Create header for what to show config options
         addHeader(arenaRendering, entries, "What To Show");
 
+        // Add entries to what to show area of the mob arena rendering category
         addToggle(arenaRendering, entries, "Show Wall",
                 "The translucent wall around the edge of the arena.",
                 CONFIG.arenaShowWall, DEFAULTS.arenaShowWall,
@@ -169,8 +174,10 @@ public class SuccorStadiumsConfigScreen {
                 CONFIG.arenaRememberToggles, DEFAULTS.arenaRememberToggles,
                 value -> CONFIG.arenaRememberToggles = value);
 
+        // Create header for circle config options
         addHeader(arenaRendering, entries, "Circle");
 
+        // Add entries to circle area of the mob arena rendering category
         addColor(arenaRendering, entries, "Wall Color",
                 "Color of the arena wall.",
                 CONFIG.arenaWallColor, DEFAULTS.arenaWallColor,
@@ -216,8 +223,10 @@ public class SuccorStadiumsConfigScreen {
                 CONFIG.arenaRingFollowsTerrain, DEFAULTS.arenaRingFollowsTerrain,
                 value -> CONFIG.arenaRingFollowsTerrain = value);
 
+        // Create header for floating label config options
         addHeader(arenaRendering, entries, "Floating Label");
 
+        // Add entries to floating label area of the mob arena rendering category
         addColor(arenaRendering, entries, "Name Color",
                 "Color of the arena name line.",
                 CONFIG.arenaNameColor, DEFAULTS.arenaNameColor,
@@ -282,8 +291,10 @@ public class SuccorStadiumsConfigScreen {
                 value -> value + "%",
                 value -> CONFIG.arenaInfoScale = value);
 
+        // Create header for invalid spawn tiles config options
         addHeader(arenaRendering, entries, "Invalid Spawn Tiles");
 
+        // Add entries to invalid spawn tiles area of the mob arena rendering category
         addToggle(arenaRendering, entries, "Color Tiles By Reason",
                 "Use a different color for each reason a block is invalid. When off, every invalid tile uses the Ground Tile Color.",
                 CONFIG.arenaColorTilesByReason, DEFAULTS.arenaColorTilesByReason,
@@ -333,8 +344,10 @@ public class SuccorStadiumsConfigScreen {
                 SuccorStadiumsConfigScreen::hundredthsOfBlocks,
                 value -> CONFIG.arenaTileLift = value);
 
+        // Create header for performance config options
         addHeader(arenaRendering, entries, "Performance");
 
+        // Add entries to performance area of the mob arena rendering category
         addNumber(arenaRendering, entries, "Max Arena Draw Distance",
                 "Arenas whose edge is farther than this many blocks from you are not drawn.",
                 CONFIG.arenaMaxDrawDistance, DEFAULTS.arenaMaxDrawDistance, SuccorStadiumsConfig.ARENA_MAX_DRAW_DISTANCE,
