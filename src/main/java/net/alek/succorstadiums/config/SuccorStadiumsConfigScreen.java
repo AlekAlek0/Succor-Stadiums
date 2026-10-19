@@ -14,7 +14,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import java.util.function.IntFunction;
 import java.util.function.Consumer;
 import java.util.Optional;
-
 import java.util.Locale;
 
 import net.alek.succorstadiums.network.item.equipment.pouch.SetPouchAutoDepositPayload;
@@ -427,14 +426,14 @@ public class SuccorStadiumsConfigScreen {
         return text != null && text.trim().matches("#?[0-9A-Fa-f]{6}");
     }
 
-    // Helper method to parse a string of hex to integers
+    // Helper method to trim the string and remove the # and converts the 6 digits from base 16 to a number
     private static int parseHex(String text) {
         String digits = text.trim();
         if (digits.startsWith("#")) digits = digits.substring(1);
         return Integer.parseInt(digits, 16) & 0xFFFFFF;
     }
 
-    // Helper method to get hundredths of blocks from a passed value
+    // Helper method that divides a passed value by 100 and prints 2 decimals
     private static String hundredthsOfBlocks(int value) {
         return String.format(Locale.ROOT, "%.2f blocks", value / 100.0);
     }
