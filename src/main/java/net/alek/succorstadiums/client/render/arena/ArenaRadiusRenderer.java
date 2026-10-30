@@ -1,73 +1,61 @@
 package net.alek.succorstadiums.client.render.arena;
 
-import com.mojang.blaze3d.PrimitiveTopology;
+import net.minecraft.client.renderer.StagedVertexBuffer;
+import net.minecraft.client.renderer.RenderPipelines;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.core.registries.Registries;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.alek.succorstadiums.arena.SpawnSpot;
-import net.alek.succorstadiums.config.SuccorStadiumsConfig;
-import net.alek.succorstadiums.config.SuccorStadiumsConfigScreen;
-import net.alek.succorstadiums.network.arena.ArenaActionPayload;
-import net.alek.succorstadiums.network.arena.ArenaDataPayload;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.world.level.LevelReader;
+import com.mojang.blaze3d.PrimitiveTopology;
+import net.minecraft.resources.ResourceKey;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.level.Level;
+import net.minecraft.client.Minecraft;
+import net.minecraft.gizmos.TextGizmo;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.core.BlockPos;
+import net.minecraft.gizmos.Gizmos;
+import net.minecraft.util.Mth;
+
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelExtractionContext;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelExtractionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderEvents;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.StagedVertexBuffer;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.gizmos.Gizmos;
-import net.minecraft.gizmos.TextGizmo;
-import net.minecraft.resources.Identifier;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.Mth;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.phys.Vec3;
-import org.joml.Matrix4f;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.OptionalDouble;
+import java.util.LinkedHashMap;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Arrays;
+import java.util.Locale;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.slf4j.LoggerFactory;
 import org.joml.Matrix4fc;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
+import net.alek.succorstadiums.config.SuccorStadiumsConfigScreen;
+import net.alek.succorstadiums.network.arena.ArenaActionPayload;
+import net.alek.succorstadiums.network.arena.ArenaDataPayload;
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
+import net.alek.succorstadiums.config.SuccorStadiumsConfig;
+import net.alek.succorstadiums.arena.SpawnSpot;
 
-// Draws the radius of any number of mob arenas in the world: translucent cylinder walls plus a ground ring
-// per arena, and floating info text (name, radius, coordinates) above each arena center.
-//
-// It also marks the invalid spawn tiles: every block column inside the circle where the spawner's standing-spot
-// check (SpawnSpot, the same code ArenaSession uses) fails gets a tile on the ground, colored by the reason.
-// The label shows how many tiles are invalid and what share of the arena is valid.
-// The ground ring can follow the terrain. All overlays switch off when you disconnect.
-//
-// - Toggled per arena from MobArenaScreen (toggle / isEnabled). The invalid spawn tiles show with the circle.
-// - How it looks and what it costs is configurable: SuccorStadiumsConfig, "Mob Arena Rendering" category.
-// - Only arenas in the dimension the player is currently in are drawn.
-// - Keeps its own copy of the arena data, refreshed from every ArenaDataPayload (onArenaData) and by polling the
-//   server while any overlay is on, so it never depends on the screen being open.
-//
-// Call ArenaRadiusRenderer.register() once from the client initializer.
+// ArenaRadiusRenderer class
 public final class ArenaRadiusRenderer {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
