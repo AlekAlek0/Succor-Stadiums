@@ -45,6 +45,7 @@ import java.util.Map;
 import java.util.Set;
 
 // Logging, plus JOML math types (matrices and vectors)
+import org.jspecify.annotations.NonNull;
 import org.slf4j.LoggerFactory;
 import org.joml.Matrix4fc;
 import org.joml.Matrix4f;
@@ -654,16 +655,7 @@ public final class ArenaRadiusRenderer {
 
                 // The valid spawn area line
                 if (cfg.arenaShowValidPercent && arena.radius() <= cfg.arenaMaxScanRadius) {
-                    String percent;
-                    if (scan == null) percent = "scanning...";
-                        // Nothing was checked (no loaded chunks)
-                    else if (scan.scanned() == 0) percent = "no loaded chunks";
-                    else {
-                        // Invalid tiles = array length / 4, since each tile is 4 ints
-                        int invalid = scan.tiles().length / TILE_STRIDE;
-                        // Share of the checked columns that are valid, with one decimal ('%%' prints a literal percent sign)
-                        percent = String.format(Locale.ROOT, "%.1f%%", (scan.scanned() - invalid) * 100.0 / scan.scanned());
-                    }
+                    String percent = getPercent(scan);
                     lines.add(line("Valid spawn area: " + percent, validColor));
                 }
             }
@@ -684,13 +676,27 @@ public final class ArenaRadiusRenderer {
         }
     }
 
+    private static @NonNull String getPercent(ScanResult scan) {
+        String percent;
+        if (scan == null) percent = "scanning...";
+            // Nothing was checked (no loaded chunks)
+        else if (scan.scanned() == 0) percent = "no loaded chunks";
+        else {
+            // Invalid tiles = array length / 4, since each tile is 4 ints
+            int invalid = scan.tiles().length / TILE_STRIDE;
+            // Share of the checked columns that are valid, with one decimal ('%%' prints a literal percent sign)
+            percent = String.format(Locale.ROOT, "%.1f%%", (scan.scanned() - invalid) * 100.0 / scan.scanned());
+        }
+        return percent;
+    }
+
     // Draws a line centered on (x, z). A line of several pieces is laid out left to right across the screen
     // (perpendicular to where the player looks), with the whole line centered.
     private static void textLine(Line line, double x, double y, double z, float scale) {
         List<Seg> segs = line.segs();
         // A single piece: draw it directly
         if (segs.size() == 1) {
-            text(segs.get(0).text(), x, y, z, segs.get(0).argb(), scale);
+            text(segs.getFirst().text(), x, y, z, segs.getFirst().argb(), scale);
             return;
         }
 
