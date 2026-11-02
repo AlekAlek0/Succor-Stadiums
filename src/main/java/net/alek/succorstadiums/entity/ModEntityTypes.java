@@ -66,6 +66,11 @@ public class ModEntityTypes {
             "skelcrow", EntityType.Builder.of(Skelcrow::new,
                     MobCategory.MONSTER).sized(0.6f, 1.99f));
 
+    // Register gray spider
+    public static final EntityType<GraySpider> GRAY_SPIDER = registerMob(
+            "gray_spider", EntityType.Builder.of(GraySpider::new,
+                    MobCategory.MONSTER).sized(1.4f, 0.9f));
+
     // Register method for item entities
     private static <T extends Entity> EntityType<T> register(String name, EntityType.Builder<T> builder) {
         ResourceKey<EntityType<?>> key = ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, name));

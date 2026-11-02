@@ -1,6 +1,5 @@
 package net.alek.succorstadiums.client;
 
-import net.alek.succorstadiums.client.render.arena.ArenaRadiusRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderers;
 import net.minecraft.client.model.object.equipment.ShieldModel;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -25,6 +24,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.alek.succorstadiums.client.render.item.CardboardShieldSpecialRenderer;
 import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;
 import net.alek.succorstadiums.client.render.item.CardboardShieldLayers;
+import net.alek.succorstadiums.client.render.arena.ArenaRadiusRenderer;
 import net.alek.succorstadiums.network.arena.AdvancementListPayload;
 import net.alek.succorstadiums.client.particle.ForestAuraParticle;
 import net.alek.succorstadiums.network.arena.OpenMobArenaPayload;
@@ -56,6 +56,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
         EntityRenderers.register(ModEntityTypes.FARMBIE_BLUE, FarmbieBlueRenderer::new);
         EntityRenderers.register(ModEntityTypes.GRASS_CREEPER, GrassCreeperRenderer::new);
         EntityRenderers.register(ModEntityTypes.SKELCROW, SkelcrowRenderer::new);
+        EntityRenderers.register(ModEntityTypes.GRAY_SPIDER, GraySpiderRenderer::new);
 
         SpecialModelRenderers.ID_MAPPER.put(Identifier.fromNamespaceAndPath("succorstadiums", "cardboard_shield"), CardboardShieldSpecialRenderer.Unbaked.MAP_CODEC);
         ModelLayerRegistry.registerModelLayer(CardboardShieldLayers.CARDBOARD_SHIELD, ShieldModel::createLayer);

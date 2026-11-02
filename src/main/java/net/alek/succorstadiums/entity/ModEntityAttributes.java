@@ -4,6 +4,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.skeleton.Stray;
 import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.world.entity.monster.zombie.Zombie;
+import net.minecraft.world.entity.monster.spider.Spider;
 import net.minecraft.world.entity.monster.Creeper;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
@@ -56,6 +57,17 @@ public class ModEntityAttributes {
                 ModEntityTypes.SKELCROW,
                 Stray.createAttributes()
                         .add(Attributes.MAX_HEALTH, 10D)
+        );
+
+        // Register gray spider entity attributes
+        FabricDefaultAttributeRegistry.register(
+                ModEntityTypes.GRAY_SPIDER,
+                Spider.createAttributes()
+                        .add(Attributes.MOVEMENT_SPEED, 0.27D)
+                        .add(Attributes.ATTACK_DAMAGE, 0.75)
+                        .add(Attributes.ATTACK_SPEED, 1.3D)
+                        .add(Attributes.MAX_HEALTH, 8D)
+                        .add(Attributes.ARMOR, 4D)
         );
     }
 }

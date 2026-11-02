@@ -266,6 +266,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("entity.succorstadiums.farmbie_blue", "Farmbie Blue");
         translationBuilder.add("entity.succorstadiums.grass_creeper", "Grass Creeper");
         translationBuilder.add("entity.succorstadiums.skelcrow", "Skelcrow");
+        translationBuilder.add("entity.succorstadiums.gray_spider", "Gray Spider");
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
