@@ -18,7 +18,7 @@ public class GraySpider extends Spider {
         super(type, level);
     }
 
-    // Override the vanilla finalize spawn method for vanilla spiders to not have the chance of gray spider jockey's and spiders with mob effects
+    // Override the vanilla finalize spawn method for vanilla spiders to not have the chance of gray spider jockey's and gray spiders with mob effects
     @Override
     public @Nullable SpawnGroupData finalizeSpawn(final @NonNull ServerLevelAccessor level, final @NonNull DifficultyInstance difficulty, final @NonNull EntitySpawnReason spawnReason, @Nullable SpawnGroupData groupData) {
         return groupData;
