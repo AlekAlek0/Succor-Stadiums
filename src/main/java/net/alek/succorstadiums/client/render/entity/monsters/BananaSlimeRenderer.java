@@ -22,7 +22,7 @@ public class BananaSlimeRenderer extends SlimeRenderer {
     public static final Identifier TEXTURE =
             Identifier.fromNamespaceAndPath(
                     SuccorStadiums.MOD_ID,
-                    "textures/entity/banana_slime/banana_slime.png"
+                    "textures/entity/monsters/banana_slime/banana_slime.png"
             );
 
     // Override getTextureLocation method with our custom texture
