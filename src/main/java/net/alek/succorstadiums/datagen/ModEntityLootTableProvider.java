@@ -110,10 +110,10 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
                                                                 UniformGenerator.between(1, 3)))
                                         )
                         )
-                        // 8% chance to drop 0-4 magic flesh
+                        // 15% chance to drop 0-4 magic flesh
                         .withPool(
                                 LootPool.lootPool()
-                                        .when(LootItemRandomChanceCondition.randomChance(0.08f))
+                                        .when(LootItemRandomChanceCondition.randomChance(0.15f))
                                         .add(
                                                 LootItem.lootTableItem(ModItems.MAGIC_FLESH)
                                                         .apply(SetItemCountFunction.setCount(
