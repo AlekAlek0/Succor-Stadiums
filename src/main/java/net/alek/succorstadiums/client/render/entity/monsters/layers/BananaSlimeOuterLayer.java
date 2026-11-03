@@ -1,19 +1,23 @@
-package net.alek.succorstadiums.client.render.entity.monsters;
+package net.alek.succorstadiums.client.render.entity.monsters.layers;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.model.geom.ModelLayers;
+import net.alek.succorstadiums.client.render.entity.monsters.BananaSlimeRenderer;
+import net.minecraft.client.renderer.entity.state.SlimeRenderState;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.model.monster.slime.SlimeModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.client.renderer.entity.RenderLayerParent;
-import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.entity.state.SlimeRenderState;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.model.geom.ModelLayers;
+import com.mojang.blaze3d.vertex.PoseStack;
+
+import net.fabricmc.api.Environment;
+import net.fabricmc.api.EnvType;
+
 import org.jspecify.annotations.NonNull;
 
+// BananaSlimeOuterLayer class
 @Environment(EnvType.CLIENT)
 public class BananaSlimeOuterLayer extends RenderLayer<SlimeRenderState, SlimeModel> {
     private final SlimeModel model;
