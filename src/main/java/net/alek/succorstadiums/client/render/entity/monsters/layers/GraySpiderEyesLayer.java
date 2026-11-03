@@ -18,9 +18,11 @@ public class GraySpiderEyesLayer<M extends SpiderModel> extends EyesLayer<Living
         super(renderer);
     }
 
+    // Initialize our gray spider eyes texture
     private static final RenderType GRAY_SPIDER_EYES =
-            RenderTypes.eyes(Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID,"textures/entity/gray_spider/gray_spider_eyes.png"));
+            RenderTypes.eyes(Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID,"textures/entity/monsters/gray_spider/gray_spider_eyes.png"));
 
+    // Override renderType method with our custom texture
     @Override
     public @NonNull RenderType renderType() {
         return GRAY_SPIDER_EYES;

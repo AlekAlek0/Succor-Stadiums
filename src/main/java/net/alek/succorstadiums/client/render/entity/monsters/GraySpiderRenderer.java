@@ -26,9 +26,11 @@ public class GraySpiderRenderer<T extends Spider> extends MobRenderer<T, LivingE
 
     }
 
+    // Initialize our gray spider texture
     private static final Identifier TEXTURE =
-            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "textures/entity/gray_spider/gray_spider.png");
+            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "textures/entity/monsters/gray_spider/gray_spider.png");
 
+    // Override getTextureLocation method with our custom texture
     @Override
     public @NonNull Identifier getTextureLocation(@NonNull LivingEntityRenderState state) {
         return TEXTURE;
