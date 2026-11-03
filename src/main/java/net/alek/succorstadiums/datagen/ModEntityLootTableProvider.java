@@ -170,10 +170,10 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
                                                                 UniformGenerator.between(1, 3)))
                                         )
                         )
-                        // 7% chance to drop 2-4 spider carapace
+                        // 20% chance to drop 2-4 spider carapace
                         .withPool(
                                 LootPool.lootPool()
-                                        .when(LootItemRandomChanceCondition.randomChance(0.07f))
+                                        .when(LootItemRandomChanceCondition.randomChance(0.2f))
                                         .add(
                                                 LootItem.lootTableItem(ModItems.SPIDER_CARAPACE)
                                                         .apply(SetItemCountFunction.setCount(
