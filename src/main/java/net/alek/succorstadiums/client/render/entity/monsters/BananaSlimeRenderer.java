@@ -20,10 +20,7 @@ public class BananaSlimeRenderer extends SlimeRenderer {
 
     // Initialize our banana slime texture
     public static final Identifier TEXTURE =
-            Identifier.fromNamespaceAndPath(
-                    SuccorStadiums.MOD_ID,
-                    "textures/entity/monsters/banana_slime/banana_slime.png"
-            );
+            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "textures/entity/monsters/banana_slime/banana_slime.png");
 
     // Override getTextureLocation method with our custom texture
     @Override
