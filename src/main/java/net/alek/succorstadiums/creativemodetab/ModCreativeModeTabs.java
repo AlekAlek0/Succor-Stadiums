@@ -33,6 +33,8 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.SPIDER_LEG);
                         output.accept(ModItems.BANANA_SLIME_BALL);
                         output.accept(ModItems.BANANA_BRANCH);
+                        output.accept(ModItems.GRAY_SPIDER_EYE);
+                        output.accept(ModItems.GRAY_SPIDER_LEG);
 
 
                     }).build());

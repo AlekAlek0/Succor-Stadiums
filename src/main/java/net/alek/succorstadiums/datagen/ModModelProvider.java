@@ -42,6 +42,9 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerators.generateFlatItem(ModItems.SPIDER_LEG, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.BANANA_SLIME_BALL, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.BANANA_BRANCH, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.GRAY_SPIDER_EYE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.GRAY_SPIDER_LEG, ModelTemplates.FLAT_ITEM);
+
 
         // Armor datagen
         itemModelGenerators.generateFlatItem(ModItems.BALE_HELMET, ModelTemplates.FLAT_ITEM);

@@ -13,4 +13,5 @@ public class ModLootTables {
     public static ResourceKey<LootTable> FARMBIE_LOOT = ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "entities/farmbie"));
     public static ResourceKey<LootTable> FARMBIE_BLUE_LOOT = ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "entities/farmbie_blue"));
     public static ResourceKey<LootTable> GRASS_CREEPER_LOOT = ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "entities/grass_creeper"));
+    public static ResourceKey<LootTable> GRAY_SPIDER_LOOT = ResourceKey.create(Registries.LOOT_TABLE, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "entities/gray_spider"));
 }

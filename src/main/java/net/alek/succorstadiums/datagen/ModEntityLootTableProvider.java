@@ -146,5 +146,40 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
                                         )
                         )
         );
+
+        exporter.accept(ModLootTables.GRAY_SPIDER_LOOT,
+                LootTable.lootTable()
+                        // 100% chance to drop 0-2 gray spider eyes
+                        .withPool(
+                                LootPool.lootPool()
+                                        .add(
+                                                LootItem.lootTableItem(ModItems.GRAY_SPIDER_EYE)
+                                                        .apply(SetItemCountFunction.setCount(
+                                                                        UniformGenerator.between(0, 2)
+                                                                )
+                                                        )
+                                        )
+                        )
+                        // 20% chance to drop 1-3 gray spider legs
+                        .withPool(
+                                LootPool.lootPool()
+                                        .when(LootItemRandomChanceCondition.randomChance(0.2f))
+                                        .add(
+                                                LootItem.lootTableItem(ModItems.GRAY_SPIDER_LEG)
+                                                        .apply(SetItemCountFunction.setCount(
+                                                                UniformGenerator.between(1, 3)))
+                                        )
+                        )
+                        // 7% chance to drop 2-4 spider carapace
+                        .withPool(
+                                LootPool.lootPool()
+                                        .when(LootItemRandomChanceCondition.randomChance(0.07f))
+                                        .add(
+                                                LootItem.lootTableItem(ModItems.SPIDER_CARAPACE)
+                                                        .apply(SetItemCountFunction.setCount(
+                                                                UniformGenerator.between(2, 4)))
+                                        )
+                        )
+        );
     }
 }
