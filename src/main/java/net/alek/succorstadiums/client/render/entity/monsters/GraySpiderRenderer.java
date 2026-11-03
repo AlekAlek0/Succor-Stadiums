@@ -2,7 +2,6 @@ package net.alek.succorstadiums.client.render.entity.monsters;
 
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.layers.SpiderEyesLayer;
 import net.minecraft.client.model.monster.spider.SpiderModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.world.entity.monster.spider.Spider;
@@ -12,6 +11,7 @@ import net.minecraft.resources.Identifier;
 
 import org.jspecify.annotations.NonNull;
 
+import net.alek.succorstadiums.client.render.entity.monsters.layers.GraySpiderEyesLayer;
 import net.alek.succorstadiums.SuccorStadiums;
 
 // GraySpiderRenderer class
@@ -22,7 +22,7 @@ public class GraySpiderRenderer<T extends Spider> extends MobRenderer<T, LivingE
 
     public GraySpiderRenderer(final EntityRendererProvider.Context context, final ModelLayerLocation model) {
         super(context, new SpiderModel(context.bakeLayer(model)), 0.8F);
-        this.addLayer(new SpiderEyesLayer<>(this));
+        this.addLayer(new GraySpiderEyesLayer<>(this));
 
     }
 
