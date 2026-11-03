@@ -155,7 +155,7 @@ public class CustomVillagerSpawner {
                 ModItems.FLINT_CHARM, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, ModItems.EMERALD_COIN, 32,
+        addOffer(offers, ModItems.EMERALD_COIN, 24,
                 ModItems.SPROUT_SICKLE, 1,
                 9999999, 0, 0.0F);
 
