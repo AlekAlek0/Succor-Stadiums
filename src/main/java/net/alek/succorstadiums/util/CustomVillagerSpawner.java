@@ -125,6 +125,10 @@ public class CustomVillagerSpawner {
                 ModItems.EMERALD_COIN, 10,
                 9999999, 0, 0.0F);
 
+        addOffer(offers, ModItems.GRAY_SPIDER_EYE, 8,
+                ModItems.EMERALD_COIN, 3,
+                9999999, 0, 0.0F);
+
         // Add villager to the level
         level.addFreshEntity(villager);
     }
