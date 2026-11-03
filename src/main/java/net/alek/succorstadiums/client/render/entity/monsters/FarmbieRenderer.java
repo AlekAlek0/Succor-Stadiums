@@ -1,23 +1,22 @@
 package net.alek.succorstadiums.client.render.entity.monsters;
 
-import net.alek.succorstadiums.SuccorStadiums;
-import net.alek.succorstadiums.entity.monsters.Farmbie;
-import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.entity.state.ZombieRenderState;
+import net.minecraft.client.renderer.entity.AbstractZombieRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.model.monster.zombie.BabyZombieModel;
 import net.minecraft.client.model.monster.zombie.ZombieModel;
-import net.minecraft.client.renderer.entity.AbstractZombieRenderer;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.entity.ArmorModelSet;
-import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.state.ZombieRenderState;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.resources.Identifier;
+
 import org.jspecify.annotations.NonNull;
 
+import net.alek.succorstadiums.entity.monsters.Farmbie;
+import net.alek.succorstadiums.SuccorStadiums;
+
+// FarmbieRenderer class
 public class FarmbieRenderer extends AbstractZombieRenderer<Farmbie, ZombieRenderState, ZombieModel<ZombieRenderState>> {
-
-    private static final Identifier TEXTURE =
-            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "textures/entity/farmbie/farmbie.png");
-
     public FarmbieRenderer(final EntityRendererProvider.Context context) {
         this(context, ModelLayers.ZOMBIE, ModelLayers.ZOMBIE_BABY, ModelLayers.ZOMBIE_ARMOR, ModelLayers.ZOMBIE_BABY_ARMOR);
     }
@@ -34,14 +33,19 @@ public class FarmbieRenderer extends AbstractZombieRenderer<Farmbie, ZombieRende
                 ArmorModelSet.bake(babyArmorSet, context.getModelSet(), BabyZombieModel::new));
     }
 
-    @Override
-    public @NonNull ZombieRenderState createRenderState() {
-        return new ZombieRenderState();
-    }
+    // Initialize our farmbie texture
+    private static final Identifier TEXTURE =
+            Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "textures/entity/monsters/farmbie/farmbie.png");
 
+    // Override getTextureLocation method with our custom texture
     @Override
     public @NonNull Identifier getTextureLocation(final @NonNull ZombieRenderState state) {
         return TEXTURE;
+    }
+
+    @Override
+    public @NonNull ZombieRenderState createRenderState() {
+        return new ZombieRenderState();
     }
 
     /*
