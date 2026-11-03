@@ -308,7 +308,7 @@ public class CustomVillagerSpawner {
                 ModItems.BALE_ARROW, 8,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, ModItems.EMERALD_COIN, 12,
+        addOffer(offers, ModItems.EMERALD_COIN, 8,
                 ModItems.OAK_BOW, 1,
                 9999999, 0, 0.0F);
 
