@@ -45,7 +45,6 @@ import java.util.Map;
 import java.util.Set;
 
 // Logging, plus JOML math types (matrices and vectors)
-import org.jspecify.annotations.NonNull;
 import org.slf4j.LoggerFactory;
 import org.joml.Matrix4fc;
 import org.joml.Matrix4f;
@@ -62,15 +61,15 @@ import net.alek.succorstadiums.config.SuccorStadiumsConfig;
 import net.alek.succorstadiums.arena.SpawnSpot;
 
 // Draws the radius of any number of mob arenas in the world:
-// a fading wall and a ground ring per arena, a floating label above each arena center,
+// a fading wall per arena, a floating label above each arena center,
 // and a tile on every block where mobs can't spawn.
 //
 // How it works each frame:
 //   1. Extraction (extract): reads the config, the arena data and the scan results into an immutable Frame
 //      and submits the label text.
 //   2. Drawing (renderAndDraw): turns the Frame into vertices and draws them in one batch.
-// Between frames, every tick: pollArenaData keeps the arena data fresh, scanInvalidTiles finds the invalid
-// blocks and updateRingHeights samples the terrain under the ring.
+// Between frames, every tick: pollArenaData keeps the arena data fresh and scanInvalidTiles finds the invalid
+// blocks.
 //
 // Call ArenaRadiusRenderer.register() once from the client initializer.
 public final class ArenaRadiusRenderer {
@@ -89,13 +88,8 @@ public final class ArenaRadiusRenderer {
     // Invalid tiles are stored as x, y, z, reason (SpawnSpot.Spot ordinal) quads
     private static final int TILE_STRIDE = 4;
 
-    // Initialize a ring lift to sit 0.02 blocks above the ground
-    // and initialize ring resample ticks for the ring terrain heights to be reread every 10 ticks
-    private static final double RING_LIFT = 0.02;
-    private static final int RING_RESAMPLE_TICKS = 10;
-
     // Bytes reserved for the vertex buffer (1 << 22 = 4 MB), sized for the largest values the config allows:
-    // 32 arenas x 2 shapes x 128 segments x 8 vertices x 16 bytes = 1 MB, plus 20000 tiles x 8 vertices x 16 bytes = 2.5 MB
+    // 32 arenas x 128 segments x 8 vertices x 16 bytes = 0.5 MB, plus 20000 tiles x 8 vertices x 16 bytes = 2.5 MB
     private static final int BUFFER_SIZE = 1 << 22;
 
     // Vanilla filled-box pipeline: translucent, depth tested (hidden behind blocks)
@@ -121,18 +115,6 @@ public final class ArenaRadiusRenderer {
     // One incremental column scan per enabled arena (feeds the invalid spawn tiles)
     private static final Map<String, ArenaScan> scans = new ConcurrentHashMap<>();
 
-    // Terrain height under each ring segment vertex of one arena (already includes RING_LIFT)
-    private record RingHeights(ResourceKey<Level> dimension, double centerX, double centerZ, int radius, double[] y) {
-        boolean matches(ArenaInfo arena) {
-            return dimension.equals(arena.dimension())
-                    && centerX == arena.x() && centerZ == arena.z() && radius == arena.radius();
-        }
-    }
-
-    // Latest sampled ring heights per arena, and the countdown until the next sampling
-    private static final Map<String, RingHeights> ringHeights = new ConcurrentHashMap<>();
-    private static int ringTicks = 0;
-
     // Result of one finished invalid tile scan: the invalid tiles, how many loaded columns were checked,
     // and how many invalid tiles there are per reason (indexed by SpawnSpot.Spot ordinal)
     private record ScanResult(int[] tiles, int scanned, int[] reasonCounts) {}
@@ -142,13 +124,12 @@ public final class ArenaRadiusRenderer {
 
     // Immutable snapshot of one arena, taken during extraction and used while drawing.
     // invalidTiles holds x, y, z, reason quads (the ground cell and the reason for each invalid column).
-    private record RadiusState(double x, double y, double z, double radius, int wallRgb, int ringRgb,
-                               double[] ringY, int[] invalidTiles) {}
+    private record RadiusState(double x, double y, double z, double radius, int wallRgb, int[] invalidTiles) {}
 
     // Immutable snapshot of the config values the drawing code needs
     private record RenderSettings(
-            boolean showWall, boolean showRing,
-            double wallBelow, double wallAbove, double ringHalfWidth, float wallAlpha, float ringAlpha,
+            boolean showWall,
+            double wallBelow, double wallAbove, float wallAlpha,
             double maxDrawDistance, int maxArenasDrawn,
             float[][] tileColors, double tileDrawDistance, int maxTilesDrawn, double tileInset, double tileLift) {}
 
@@ -164,7 +145,7 @@ public final class ArenaRadiusRenderer {
     private static StagedVertexBuffer stagedBuffer = null;
     // Set once the pipeline error has been logged, so it isn't logged every frame
     private static boolean warnedTopology = false;
-    // Set if floating text throws an error, which turns the labels off (the wall and ring keep working)
+    // Set if floating text throws an error, which turns the labels off (the wall keeps working)
     private static boolean labelsBroken = false;
 
     // Private constructor: this is a static utility class and should never be instantiated
@@ -196,13 +177,14 @@ public final class ArenaRadiusRenderer {
                 rgba(byReason ? cfg.arenaTileLiquidColor : cfg.arenaTileColor, tileAlpha);
         tileColors[SpawnSpot.Spot.BLOCKED.ordinal()] =
                 rgba(byReason ? cfg.arenaTileBlockedColor : cfg.arenaTileColor, tileAlpha);
+        tileColors[SpawnSpot.Spot.TOO_LOW.ordinal()] =
+                rgba(byReason ? cfg.arenaTileLowColor : cfg.arenaTileColor, tileAlpha);
 
-        // Opacity is divided by 100 (0 to 1). Ring width is divided by 200: hundredths of a block become blocks, halved
-        // because the ring extends out on both sides of the circle. Inset and lift are divided by 100
+        // Opacity is divided by 100 (0 to 1). Inset and lift are divided by 100 (hundredths of a block become blocks)
         return new RenderSettings(
-                cfg.arenaShowWall, cfg.arenaShowRing,
-                cfg.arenaWallBelow, cfg.arenaWallAbove, cfg.arenaRingWidth / 200.0,
-                cfg.arenaWallOpacity / 100f, cfg.arenaRingOpacity / 100f,
+                cfg.arenaShowWall,
+                cfg.arenaWallBelow, cfg.arenaWallAbove,
+                cfg.arenaWallOpacity / 100f,
                 cfg.arenaMaxDrawDistance, cfg.arenaMaxArenasDrawn,
                 tileColors, cfg.arenaTileDrawDistance, cfg.arenaMaxTilesDrawn,
                 cfg.arenaTileInset / 100.0, cfg.arenaTileLift / 100.0);
@@ -220,8 +202,6 @@ public final class ArenaRadiusRenderer {
         ClientTickEvents.END_CLIENT_TICK.register(ArenaRadiusRenderer::pollArenaData);
         // Every tick: run a slice of the invalid tile scan
         ClientTickEvents.END_CLIENT_TICK.register(ArenaRadiusRenderer::scanInvalidTiles);
-        // Every tick: resample the terrain height under the ring
-        ClientTickEvents.END_CLIENT_TICK.register(ArenaRadiusRenderer::updateRingHeights);
         // Switch every overlay off when you leave the world
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> clear());
         // Free the GPU buffer when the game closes
@@ -236,10 +216,9 @@ public final class ArenaRadiusRenderer {
     // Switches one arena's overlay (circle, label and invalid spawn tiles) on or off.
     // Other arenas are unaffected.
     public static void toggle(ArenaDataPayload.ArenaEntry arena) {
-        // Already on: switch it off and drop its scan and ring data
+        // Already on: switch it off and drop its scan
         if (enabled.remove(arena.name())) {
             scans.remove(arena.name());
-            ringHeights.remove(arena.name());
             return;
         }
 
@@ -305,7 +284,6 @@ public final class ArenaRadiusRenderer {
     private static void clear() {
         enabled.clear();
         scans.clear();
-        ringHeights.clear();
         known = Map.of();
         frame = null;
         pollTicks = 0;
@@ -319,7 +297,10 @@ public final class ArenaRadiusRenderer {
         // What this scan was built for, so it can be rebuilt if the arena changes
         final ResourceKey<Level> dimension;
         final double centerX;
+        final double centerY;
         final double centerZ;
+        // Mobs only spawn at or above this height (the arena's own height)
+        final int minSpawnY;
         final int radius;
         // Every block column the scan will visit (x and z share the same index)
         final int[] colX;
@@ -342,7 +323,9 @@ public final class ArenaRadiusRenderer {
         ArenaScan(ArenaInfo arena) {
             this.dimension = arena.dimension();
             this.centerX = arena.x();
+            this.centerY = arena.y();
             this.centerZ = arena.z();
+            this.minSpawnY = Mth.floor(arena.y());
             this.radius = arena.radius();
 
             // The square that contains the circle
@@ -385,7 +368,7 @@ public final class ArenaRadiusRenderer {
         // Whether this scan was built for the same arena (same dimension, center and radius)
         boolean matches(ArenaInfo arena) {
             return dimension.equals(arena.dimension())
-                    && centerX == arena.x() && centerZ == arena.z() && radius == arena.radius();
+                    && centerX == arena.x() && centerY == arena.y() && centerZ == arena.z() && radius == arena.radius();
         }
 
         // Checks up to 'budget' columns, then publishes the result once the whole list is done
@@ -414,7 +397,7 @@ public final class ArenaRadiusRenderer {
                 int y = SpawnSpot.surfaceY(level, x, z);
                 pos.set(x, y, z);
                 // Ask the spawn rule if a mob can stand there, and why not if it can't
-                SpawnSpot.Spot spot = SpawnSpot.check(level, pos);
+                SpawnSpot.Spot spot = SpawnSpot.check(level, pos, minSpawnY);
                 // Record invalid columns along with their reason
                 if (spot != SpawnSpot.Spot.VALID) add(x, y, z, spot.ordinal());
             }
@@ -487,57 +470,6 @@ public final class ArenaRadiusRenderer {
         }
     }
 
-    // ── Terrain-following ring ────────────────────────────────────────────────
-
-    // Samples the terrain height under every ring vertex a few times a second
-    private static void updateRingHeights(Minecraft client) {
-        SuccorStadiumsConfig cfg = config();
-        // Option off or nothing to show: clear the ring data
-        if (!cfg.arenaRingFollowsTerrain || !cfg.arenaShowRing || enabled.isEmpty()
-                || client.level == null || client.player == null) {
-            ringHeights.clear();
-            ringTicks = 0;
-            return;
-        }
-        // Only resample every RING_RESAMPLE_TICKS ticks
-        if (ringTicks > 0) {
-            ringTicks--;
-            return;
-        }
-        ringTicks = RING_RESAMPLE_TICKS;
-
-        // Forget arenas that are no longer shown
-        ringHeights.keySet().removeIf(name -> !enabled.contains(name));
-
-        LevelReader level = client.level;
-        ResourceKey<Level> currentDimension = client.level.dimension();
-        for (String name : enabled) {
-            ArenaInfo arena = known.get(name);
-            // Skip arenas that are missing, empty or in another dimension
-            if (arena == null || arena.radius() <= 0 || !arena.dimension().equals(currentDimension)) {
-                ringHeights.remove(name);
-                continue;
-            }
-
-            // Same segment count the drawing uses, so there is one height per ring vertex
-            int segments = segmentsFor(arena.radius());
-            double[] y = new double[segments];
-            for (int i = 0; i < segments; i++) {
-                // Angle of this vertex around the circle
-                double angle = (Math.PI * 2.0) * i / segments;
-                // The block column under this vertex
-                int x = Mth.floor(arena.x() + arena.radius() * Math.cos(angle));
-                int z = Mth.floor(arena.z() + arena.radius() * Math.sin(angle));
-                // Not loaded on the client: fall back to the arena's own height
-                double ground = level.hasChunk(x >> 4, z >> 4) ? SpawnSpot.surfaceY(level, x, z) : arena.y();
-                // Lift the ring slightly above the ground
-                y[i] = ground + RING_LIFT;
-            }
-            // Store the heights together with the arena they belong to
-            ringHeights.put(name, new RingHeights(arena.dimension(), arena.x(), arena.z(), arena.radius(), y));
-        }
-    }
-
     // ── Extraction (read data here, build an immutable state) ─────────────────
 
     // Every frame: reads the current state into an immutable Frame and submits the floating labels
@@ -554,9 +486,8 @@ public final class ArenaRadiusRenderer {
         // Squared distances are compared, so no square root is needed
         Vec3 playerPos = client.player.position();
         double labelRangeSqr = (double) cfg.arenaLabelRange * cfg.arenaLabelRange;
-        // Wall and ring colors without any alpha bits
+        // Wall color without any alpha bits
         int wallRgb = cfg.arenaWallColor & 0xFFFFFF;
-        int ringRgb = cfg.arenaRingColor & 0xFFFFFF;
 
         // The arena snapshots for this frame
         List<RadiusState> next = new ArrayList<>();
@@ -570,13 +501,9 @@ public final class ArenaRadiusRenderer {
             ArenaScan scan = cfg.arenaShowInvalidTiles ? scans.get(name) : null;
             ScanResult result = scan == null ? null : scan.published; // null until the first pass has finished
 
-            // Ring heights, used only if they still match this arena (otherwise the ring is drawn flat)
-            RingHeights ring = cfg.arenaRingFollowsTerrain ? ringHeights.get(name) : null;
-            double[] ringY = ring != null && ring.matches(arena) ? ring.y() : null;
-
             // Snapshot of this arena for drawing
-            next.add(new RadiusState(arena.x(), arena.y(), arena.z(), arena.radius(), wallRgb, ringRgb,
-                    ringY, result == null ? NO_TILES : result.tiles()));
+            next.add(new RadiusState(arena.x(), arena.y(), arena.z(), arena.radius(), wallRgb,
+                    result == null ? NO_TILES : result.tiles()));
 
             // Submit the floating label if it's on and the player is close enough
             if (cfg.arenaShowLabel && playerPos.distanceToSqr(arena.x(), arena.y(), arena.z()) <= labelRangeSqr) {
@@ -627,6 +554,7 @@ public final class ArenaRadiusRenderer {
                 int invalidColor = argb(cfg.arenaInvalidLineColor);
                 int blockedColor = argb(cfg.arenaBlockedLineColor);
                 int liquidColor = argb(cfg.arenaLiquidLineColor);
+                int lowColor = argb(cfg.arenaLowLineColor);
                 int validColor = argb(cfg.arenaValidLineColor);
 
                 // Too big to scan
@@ -643,10 +571,12 @@ public final class ArenaRadiusRenderer {
                     int noGround = scan.reasonCounts()[SpawnSpot.Spot.NO_GROUND.ordinal()];
                     int blocked = scan.reasonCounts()[SpawnSpot.Spot.BLOCKED.ordinal()];
                     int liquid = scan.reasonCounts()[SpawnSpot.Spot.LIQUID.ordinal()];
+                    int low = scan.reasonCounts()[SpawnSpot.Spot.TOO_LOW.ordinal()];
                     // Add a piece for each reason that has tiles
                     if (noGround > 0) counts.add(new Seg("Invalid Tiles: " + noGround, invalidColor));
                     if (blocked > 0) counts.add(new Seg("Blocked Tiles: " + blocked, blockedColor));
                     if (liquid > 0) counts.add(new Seg("Liquid Tiles: " + liquid, liquidColor));
+                    if (low > 0) counts.add(new Seg("Low Tiles: " + low, lowColor));
 
                     // Nothing is invalid at all
                     if (counts.isEmpty()) lines.add(line("No invalid tiles", validColor));
@@ -655,7 +585,16 @@ public final class ArenaRadiusRenderer {
 
                 // The valid spawn area line
                 if (cfg.arenaShowValidPercent && arena.radius() <= cfg.arenaMaxScanRadius) {
-                    String percent = getPercent(scan);
+                    String percent;
+                    if (scan == null) percent = "scanning...";
+                        // Nothing was checked (no loaded chunks)
+                    else if (scan.scanned() == 0) percent = "no loaded chunks";
+                    else {
+                        // Invalid tiles = array length / 4, since each tile is 4 ints
+                        int invalid = scan.tiles().length / TILE_STRIDE;
+                        // Share of the checked columns that are valid, with one decimal ('%%' prints a literal percent sign)
+                        percent = String.format(Locale.ROOT, "%.1f%%", (scan.scanned() - invalid) * 100.0 / scan.scanned());
+                    }
                     lines.add(line("Valid spawn area: " + percent, validColor));
                 }
             }
@@ -676,27 +615,13 @@ public final class ArenaRadiusRenderer {
         }
     }
 
-    private static @NonNull String getPercent(ScanResult scan) {
-        String percent;
-        if (scan == null) percent = "scanning...";
-            // Nothing was checked (no loaded chunks)
-        else if (scan.scanned() == 0) percent = "no loaded chunks";
-        else {
-            // Invalid tiles = array length / 4, since each tile is 4 ints
-            int invalid = scan.tiles().length / TILE_STRIDE;
-            // Share of the checked columns that are valid, with one decimal ('%%' prints a literal percent sign)
-            percent = String.format(Locale.ROOT, "%.1f%%", (scan.scanned() - invalid) * 100.0 / scan.scanned());
-        }
-        return percent;
-    }
-
     // Draws a line centered on (x, z). A line of several pieces is laid out left to right across the screen
     // (perpendicular to where the player looks), with the whole line centered.
     private static void textLine(Line line, double x, double y, double z, float scale) {
         List<Seg> segs = line.segs();
         // A single piece: draw it directly
         if (segs.size() == 1) {
-            text(segs.getFirst().text(), x, y, z, segs.getFirst().argb(), scale);
+            text(segs.get(0).text(), x, y, z, segs.get(0).argb(), scale);
             return;
         }
 
@@ -808,7 +733,7 @@ public final class ArenaRadiusRenderer {
         // Tile budget shared by all arenas
         int tilesLeft = set.maxTilesDrawn();
         for (RadiusState a : drawList) {
-            // Wall and ring first, then the invalid tiles with whatever tile budget is left
+            // Wall first, then the invalid tiles with whatever tile budget is left
             buildGeometry(builder, matrix, a, set);
             tilesLeft -= buildInvalidTiles(builder, matrix, a.invalidTiles(), camera, tilesLeft, set);
         }
@@ -858,26 +783,20 @@ public final class ArenaRadiusRenderer {
         stagedBuffer.endFrame();
     }
 
-    // Writes the wall and ring of one arena into the buffer
+    // Writes the wall of one arena into the buffer
     private static void buildGeometry(VertexConsumer b, Matrix4fc m, RadiusState a, RenderSettings set) {
         // Bottom and top height of the wall
         double yBottom = a.y() - set.wallBelow();
         double yTop = a.y() + set.wallAbove();
 
-        // Wall and ring colors, each with its own opacity
+        // Wall color with its opacity
         float[] wallColor = rgba(a.wallRgb(), set.wallAlpha());
-        float[] ringColor = rgba(a.ringRgb(), set.ringAlpha());
 
-        // Segment count shared by the wall and ring
+        // Segment count of the wall
         int segments = segmentsFor(a.radius());
         // Wall
         if (set.showWall()) {
             wall(b, m, a.x(), a.z(), a.radius(), yBottom, yTop, segments, wallColor);
-        }
-        // Ring (flat at the arena height, or following the ring heights if there are any)
-        if (set.showRing()) {
-            flatRing(b, m, a.x(), a.y() + RING_LIFT, a.z(), a.radius(), set.ringHalfWidth(), segments, ringColor,
-                    a.ringY());
         }
     }
 
@@ -951,34 +870,6 @@ public final class ArenaRadiusRenderer {
                     x1, yBottom, z1,
                     x1, yTop, z1,
                     x0, yTop, z0);
-        }
-    }
-
-    // Ring strip. Flat at height y, or following the terrain when ys (one height per segment vertex) is given.
-    private static void flatRing(VertexConsumer b, Matrix4fc m, double cx, double y, double cz,
-                                 double radius, double halfWidth, int segments, float[] color, double[] ys) {
-        // Wrong number of heights: draw flat instead
-        if (ys != null && ys.length != segments) ys = null;
-        // Inner and outer edge of the ring (the inner edge can't go below the center)
-        double inner = Math.max(0.0, radius - halfWidth);
-        double outer = radius + halfWidth;
-        // One quad per segment
-        for (int i = 0; i < segments; i++) {
-            double a0 = (Math.PI * 2.0) * i / segments;
-            double a1 = (Math.PI * 2.0) * (i + 1) / segments;
-            // Cosine and sine of the start and end angles
-            double c0 = Math.cos(a0), s0 = Math.sin(a0);
-            double c1 = Math.cos(a1), s1 = Math.sin(a1);
-            // Heights at the start and end of the segment (the last segment wraps back to the first)
-            double y0 = ys == null ? y : ys[i];
-            double y1 = ys == null ? y : ys[(i + 1) % segments];
-
-            // Quad between the inner and outer edge
-            doubleSidedQuad(b, m, color,
-                    cx + inner * c0, y0, cz + inner * s0,
-                    cx + outer * c0, y0, cz + outer * s0,
-                    cx + outer * c1, y1, cz + outer * s1,
-                    cx + inner * c1, y1, cz + inner * s1);
         }
     }
 

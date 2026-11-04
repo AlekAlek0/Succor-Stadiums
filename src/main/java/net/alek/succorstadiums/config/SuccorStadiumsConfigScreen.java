@@ -109,11 +109,6 @@ public class SuccorStadiumsConfigScreen {
                 CONFIG.arenaShowWall, DEFAULTS.arenaShowWall,
                 value -> CONFIG.arenaShowWall = value);
 
-        addToggle(arenaRendering, entries, "Show Ground Ring",
-                "The thin ring on the ground at the arena edge.",
-                CONFIG.arenaShowRing, DEFAULTS.arenaShowRing,
-                value -> CONFIG.arenaShowRing = value);
-
         addToggle(arenaRendering, entries, "Show Floating Label",
                 "Name, radius and coordinates floating above the arena center.",
                 CONFIG.arenaShowLabel, DEFAULTS.arenaShowLabel,
@@ -138,22 +133,11 @@ public class SuccorStadiumsConfigScreen {
                 CONFIG.arenaWallColor, DEFAULTS.arenaWallColor,
                 value -> CONFIG.arenaWallColor = value);
 
-        addColor(arenaRendering, entries, "Ring Color",
-                "Color of the ground ring.",
-                CONFIG.arenaRingColor, DEFAULTS.arenaRingColor,
-                value -> CONFIG.arenaRingColor = value);
-
         addSlider(arenaRendering, entries, "Wall Opacity",
                 "How visible the wall is at the bottom. It fades out toward the top.",
                 CONFIG.arenaWallOpacity, DEFAULTS.arenaWallOpacity, SuccorStadiumsConfig.ARENA_OPACITY,
                 value -> value + "%",
                 value -> CONFIG.arenaWallOpacity = value);
-
-        addSlider(arenaRendering, entries, "Ring Opacity",
-                "How visible the ground ring is.",
-                CONFIG.arenaRingOpacity, DEFAULTS.arenaRingOpacity, SuccorStadiumsConfig.ARENA_OPACITY,
-                value -> value + "%",
-                value -> CONFIG.arenaRingOpacity = value);
 
         addSlider(arenaRendering, entries, "Wall Depth Below Center",
                 "How far the wall reaches below the arena center.",
@@ -166,17 +150,6 @@ public class SuccorStadiumsConfigScreen {
                 CONFIG.arenaWallAbove, DEFAULTS.arenaWallAbove, SuccorStadiumsConfig.ARENA_WALL_ABOVE,
                 value -> value + " blocks",
                 value -> CONFIG.arenaWallAbove = value);
-
-        addSlider(arenaRendering, entries, "Ring Width",
-                "Width of the ground ring.",
-                CONFIG.arenaRingWidth, DEFAULTS.arenaRingWidth, SuccorStadiumsConfig.ARENA_RING_WIDTH,
-                SuccorStadiumsConfigScreen::hundredthsOfBlocks,
-                value -> CONFIG.arenaRingWidth = value);
-
-        addToggle(arenaRendering, entries, "Ring Follows Terrain",
-                "The ground ring rises and falls with the terrain instead of staying at the arena center height.",
-                CONFIG.arenaRingFollowsTerrain, DEFAULTS.arenaRingFollowsTerrain,
-                value -> CONFIG.arenaRingFollowsTerrain = value);
 
         // Create header for floating label config options
         addHeader(arenaRendering, entries, "Floating Label");
@@ -211,6 +184,11 @@ public class SuccorStadiumsConfigScreen {
                 "Color of the \"Liquid Tiles\" line. Defaults to the Liquid Tile Color.",
                 CONFIG.arenaLiquidLineColor, DEFAULTS.arenaLiquidLineColor,
                 value -> CONFIG.arenaLiquidLineColor = value);
+
+        addColor(arenaRendering, entries, "Low Tiles Line Color",
+                "Color of the \"Low Tiles\" line (blocks below the arena's height). Defaults to the Low Tile Color.",
+                CONFIG.arenaLowLineColor, DEFAULTS.arenaLowLineColor,
+                value -> CONFIG.arenaLowLineColor = value);
 
         addColor(arenaRendering, entries, "Valid Area Line Color",
                 "Color of the \"Valid spawn area\" line.",
@@ -269,6 +247,11 @@ public class SuccorStadiumsConfigScreen {
                 "Mobs can't stand here because a block is in the way (a ceiling, leaves, ...).",
                 CONFIG.arenaTileBlockedColor, DEFAULTS.arenaTileBlockedColor,
                 value -> CONFIG.arenaTileBlockedColor = value);
+
+        addColor(arenaRendering, entries, "Low Tile Color",
+                "Mobs can't spawn here because it is below the arena's height.",
+                CONFIG.arenaTileLowColor, DEFAULTS.arenaTileLowColor,
+                value -> CONFIG.arenaTileLowColor = value);
 
         addSlider(arenaRendering, entries, "Tile Opacity",
                 "How visible the invalid spawn tiles are.",
@@ -426,14 +409,14 @@ public class SuccorStadiumsConfigScreen {
         return text != null && text.trim().matches("#?[0-9A-Fa-f]{6}");
     }
 
-    // Helper method to trim the string and remove the # and converts the 6 digits from base 16 to a number
+    // Helper method to parse a string of hex to integers
     private static int parseHex(String text) {
         String digits = text.trim();
         if (digits.startsWith("#")) digits = digits.substring(1);
         return Integer.parseInt(digits, 16) & 0xFFFFFF;
     }
 
-    // Helper method that divides a passed value by 100 and prints 2 decimals
+    // Helper method to get hundredths of blocks from a passed value
     private static String hundredthsOfBlocks(int value) {
         return String.format(Locale.ROOT, "%.2f blocks", value / 100.0);
     }

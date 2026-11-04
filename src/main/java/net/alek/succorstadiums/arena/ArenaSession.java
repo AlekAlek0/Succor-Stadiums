@@ -475,46 +475,54 @@ public class ArenaSession {
         ArenaSessionManager.stopSession(arena.getName());
     }
 
+    // How many random positions to try before falling back to the arena center column
+    private static final int SPAWN_ATTEMPTS = 40;
+
+    // Picks a random spawn position inside the radius. Only positions the radius overlay doesn't mark as invalid are
+    // used: the surface of the column has to be a valid standing spot (SpawnSpot) at or above the arena's height.
+    // If a random column isn't valid, another one is tried instead of searching up and down for a spot in it.
     private Vec3 randomPositionInRadius() {
-        double angle = level.getRandom().nextDouble() * 2 * Math.PI;
-        double actualRadius = arena.getRadius();
-        double distance = Math.sqrt(level.getRandom().nextDouble()) * actualRadius;
-        double x = arena.getCenterX() + distance * Math.cos(angle);
-        double z = arena.getCenterZ() + distance * Math.sin(angle);
+        // Mobs never spawn below the arena's own height
+        int minSpawnY = Mth.floor(arena.getCenterY());
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
-        int blockX = Mth.floor(x);
-        int blockZ = Mth.floor(z);
+        for (int attempt = 0; attempt < SPAWN_ATTEMPTS; attempt++) {
+            double angle = level.getRandom().nextDouble() * 2 * Math.PI;
+            double actualRadius = arena.getRadius();
+            double distance = Math.sqrt(level.getRandom().nextDouble()) * actualRadius;
+            double x = arena.getCenterX() + distance * Math.cos(angle);
+            double z = arena.getCenterZ() + distance * Math.sin(angle);
 
-        level.getChunk(blockX >> 4, blockZ >> 4);
+            int blockX = Mth.floor(x);
+            int blockZ = Mth.floor(z);
 
-        int heightmapY = SpawnSpot.surfaceY(level, blockX, blockZ);
+            // Make sure the chunk is loaded
+            level.getChunk(blockX >> 4, blockZ >> 4);
 
-        int surfaceY = findValidSpawnY(blockX, heightmapY, blockZ);
+            // The first cell above the highest block of the column, the same cell the overlay checks
+            int surfaceY = SpawnSpot.surfaceY(level, blockX, blockZ);
+            pos.set(blockX, surfaceY, blockZ);
+            if (SpawnSpot.isValidStandingSpot(level, pos, minSpawnY)) return new Vec3(x, surfaceY, z);
+        }
 
-        return new Vec3(x, surfaceY, z);
+        // No valid position found: use the arena center column
+        double centerX = arena.getCenterX();
+        double centerZ = arena.getCenterZ();
+        return new Vec3(centerX, findValidSpawnY(Mth.floor(centerX), Mth.floor(centerZ), minSpawnY), centerZ);
     }
 
-    private int findValidSpawnY(int x, int startY, int z) {
-        int minY = level.getMinY();
+    // Last resort: the first valid standing spot at or above minSpawnY in the column at x, z
+    // (minSpawnY itself if there is none)
+    private int findValidSpawnY(int x, int z, int minSpawnY) {
         int maxY = level.getMaxY();
-        startY = Math.clamp(startY, minY, maxY);
+        int startY = Math.clamp(minSpawnY, level.getMinY(), maxY);
 
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(x, startY, z);
-
-        for (int y = startY; y >= minY; y--) {
-            pos.setY(y);
-            if (isValidStandingSpot(pos)) return y;
-        }
         for (int y = startY; y <= maxY - 1; y++) {
             pos.setY(y);
-            if (isValidStandingSpot(pos)) return y;
+            if (SpawnSpot.isValidStandingSpot(level, pos, minSpawnY)) return y;
         }
         return startY;
-    }
-
-    // Shared with the client-side invalid spawn indicator (see SpawnSpot) so both always use the same rule
-    private boolean isValidStandingSpot(BlockPos.MutableBlockPos pos) {
-        return SpawnSpot.isValidStandingSpot(level, pos);
     }
 
     // Accessor methods to get arena, arena state, and if a player is in the arena

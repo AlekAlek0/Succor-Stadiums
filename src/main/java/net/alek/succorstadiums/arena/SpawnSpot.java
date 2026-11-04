@@ -23,13 +23,26 @@ public final class SpawnSpot {
         VALID,
         NO_GROUND,  // the block below is not a full solid block (air, slab, fence, ...)
         LIQUID,     // there is water or lava below or in the cell
-        BLOCKED     // the cell or the cell above it is a full solid block (ceiling, leaves, ...)
+        BLOCKED,    // the cell or the cell above it is a full solid block (ceiling, leaves, ...)
+        TOO_LOW     // a mob could stand here, but the spot is below the arena's height
     }
 
     // A mob can stand at pos when the block below is a full solid block and the cell it stands in
     // and the cell above it are not full solid blocks.
     public static boolean isValidStandingSpot(BlockGetter level, BlockPos pos) {
         return check(level, pos) == Spot.VALID;
+    }
+
+    // Same as isValidStandingSpot, but a spot also has to be at or above minY (the arena's height),
+    // so mobs never spawn below the arena
+    public static boolean isValidStandingSpot(BlockGetter level, BlockPos pos, int minY) {
+        return check(level, pos, minY) == Spot.VALID;
+    }
+
+    // Same as check, but a spot that would be valid and is below minY is reported as TOO_LOW
+    public static Spot check(BlockGetter level, BlockPos pos, int minY) {
+        Spot spot = check(level, pos);
+        return spot == Spot.VALID && pos.getY() < minY ? Spot.TOO_LOW : spot;
     }
 
     // Same rule as isValidStandingSpot, but says which part of it failed
