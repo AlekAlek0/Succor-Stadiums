@@ -11,7 +11,7 @@ import java.util.List;
 
 import net.alek.succorstadiums.SuccorStadiums;
 
-// CustomPacketPayload message that the client sends to the server to create, edit,
+// The message that the client sends to the server to create, edit,
 // start or stop arenas and to change their waves and mobs
 public record ArenaActionPayload(Action action, String arenaName, String newName,
                                  int waveNumber, String mobType,
@@ -22,7 +22,7 @@ public record ArenaActionPayload(Action action, String arenaName, String newName
                                  int width, int length, int delay,
                                  List<String> playerNames) implements CustomPacketPayload {
 
-    // Create an enum for the action of what the arena payload is doing
+    // Enum listing every action the arena payload can request
     public enum Action {
         REQUEST_DATA, REQUEST_GUI,
         SET_ARENA_GROUP, CREATE_ARENA,
@@ -38,7 +38,7 @@ public record ArenaActionPayload(Action action, String arenaName, String newName
     public static final CustomPacketPayload.Type<ArenaActionPayload> TYPE =
             new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "arena_action"));
 
-    // Defines how to write the payload to bytes and read it back both halves must use the same field order
+    // Defines how to write the payload to bytes and read it back; both halves must use the same field order
     public static final StreamCodec<FriendlyByteBuf, ArenaActionPayload> CODEC = StreamCodec.of(
             (buf, p) -> {
 
@@ -57,7 +57,7 @@ public record ArenaActionPayload(Action action, String arenaName, String newName
                     buf.writeInt(p.size());
                 }
 
-                // Write the rest of the data a null string cant be written so it is sent as an empty string instead
+                // Write the rest of the data; a null string cant be written so it is sent as an empty string instead
                 buf.writeUtf(p.ridingMob() == null ? "" : p.ridingMob());
                 buf.writeUtf(p.mainHandItem() == null ? "" : p.mainHandItem());
                 buf.writeUtf(p.offHandItem() == null ? "" : p.offHandItem());
@@ -117,7 +117,7 @@ public record ArenaActionPayload(Action action, String arenaName, String newName
         return TYPE;
     }
 
-    // Shortcuts for building the payload; fields an action doesn't need are filled with empty value
+    // Shortcuts for building the payload; fields an action doesn't need are filled with empty values
     public static ArenaActionPayload requestData() {
         return new ArenaActionPayload(Action.REQUEST_DATA, "", "", 0, "", 0, null, "", "", "", List.of(), "", "", 0, 0, 0, 0, 0, 0, List.of());
     }
