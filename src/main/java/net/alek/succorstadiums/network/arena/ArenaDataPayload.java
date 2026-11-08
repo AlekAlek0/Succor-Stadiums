@@ -200,11 +200,10 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                             String offHandItem = buf.readUtf();
                             List<String> armorItems = buf.readCollection(ArrayList::new, FriendlyByteBuf::readUtf);
                             String potionEffects = buf.readUtf();
-                            String enchantments = buf.readUtf();
+                            String enchantments = buf.readUtf();p
 
-                            // Add the mob entry to the arena
-                            mobs.add(new MobEntry(
-                                    mobType, count, size,
+                            // Add the mob entry, turning empty strings back into null
+                            mobs.add(new MobEntry(mobType, count, size,
                                     ridingMob.isEmpty() ? null : ridingMob,
                                     mainHandItem.isEmpty() ? null : mainHandItem,
                                     offHandItem.isEmpty() ? null : offHandItem,
@@ -231,17 +230,25 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
     }
 
     // Converts a server-side RewardItem into its network representation
+    // The advancement id is only included when the reward is an advancement
     public static RewardEntry toRewardEntry(RewardItem r) {
         return new RewardEntry(
                 r.getItemId(), r.getCount(), r.isXp(), r.isXpLevels(),
                 r.isAdvancement() ? r.getAdvancementId() : null);
     }
 
+    // Builds the payload from the server's live arena data (called by the packet handler's sendData)
     public static ArenaDataPayload fromServer() {
         List<ArenaEntry> entries = new ArrayList<>();
+
+        // Copy every saved MobArena into a read-only ArenaEntry for the client
         for (MobArena arena : MobArenaManager.getAllArenas()) {
             List<WaveEntry> waves = new ArrayList<>();
+
+            // Convert each wave into a WaveEntry, with its mobs and rewards
             arena.getWaves().forEach(wave -> {
+
+                // Convert each mob (a null armor list becomes an empty list so the codec never sees null)
                 List<MobEntry> mobs = new ArrayList<>();
                 wave.getMobs().forEach(mob -> mobs.add(new MobEntry(
                         mob.getMobType(), mob.getCount(), mob.getSize(),
@@ -250,6 +257,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                         mob.getPotionEffects(), mob.getEnchantments()
                 )));
 
+                // Convert the wave's rewards
                 List<RewardEntry> waveRewards = wave.getRewards().stream()
                         .map(ArenaDataPayload::toRewardEntry)
                         .collect(Collectors.toList());
@@ -257,6 +265,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                 waves.add(new WaveEntry(wave.getWaveNumber(), wave.getName(), wave.getDelaySeconds(), waveRewards, mobs));
             });
 
+            // Convert the arena rewards and participation rewards
             List<RewardEntry> arenaRewards = arena.getRewards().stream()
                     .map(ArenaDataPayload::toRewardEntry)
                     .collect(Collectors.toList());
@@ -264,6 +273,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                     .map(ArenaDataPayload::toRewardEntry)
                     .collect(Collectors.toList());
 
+            // Build the ArenaEntry; the running flag comes from ArenaSessionManager
             entries.add(new ArenaEntry(
                     arena.getName(), arena.getCenterX(), arena.getCenterY(), arena.getCenterZ(),
                     arena.getWidth(), arena.getLength(), arena.getDelayBetweenWaves(),
@@ -271,6 +281,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                     arenaRewards, arenaParticipationRewards, waves, arena.getDimension()
             ));
         }
+        // Reverse the order the arenas are sent in
         Collections.reverse(entries);
         return new ArenaDataPayload(entries);
     }
