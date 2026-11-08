@@ -183,7 +183,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                             String offHandItem = buf.readUtf();
                             List<String> armorItems = buf.readCollection(ArrayList::new, FriendlyByteBuf::readUtf);
                             String potionEffects = buf.readUtf();
-                            String enchantments = buf.readUtf();p
+                            String enchantments = buf.readUtf();
 
                             // Add the mob entry, turning empty strings back into null
                             mobs.add(new MobEntry(mobType, count, size,
