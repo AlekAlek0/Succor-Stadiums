@@ -32,14 +32,6 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
 
         public static final String DEFAULT_DIMENSION = "minecraft:overworld";
 
-        // Convenience constructor so call sites that predate the dimension field keep compiling (assumes the Overworld)
-        public ArenaEntry(
-                String name, double x, double y, double z,
-                int width, int length, int delaySeconds, boolean running, String group,
-                List<RewardEntry> rewards, List<RewardEntry> participationRewards, List<WaveEntry> waves) {
-            this(name, x, y, z, width, length, delaySeconds, running, group, rewards, participationRewards, waves, DEFAULT_DIMENSION);
-        }
-
         // Never null/blank, so the client can always resolve a dimension
         public ArenaEntry {
             if (dimension == null || dimension.isBlank()) dimension = DEFAULT_DIMENSION;
@@ -56,15 +48,6 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
 
     // advancementId == null means this is not an advancement reward (it's an item or XP reward)
     public record RewardEntry(String itemId, int count, boolean xp, boolean levels, String advancementId) {
-
-        // Convenience constructor for item/XP rewards, so existing call sites keep compiling
-        public RewardEntry(String itemId, int count, boolean xp, boolean levels) {
-            this(itemId, count, xp, levels, null);
-        }
-
-        public static RewardEntry ofAdvancement(String advancementId) {
-            return new RewardEntry(null, 1, false, false, advancementId);
-        }
 
         public boolean isAdvancement() {
             return advancementId != null;
