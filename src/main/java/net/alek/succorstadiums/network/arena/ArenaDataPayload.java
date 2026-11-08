@@ -19,12 +19,13 @@ import java.util.*;
 // ArenaDataPayload
 public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketPayload {
 
+    // Create the packet type for the arena action payload identified as succorstadiums:arena_data
     public static final CustomPacketPayload.Type<ArenaDataPayload> TYPE =
             new CustomPacketPayload.Type<>(Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, "arena_data"));
 
     public record ArenaEntry(
             String name, double x, double y, double z,
-            int radius, int delaySeconds, boolean running, String group,
+            int width, int length, int delaySeconds, boolean running, String group,
             List<RewardEntry> rewards, List<RewardEntry> participationRewards, List<WaveEntry> waves,
             String dimension
     ) {
@@ -34,9 +35,9 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
         // Convenience constructor so call sites that predate the dimension field keep compiling (assumes the Overworld)
         public ArenaEntry(
                 String name, double x, double y, double z,
-                int radius, int delaySeconds, boolean running, String group,
+                int width, int length, int delaySeconds, boolean running, String group,
                 List<RewardEntry> rewards, List<RewardEntry> participationRewards, List<WaveEntry> waves) {
-            this(name, x, y, z, radius, delaySeconds, running, group, rewards, participationRewards, waves, DEFAULT_DIMENSION);
+            this(name, x, y, z, width, length, delaySeconds, running, group, rewards, participationRewards, waves, DEFAULT_DIMENSION);
         }
 
         // Never null/blank, so the client can always resolve a dimension
@@ -70,7 +71,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
         }
     }
 
-    // Shared with ArenaSetRewardsPayload so both payloads always use the same reward wire format
+    // Helper method to write a list of rewards to the packet buffer: first the count, then each reward's fields
     public static void writeRewards(FriendlyByteBuf buf, List<RewardEntry> rewards) {
         buf.writeInt(rewards.size());
         for (RewardEntry r : rewards) {
@@ -82,6 +83,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
         }
     }
 
+    // Helper method to read a list of rewards from the packet buffer in the same order they were written
     public static List<RewardEntry> readRewards(FriendlyByteBuf buf) {
         int count = buf.readInt();
         List<RewardEntry> rewards = new ArrayList<>();
@@ -98,34 +100,46 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
         return rewards;
     }
 
+    // Defines how to write the payload to bytes and read it back; both halves must use the same field order
     public static final StreamCodec<FriendlyByteBuf, ArenaDataPayload> CODEC = StreamCodec.of(
             (buf, payload) -> {
+
+                // Write the number of arenas first so the reader knows how many to read, then write each arena
                 buf.writeInt(payload.arenas().size());
                 for (ArenaEntry arena : payload.arenas()) {
+
+                    // Write the arena's name, position, size, delay, running state, group (null sent as "") and dimension
                     buf.writeUtf(arena.name());
                     buf.writeDouble(arena.x());
                     buf.writeDouble(arena.y());
                     buf.writeDouble(arena.z());
-                    buf.writeInt(arena.radius());
+                    buf.writeInt(arena.width());
+                    buf.writeInt(arena.length());
                     buf.writeInt(arena.delaySeconds());
                     buf.writeBoolean(arena.running());
                     buf.writeUtf(arena.group() == null ? "" : arena.group());
                     buf.writeUtf(arena.dimension());
 
+                    // Write the arena rewards and participation rewards
                     writeRewards(buf, arena.rewards());
                     writeRewards(buf, arena.participationRewards());
 
+                    // Write how many waves are in the list and loop that many times
                     buf.writeInt(arena.waves().size());
                     for (WaveEntry wave : arena.waves()) {
+
+                        // Write each wave's number, name (null sent as ""), optional delay and rewards
                         buf.writeInt(wave.waveNumber());
                         buf.writeUtf(wave.name() == null ? "" : wave.name());
                         buf.writeBoolean(wave.delaySeconds() != null);
                         if (wave.delaySeconds() != null) buf.writeInt(wave.delaySeconds());
-
                         writeRewards(buf, wave.rewards());
 
+                        // Write how many mobs are in the list and loop that many times
                         buf.writeInt(wave.mobs().size());
                         for (MobEntry mob : wave.mobs()) {
+
+                            // Write the mobs type, count, optional size, riding mob, held items, armor, effects and enchantments
                             buf.writeUtf(mob.mobType());
                             buf.writeInt(mob.count());
                             buf.writeBoolean(mob.size() != null);
@@ -141,32 +155,42 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                 }
             },
             buf -> {
+
+                // Read the arena count and loop that many times
                 int arenaCount = buf.readInt();
                 List<ArenaEntry> arenas = new ArrayList<>();
                 for (int i = 0; i < arenaCount; i++) {
+
+                    // Read the arena's name, position, size, delay, running state, group (null sent as "") and dimension
                     String name = buf.readUtf();
                     double x = buf.readDouble(), y = buf.readDouble(), z = buf.readDouble();
-                    int radius = buf.readInt(), delay = buf.readInt();
+                    int width = buf.readInt(), length = buf.readInt(), delay = buf.readInt();
                     boolean running = buf.readBoolean();
                     String group = buf.readUtf();
                     String dimension = buf.readUtf();
 
+                    // Read the arena rewards and participation rewards
                     List<RewardEntry> arenaRewards = readRewards(buf);
                     List<RewardEntry> arenaParticipationRewards = readRewards(buf);
 
+                    // Read how many waves are in the list and loop that many times
                     int waveCount = buf.readInt();
                     List<WaveEntry> waves = new ArrayList<>();
                     for (int w = 0; w < waveCount; w++) {
+
+                        // Read each wave's number, name (null sent as ""), optional delay and rewards
                         int waveNum = buf.readInt();
                         String waveName = buf.readUtf();
                         Integer waveDelay = null;
                         if (buf.readBoolean()) waveDelay = buf.readInt();
-
                         List<RewardEntry> waveRewards = readRewards(buf);
 
+                        // Read how many mobs are in the list and loop that many times
                         int mobCount = buf.readInt();
                         List<MobEntry> mobs = new ArrayList<>();
                         for (int m = 0; m < mobCount; m++) {
+
+                            // Read the mobs type, count, optional size, riding mob, held items, armor, effects and enchantments
                             String mobType = buf.readUtf();
                             int count = buf.readInt();
                             Integer size = null;
@@ -178,6 +202,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                             String potionEffects = buf.readUtf();
                             String enchantments = buf.readUtf();
 
+                            // Add the mob entry to the arena
                             mobs.add(new MobEntry(
                                     mobType, count, size,
                                     ridingMob.isEmpty() ? null : ridingMob,
@@ -188,15 +213,18 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
                                     enchantments.isEmpty() ? null : enchantments
                             ));
                         }
+                        // Add the wave entry to the arena
                         waves.add(new WaveEntry(waveNum, waveName.isEmpty() ? null : waveName, waveDelay, waveRewards, mobs));
                     }
-                    arenas.add(new ArenaEntry(name, x, y, z, radius, delay, running,
+                    // Add the arena entry
+                    arenas.add(new ArenaEntry(name, x, y, z, width, length, delay, running,
                             group.isEmpty() ? null : group, arenaRewards, arenaParticipationRewards, waves, dimension));
                 }
                 return new ArenaDataPayload(arenas);
             }
     );
 
+    // Override the type which tells minecraft which identifier to attach when this payload is sent
     @Override
     public CustomPacketPayload.@NonNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
@@ -238,7 +266,7 @@ public record ArenaDataPayload(List<ArenaEntry> arenas) implements CustomPacketP
 
             entries.add(new ArenaEntry(
                     arena.getName(), arena.getCenterX(), arena.getCenterY(), arena.getCenterZ(),
-                    arena.getRadius(), arena.getDelayBetweenWaves(),
+                    arena.getWidth(), arena.getLength(), arena.getDelayBetweenWaves(),
                     ArenaSessionManager.isRunning(arena.getName()), arena.getGroup(),
                     arenaRewards, arenaParticipationRewards, waves, arena.getDimension()
             ));
