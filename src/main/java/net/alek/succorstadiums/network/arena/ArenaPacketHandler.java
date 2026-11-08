@@ -99,7 +99,7 @@ public class ArenaPacketHandler {
                 sendData(player);
             }
             case CREATE_ARENA -> {
-                MobArenaManager.createArena(p.arenaName(), p.x(), p.y(), p.z(), p.radius(), p.delay());
+                MobArenaManager.createArena(p.arenaName(), p.x(), p.y(), p.z(), p.width(), p.length(), p.delay());
                 sendData(player);
             }
             case REMOVE_ARENA -> {
@@ -121,7 +121,7 @@ public class ArenaPacketHandler {
                     }
                     if (arena != null) {
                         arena.setCenter(p.x(), p.y(), p.z());
-                        arena.setRadius(p.radius());
+                        arena.setSize(p.width(), p.length());
                         arena.setDelayBetweenWaves(p.delay());
                         MobArenaManager.save();
                     }
