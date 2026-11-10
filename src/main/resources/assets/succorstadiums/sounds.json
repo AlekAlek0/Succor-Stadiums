@@ -17,6 +17,9 @@
   "razor_thorn_hit": {
     "sounds": ["succorstadiums:razor_thorn_hit"]
   },
+  "rosebound_tome_use": {
+    "sounds": ["succorstadiums:rosebound_tome_use"]
+  },
   "arachno_carapace_armor_equip": {
     "sounds": ["succorstadiums:arachno_carapace_armor_equip"]
   }

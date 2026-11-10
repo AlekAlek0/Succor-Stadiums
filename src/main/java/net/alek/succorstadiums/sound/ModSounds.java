@@ -15,6 +15,7 @@ public class ModSounds {
     public static final SoundEvent GREAT_SWORD_OF_THE_FOREST_USE = registerSound("great_sword_of_the_forest_use");
     public static final SoundEvent RAZOR_THORN_USE = registerSound("razor_thorn_use");
     public static final SoundEvent RAZOR_THORN_HIT = registerSound("razor_thorn_hit");
+    public static final SoundEvent ROSEBOUND_TOME_USE = registerSound("rosebound_tome_use");
 
     public static final SoundEvent ARACHNO_CARAPACE_ARMOR_EQUIP = registerSound("arachno_carapace_armor_equip");
 

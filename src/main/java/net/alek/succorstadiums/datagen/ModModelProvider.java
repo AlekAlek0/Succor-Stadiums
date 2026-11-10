@@ -111,6 +111,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerators.generateFlatItem(ModItems.RESURRECTION_AMULET, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.FLINT_CHARM, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.DOG_WHISTLE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.ROSEBOUND_TOME, ModelTemplates.FLAT_ITEM);
 
         // Equipment datagen
         itemModelGenerators.generateFlatItem(ModItems.PLAINS_COIN_POUCH, ModelTemplates.FLAT_ITEM);

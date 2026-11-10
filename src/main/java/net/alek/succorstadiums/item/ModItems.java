@@ -22,6 +22,7 @@ import net.alek.succorstadiums.item.weapons.ranged.CreepbowItem;
 import net.alek.succorstadiums.item.armor.ArmorOfTheForestItem;
 import net.alek.succorstadiums.item.weapons.ranged.BownanaItem;
 import static net.alek.succorstadiums.item.ModArmorMaterials.*;
+import net.alek.succorstadiums.item.trinkets.RoseboundTomeItem;
 import net.alek.succorstadiums.item.weapons.ranged.OakBowItem;
 import static net.alek.succorstadiums.item.ModToolMaterials.*;
 import net.alek.succorstadiums.item.trinkets.FlintCharmItem;
@@ -216,6 +217,9 @@ public class ModItems {
     public static final Item DOG_WHISTLE = registerItem("dog_whistle", properties -> new DogWhistleItem(properties
             .durability(48)
             .stacksTo(1)));
+    public static final Item ROSEBOUND_TOME = registerItem("rosebound_tome", properties -> new RoseboundTomeItem(properties
+            .stacksTo(1)
+    ));
 
     public static final Item PLAINS_COIN_POUCH = registerItem("plains_coin_pouch", properties -> new PlainsCoinPouchItem(properties
             .stacksTo(1)));

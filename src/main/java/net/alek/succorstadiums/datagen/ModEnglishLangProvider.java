@@ -104,6 +104,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.FLINT_CHARM, "Flint Charm");
         translationBuilder.add(ModItems.RESURRECTION_AMULET, "Resurrection Amulet");
         translationBuilder.add(ModItems.DOG_WHISTLE, "Dog Whistle");
+        translationBuilder.add(ModItems.ROSEBOUND_TOME, "Rosebound Tome");
 
         // Equipment translations
         translationBuilder.add(ModItems.PLAINS_COIN_POUCH, "Plains Coin Pouch");
@@ -237,6 +238,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.flint_charm.lore", "Flint Charm? I just don't see it.");
         translationBuilder.add("item.succorstadiums.resurrection_amulet.lore", "I mean the name tells you all you need to know.");
         translationBuilder.add("item.succorstadiums.dog_whistle.lore", "Summons 3 doggies to help you fight!");
+        translationBuilder.add("item.succorstadiums.rosebound_tome.lore", "Spawns a healing aura.");
 
         // Trinket Tooltip translations
         translationBuilder.add("item.succorstadiums.flint_charm.tooltip_0", "When in Off Hand:");
@@ -246,6 +248,11 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", " 30s Summon Duration");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_3", " 10s Cooldown");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_4", "-8 Mana");
+        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_0", "When Used:");
+        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_1", " 0 Magic Damage");
+        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_2", " 90s Cooldown");
+        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_3", " 20s Ring Duration");
+        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_4", "Regeneration I | 00:30 | 100%");
 
         // Equipment Lore translations
         translationBuilder.add("item.succorstadiums.cardboard_shield.lore", "Only Blocks Projectiles.");

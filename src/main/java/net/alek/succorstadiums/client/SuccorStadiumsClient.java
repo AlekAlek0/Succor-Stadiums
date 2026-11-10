@@ -673,6 +673,33 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.RED)
                 );
             }
+            if (stack.is(ModItems.ROSEBOUND_TOME)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.rosebound_tome.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.rosebound_tome.tooltip_0")
+                                .withStyle(ChatFormatting.GRAY)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.rosebound_tome.tooltip_1")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.rosebound_tome.tooltip_2")
+                                .withStyle(ChatFormatting.AQUA)
+                );
+                tooltip.add(6,
+                        Component.translatable("item.succorstadiums.rosebound_tome.tooltip_3")
+                                .withStyle(ChatFormatting.AQUA)
+                );
+                tooltip.add(7,
+                        Component.translatable("item.succorstadiums.rosebound_tome.tooltip_4")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+            }
             if (stack.is(ModItems.CARDBOARD_SHIELD)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.cardboard_shield.lore")
