@@ -11,7 +11,9 @@ public class MobArena {
     private double centerX;
     private double centerY;
     private double centerZ;
-    private int radius;
+    private int width;  // size along the X axis in blocks, centered on centerX
+    private int length; // size along the Z axis in blocks, centered on centerZ
+    private int radius; // legacy: only present in saves that predate rectangles, converted by migrateLegacySize()
     private int delayBetweenWaves;
     private String group; // null/blank = "Ungrouped"
     private String dimension; // dimension id, e.g. "minecraft:the_nether"; null = Overworld (saves predating this field)
@@ -19,12 +21,13 @@ public class MobArena {
     private List<RewardItem> participationRewards = new ArrayList<>(); // "Good Luck Next Time" reward for players who died but the arena finished
     private final List<Wave> waves = new ArrayList<>();
 
-    public MobArena(String name, double centerX, double centerY, double centerZ, int radius, int delayBetweenWaves) {
+    public MobArena(String name, double centerX, double centerY, double centerZ, int width, int length, int delayBetweenWaves) {
         this.name = name;
         this.centerX = centerX;
         this.centerY = centerY;
         this.centerZ = centerZ;
-        this.radius = radius;
+        this.width = width;
+        this.length = length;
         this.delayBetweenWaves = delayBetweenWaves;
     }
 
@@ -32,7 +35,18 @@ public class MobArena {
     public double getCenterX() { return centerX; }
     public double getCenterY() { return centerY; }
     public double getCenterZ() { return centerZ; }
-    public int getRadius() { return radius; }
+    // Full size in blocks. Old circle saves (radius only) read as a square with side = old diameter.
+    public int getWidth() { return width > 0 ? width : radius * 2; }
+    public int getLength() { return length > 0 ? length : radius * 2; }
+
+    // Converts a circle save to a width/length save. Returns true if anything changed (so the caller can save).
+    public boolean migrateLegacySize() {
+        if (width > 0 && length > 0 && radius == 0) return false;
+        width = getWidth();
+        length = getLength();
+        radius = 0;
+        return true;
+    }
     public int getDelayBetweenWaves() { return delayBetweenWaves; }
     public String getGroup() { return group; }
 
@@ -72,7 +86,7 @@ public class MobArena {
 
     public void setName(String name) { this.name = name; }
     public void setCenter(double x, double y, double z) { this.centerX = x; this.centerY = y; this.centerZ = z; }
-    public void setRadius(int radius) { this.radius = radius; }
+    public void setSize(int width, int length) { this.width = width; this.length = length; this.radius = 0; }
     public void setDelayBetweenWaves(int delay) { this.delayBetweenWaves = delay; }
     public void setGroup(String group) { this.group = (group == null || group.isBlank()) ? null : group; }
     public void setDimension(String dimension) { this.dimension = (dimension == null || dimension.isBlank()) ? null : dimension; }
@@ -131,6 +145,6 @@ public class MobArena {
 
     @Override
     public String toString() {
-        return "MobArena{name='" + name + "', center=(" + centerX + ", " + centerY + ", " + centerZ + "), radius=" + radius + ", delayBetweenWaves=" + delayBetweenWaves + ", dimension=" + getDimension() + ", group=" + group + ", waves=" + waves.size() + "}";
+        return "MobArena{name='" + name + "', center=(" + centerX + ", " + centerY + ", " + centerZ + "), size=" + getWidth() + "x" + getLength() + ", delayBetweenWaves=" + delayBetweenWaves + ", dimension=" + getDimension() + ", group=" + group + ", waves=" + waves.size() + "}";
     }
 }

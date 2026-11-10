@@ -60,7 +60,7 @@ import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
 import net.alek.succorstadiums.config.SuccorStadiumsConfig;
 import net.alek.succorstadiums.arena.SpawnSpot;
 
-// Draws the radius of any number of mob arenas in the world:
+// Draws the area (a width x length rectangle) of any number of mob arenas in the world:
 // a fading wall per arena, a floating label above each arena center,
 // and a tile on every block where mobs can't spawn.
 //
@@ -77,11 +77,6 @@ public final class ArenaRadiusRenderer {
     // Initialize a logger
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    // Fixed constants for min and maximum segments to render
-
-    private static final int MIN_SEGMENTS = 32;
-    private static final int MAX_SEGMENTS = 128;
-
     // The minimum amount of columns per tick per arena
     private static final int MIN_COLUMNS_PER_ARENA = 50;
 
@@ -89,7 +84,7 @@ public final class ArenaRadiusRenderer {
     private static final int TILE_STRIDE = 4;
 
     // Bytes reserved for the vertex buffer (1 << 22 = 4 MB), sized for the largest values the config allows:
-    // 32 arenas x 128 segments x 8 vertices x 16 bytes = 0.5 MB, plus 20000 tiles x 8 vertices x 16 bytes = 2.5 MB
+    // 32 arenas x 4 wall panels x 8 vertices x 16 bytes = 16 KB, plus 20000 tiles x 8 vertices x 16 bytes = 2.5 MB
     private static final int BUFFER_SIZE = 1 << 22;
 
     // Vanilla filled-box pipeline: translucent, depth tested (hidden behind blocks)
@@ -103,7 +98,7 @@ public final class ArenaRadiusRenderer {
     // ── State ─────────────────────────────────────────────────────────────────
 
     // A client copy of the arena data
-    private record ArenaInfo(String name, ResourceKey<Level> dimension, double x, double y, double z, int radius) {}
+    private record ArenaInfo(String name, ResourceKey<Level> dimension, double x, double y, double z, int width, int length) {}
 
     // Every arena the client knows about, by name. Replaced as a whole on each update (never edited in place),
     // and volatile, so readers never see a half-built map
@@ -124,7 +119,7 @@ public final class ArenaRadiusRenderer {
 
     // Immutable snapshot of one arena, taken during extraction and used while drawing.
     // invalidTiles holds x, y, z, reason quads (the ground cell and the reason for each invalid column).
-    private record RadiusState(double x, double y, double z, double radius, int wallRgb, int[] invalidTiles) {}
+    private record RadiusState(double x, double y, double z, double width, double length, int wallRgb, int[] invalidTiles) {}
 
     // Immutable snapshot of the config values the drawing code needs
     private record RenderSettings(
@@ -208,12 +203,12 @@ public final class ArenaRadiusRenderer {
         ClientLifecycleEvents.CLIENT_STOPPING.register(client -> close());
     }
 
-    // Whether an arena's overlay is switched on (used for the Show / Hide Radius button text)
+    // Whether an arena's overlay is switched on (used for the Show / Hide Area button text)
     public static boolean isEnabled(String arenaName) {
         return enabled.contains(arenaName);
     }
 
-    // Switches one arena's overlay (circle, label and invalid spawn tiles) on or off.
+    // Switches one arena's overlay (wall, label and invalid spawn tiles) on or off.
     // Other arenas are unaffected.
     public static void toggle(ArenaDataPayload.ArenaEntry arena) {
         // Already on: switch it off and drop its scan
@@ -249,7 +244,7 @@ public final class ArenaRadiusRenderer {
 
     // Converts a network entry into the client's ArenaInfo, parsing the dimension text
     private static ArenaInfo toInfo(ArenaDataPayload.ArenaEntry e) {
-        return new ArenaInfo(e.name(), parseDimension(e.dimension()), e.x(), e.y(), e.z(), e.radius());
+        return new ArenaInfo(e.name(), parseDimension(e.dimension()), e.x(), e.y(), e.z(), e.width(), e.length());
     }
 
     // Turns dimension text like minecraft:the_nether into a ResourceKey. Falls back to the Overworld if it can't be parsed
@@ -291,7 +286,7 @@ public final class ArenaRadiusRenderer {
 
     // ── Invalid spawn tile scan ───────────────────────────────────────────────
 
-    // Walks the block columns whose cell touches the arena circle, a slice per tick, and records the ones where
+    // Walks the block columns whose cell touches the arena rectangle, a slice per tick, and records the ones where
     // the spawner's standing-spot check fails at the surface. A finished pass is published as a ScanResult.
     private static final class ArenaScan {
         // What this scan was built for, so it can be rebuilt if the arena changes
@@ -301,7 +296,9 @@ public final class ArenaRadiusRenderer {
         final double centerZ;
         // Mobs only spawn at or above this height (the arena's own height)
         final int minSpawnY;
-        final int radius;
+        // Size of the rectangle in blocks (width along X, length along Z)
+        final int width;
+        final int length;
         // Every block column the scan will visit (x and z share the same index)
         final int[] colX;
         final int[] colZ;
@@ -319,56 +316,43 @@ public final class ArenaRadiusRenderer {
         // Null until the first full pass has finished
         volatile ScanResult published = null;
 
-        // Builds the list of block columns that touch the circle
+        // Builds the list of block columns that touch the rectangle
         ArenaScan(ArenaInfo arena) {
             this.dimension = arena.dimension();
             this.centerX = arena.x();
             this.centerY = arena.y();
             this.centerZ = arena.z();
             this.minSpawnY = Mth.floor(arena.y());
-            this.radius = arena.radius();
+            this.width = arena.width();
+            this.length = arena.length();
 
-            // The square that contains the circle
-            int minX = Mth.floor(centerX - radius), maxX = Mth.floor(centerX + radius);
-            int minZ = Mth.floor(centerZ - radius), maxZ = Mth.floor(centerZ + radius);
+            // The rectangle spans center +/- half its size. A block column is part of it when any of its cell is
+            // inside, so the range runs from the block holding the min edge to the block holding the max edge.
+            int minX = Mth.floor(centerX - width / 2.0), maxX = Mth.ceil(centerX + width / 2.0) - 1;
+            int minZ = Mth.floor(centerZ - length / 2.0), maxZ = Mth.ceil(centerZ + length / 2.0) - 1;
 
-            // First pass: count the columns, so the arrays are exactly the right size
-            int count = 0;
-            for (int x = minX; x <= maxX; x++) {
-                for (int z = minZ; z <= maxZ; z++) {
-                    if (touchesCircle(x, z)) count++;
-                }
-            }
+            // Every column in the range is inside, so the count is known up front
+            int countX = maxX - minX + 1;
+            int countZ = maxZ - minZ + 1;
+            this.colX = new int[countX * countZ];
+            this.colZ = new int[countX * countZ];
 
-            // Second pass: fill in the column coordinates
-            this.colX = new int[count];
-            this.colZ = new int[count];
+            // Fill in the column coordinates
             int i = 0;
             for (int x = minX; x <= maxX; x++) {
                 for (int z = minZ; z <= maxZ; z++) {
-                    if (touchesCircle(x, z)) {
-                        colX[i] = x;
-                        colZ[i] = z;
-                        i++;
-                    }
+                    colX[i] = x;
+                    colZ[i] = z;
+                    i++;
                 }
             }
         }
 
-        // Spawn positions are continuous, so a block column counts when any part of its cell is inside the circle
-        private boolean touchesCircle(int blockX, int blockZ) {
-            // Distance from the circle center to the nearest edge of this block, per axis (0 if the center is within
-            // the block's span)
-            double dx = Math.max(Math.max(blockX - centerX, centerX - (blockX + 1)), 0.0);
-            double dz = Math.max(Math.max(blockZ - centerZ, centerZ - (blockZ + 1)), 0.0);
-            // Inside the circle if that nearest point is within the radius
-            return dx * dx + dz * dz <= (double) radius * radius;
-        }
-
-        // Whether this scan was built for the same arena (same dimension, center and radius)
+        // Whether this scan was built for the same arena (same dimension, center and size)
         boolean matches(ArenaInfo arena) {
             return dimension.equals(arena.dimension())
-                    && centerX == arena.x() && centerY == arena.y() && centerZ == arena.z() && radius == arena.radius();
+                    && centerX == arena.x() && centerY == arena.y() && centerZ == arena.z()
+                    && width == arena.width() && length == arena.length();
         }
 
         // Checks up to 'budget' columns, then publishes the result once the whole list is done
@@ -446,7 +430,8 @@ public final class ArenaRadiusRenderer {
         for (String name : enabled) {
             ArenaInfo arena = known.get(name);
             // Missing, empty or too big to scan: no scan for it
-            if (arena == null || arena.radius() <= 0 || arena.radius() > cfg.arenaMaxScanRadius) {
+            if (arena == null || arena.width() <= 0 || arena.length() <= 0
+                    || Math.max(arena.width(), arena.length()) > cfg.arenaMaxScanSize) {
                 scans.remove(name);
                 continue;
             }
@@ -494,7 +479,7 @@ public final class ArenaRadiusRenderer {
         for (String name : enabled) {
             ArenaInfo arena = known.get(name);
             // Skip arenas that are missing, empty or in another dimension
-            if (arena == null || arena.radius() <= 0) continue;
+            if (arena == null || arena.width() <= 0 || arena.length() <= 0) continue;
             if (!arena.dimension().equals(currentDimension)) continue;
 
             // This arena's scan (only when invalid tiles are on)
@@ -502,7 +487,7 @@ public final class ArenaRadiusRenderer {
             ScanResult result = scan == null ? null : scan.published; // null until the first pass has finished
 
             // Snapshot of this arena for drawing
-            next.add(new RadiusState(arena.x(), arena.y(), arena.z(), arena.radius(), wallRgb,
+            next.add(new RadiusState(arena.x(), arena.y(), arena.z(), arena.width(), arena.length(), wallRgb,
                     result == null ? NO_TILES : result.tiles()));
 
             // Submit the floating label if it's on and the player is close enough
@@ -542,9 +527,9 @@ public final class ArenaRadiusRenderer {
             float nameScale = cfg.arenaNameScale / 100f;
             float infoScale = cfg.arenaInfoScale / 100f;
 
-            // Lines below the name: radius, coordinates and, with invalid tiles on, the invalid count and valid share
+            // Lines below the name: size, coordinates and, with invalid tiles on, the invalid count and valid share
             List<Line> lines = new ArrayList<>();
-            lines.add(line("Radius: " + arena.radius(), argb(cfg.arenaRadiusLineColor)));
+            lines.add(line("Size: " + arena.width() + " x " + arena.length(), argb(cfg.arenaSizeLineColor)));
             lines.add(line("X: " + Mth.floor(arena.x()) + "  Y: " + Mth.floor(arena.y())
                     + "  Z: " + Mth.floor(arena.z()), argb(cfg.arenaCoordsLineColor)));
 
@@ -558,8 +543,8 @@ public final class ArenaRadiusRenderer {
                 int validColor = argb(cfg.arenaValidLineColor);
 
                 // Too big to scan
-                if (arena.radius() > cfg.arenaMaxScanRadius) {
-                    lines.add(line("Invalid Tiles: radius too large to scan", invalidColor));
+                if (Math.max(arena.width(), arena.length()) > cfg.arenaMaxScanSize) {
+                    lines.add(line("Invalid Tiles: arena too large to scan", invalidColor));
                     // The scan hasn't finished yet
                 } else if (scan == null) {
                     lines.add(line("Invalid Tiles: scanning...", invalidColor));
@@ -584,7 +569,7 @@ public final class ArenaRadiusRenderer {
                 }
 
                 // The valid spawn area line
-                if (cfg.arenaShowValidPercent && arena.radius() <= cfg.arenaMaxScanRadius) {
+                if (cfg.arenaShowValidPercent && Math.max(arena.width(), arena.length()) <= cfg.arenaMaxScanSize) {
                     String percent;
                     if (scan == null) percent = "scanning...";
                         // Nothing was checked (no loaded chunks)
@@ -611,7 +596,7 @@ public final class ArenaRadiusRenderer {
         } catch (RuntimeException e) {
             // Most likely no gizmo collector is active at this point of the frame. Keep the walls working.
             labelsBroken = true;
-            LOGGER.error("Arena radius labels disabled: could not submit gizmo text", e);
+            LOGGER.error("Arena labels disabled: could not submit gizmo text", e);
         }
     }
 
@@ -621,7 +606,7 @@ public final class ArenaRadiusRenderer {
         List<Seg> segs = line.segs();
         // A single piece: draw it directly
         if (segs.size() == 1) {
-            text(segs.get(0).text(), x, y, z, segs.get(0).argb(), scale);
+            text(segs.getFirst().text(), x, y, z, segs.getFirst().argb(), scale);
             return;
         }
 
@@ -688,8 +673,11 @@ public final class ArenaRadiusRenderer {
         // The arenas to draw this frame
         List<RadiusState> drawList = new ArrayList<>(current.states().size());
         for (RadiusState a : current.states()) {
-            // Distance from the camera to the arena's edge
-            double distance = Math.sqrt(camera.distanceToSqr(a.x(), a.y(), a.z())) - a.radius();
+            // Distance from the camera to the nearest point of the arena's rectangle (0 on that axis when inside it)
+            double dx = Math.max(Math.abs(camera.x - a.x()) - a.width() / 2.0, 0.0);
+            double dz = Math.max(Math.abs(camera.z - a.z()) - a.length() / 2.0, 0.0);
+            double dy = camera.y - a.y();
+            double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
             if (distance <= set.maxDrawDistance()) drawList.add(a);
         }
         if (drawList.isEmpty()) return;
@@ -708,14 +696,14 @@ public final class ArenaRadiusRenderer {
         if (primitive != PrimitiveTopology.QUADS) {
             if (!warnedTopology) {
                 warnedTopology = true;
-                LOGGER.error("Arena radius renderer expects a QUADS pipeline but got {}", primitive);
+                LOGGER.error("Arena area renderer expects a QUADS pipeline but got {}", primitive);
             }
             return;
         }
 
         // Create the vertex buffer the first time it is needed
         if (stagedBuffer == null) {
-            stagedBuffer = new StagedVertexBuffer(() -> "Arena Radius Buffer", BUFFER_SIZE);
+            stagedBuffer = new StagedVertexBuffer(() -> "Arena Area Buffer", BUFFER_SIZE);
         }
 
         // Start a new draw inside the buffer
@@ -761,7 +749,7 @@ public final class ArenaRadiusRenderer {
             if (colorView != null) {
                 // A render pass groups the draw commands. try-with-resources closes it automatically
                 try (var renderPass = RenderSystem.getDevice().createCommandEncoder().createRenderPass(
-                        () -> MOD_ID + " arena radius rendering",
+                        () -> MOD_ID + " arena area rendering",
                         colorView, Optional.empty(), depthView, OptionalDouble.empty())) {
                     // Use the filled-box pipeline
                     renderPass.setPipeline(PIPELINE);
@@ -792,11 +780,9 @@ public final class ArenaRadiusRenderer {
         // Wall color with its opacity
         float[] wallColor = rgba(a.wallRgb(), set.wallAlpha());
 
-        // Segment count of the wall
-        int segments = segmentsFor(a.radius());
         // Wall
         if (set.showWall()) {
-            wall(b, m, a.x(), a.z(), a.radius(), yBottom, yTop, segments, wallColor);
+            wall(b, m, a.x(), a.z(), a.width(), a.length(), yBottom, yTop, wallColor);
         }
     }
 
@@ -847,30 +833,22 @@ public final class ArenaRadiusRenderer {
         return drawn;
     }
 
-    // How many segments a circle of this radius gets: about 1.5 per block, between MIN_SEGMENTS and MAX_SEGMENTS
-    private static int segmentsFor(double radius) {
-        return Math.clamp((long) Math.ceil(radius * 1.5), MIN_SEGMENTS, MAX_SEGMENTS);
-    }
+    // Rectangle wall: four flat panels with sharp corners, one per side of the arena
+    private static void wall(VertexConsumer b, Matrix4fc m, double cx, double cz, double width, double length,
+                             double yBottom, double yTop, float[] color) {
+        // The four corners of the rectangle
+        double minX = cx - width / 2.0, maxX = cx + width / 2.0;
+        double minZ = cz - length / 2.0, maxZ = cz + length / 2.0;
 
-    // Vertical cylinder wall made of one quad per segment
-    private static void wall(VertexConsumer b, Matrix4fc m, double cx, double cz, double radius,
-                             double yBottom, double yTop, int segments, float[] color) {
-        // One quad per segment
-        for (int i = 0; i < segments; i++) {
-            // Start and end angle of this segment
-            double a0 = (Math.PI * 2.0) * i / segments;
-            double a1 = (Math.PI * 2.0) * (i + 1) / segments;
-            // Start and end points on the circle
-            double x0 = cx + radius * Math.cos(a0), z0 = cz + radius * Math.sin(a0);
-            double x1 = cx + radius * Math.cos(a1), z1 = cz + radius * Math.sin(a1);
-
-            // Bottom edge opaque, top edge fading out
-            fadingQuad(b, m, color,
-                    x0, yBottom, z0,
-                    x1, yBottom, z1,
-                    x1, yTop, z1,
-                    x0, yTop, z0);
-        }
+        // Bottom edge opaque, top edge fading out, for each side in turn
+        // North side (min Z)
+        fadingQuad(b, m, color, minX, yBottom, minZ, maxX, yBottom, minZ, maxX, yTop, minZ, minX, yTop, minZ);
+        // East side (max X)
+        fadingQuad(b, m, color, maxX, yBottom, minZ, maxX, yBottom, maxZ, maxX, yTop, maxZ, maxX, yTop, minZ);
+        // South side (max Z)
+        fadingQuad(b, m, color, maxX, yBottom, maxZ, minX, yBottom, maxZ, minX, yTop, maxZ, maxX, yTop, maxZ);
+        // West side (min X)
+        fadingQuad(b, m, color, minX, yBottom, maxZ, minX, yBottom, minZ, minX, yTop, minZ, minX, yTop, maxZ);
     }
 
     // Wall quad given as bottom-left, bottom-right, top-right, top-left. Alpha is the color's alpha at the bottom

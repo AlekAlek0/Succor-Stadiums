@@ -17,7 +17,7 @@ public class ArenaFormScreen {
     private static final int PANEL_PAD = 8;
     private static final int BTN_H = 16;
 
-    private EditBox groupField, nameField, xField, yField, zField, radiusField, delayField;
+    private EditBox groupField, nameField, xField, yField, zField, widthField, lengthField, delayField;
 
     // Backing fields: survive rebuildWidgets() (e.g. navigating to the Rewards
     // screen and back) so in-progress input isn't lost, same pattern AddMobScreen
@@ -27,11 +27,12 @@ public class ArenaFormScreen {
     private String savedX = "";
     private String savedY = "";
     private String savedZ = "";
-    private String savedRadius = "";
+    private String savedWidth = "";
+    private String savedLength = "";
     private String savedDelay = "";
 
     public interface Submit {
-        void submit(String name, double x, double y, double z, int radius, int delay, String group);
+        void submit(String name, double x, double y, double z, int width, int length, int delay, String group);
     }
 
     /**
@@ -62,7 +63,8 @@ public class ArenaFormScreen {
             savedX = formatCoord(existing.x());
             savedY = formatCoord(existing.y());
             savedZ = formatCoord(existing.z());
-            savedRadius = String.valueOf(existing.radius());
+            savedWidth = String.valueOf(existing.width());
+            savedLength = String.valueOf(existing.length());
             savedDelay = String.valueOf(existing.delaySeconds());
         }
 
@@ -86,11 +88,17 @@ public class ArenaFormScreen {
         zField.setValue(savedZ);
         zField.setResponder(text -> savedZ = text);
 
-        radiusField = makeField(addRenderableWidget, font, cx, cy + 90, halfW, "Radius");
-        radiusField.setValue(savedRadius);
-        radiusField.setResponder(text -> savedRadius = text);
+        // Three equal fields: Width (X), Length (Z) and the wave delay
+        int thirdW = (fw - 8) / 3;
+        widthField = makeField(addRenderableWidget, font, cx, cy + 90, thirdW, "Width (X)");
+        widthField.setValue(savedWidth);
+        widthField.setResponder(text -> savedWidth = text);
 
-        delayField = makeField(addRenderableWidget, font, cx + halfW + 4, cy + 90, halfW, "Delay (s)");
+        lengthField = makeField(addRenderableWidget, font, cx + thirdW + 4, cy + 90, thirdW, "Length (Z)");
+        lengthField.setValue(savedLength);
+        lengthField.setResponder(text -> savedLength = text);
+
+        delayField = makeField(addRenderableWidget, font, cx + (thirdW + 4) * 2, cy + 90, thirdW, "Delay (s)");
         delayField.setValue(savedDelay);
         delayField.setResponder(text -> savedDelay = text);
 
@@ -131,16 +139,19 @@ public class ArenaFormScreen {
     private void trySubmit(Submit onSubmit) {
         try {
             if (nameField == null || xField == null || yField == null ||
-                    zField == null || radiusField == null || delayField == null || groupField == null) return;
+                    zField == null || widthField == null || lengthField == null || delayField == null || groupField == null) return;
             String name = nameField.getValue().trim();
             if (name.isEmpty()) return;
             double x = Double.parseDouble(xField.getValue().trim());
             double y = Double.parseDouble(yField.getValue().trim());
             double z = Double.parseDouble(zField.getValue().trim());
-            int radius = Integer.parseInt(radiusField.getValue().trim());
+            int width = Integer.parseInt(widthField.getValue().trim());
+            int length = Integer.parseInt(lengthField.getValue().trim());
+            // An arena needs at least 1 block in each direction
+            if (width < 1 || length < 1) return;
             int delay = Integer.parseInt(delayField.getValue().trim());
             String group = groupField.getValue().trim();
-            onSubmit.submit(name, x, y, z, radius, delay, group);
+            onSubmit.submit(name, x, y, z, width, length, delay, group);
         } catch (NumberFormatException ignored) {}
     }
 
@@ -153,7 +164,8 @@ public class ArenaFormScreen {
         savedX = "";
         savedY = "";
         savedZ = "";
-        savedRadius = "";
+        savedWidth = "";
+        savedLength = "";
         savedDelay = "";
     }
 
@@ -168,7 +180,7 @@ public class ArenaFormScreen {
         g.text(font, "Group", dx + PANEL_PAD, dt + 20, theme.subtext.getRGB(), false);
         g.text(font, "Name", dx + PANEL_PAD + halfW + 4, dt + 20, theme.subtext.getRGB(), false);
         g.text(font, "Position", dx + PANEL_PAD, dt + 60, theme.subtext.getRGB(), false);
-        g.text(font, "Radius / Delay (s)", dx + PANEL_PAD, dt + 100, theme.subtext.getRGB(), false);
+        g.text(font, "Width (X) / Length (Z) / Delay (s)", dx + PANEL_PAD, dt + 100, theme.subtext.getRGB(), false);
     }
 
     // Whole numbers show without a decimal point (83), anything else keeps its fraction (83.5),

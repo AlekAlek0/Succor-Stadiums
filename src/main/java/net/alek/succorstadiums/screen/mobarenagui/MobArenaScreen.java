@@ -281,7 +281,7 @@ public class MobArenaScreen extends Screen {
         ).bounds(detailX() + detailW() - PANEL_PAD - 70, guiTop() + 18, 70, 14).build());
 
         addRenderableWidget(Button.builder(
-                Component.literal(ArenaRadiusRenderer.isEnabled(arena.name()) ? "Hide Radius" : "Show Radius"),
+                Component.literal(ArenaRadiusRenderer.isEnabled(arena.name()) ? "Hide Area" : "Show Area"),
                 btn -> {
                     ArenaRadiusRenderer.toggle(arena);
                     rebuildWidgets();
@@ -427,8 +427,8 @@ public class MobArenaScreen extends Screen {
         arenaFormScreen.buildWidgets(this::addRenderableWidget, font,
                 detailX(), detailW(), guiTop(), guiHeight(), null,
                 pendingArenaRewards.size(), pendingParticipationRewards.size(),
-                (name, x, y, z, radius, delay, group) -> {
-                    ClientPlayNetworking.send(ArenaActionPayload.createArena(name, x, y, z, radius, delay));
+                (name, x, y, z, width, length, delay, group) -> {
+                    ClientPlayNetworking.send(ArenaActionPayload.createArena(name, x, y, z, width, length, delay));
                     if (!group.isEmpty()) {
                         ClientPlayNetworking.send(ArenaActionPayload.setArenaGroup(name, group));
                     }
@@ -471,8 +471,8 @@ public class MobArenaScreen extends Screen {
         arenaFormScreen.buildWidgets(this::addRenderableWidget, font,
                 detailX(), detailW(), guiTop(), guiHeight(), arena,
                 arena.rewards().size(), arena.participationRewards().size(),
-                (newName, x, y, z, radius, delay, group) -> {
-                    ClientPlayNetworking.send(ArenaActionPayload.editArena(arena.name(), newName, x, y, z, radius, delay));
+                (newName, x, y, z, width, length, delay, group) -> {
+                    ClientPlayNetworking.send(ArenaActionPayload.editArena(arena.name(), newName, x, y, z, width, length, delay));
                     String targetName = newName.isEmpty() ? arena.name() : newName;
                     ClientPlayNetworking.send(ArenaActionPayload.setArenaGroup(targetName, group));
                     arenaFormScreen.reset();
@@ -846,7 +846,7 @@ public class MobArenaScreen extends Screen {
         String groupLine = "X:" + (int)arena.x() + " Y:" + (int)arena.y() + " Z:" + (int)arena.z()
                 + "   Group: " + (arena.group() != null ? arena.group() : UNGROUPED_LABEL);
         g.text(font, groupLine, dx + PANEL_PAD, dt + 20, theme().subtext.getRGB(), false);
-        g.text(font, "Radius: " + arena.radius() + "  Delay: " + arena.delaySeconds() + "s"
+        g.text(font, "Size: " + arena.width() + " x " + arena.length() + "  Delay: " + arena.delaySeconds() + "s"
                         + "   Rewards: " + arena.rewards().size(),
                 dx + PANEL_PAD, dt + 30, theme().subtext.getRGB(), false);
 

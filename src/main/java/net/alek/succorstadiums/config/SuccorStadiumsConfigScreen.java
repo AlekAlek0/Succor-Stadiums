@@ -110,7 +110,7 @@ public class SuccorStadiumsConfigScreen {
                 value -> CONFIG.arenaShowWall = value);
 
         addToggle(arenaRendering, entries, "Show Floating Label",
-                "Name, radius and coordinates floating above the arena center.",
+                "Name, size and coordinates floating above the arena center.",
                 CONFIG.arenaShowLabel, DEFAULTS.arenaShowLabel,
                 value -> CONFIG.arenaShowLabel = value);
 
@@ -124,10 +124,10 @@ public class SuccorStadiumsConfigScreen {
                 CONFIG.arenaShowValidPercent, DEFAULTS.arenaShowValidPercent,
                 value -> CONFIG.arenaShowValidPercent = value);
 
-        // Create header for circle config options
-        addHeader(arenaRendering, entries, "Circle");
+        // Create header for wall config options
+        addHeader(arenaRendering, entries, "Wall");
 
-        // Add entries to circle area of the mob arena rendering category
+        // Add entries to wall area of the mob arena rendering category
         addColor(arenaRendering, entries, "Wall Color",
                 "Color of the arena wall.",
                 CONFIG.arenaWallColor, DEFAULTS.arenaWallColor,
@@ -160,10 +160,10 @@ public class SuccorStadiumsConfigScreen {
                 CONFIG.arenaNameColor, DEFAULTS.arenaNameColor,
                 value -> CONFIG.arenaNameColor = value);
 
-        addColor(arenaRendering, entries, "Radius Line Color",
-                "Color of the \"Radius: N\" line.",
-                CONFIG.arenaRadiusLineColor, DEFAULTS.arenaRadiusLineColor,
-                value -> CONFIG.arenaRadiusLineColor = value);
+        addColor(arenaRendering, entries, "Size Line Color",
+                "Color of the \"Size: W x L\" line.",
+                CONFIG.arenaSizeLineColor, DEFAULTS.arenaSizeLineColor,
+                value -> CONFIG.arenaSizeLineColor = value);
 
         addColor(arenaRendering, entries, "Coordinates Line Color",
                 "Color of the X / Y / Z line.",
@@ -219,7 +219,7 @@ public class SuccorStadiumsConfigScreen {
                 value -> CONFIG.arenaNameScale = value);
 
         addSlider(arenaRendering, entries, "Info Text Size",
-                "Size of the radius, coordinates and invalid tile lines.",
+                "Text size of the size, coordinates and invalid tile lines.",
                 CONFIG.arenaInfoScale, DEFAULTS.arenaInfoScale, SuccorStadiumsConfig.ARENA_TEXT_SCALE,
                 value -> value + "%",
                 value -> CONFIG.arenaInfoScale = value);
@@ -303,11 +303,11 @@ public class SuccorStadiumsConfigScreen {
                 value -> value + " ticks",
                 value -> CONFIG.arenaDataRefreshTicks = value);
 
-        addSlider(arenaRendering, entries, "Max Scan Radius",
-                "Arenas with a larger radius are not scanned for invalid spawn tiles.",
-                CONFIG.arenaMaxScanRadius, DEFAULTS.arenaMaxScanRadius, SuccorStadiumsConfig.ARENA_MAX_SCAN_RADIUS,
+        addSlider(arenaRendering, entries, "Max Scan Size",
+                "Arenas whose longest side is larger than this are not scanned for invalid spawn tiles.",
+                CONFIG.arenaMaxScanSize, DEFAULTS.arenaMaxScanSize, SuccorStadiumsConfig.ARENA_MAX_SCAN_SIZE,
                 value -> value + " blocks",
-                value -> CONFIG.arenaMaxScanRadius = value);
+                value -> CONFIG.arenaMaxScanSize = value);
 
         addNumber(arenaRendering, entries, "Scan Speed",
                 "Block columns checked per tick for invalid spawn tiles, shared by all arenas. Higher is faster but costs more.",

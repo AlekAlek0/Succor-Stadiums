@@ -209,7 +209,7 @@ public class ArenaSession {
                 EntityType<?> entityType = entityTypeOpt.get();
 
                 for (int i = 0; i < waveMob.getCount(); i++) {
-                    Vec3 spawnPos = randomPositionInRadius();
+                    Vec3 spawnPos = randomPositionInArea();
 
                     Entity entity = entityType.create(level, EntitySpawnReason.COMMAND);
                     if (entity == null) {
@@ -478,20 +478,19 @@ public class ArenaSession {
     // How many random positions to try before falling back to the arena center column
     private static final int SPAWN_ATTEMPTS = 40;
 
-    // Picks a random spawn position inside the radius. Only positions the radius overlay doesn't mark as invalid are
-    // used: the surface of the column has to be a valid standing spot (SpawnSpot) at or above the arena's height.
+    // Picks a random spawn position inside the arena rectangle (width along X, length along Z, centered on the arena).
+    // Only positions the arena overlay doesn't mark as invalid are used: the surface of the column has to be a valid
+    // standing spot (SpawnSpot) at or above the arena's height.
     // If a random column isn't valid, another one is tried instead of searching up and down for a spot in it.
-    private Vec3 randomPositionInRadius() {
+    private Vec3 randomPositionInArea() {
         // Mobs never spawn below the arena's own height
         int minSpawnY = Mth.floor(arena.getCenterY());
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
         for (int attempt = 0; attempt < SPAWN_ATTEMPTS; attempt++) {
-            double angle = level.getRandom().nextDouble() * 2 * Math.PI;
-            double actualRadius = arena.getRadius();
-            double distance = Math.sqrt(level.getRandom().nextDouble()) * actualRadius;
-            double x = arena.getCenterX() + distance * Math.cos(angle);
-            double z = arena.getCenterZ() + distance * Math.sin(angle);
+            // Uniform point in the rectangle: nextDouble() is 0 to 1, so (r - 0.5) * size spans -size/2 to +size/2
+            double x = arena.getCenterX() + (level.getRandom().nextDouble() - 0.5) * arena.getWidth();
+            double z = arena.getCenterZ() + (level.getRandom().nextDouble() - 0.5) * arena.getLength();
 
             int blockX = Mth.floor(x);
             int blockZ = Mth.floor(z);

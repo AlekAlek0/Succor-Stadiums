@@ -38,17 +38,17 @@ public class SuccorStadiumsConfig {
     public static final Range ARENA_MAX_DRAW_DISTANCE = new Range(32, 1024);    // blocks
     public static final Range ARENA_MAX_ARENAS_DRAWN = new Range(1, 32);
     public static final Range ARENA_DATA_REFRESH_TICKS = new Range(5, 100);
-    public static final Range ARENA_MAX_SCAN_RADIUS = new Range(8, 160);        // blocks
+    public static final Range ARENA_MAX_SCAN_SIZE = new Range(16, 320);         // blocks, the longest side
     public static final Range ARENA_SCAN_COLUMNS_PER_TICK = new Range(50, 5000);
     public static final Range ARENA_RESCAN_DELAY_TICKS = new Range(0, 200);
 
     // What to show
     public boolean arenaShowWall = true;             // the translucent wall around the edge of the arena
-    public boolean arenaShowLabel = true;            // the floating label above the arena center (name, radius, coordinates, tile counts)
+    public boolean arenaShowLabel = true;            // the floating label above the arena center (name, size, coordinates, tile counts)
     public boolean arenaShowInvalidTiles = true;     // mark the blocks where mobs can't spawn, and add their counts to the label
     public boolean arenaShowValidPercent = true;     // "Valid spawn area: 87%" line in the label (needs invalid tiles on)
 
-    // Circle
+    // Wall
     public int arenaWallColor = 0xFF69B4;      // RGB, pink: color of the wall
     public int arenaWallOpacity = 35;          // percent, strongest at the bottom edge and fades to 0 at the top
     public int arenaWallBelow = 4;             // blocks the wall reaches below the arena center Y
@@ -56,7 +56,7 @@ public class SuccorStadiumsConfig {
 
     // Floating label
     public int arenaNameColor = 0xFF69B4;         // RGB, pink: the arena name line
-    public int arenaRadiusLineColor = 0xFFFFFF;   // RGB, white: the "Radius: N" line
+    public int arenaSizeLineColor = 0xFFFFFF;     // RGB, white: the "Size: W x L" line
     public int arenaCoordsLineColor = 0xBBBBBB;   // RGB, light gray: the "X: Y: Z:" line
     // The three invalid tile counts share one line. Their defaults match the tile colors below, but they are separate settings.
     public int arenaInvalidLineColor = 0xFF2626;  // RGB, red: "Invalid Tiles" (no solid ground)
@@ -86,7 +86,7 @@ public class SuccorStadiumsConfig {
     public int arenaMaxDrawDistance = 256;     // blocks, arenas whose edge is farther than this from the camera are skipped
     public int arenaMaxArenasDrawn = 16;       // when more arenas are shown than this, only the nearest ones are drawn
     public int arenaDataRefreshTicks = 10;     // ticks between requests for fresh arena data while an overlay is on (20 ticks = 1 second)
-    public int arenaMaxScanRadius = 96;        // blocks, arenas with a larger radius are not scanned for invalid tiles
+    public int arenaMaxScanSize = 192;         // blocks, arenas whose longest side is larger are not scanned for invalid tiles
     public int arenaScanColumnsPerTick = 500;  // block columns checked per tick by the invalid tile scan, shared by all scanned arenas
     public int arenaRescanDelayTicks = 5;      // ticks to wait between full scans, so block changes show up after about this long
 
@@ -94,7 +94,7 @@ public class SuccorStadiumsConfig {
     public void clampArenaRendering() {
         arenaWallColor &= 0xFFFFFF;
         arenaNameColor &= 0xFFFFFF;
-        arenaRadiusLineColor &= 0xFFFFFF;
+        arenaSizeLineColor &= 0xFFFFFF;
         arenaCoordsLineColor &= 0xFFFFFF;
         arenaInvalidLineColor &= 0xFFFFFF;
         arenaBlockedLineColor &= 0xFFFFFF;
@@ -125,7 +125,7 @@ public class SuccorStadiumsConfig {
         arenaMaxDrawDistance = ARENA_MAX_DRAW_DISTANCE.clamp(arenaMaxDrawDistance);
         arenaMaxArenasDrawn = ARENA_MAX_ARENAS_DRAWN.clamp(arenaMaxArenasDrawn);
         arenaDataRefreshTicks = ARENA_DATA_REFRESH_TICKS.clamp(arenaDataRefreshTicks);
-        arenaMaxScanRadius = ARENA_MAX_SCAN_RADIUS.clamp(arenaMaxScanRadius);
+        arenaMaxScanSize = ARENA_MAX_SCAN_SIZE.clamp(arenaMaxScanSize);
         arenaScanColumnsPerTick = ARENA_SCAN_COLUMNS_PER_TICK.clamp(arenaScanColumnsPerTick);
         arenaRescanDelayTicks = ARENA_RESCAN_DELAY_TICKS.clamp(arenaRescanDelayTicks);
     }

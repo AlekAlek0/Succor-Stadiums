@@ -55,10 +55,11 @@ public class MobArenaManager {
         load();
     }
 
-    // Constructor to create a mob arena with the given name, center position, radius, and wave delay
-    public static void createArena(String name, double x, double y, double z, int radius, int delayBetweenWaves) {
+    // Constructor to create a mob arena with the given name, center position, size (width along X, length along Z),
+    // and wave delay
+    public static void createArena(String name, double x, double y, double z, int width, int length, int delayBetweenWaves) {
         if (arenas.containsKey(name)) return;
-        arenas.put(name, new MobArena(name, x, y, z, radius, delayBetweenWaves));
+        arenas.put(name, new MobArena(name, x, y, z, width, length, delayBetweenWaves));
         save();
     }
 
@@ -104,15 +105,23 @@ public class MobArenaManager {
         // If save file doesnt exist return
         if (!Files.exists(saveFile)) return;
 
+        boolean migrated = false;
         try (Reader reader = new FileReader(saveFile.toFile())) {
             Type listType = new TypeToken<List<MobArena>>() {}.getType();
             List<MobArena> list = GSON.fromJson(reader, listType);
             if (list != null) {
                 arenas.clear();
-                list.forEach(arena -> arenas.put(arena.getName(), arena));
+                for (MobArena arena : list) {
+                    // Circle saves (radius only) become squares with side = old diameter
+                    if (arena.migrateLegacySize()) migrated = true;
+                    arenas.put(arena.getName(), arena);
+                }
             }
         } catch (IOException e) {
             LOGGER.error("", e);
         }
+
+        // Write the converted sizes back so the file is in the new format from now on
+        if (migrated) save();
     }
 }
