@@ -40,7 +40,7 @@ public class DevCommands {
                 .then(Commands.literal("disenchant")
                         .executes(DevCommands::executeDisenchant)
                 )
-                .then(Commands.literal("nocooldown")
+                .then(Commands.literal("no_cooldown")
                         .executes(DevCommands::executeToggleNoCooldown)
                 )
                 // Mana and hypermana commands
