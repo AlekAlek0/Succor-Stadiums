@@ -1,6 +1,9 @@
 package net.alek.succorstadiums.item.trinkets;
 
 import net.alek.succorstadiums.mana.ManaHelper;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -13,6 +16,8 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.animal.wolf.Wolf;
+import net.minecraft.world.entity.animal.wolf.WolfVariant;
+import net.minecraft.world.entity.animal.wolf.WolfVariants;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -58,6 +63,11 @@ public class DogWhistleItem extends Item {
             // Get the item in player hand as itemStack
             ItemStack itemStack = player.getItemInHand(hand);
 
+            // Get the wolf wood variant
+            Holder<WolfVariant> woodsVariant = serverLevel.registryAccess()
+                    .lookupOrThrow(Registries.WOLF_VARIANT)
+                    .getOrThrow(WolfVariants.WOODS);
+
             // Check if player has enough mana to cast staff
             if (!ManaHelper.consumeMana(player, MANA_COST)) {
                 player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
@@ -79,11 +89,13 @@ public class DogWhistleItem extends Item {
                     // Set wolf position to the player x, y and z, with offsets
                     wolf.setPos(playerPos.x + offsetX, playerPos.y, playerPos.z + offsetZ);
 
-                    // Set the wolf owner, tamed state, hp to 4 hearts, and target to null
+                    // Set the wolf owner, tamed state, hp to 4 hearts, variant, and target to null
                     wolf.setOwner(player);
                     wolf.setTame(true, false);
                     wolf.setHealth(8F);
+                    wolf.setComponent(DataComponents.WOLF_VARIANT, woodsVariant);
                     wolf.setTarget(null);
+
 
                     // Set wolf max health to 4 hearts
                     if (wolf.getAttribute(Attributes.MAX_HEALTH) != null) {
