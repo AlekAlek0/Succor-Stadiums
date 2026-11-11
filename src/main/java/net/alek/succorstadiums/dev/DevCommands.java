@@ -1,36 +1,88 @@
 package net.alek.succorstadiums.dev;
 
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
+import net.minecraft.commands.arguments.EntityArgument;
 import com.mojang.brigadier.context.CommandContext;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.ChatFormatting;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.commands.Commands;
+import net.minecraft.ChatFormatting;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+
+import net.alek.succorstadiums.mana.ManaData;
+import net.alek.succorstadiums.mana.ManaHelper;
 
 // Dev only commands and tools class
 public class DevCommands {
+
+    // Initialize message when mana is full
+    private static final Component MANA_FULL_MESSAGE =
+            Component.translatable("message.succorstadiums.mana_full");
 
     // Players that currently have the dev no cooldown mode enabled
     private static final Set<UUID> NO_COOLDOWN_PLAYERS = ConcurrentHashMap.newKeySet();
 
     // Builds the "dev" subcommand group so it can be attached to the main succorstadiums command
     public static LiteralArgumentBuilder<CommandSourceStack> buildDevCommands() {
-        return Commands.literal("developer")
+        return Commands.literal("dev")
                 .then(Commands.literal("disenchant")
                         .executes(DevCommands::executeDisenchant)
                 )
-                .then(Commands.literal("no_cooldown")
+                .then(Commands.literal("nocooldown")
                         .executes(DevCommands::executeToggleNoCooldown)
+                )
+                // Mana and hypermana commands
+                .then(buildManaCommand())
+                .then(buildHypermanaCommand());
+    }
+
+    // Builds the mana command, used under dev (/succorstadiums dev mana)
+    private static LiteralArgumentBuilder<CommandSourceStack> buildManaCommand() {
+        return Commands.literal("mana")
+                .then(Commands.literal("add")
+                        .then(Commands.argument("targets", EntityArgument.players())
+                                .then(Commands.argument("amount", IntegerArgumentType.integer(0))
+                                        .executes(DevCommands::executeAddMana)
+                                )
+                        )
+                )
+                .then(Commands.literal("consume")
+                        .then(Commands.argument("targets", EntityArgument.players())
+                                .then(Commands.argument("amount", IntegerArgumentType.integer(0))
+                                        .executes(DevCommands::executeConsumeMana)
+                                )
+                        )
+                );
+    }
+
+    // Builds the hypermana command, used under dev (/succorstadiums dev hypermana)
+    private static LiteralArgumentBuilder<CommandSourceStack> buildHypermanaCommand() {
+        return Commands.literal("hypermana")
+                .then(Commands.literal("add")
+                        .then(Commands.argument("targets", EntityArgument.players())
+                                .then(Commands.argument("amount", IntegerArgumentType.integer(0))
+                                        .executes(DevCommands::executeAddHypermana)
+                                )
+                        )
+                )
+                .then(Commands.literal("consume")
+                        .then(Commands.argument("targets", EntityArgument.players())
+                                .then(Commands.argument("amount", IntegerArgumentType.integer(0))
+                                        .executes(DevCommands::executeConsumeHypermana)
+                                )
+                        )
                 );
     }
 
@@ -103,5 +155,52 @@ public class DevCommands {
 
         source.sendSuccess(() -> message, true);
         return 1;
+    }
+
+    // Helper method for the mana add command
+    private static int executeAddMana(CommandContext<CommandSourceStack> ctx) {
+        Player player = (Player) ctx.getSource().getEntity();
+        int amount = IntegerArgumentType.getInteger(ctx, "amount");
+
+        assert player != null;
+        ManaData current = ManaHelper.get(player);
+        if (current.getMana() >= current.getMaxMana()) {
+            player.sendOverlayMessage(MANA_FULL_MESSAGE);
+            return 0;
+        }
+
+        ManaHelper.addMana(player, amount);
+
+        return 0;
+    }
+
+    // Helper method for the mana consume command
+    private static int executeConsumeMana(CommandContext<CommandSourceStack> ctx) {
+        Player player = (Player) ctx.getSource().getEntity();
+        int amount = IntegerArgumentType.getInteger(ctx, "amount");
+
+        ManaHelper.consumeManaOnlyClamped(player, amount);
+
+        return 0;
+    }
+
+    // Helper method for the hypermana add command
+    private static int executeAddHypermana(CommandContext<CommandSourceStack> ctx) {
+        Player player = (Player) ctx.getSource().getEntity();
+        int amount = IntegerArgumentType.getInteger(ctx, "amount");
+
+        ManaHelper.addHypermana(player, amount);
+
+        return 0;
+    }
+
+    // Helper method for the hypermana consume command
+    private static int executeConsumeHypermana(CommandContext<CommandSourceStack> ctx) {
+        Player player = (Player) ctx.getSource().getEntity();
+        int amount = IntegerArgumentType.getInteger(ctx, "amount");
+
+        ManaHelper.consumeHypermanaClamped(player, amount);
+
+        return 0;
     }
 }

@@ -1,10 +1,7 @@
 package net.alek.succorstadiums.command;
 
-import com.mojang.brigadier.arguments.IntegerArgumentType;
-import net.minecraft.commands.arguments.EntityArgument;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.network.chat.Component;
@@ -15,15 +12,9 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 
 import net.alek.succorstadiums.util.CustomVillagerSpawner;
 import net.alek.succorstadiums.dev.DevCommands;
-import net.alek.succorstadiums.mana.ManaHelper;
-import net.alek.succorstadiums.mana.ManaData;
 
 // Mod commands class
 public class ModCommands {
-
-    // Initialize message when mana is full
-    private static final Component MANA_FULL_MESSAGE =
-            Component.translatable("message.succorstadiums.mana_full");
 
     // Register method for the mod commands
     public static void registerModCommands() {
@@ -75,48 +66,6 @@ public class ModCommands {
                                 .then(DevCommands.buildDevCommands())
                 )
         );
-
-        // Register the mana commands
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            dispatcher.register(
-                    Commands.literal("mana")
-                            .then(Commands.literal("add")
-                                    .then(Commands.argument("targets", EntityArgument.players())
-                                            .then(Commands.argument("amount", IntegerArgumentType.integer(0))
-                                                    .executes(ModCommands::executeAddMana)
-                                            )
-                                    )
-                            )
-                            .then(Commands.literal("consume")
-                                    .then(Commands.argument("targets", EntityArgument.players())
-                                            .then(Commands.argument("amount", IntegerArgumentType.integer(0))
-                                                    .executes(ModCommands::executeConsumeMana)
-                                            )
-                                    )
-                            )
-            );
-        });
-
-        // Register the hypermana commands
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            dispatcher.register(
-                    Commands.literal("hypermana")
-                            .then(Commands.literal("add")
-                                    .then(Commands.argument("targets", EntityArgument.players())
-                                            .then(Commands.argument("amount", IntegerArgumentType.integer(0))
-                                                    .executes(ModCommands::executeAddHypermana)
-                                            )
-                                    )
-                            )
-                            .then(Commands.literal("consume")
-                                    .then(Commands.argument("targets", EntityArgument.players())
-                                            .then(Commands.argument("amount", IntegerArgumentType.integer(0))
-                                                    .executes(ModCommands::executeConsumeHypermana)
-                                            )
-                                    )
-                            )
-            );
-        });
     }
 
     // Helper method for the villagers ye command
@@ -209,52 +158,4 @@ public class ModCommands {
         source.sendSuccess(() -> Component.literal("Spawned Boe Narrow"), true);
         return 1;
     }
-
-    // Helper method for the mana add command
-    private static int executeAddMana(CommandContext<CommandSourceStack> ctx) {
-        Player player = (Player) ctx.getSource().getEntity();
-        int amount = IntegerArgumentType.getInteger(ctx, "amount");
-
-        assert player != null;
-        ManaData current = ManaHelper.get(player);
-        if (current.getMana() >= current.getMaxMana()) {
-            player.sendOverlayMessage(MANA_FULL_MESSAGE);
-            return 0;
-        }
-
-        ManaHelper.addMana(player, amount);
-
-        return 0;
-    }
-
-    // Helper method for the mana consume command
-    private static int executeConsumeMana(CommandContext<CommandSourceStack> ctx) {
-        Player player = (Player) ctx.getSource().getEntity();
-        int amount = IntegerArgumentType.getInteger(ctx, "amount");
-
-        ManaHelper.consumeManaOnlyClamped(player, amount);
-
-        return 0;
-    }
-
-    // Helper method for the hypermana add command
-    private static int executeAddHypermana(CommandContext<CommandSourceStack> ctx) {
-        Player player = (Player) ctx.getSource().getEntity();
-        int amount = IntegerArgumentType.getInteger(ctx, "amount");
-
-        ManaHelper.addHypermana(player, amount);
-
-        return 0;
-    }
-
-    // Helper method for the hypermana consume command
-    private static int executeConsumeHypermana(CommandContext<CommandSourceStack> ctx) {
-        Player player = (Player) ctx.getSource().getEntity();
-        int amount = IntegerArgumentType.getInteger(ctx, "amount");
-
-        ManaHelper.consumeHypermanaClamped(player, amount);
-
-        return 0;
-    }
-
 }
