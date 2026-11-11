@@ -15,14 +15,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.ChatFormatting;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.Set;
-import java.util.UUID;
-
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
-import net.alek.succorstadiums.mana.ManaData;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.UUID;
+import java.util.Set;
+
 import net.alek.succorstadiums.mana.ManaHelper;
+import net.alek.succorstadiums.mana.ManaData;
 
 // Dev only commands and tools class
 public class DevCommands {
@@ -30,6 +30,9 @@ public class DevCommands {
     // Initialize message when mana is full
     private static final Component MANA_FULL_MESSAGE =
             Component.translatable("message.succorstadiums.mana_full");
+
+    // Players that currently have the dev infinite mana mode enabled
+    private static final Set<UUID> INFINITE_MANA_PLAYERS = ConcurrentHashMap.newKeySet();
 
     // Players that currently have the dev no cooldown mode enabled
     private static final Set<UUID> NO_COOLDOWN_PLAYERS = ConcurrentHashMap.newKeySet();
@@ -42,6 +45,9 @@ public class DevCommands {
                 )
                 .then(Commands.literal("no_cooldown")
                         .executes(DevCommands::executeToggleNoCooldown)
+                )
+                .then(Commands.literal("infinite_mana")
+                        .executes(DevCommands::executeToggleInfiniteMana)
                 )
                 // Mana and hypermana commands
                 .then(buildManaCommand())
@@ -107,6 +113,21 @@ public class DevCommands {
                 }
             }
         });
+
+        // Every tick refill the mana of players with infinite mana mode on
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            if (INFINITE_MANA_PLAYERS.isEmpty()) return;
+
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                if (!INFINITE_MANA_PLAYERS.contains(player.getUUID())) continue;
+
+                ManaData data = ManaHelper.get(player);
+                int missing = data.getMaxMana() - data.getMana();
+                if (missing > 0) {
+                    ManaHelper.addMana(player, missing);
+                }
+            }
+        });
     }
 
     // Helper method for the dev disenchant command
@@ -147,9 +168,31 @@ public class DevCommands {
             NO_COOLDOWN_PLAYERS.add(id);
         }
 
-        // "No Item Cooldowns:" in pink, then ON in green or OFF in red
-        Component message = Component.literal("Item Cooldowns: ")
-                .withStyle(ChatFormatting.LIGHT_PURPLE)
+        Component message = Component.literal("Item Cooldowns: ").withStyle(ChatFormatting.LIGHT_PURPLE)
+                .append(Component.literal(enabled ? "ON" : "OFF")
+                        .withStyle(enabled ? ChatFormatting.GREEN : ChatFormatting.RED));
+
+        source.sendSuccess(() -> message, true);
+        return 1;
+    }
+
+    // Helper method for the dev infinite_mana command, toggles infinite mana for the player
+    private static int executeToggleInfiniteMana(CommandContext<CommandSourceStack> ctx) {
+        CommandSourceStack source = ctx.getSource();
+
+        if (!(source.getEntity() instanceof ServerPlayer player)) {
+            source.sendFailure(Component.literal("Only players can use this command."));
+            return 0;
+        }
+
+        UUID id = player.getUUID();
+        boolean enabled = !INFINITE_MANA_PLAYERS.remove(id);
+
+        if (enabled) {
+            INFINITE_MANA_PLAYERS.add(id);
+        }
+
+        Component message = Component.literal("Infinite Mana: ").withStyle(ChatFormatting.LIGHT_PURPLE)
                 .append(Component.literal(enabled ? "ON" : "OFF")
                         .withStyle(enabled ? ChatFormatting.GREEN : ChatFormatting.RED));
 
