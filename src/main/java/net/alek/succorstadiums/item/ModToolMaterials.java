@@ -86,4 +86,14 @@ public class ModToolMaterials {
             25,
             null
     );
+
+    // Create summoners cane tool material
+    public static final ToolMaterial SUMMONERS_CANE_TOOL_MATERIAL = new ToolMaterial(
+            BlockTags.INCORRECT_FOR_WOODEN_TOOL,
+            320,
+            0,
+            0,
+            25,
+            null
+    );
 }

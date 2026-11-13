@@ -700,6 +700,12 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.DARK_GREEN)
                 );
             }
+            if (stack.is(ModItems.SUMMONERS_CANE)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.summoners_cane.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
             if (stack.is(ModItems.CARDBOARD_SHIELD)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.cardboard_shield.lore")

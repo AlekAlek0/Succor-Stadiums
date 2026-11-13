@@ -1,4 +1,4 @@
-package net.alek.succorstadiums.item.trinkets;
+package net.alek.succorstadiums.item.summons;
 
 import net.alek.succorstadiums.mana.ManaHelper;
 import net.minecraft.core.Holder;

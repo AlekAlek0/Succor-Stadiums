@@ -75,10 +75,6 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerators.generateFlatItem(ModItems.OAK_SWORD, ModelTemplates.FLAT_HANDHELD_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.RAZOR_THORN, ModelTemplates.FLAT_HANDHELD_ITEM);
 
-        // Magic weapon datagen
-        itemModelGenerators.generateFlatItem(ModItems.FIRECHARGED_CANE, ModelTemplates.FLAT_HANDHELD_ITEM);
-        itemModelGenerators.generateFlatItem(ModItems.AQUAONDUIT, ModelTemplates.FLAT_HANDHELD_ITEM);
-
         // Ranged weapon datagen
         itemModelGenerators.createFlatItemModel(ModItems.OAK_BOW, ModelTemplates.BOW);
         itemModelGenerators.generateBow(ModItems.OAK_BOW);
@@ -93,6 +89,10 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerators.generateBow(ModItems.CREEPBOW);
 
         itemModelGenerators.generateFlatItem(ModItems.BALE_ARROW, ModelTemplates.FLAT_ITEM);
+
+        // Magic weapon datagen
+        itemModelGenerators.generateFlatItem(ModItems.FIRECHARGED_CANE, ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.AQUAONDUIT, ModelTemplates.FLAT_HANDHELD_ITEM);
 
         // Food datagen
         itemModelGenerators.generateFlatItem(ModItems.GHRAMBLE_BAPPLE, ModelTemplates.FLAT_ITEM);
@@ -110,8 +110,11 @@ public class ModModelProvider extends FabricModelProvider {
         // Trinket datagen
         itemModelGenerators.generateFlatItem(ModItems.RESURRECTION_AMULET, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.FLINT_CHARM, ModelTemplates.FLAT_ITEM);
-        itemModelGenerators.generateFlatItem(ModItems.DOG_WHISTLE, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.ROSEBOUND_TOME, ModelTemplates.FLAT_ITEM);
+
+        // Summons datagen
+        itemModelGenerators.generateFlatItem(ModItems.SUMMONERS_CANE, ModelTemplates.FLAT_HANDHELD_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.DOG_WHISTLE, ModelTemplates.FLAT_ITEM);
 
         // Equipment datagen
         itemModelGenerators.generateFlatItem(ModItems.PLAINS_COIN_POUCH, ModelTemplates.FLAT_ITEM);

@@ -75,10 +75,6 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.SPROUT_SICKLE, "Sprout Sickle");
         translationBuilder.add(ModItems.OAK_SWORD, "Oak Sword");
 
-        // Magic Weapon translations
-        translationBuilder.add(ModItems.FIRECHARGED_CANE, "§4Firecharged Cane");
-        translationBuilder.add(ModItems.AQUAONDUIT, "§3Aquaonduit");
-
         // Ranged Weapon translations
         translationBuilder.add(ModItems.OAK_BOW, "Oak Bow");
         translationBuilder.add(ModItems.BOWNANA, "§eBownana");
@@ -86,6 +82,10 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.CREEPBOW, "Creepbow");
         translationBuilder.add(ModItems.RAZOR_THORN, "Razor Thorn");
         translationBuilder.add(ModItems.BALE_ARROW, "Bale Arrow");
+
+        // Magic Weapon translations
+        translationBuilder.add(ModItems.FIRECHARGED_CANE, "§4Firecharged Cane");
+        translationBuilder.add(ModItems.AQUAONDUIT, "§3Aquaonduit");
 
         // Food translations
         translationBuilder.add(ModItems.GHRAMBLE_BAPPLE, "Ghramble Bapple");
@@ -103,8 +103,12 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Trinket translations
         translationBuilder.add(ModItems.FLINT_CHARM, "Flint Charm");
         translationBuilder.add(ModItems.RESURRECTION_AMULET, "Resurrection Amulet");
-        translationBuilder.add(ModItems.DOG_WHISTLE, "Dog Whistle");
         translationBuilder.add(ModItems.ROSEBOUND_TOME, "Rosebound Tome");
+
+        // Summons translations
+        translationBuilder.add(ModItems.SUMMONERS_CANE, "Summoners Cane");
+        translationBuilder.add(ModItems.DOG_WHISTLE, "Dog Whistle");
+
 
         // Equipment translations
         translationBuilder.add(ModItems.PLAINS_COIN_POUCH, "Plains Coin Pouch");
@@ -187,6 +191,18 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_2", "  Poison I | 0:04 | 25%");
         translationBuilder.add("item.succorstadiums.sprout_sickle.tooltip_0", "Paralysis | 0:03 | 8%");
 
+        // Ranged Weapon Lore translations
+        translationBuilder.add("item.succorstadiums.oak_bow.lore", "Not as powerful as you might expect.");
+        translationBuilder.add("item.succorstadiums.bownana.lore", "Nana Nana.");
+        translationBuilder.add("item.succorstadiums.arachno_crossbow.lore", "Slow but powerful, a promising ranged option.");
+        translationBuilder.add("item.succorstadiums.razor_thorn.lore", "Just a sharp branch.");
+        translationBuilder.add("item.succorstadiums.bale_arrow.lore", "Knockback.");
+
+        // Ranged Weapon Tooltip translations
+        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_0", "1% Chance for free a thorn.");
+        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_1", "When Thrown:");
+        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_2", " 4 Attack Damage 3x");
+
         // Magic Weapon Lore translations
         translationBuilder.add("item.succorstadiums.fire_staff.lore", "Fireball.");
         translationBuilder.add("item.succorstadiums.aqua_staff.lore", "Slows both movement and fall speed.");
@@ -203,20 +219,6 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_4", " Slow Falling I | 00:15 | 100%");
         translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_5", " Slowness II | 00:15 | 100%");
         translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_6", "-7 Mana");
-
-        //--------------------------
-
-        // Ranged Weapon Lore translations
-        translationBuilder.add("item.succorstadiums.oak_bow.lore", "Not as powerful as you might expect.");
-        translationBuilder.add("item.succorstadiums.bownana.lore", "Nana Nana.");
-        translationBuilder.add("item.succorstadiums.arachno_crossbow.lore", "Slow but powerful, a promising ranged option.");
-        translationBuilder.add("item.succorstadiums.razor_thorn.lore", "Just a sharp branch.");
-        translationBuilder.add("item.succorstadiums.bale_arrow.lore", "Knockback.");
-
-        // Ranged Weapon Tooltip translations
-        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_0", "1% Chance for free a thorn.");
-        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_1", "When Thrown:");
-        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_2", " 4 Attack Damage 3x");
 
         // Food Lore translations
         translationBuilder.add("item.succorstadiums.ghramble_bapple.lore", "Ghramble is my favorite bapple.");
@@ -237,22 +239,27 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         // Trinket Lore translations
         translationBuilder.add("item.succorstadiums.flint_charm.lore", "Flint Charm? I just don't see it.");
         translationBuilder.add("item.succorstadiums.resurrection_amulet.lore", "I mean the name tells you all you need to know.");
-        translationBuilder.add("item.succorstadiums.dog_whistle.lore", "Summons 3 doggies to help you fight!");
         translationBuilder.add("item.succorstadiums.rosebound_tome.lore", "Spawns a healing aura.");
 
         // Trinket Tooltip translations
         translationBuilder.add("item.succorstadiums.flint_charm.tooltip_0", "When in Off Hand:");
         translationBuilder.add("item.succorstadiums.flint_charm.tooltip_1", " +1 Melee Attack Damage");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_0", "When Used:");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_1", " 1.5 Summon Damage");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", " 30s Summon Duration");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_3", " 10s Cooldown");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_4", "-8 Mana");
         translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_0", "When Used:");
         translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_1", " 0 Magic Damage");
         translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_2", " 90s Cooldown");
         translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_3", " 20s Ring Duration");
         translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_4", "Regeneration I | 00:30 | 100%");
+
+        // Summons Lore translations
+        translationBuilder.add("item.succorstadiums.summoners_cane.lore", "A trusty tool for any summoner.");
+        translationBuilder.add("item.succorstadiums.dog_whistle.lore", "Summons 3 doggies to help you fight!");
+
+        // Summons Tooltip translations
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_0", "When Used:");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_1", " 1.5 Summon Damage");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", " 30s Summon Duration");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_3", " 10s Cooldown");
+        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_4", "-8 Mana");
 
         // Equipment Lore translations
         translationBuilder.add("item.succorstadiums.cardboard_shield.lore", "Only Blocks Projectiles.");

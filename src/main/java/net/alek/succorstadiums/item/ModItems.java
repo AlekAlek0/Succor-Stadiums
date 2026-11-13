@@ -25,8 +25,9 @@ import static net.alek.succorstadiums.item.ModArmorMaterials.*;
 import net.alek.succorstadiums.item.trinkets.RoseboundTomeItem;
 import net.alek.succorstadiums.item.weapons.ranged.OakBowItem;
 import static net.alek.succorstadiums.item.ModToolMaterials.*;
+import net.alek.succorstadiums.item.summons.SummonersCaneItem;
 import net.alek.succorstadiums.item.trinkets.FlintCharmItem;
-import net.alek.succorstadiums.item.trinkets.DogWhistleItem;
+import net.alek.succorstadiums.item.summons.DogWhistleItem;
 import net.alek.succorstadiums.item.foods.CreeperSalveItem;
 import net.alek.succorstadiums.item.armor.BaleArmorItem;
 import net.alek.succorstadiums.item.foods.ManaPasteItem;
@@ -37,6 +38,7 @@ import net.alek.succorstadiums.food.ModFoods;
 // ModItems class
 public class ModItems {
 
+    // Basic Items
     public static final Item BRENNON_ORE = registerItem("brennon_ore", Item::new);
     public static final Item SILVER_INGOT = registerItem("silver_ingot", Item::new);
     public static final Item EMERALD_COIN = registerItem("emerald_coin", properties -> new Item(properties
@@ -51,6 +53,7 @@ public class ModItems {
     public static final Item GRAY_SPIDER_EYE = registerItem("gray_spider_eye", Item::new);
     public static final Item GRAY_SPIDER_LEG = registerItem("gray_spider_leg", Item::new);
 
+    // Armor Items
     public static final Item BALE_HELMET = registerItem("bale_helmet",
             (properties) -> new BaleArmorItem(BALE_ARMOR_MATERIAL, ArmorType.HELMET, properties));
 
@@ -116,6 +119,7 @@ public class ModItems {
             ArmorType.BOOTS
     ));
 
+    // Melee Weapon Items
     public static final Item BEAN_POLE = registerItem("bean_pole", properties -> new BeanPoleItem(
             properties.sword(BEAN_POLE_TOOL_MATERIAL,
                     0F,
@@ -171,11 +175,7 @@ public class ModItems {
                     -2.4F)
     ));
 
-    public static final Item FIRECHARGED_CANE = registerItem("firecharged_cane", properties -> new FirechargedCaneItem(properties
-            .durability(300)));
-    public static final Item AQUAONDUIT = registerItem("aquaonduit", properties -> new AquaonduitItem(properties
-            .durability(300)));
-
+    // Ranged Weapon Items
     public static final Item OAK_BOW = registerItem("oak_bow", properties -> new OakBowItem(properties
             .durability(320)));
     public static final Item BOWNANA = registerItem("bownana", properties -> new BownanaItem(properties
@@ -188,6 +188,13 @@ public class ModItems {
     public static final Item BALE_ARROW = registerItem("bale_arrow", properties -> new BaleArrowItem(properties
             .stacksTo(64)));
 
+    // Magic Items
+    public static final Item FIRECHARGED_CANE = registerItem("firecharged_cane", properties -> new FirechargedCaneItem(properties
+            .durability(300)));
+    public static final Item AQUAONDUIT = registerItem("aquaonduit", properties -> new AquaonduitItem(properties
+            .durability(300)));
+
+    // Food Items
     public static final Item GHRAMBLE_BAPPLE = registerItem("ghramble_bapple", properties -> new Item(properties.food(ModFoods.GHRAMBLE_BAPPLE, ModFoods.GHRAMBLE_BAPPLE_CONSUMABLE)
             .useCooldown(5)));
     public static final Item CREEPER_SALVE = registerItem("creeper_salve", properties -> new CreeperSalveItem(properties.food(ModFoods.CREEPER_SALVE, ModFoods.CREEPER_SALVE_CONSUMABLE)
@@ -210,21 +217,31 @@ public class ModItems {
     public static final Item ROTTEN_STEW = registerItem("rotten_stew", properties -> new Item(properties.food(ModFoods.ROTTEN_STEW, ModFoods.ROTTEN_STEW_CONSUMABLE)
             .stacksTo(16)));
 
+    // Trinket Items
     public static final Item FLINT_CHARM = registerItem("flint_charm", properties -> new FlintCharmItem(properties
             .stacksTo(1)));
     public static final Item RESURRECTION_AMULET = registerItem("resurrection_amulet", properties -> new Item(properties
-            .stacksTo(1)));
-    public static final Item DOG_WHISTLE = registerItem("dog_whistle", properties -> new DogWhistleItem(properties
-            .durability(48)
             .stacksTo(1)));
     public static final Item ROSEBOUND_TOME = registerItem("rosebound_tome", properties -> new RoseboundTomeItem(properties
             .stacksTo(1)
     ));
 
+    // Summon Items
+    public static final Item SUMMONERS_CANE = registerItem("summoners_cane", properties -> new SummonersCaneItem(
+            properties.sword(SUMMONERS_CANE_TOOL_MATERIAL,
+                    0F,
+                    0F)
+    ));
+    public static final Item DOG_WHISTLE = registerItem("dog_whistle", properties -> new DogWhistleItem(properties
+            .durability(48)
+            .stacksTo(1)));
+
+    // Equipment Items
     public static final Item PLAINS_COIN_POUCH = registerItem("plains_coin_pouch", properties -> new PlainsCoinPouchItem(properties
             .stacksTo(1)));
     public static final Item CARDBOARD_SHIELD = registerItem("cardboard_shield", CardboardShieldItem::new);
 
+    // Private method to create a item registry used to register our custom items
     private static Item registerItem(String name, Function<Item.Properties, Item> function) {
         return Registry.register(BuiltInRegistries.ITEM, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, name),
                 function.apply(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(SuccorStadiums.MOD_ID, name)))));
