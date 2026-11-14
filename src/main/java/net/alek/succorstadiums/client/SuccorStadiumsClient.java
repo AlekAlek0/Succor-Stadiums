@@ -393,7 +393,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
             }
 
-            // Weapon Tooltips
+            // Melee Weapon Tooltips
             if (stack.is(ModItems.BEAN_POLE)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.bean_pole.lore")
@@ -463,6 +463,53 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 );
             }
 
+            // Ranged Weapon Tooltips
+            if (stack.is(ModItems.OAK_BOW)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.oak_bow.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
+            if (stack.is(ModItems.BOWNANA)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.bownana.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
+            if (stack.is(ModItems.ARACHNO_CROSSBOW)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.arachno_crossbow.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
+            if (stack.is(ModItems.RAZOR_THORN)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.razor_thorn.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.razor_thorn.tooltip_0")
+                                .withStyle(ChatFormatting.DARK_PURPLE)
+                );
+                tooltip.add(4, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.razor_thorn.tooltip_1")
+                                .withStyle(ChatFormatting.GRAY)
+                );
+                tooltip.add(6,
+                        Component.translatable("item.succorstadiums.razor_thorn.tooltip_2")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+            }
+            if (stack.is(ModItems.BALE_ARROW)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.bale_arrow.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+            }
+
+            // Magic Weapon Tooltips
             if (stack.is(ModItems.FIRECHARGED_CANE)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.fire_staff.lore")
@@ -519,50 +566,6 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                 tooltip.add(9,
                         Component.translatable("item.succorstadiums.aqua_staff.tooltip_6")
                                 .withStyle(ChatFormatting.RED)
-                );
-            }
-            if (stack.is(ModItems.OAK_BOW)) {
-                tooltip.add(1,
-                        Component.translatable("item.succorstadiums.oak_bow.lore")
-                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
-                );
-            }
-            if (stack.is(ModItems.BOWNANA)) {
-                tooltip.add(1,
-                        Component.translatable("item.succorstadiums.bownana.lore")
-                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
-                );
-            }
-            if (stack.is(ModItems.ARACHNO_CROSSBOW)) {
-                tooltip.add(1,
-                        Component.translatable("item.succorstadiums.arachno_crossbow.lore")
-                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
-                );
-            }
-            if (stack.is(ModItems.RAZOR_THORN)) {
-                tooltip.add(1,
-                        Component.translatable("item.succorstadiums.razor_thorn.lore")
-                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
-                );
-                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
-                tooltip.add(3,
-                        Component.translatable("item.succorstadiums.razor_thorn.tooltip_0")
-                                .withStyle(ChatFormatting.DARK_PURPLE)
-                );
-                tooltip.add(4, Component.translatable("item.succorstadiums.spacer"));
-                tooltip.add(5,
-                        Component.translatable("item.succorstadiums.razor_thorn.tooltip_1")
-                                .withStyle(ChatFormatting.GRAY)
-                );
-                tooltip.add(6,
-                        Component.translatable("item.succorstadiums.razor_thorn.tooltip_2")
-                                .withStyle(ChatFormatting.DARK_GREEN)
-                );
-            }
-            if (stack.is(ModItems.BALE_ARROW)) {
-                tooltip.add(1,
-                        Component.translatable("item.succorstadiums.bale_arrow.lore")
-                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
 
@@ -646,33 +649,6 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
-            if (stack.is(ModItems.DOG_WHISTLE)) {
-                tooltip.add(1,
-                        Component.translatable("item.succorstadiums.dog_whistle.lore")
-                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
-                );
-                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
-                tooltip.add(3,
-                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_0")
-                                .withStyle(ChatFormatting.GRAY)
-                );
-                tooltip.add(4,
-                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_1")
-                                .withStyle(ChatFormatting.DARK_GREEN)
-                );
-                tooltip.add(5,
-                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_2")
-                                .withStyle(ChatFormatting.DARK_GREEN)
-                );
-                tooltip.add(6,
-                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_3")
-                                .withStyle(ChatFormatting.DARK_GREEN)
-                );
-                tooltip.add(7,
-                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_4")
-                                .withStyle(ChatFormatting.RED)
-                );
-            }
             if (stack.is(ModItems.ROSEBOUND_TOME)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.rosebound_tome.lore")
@@ -700,12 +676,43 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                                 .withStyle(ChatFormatting.DARK_GREEN)
                 );
             }
+
+            // Summons Tooltips
             if (stack.is(ModItems.SUMMONERS_CANE)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.summoners_cane.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
             }
+            if (stack.is(ModItems.DOG_WHISTLE)) {
+                tooltip.add(1,
+                        Component.translatable("item.succorstadiums.dog_whistle.lore")
+                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                );
+                tooltip.add(2, Component.translatable("item.succorstadiums.spacer"));
+                tooltip.add(3,
+                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_0")
+                                .withStyle(ChatFormatting.GRAY)
+                );
+                tooltip.add(4,
+                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_1")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+                tooltip.add(5,
+                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_2")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+                tooltip.add(6,
+                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_3")
+                                .withStyle(ChatFormatting.DARK_GREEN)
+                );
+                tooltip.add(7,
+                        Component.translatable("item.succorstadiums.dog_whistle.tooltip_4")
+                                .withStyle(ChatFormatting.RED)
+                );
+            }
+
+            // Equipment Tooltips
             if (stack.is(ModItems.CARDBOARD_SHIELD)) {
                 tooltip.add(1,
                         Component.translatable("item.succorstadiums.cardboard_shield.lore")
