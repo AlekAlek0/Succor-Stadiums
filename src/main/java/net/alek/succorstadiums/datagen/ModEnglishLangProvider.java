@@ -255,6 +255,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.dog_whistle.lore", "Summons 3 doggies to help you fight!");
 
         // Summons Tooltip translations
+        translationBuilder.add("item.succorstadiums.summoners_cane.tooltip_0", "-6 Mana");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_0", "When Used:");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_1", " 1.5 Summon Damage");
         translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", " 30s Summon Duration");
