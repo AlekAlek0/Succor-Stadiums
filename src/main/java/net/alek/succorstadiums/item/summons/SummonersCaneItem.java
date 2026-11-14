@@ -1,5 +1,6 @@
 package net.alek.succorstadiums.item.summons;
 
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -15,11 +16,12 @@ import net.minecraft.world.item.Item;
 
 import org.jspecify.annotations.NonNull;
 
+import net.alek.succorstadiums.item.weapons.magic.MagicIndicator;
 import net.alek.succorstadiums.mana.ManaHelper;
 import net.alek.succorstadiums.sound.ModSounds;
 
 // SummonersCaneItem class
-public class SummonersCaneItem extends Item {
+public class SummonersCaneItem extends Item implements MagicIndicator {
     public SummonersCaneItem(Properties properties) {
         super(properties.component(
                 DataComponents.ATTRIBUTE_MODIFIERS,
@@ -38,6 +40,16 @@ public class SummonersCaneItem extends Item {
                                 new AttributeModifier(
                                         Item.BASE_ATTACK_SPEED_ID,
                                         -2.8,
+                                        AttributeModifier.Operation.ADD_VALUE
+                                ),
+                                EquipmentSlotGroup.MAINHAND
+
+                        )
+                        .add(
+                                Attributes.ATTACK_KNOCKBACK,
+                                new AttributeModifier(
+                                        Identifier.withDefaultNamespace("summoners_cane_attack_knockback"),
+                                        2.0,
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 EquipmentSlotGroup.MAINHAND

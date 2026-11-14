@@ -687,7 +687,7 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.summoners_cane.lore")
                                 .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
                 );
-                tooltip.add(6,
+                tooltip.add(7,
                         Component.translatable("item.succorstadiums.summoners_cane.tooltip_0")
                                 .withStyle(ChatFormatting.RED)
                 );
