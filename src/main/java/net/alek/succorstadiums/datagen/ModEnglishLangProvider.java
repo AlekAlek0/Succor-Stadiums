@@ -130,6 +130,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("message.succorstadiums.not_enough_mana", "§cInsufficient Mana");
         translationBuilder.add("message.succorstadiums.no_coins_to_deposit", "§cNo coins left to deposit in pouch");
         translationBuilder.add("message.succorstadiums.no_coins_to_withdraw", "§cNo coins left to withdraw from pouch");
+        translationBuilder.add("message.succorstadiums.no_target_in_view", "§cNo entity in view to target");
+        translationBuilder.add("message.succorstadiums.no_summons", "§cYou have no summons spawned");
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

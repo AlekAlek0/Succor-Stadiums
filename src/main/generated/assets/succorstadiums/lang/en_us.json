@@ -191,5 +191,7 @@
   "message.succorstadiums.mana_full": "§cMana is already full",
   "message.succorstadiums.no_coins_to_deposit": "§cNo coins left to deposit in pouch",
   "message.succorstadiums.no_coins_to_withdraw": "§cNo coins left to withdraw from pouch",
+  "message.succorstadiums.no_summons": "§cYou have no summons spawned",
+  "message.succorstadiums.no_target_in_view": "§cNo entity in view to target",
   "message.succorstadiums.not_enough_mana": "§cInsufficient Mana"
 }
