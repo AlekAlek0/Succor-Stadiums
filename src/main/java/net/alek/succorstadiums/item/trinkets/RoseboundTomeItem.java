@@ -1,6 +1,8 @@
 package net.alek.succorstadiums.item.trinkets;
 
+import net.alek.succorstadiums.mana.ManaHelper;
 import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -34,12 +36,16 @@ public class RoseboundTomeItem extends Item {
 
     // Constants for rosebound tome
     private static final int COOLDOWN_TICKS = 20 * 90; // 90 seconds
+    private static final int MANA_COST = 5; // 2.5 Stars
     private static final int RING_DURATION_TICKS = 20 * 20; // 20 seconds
     private static final int PARTICLE_COUNT = 72;
     private static final double ROSEBOUND_TOME_RING_RADIUS = 3.75;
     private static final int REGEN_DURATION = 20 * 30; // 30 seconds
     private static final int REGEN_AMPLIFIER = 0; // Regeneration I
     private static final int REGEN_CHECK_INTERVAL = 10; // ticks between ring occupancy checks
+
+    private static final Component NOT_ENOUGH_MANA_MESSAGE =
+            Component.translatable("message.succorstadiums.not_enough_mana");
 
     // Create the rosebound tome dust particle
     private static final DustParticleOptions ROSEBOUND_TOME_DUST =
@@ -75,6 +81,12 @@ public class RoseboundTomeItem extends Item {
 
         // Check to see if player is a server player if false return a pass value for the interaction result
         if (!(player instanceof ServerPlayer serverPlayer)) return InteractionResult.PASS;
+
+        // Check if player has enough mana to cast cane
+        if (!ManaHelper.consumeMana(player, MANA_COST)) {
+            player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
+            return InteractionResult.FAIL;
+        }
 
         // Replace any ring this player already has so they never stack
         activeRings.removeIf(ring -> ring.player == serverPlayer);

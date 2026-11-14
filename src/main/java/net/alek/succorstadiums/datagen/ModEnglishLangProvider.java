@@ -248,7 +248,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_1", " 0 Magic Damage");
         translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_2", " 90s Cooldown");
         translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_3", " 20s Ring Duration");
-        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_4", "Regeneration I | 00:30 | 100%");
+        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_4", " Regeneration I | 00:30 | 100%");
+        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_5", "-5 Mana");
 
         // Summons Lore translations
         translationBuilder.add("item.succorstadiums.summoners_cane.lore", "A trusty tool for any summoner.");

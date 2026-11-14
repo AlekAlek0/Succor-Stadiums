@@ -675,6 +675,10 @@ public class SuccorStadiumsClient implements ClientModInitializer {
                         Component.translatable("item.succorstadiums.rosebound_tome.tooltip_4")
                                 .withStyle(ChatFormatting.DARK_GREEN)
                 );
+                tooltip.add(8,
+                        Component.translatable("item.succorstadiums.rosebound_tome.tooltip_5")
+                                .withStyle(ChatFormatting.RED)
+                );
             }
 
             // Summons Tooltips
