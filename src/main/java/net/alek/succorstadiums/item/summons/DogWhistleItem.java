@@ -1,38 +1,39 @@
 package net.alek.succorstadiums.item.summons;
 
-import net.alek.succorstadiums.mana.ManaHelper;
-import net.minecraft.core.Holder;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.wolf.WolfVariants;
+import net.minecraft.world.entity.animal.wolf.WolfVariant;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityTypes;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.wolf.Wolf;
-import net.minecraft.world.entity.animal.wolf.WolfVariant;
-import net.minecraft.world.entity.animal.wolf.WolfVariants;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.core.Holder;
 
 import org.jspecify.annotations.NonNull;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-// Dog Whistle Item
-public class DogWhistleItem extends Item {
+import net.alek.succorstadiums.item.weapons.magic.MagicIndicator;
+import net.alek.succorstadiums.mana.ManaHelper;
+
+// DogWhistleItem class
+public class DogWhistleItem extends Item implements MagicIndicator {
     public DogWhistleItem(Properties properties) {
         super(properties);
     }
