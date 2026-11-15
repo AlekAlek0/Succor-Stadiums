@@ -1,8 +1,6 @@
 package net.alek.succorstadiums.item.trinkets;
 
-import net.alek.succorstadiums.mana.ManaHelper;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -10,9 +8,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.phys.AABB;
@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.alek.succorstadiums.sound.ModSounds;
+import net.alek.succorstadiums.mana.ManaHelper;
 
 // RoseboundTomeItem class
 public class RoseboundTomeItem extends Item {
@@ -46,6 +47,9 @@ public class RoseboundTomeItem extends Item {
 
     private static final Component NOT_ENOUGH_MANA_MESSAGE =
             Component.translatable("message.succorstadiums.not_enough_mana");
+
+    private static final Component OFFHAND_ONLY_MESSAGE =
+            Component.translatable("message.succorstadiums.offhand_only");
 
     // Create the rosebound tome dust particle
     private static final DustParticleOptions ROSEBOUND_TOME_DUST =
@@ -82,8 +86,17 @@ public class RoseboundTomeItem extends Item {
         // Check to see if player is a server player if false return a pass value for the interaction result
         if (!(player instanceof ServerPlayer serverPlayer)) return InteractionResult.PASS;
 
+        // Check if interaction hand is the offhand if no return a pass value for the interaction result
+        if (hand !=  InteractionHand.OFF_HAND) {
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.NOTE_BLOCK_BASS, SoundSource.PLAYERS, 1.0f, 1.0f);
+            player.sendOverlayMessage(OFFHAND_ONLY_MESSAGE);
+            return InteractionResult.FAIL;
+
+        }
+
         // Check if player has enough mana to cast cane
         if (!ManaHelper.consumeMana(player, MANA_COST)) {
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.NOTE_BLOCK_BELL, SoundSource.PLAYERS, 1.0f, 0.5f);
             player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
             return InteractionResult.FAIL;
         }

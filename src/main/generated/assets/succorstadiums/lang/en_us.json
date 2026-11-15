@@ -119,8 +119,8 @@
   "item.succorstadiums.ghramble_bapple.tooltip_3": "Slowness IV | 0:14 | 30%",
   "item.succorstadiums.ghramble_bapple.tooltip_4": "Weakness I | 0:12 | 65%",
   "item.succorstadiums.ghramble_bapple.tooltip_5": "Paralysis I | 0:08 | 8%",
-  "item.succorstadiums.gray_spider_eye": "Gray Spider",
-  "item.succorstadiums.gray_spider_leg": "Gray Spider",
+  "item.succorstadiums.gray_spider_eye": "Gray Spider Eye",
+  "item.succorstadiums.gray_spider_leg": "Gray Spider Leg",
   "item.succorstadiums.great_sword_of_the_forest": "Great Sword of The Forest",
   "item.succorstadiums.helm_of_the_forest": "§2Helm Of The Forest",
   "item.succorstadiums.helm_of_the_forest.lore": "Helmet of a Forest Guardian.",
@@ -193,5 +193,6 @@
   "message.succorstadiums.no_coins_to_withdraw": "§cNo coins left to withdraw from pouch",
   "message.succorstadiums.no_summons": "§cYou have no summons spawned",
   "message.succorstadiums.no_target_in_view": "§cNo entity in view to target",
-  "message.succorstadiums.not_enough_mana": "§cInsufficient Mana"
+  "message.succorstadiums.not_enough_mana": "§cInsufficient Mana",
+  "message.succorstadiums.offhand_only": "§cMust be held in the offhand"
 }

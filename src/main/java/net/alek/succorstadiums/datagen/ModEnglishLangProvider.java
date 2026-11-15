@@ -47,8 +47,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.SPIDER_LEG, "Spider Leg");
         translationBuilder.add(ModItems.BANANA_SLIME_BALL, "Banana Slime Ball");
         translationBuilder.add(ModItems.BANANA_BRANCH, "Banana Branch");
-        translationBuilder.add(ModItems.GRAY_SPIDER_EYE, "Gray Spider");
-        translationBuilder.add(ModItems.GRAY_SPIDER_LEG, "Gray Spider");
+        translationBuilder.add(ModItems.GRAY_SPIDER_EYE, "Gray Spider Eye");
+        translationBuilder.add(ModItems.GRAY_SPIDER_LEG, "Gray Spider Leg");
 
         // Armor translations
         translationBuilder.add(ModItems.BALE_HELMET, "§fBale Bucket");
@@ -132,6 +132,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("message.succorstadiums.no_coins_to_withdraw", "§cNo coins left to withdraw from pouch");
         translationBuilder.add("message.succorstadiums.no_target_in_view", "§cNo entity in view to target");
         translationBuilder.add("message.succorstadiums.no_summons", "§cYou have no summons spawned");
+        translationBuilder.add("message.succorstadiums.offhand_only", "§cMust be held in the offhand");
+
 
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
