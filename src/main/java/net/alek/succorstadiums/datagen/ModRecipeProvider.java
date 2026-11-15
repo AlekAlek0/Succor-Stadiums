@@ -60,9 +60,9 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .pattern("a a")
                         .pattern("b b")
                         .define('a', ModItems.SPIDER_CARAPACE)
-                        .define('b', Items.SPIDER_EYE)
+                        .define('b', ModItems.GRAY_SPIDER_EYE)
                         .unlockedBy(getHasName(ModItems.SPIDER_CARAPACE), has(ModItems.SPIDER_CARAPACE))
-                        .unlockedBy(getHasName(Items.SPIDER_EYE), has(Items.SPIDER_EYE))
+                        .unlockedBy(getHasName(ModItems.GRAY_SPIDER_EYE), has(ModItems.GRAY_SPIDER_EYE))
                         .save(output);
 
                 // Arachno Chestplate Recipe
@@ -71,11 +71,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .pattern("bab")
                         .pattern("aaa")
                         .define('a', ModItems.SPIDER_CARAPACE)
-                        .define('b', ModItems.SPIDER_LEG)
-                        .define('c', Items.SPIDER_EYE)
+                        .define('b', ModItems.GRAY_SPIDER_LEG)
+                        .define('c', ModItems.GRAY_SPIDER_EYE)
                         .unlockedBy(getHasName(ModItems.SPIDER_CARAPACE), has(ModItems.SPIDER_CARAPACE))
-                        .unlockedBy(getHasName(ModItems.SPIDER_LEG), has(ModItems.SPIDER_LEG))
-                        .unlockedBy(getHasName(Items.SPIDER_EYE), has(Items.SPIDER_EYE))
+                        .unlockedBy(getHasName(ModItems.GRAY_SPIDER_LEG), has(ModItems.GRAY_SPIDER_LEG))
+                        .unlockedBy(getHasName(ModItems.GRAY_SPIDER_EYE), has(ModItems.GRAY_SPIDER_EYE))
                         .save(output);
 
                 // Arachno Leggings Recipe
@@ -84,24 +84,24 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .pattern("bcb")
                         .pattern("b b")
                         .define('a', ModItems.SPIDER_CARAPACE)
-                        .define('b', ModItems.SPIDER_LEG)
-                        .define('c', Items.SPIDER_EYE)
+                        .define('b', ModItems.GRAY_SPIDER_LEG)
+                        .define('c', ModItems.GRAY_SPIDER_EYE)
                         .unlockedBy(getHasName(ModItems.SPIDER_CARAPACE), has(ModItems.SPIDER_CARAPACE))
-                        .unlockedBy(getHasName(ModItems.SPIDER_LEG), has(ModItems.SPIDER_LEG))
-                        .unlockedBy(getHasName(Items.SPIDER_EYE), has(Items.SPIDER_EYE))
+                        .unlockedBy(getHasName(ModItems.GRAY_SPIDER_LEG), has(ModItems.GRAY_SPIDER_LEG))
+                        .unlockedBy(getHasName(ModItems.GRAY_SPIDER_EYE), has(ModItems.GRAY_SPIDER_EYE))
                         .save(output);
 
                 // Arachno Boots Recipe
                 shaped(RecipeCategory.COMBAT, ModItems.ARACHNO_CARAPACE_BOOTS, 1)
-                        .pattern("c c")
                         .pattern("a a")
                         .pattern("b b")
-                        .define('a', ModItems.SPIDER_CARAPACE)
-                        .define('b', ModItems.SPIDER_LEG)
-                        .define('c', Items.SPIDER_EYE)
+                        .pattern("c c")
+                        .define('a', ModItems.GRAY_SPIDER_EYE)
+                        .define('b', ModItems.SPIDER_CARAPACE)
+                        .define('c', ModItems.GRAY_SPIDER_LEG)
+                        .unlockedBy(getHasName(ModItems.GRAY_SPIDER_EYE), has(ModItems.GRAY_SPIDER_EYE))
                         .unlockedBy(getHasName(ModItems.SPIDER_CARAPACE), has(ModItems.SPIDER_CARAPACE))
                         .unlockedBy(getHasName(ModItems.SPIDER_LEG), has(ModItems.SPIDER_LEG))
-                        .unlockedBy(getHasName(Items.SPIDER_EYE), has(Items.SPIDER_EYE))
                         .save(output);
 
                 // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

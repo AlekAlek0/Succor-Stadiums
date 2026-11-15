@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "a": "succorstadiums:spider_carapace",
-    "b": "succorstadiums:spider_leg",
-    "c": "minecraft:spider_eye"
+    "a": "succorstadiums:gray_spider_eye",
+    "b": "succorstadiums:spider_carapace",
+    "c": "succorstadiums:gray_spider_leg"
   },
   "pattern": [
-    "c c",
     "a a",
-    "b b"
+    "b b",
+    "c c"
   ],
   "result": {
     "id": "succorstadiums:arachno_carapace_boots"

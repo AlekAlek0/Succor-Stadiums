@@ -3,8 +3,8 @@
   "category": "equipment",
   "key": {
     "a": "succorstadiums:spider_carapace",
-    "b": "succorstadiums:spider_leg",
-    "c": "minecraft:spider_eye"
+    "b": "succorstadiums:gray_spider_leg",
+    "c": "succorstadiums:gray_spider_eye"
   },
   "pattern": [
     "aaa",
