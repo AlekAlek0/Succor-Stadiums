@@ -35,6 +35,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.BANANA_BRANCH);
                         output.accept(ModItems.GRAY_SPIDER_EYE);
                         output.accept(ModItems.GRAY_SPIDER_LEG);
+                        output.accept(ModItems.PLANT_FIBER);
 
 
                     }).build());

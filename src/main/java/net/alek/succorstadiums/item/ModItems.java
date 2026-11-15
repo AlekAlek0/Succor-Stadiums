@@ -52,6 +52,7 @@ public class ModItems {
     public static final Item BANANA_BRANCH = registerItem("banana_branch", Item::new);
     public static final Item GRAY_SPIDER_EYE = registerItem("gray_spider_eye", Item::new);
     public static final Item GRAY_SPIDER_LEG = registerItem("gray_spider_leg", Item::new);
+    public static final Item PLANT_FIBER = registerItem("plant_fiber", Item::new);
 
     // Armor Items
     public static final Item BALE_HELMET = registerItem("bale_helmet",

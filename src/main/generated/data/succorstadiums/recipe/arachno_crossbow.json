@@ -2,16 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "a": "succorstadiums:spider_leg",
-    "b": "minecraft:spider_eye",
-    "c": "succorstadiums:silk_spool",
-    "d": "minecraft:crossbow",
-    "e": "succorstadiums:spider_carapace"
+    "a": "succorstadiums:gray_spider_leg",
+    "b": "succorstadiums:gray_spider_eye",
+    "c": "succorstadiums:plant_fiber",
+    "d": "succorstadiums:spider_carapace"
   },
   "pattern": [
     "aba",
     "cdc",
-    " e "
+    " a "
   ],
   "result": {
     "id": "succorstadiums:arachno_crossbow"

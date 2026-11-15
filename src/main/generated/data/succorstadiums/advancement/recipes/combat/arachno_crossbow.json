@@ -1,21 +1,31 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_crossbow": {
+    "has_gray_spider_eye": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:crossbow"
+            "items": "succorstadiums:gray_spider_eye"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_silk_spool": {
+    "has_gray_spider_leg": {
       "conditions": {
         "items": [
           {
-            "items": "succorstadiums:silk_spool"
+            "items": "succorstadiums:gray_spider_leg"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_plant_fiber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "succorstadiums:plant_fiber"
           }
         ]
       },
@@ -31,26 +41,6 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_spider_eye": {
-      "conditions": {
-        "items": [
-          {
-            "items": "minecraft:spider_eye"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "has_spider_leg": {
-      "conditions": {
-        "items": [
-          {
-            "items": "succorstadiums:spider_leg"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "succorstadiums:arachno_crossbow"
@@ -61,10 +51,9 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_spider_leg",
-      "has_spider_eye",
-      "has_silk_spool",
-      "has_crossbow",
+      "has_gray_spider_leg",
+      "has_gray_spider_eye",
+      "has_plant_fiber",
       "has_spider_carapace"
     ]
   ],

@@ -49,6 +49,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.BANANA_BRANCH, "Banana Branch");
         translationBuilder.add(ModItems.GRAY_SPIDER_EYE, "Gray Spider Eye");
         translationBuilder.add(ModItems.GRAY_SPIDER_LEG, "Gray Spider Leg");
+        translationBuilder.add(ModItems.PLANT_FIBER, "Plant Fiber");
 
         // Armor translations
         translationBuilder.add(ModItems.BALE_HELMET, "§fBale Bucket");

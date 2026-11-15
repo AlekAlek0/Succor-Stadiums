@@ -145,6 +145,17 @@ public class ModEntityLootTableProvider extends SimpleFabricLootTableSubProvider
                                                 )
                                         )
                         )
+                        // 66% chance to drop 0-4 plant fiber
+                        .withPool(
+                                LootPool.lootPool()
+                                        .add(
+                                                LootItem.lootTableItem(ModItems.PLANT_FIBER)
+                                                        .apply(SetItemCountFunction.setCount(
+                                                                        UniformGenerator.between(0, 4)
+                                                                )
+                                                        )
+                                        )
+                        )
         );
 
         exporter.accept(ModLootTables.GRAY_SPIDER_LOOT,
