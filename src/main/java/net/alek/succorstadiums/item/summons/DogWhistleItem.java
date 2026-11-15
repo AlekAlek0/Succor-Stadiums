@@ -102,9 +102,9 @@ public class DogWhistleItem extends Item {
                         Objects.requireNonNull(wolf.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(8.0);
                     }
 
-                    // Set wolf attack damage to 1 heart
+                    // Set wolf attack damage to half a heart
                     if (wolf.getAttribute(Attributes.ATTACK_DAMAGE) != null) {
-                        Objects.requireNonNull(wolf.getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(2.0);
+                        Objects.requireNonNull(wolf.getAttribute(Attributes.ATTACK_DAMAGE)).setBaseValue(1.0);
                     }
 
                     // Set wolf attack range to 5 blocks
