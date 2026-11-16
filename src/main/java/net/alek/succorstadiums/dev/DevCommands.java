@@ -1,5 +1,7 @@
 package net.alek.succorstadiums.dev;
 
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -23,6 +25,7 @@ import java.util.Set;
 
 import net.alek.succorstadiums.mana.ManaHelper;
 import net.alek.succorstadiums.mana.ManaData;
+import net.minecraft.world.level.Level;
 
 // Dev only commands and tools class
 public class DevCommands {
@@ -203,11 +206,13 @@ public class DevCommands {
     // Helper method for the mana add command
     private static int executeAddMana(CommandContext<CommandSourceStack> ctx) {
         Player player = (Player) ctx.getSource().getEntity();
+        Level level = ctx.getSource().getLevel();
         int amount = IntegerArgumentType.getInteger(ctx, "amount");
 
         assert player != null;
         ManaData current = ManaHelper.get(player);
         if (current.getMana() >= current.getMaxMana()) {
+            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.UI, 1.0f, 0.7f);
             player.sendOverlayMessage(MANA_FULL_MESSAGE);
             return 0;
         }
