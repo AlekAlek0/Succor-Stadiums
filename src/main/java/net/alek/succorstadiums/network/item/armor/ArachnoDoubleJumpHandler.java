@@ -5,18 +5,21 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.phys.Vec3;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
+import java.util.Set;
 
 import net.alek.succorstadiums.mana.ManaHelper;
 import net.alek.succorstadiums.item.ModItems;
 
+// ArachnoDoubleJumpHandler class
 public class ArachnoDoubleJumpHandler {
     private static final Set<UUID> USED_DOUBLE_JUMP = new HashSet<>();
     private static final int MANA_COST = 4; // 2 Stars
@@ -37,12 +40,15 @@ public class ArachnoDoubleJumpHandler {
     }
 
     private static void tryDoubleJump(ServerPlayer player) {
+        ServerLevel level = player.level();
+
         if (!isWearingFullArachnoSet(player)) return;
         if (player.onGround() || isDoubleJumpBlocked(player)) return;
         if (USED_DOUBLE_JUMP.contains(player.getUUID())) return;
 
         // Check if player has enough mana to double jump if not send success false to jump result payload and return
         if (!ManaHelper.consumeMana(player, MANA_COST)) {
+            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.PLAYERS, 1.0f, 0.5f);
             player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
             ServerPlayNetworking.send(player, new ArachnoDoubleJumpResultPayload(false));
             return;
