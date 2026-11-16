@@ -18,6 +18,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.phys.*;
@@ -112,6 +113,7 @@ public class SummonersCaneItem extends Item implements MagicIndicator {
 
         // Check if player has enough mana to cast cane
         if (!ManaHelper.consumeMana(player, MANA_COST)) {
+            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.UI, 1.0f, 0.5f);
             player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
             return InteractionResult.FAIL;
         }
