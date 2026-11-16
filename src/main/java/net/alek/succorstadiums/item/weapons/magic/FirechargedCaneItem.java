@@ -1,19 +1,23 @@
 package net.alek.succorstadiums.item.weapons.magic;
 
-import net.alek.succorstadiums.mana.ManaHelper;
-import net.alek.succorstadiums.sound.ModSounds;
-import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.hurtingprojectile.LargeFireball;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.phys.Vec3;
+
 import org.jspecify.annotations.NonNull;
 
+import net.alek.succorstadiums.mana.ManaHelper;
+import net.alek.succorstadiums.sound.ModSounds;
+
+// FirechargedCaneItem class
 public class FirechargedCaneItem extends Item implements MagicIndicator {
 
     private static final int COOLDOWN_TICKS = 30; // 1.5 seconds
@@ -29,6 +33,13 @@ public class FirechargedCaneItem extends Item implements MagicIndicator {
     @Override
     public @NonNull InteractionResult use(Level level, @NonNull Player player, @NonNull InteractionHand hand) {
 
+        // Get the item in player hand
+        ItemStack itemStack = player.getItemInHand(hand);
+
+        // Get player look vector and spawn position for fireball
+        Vec3 lookVec = player.getLookAngle();
+        Vec3 spawnPos = player.getEyePosition().add(lookVec.scale(2));
+
         // Check to see if level is client sided if so return a pass value for the interaction result
         if (level.isClientSide()) {
             return InteractionResult.PASS;
@@ -36,15 +47,10 @@ public class FirechargedCaneItem extends Item implements MagicIndicator {
 
         // Check if player has enough mana to cast staff
         if (!ManaHelper.consumeMana(player, MANA_COST)) {
+            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.PLAYERS, 1.0f, 0.5f);
             player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
             return InteractionResult.FAIL;
         }
-
-        ItemStack itemStack = player.getItemInHand(hand);
-
-        // Get player look vector and spawn position for fireball
-        Vec3 lookVec = player.getLookAngle();
-        Vec3 spawnPos = player.getEyePosition().add(lookVec.scale(2));
 
         LargeFireball fireball = new LargeFireball(level, player, lookVec, 0);
         fireball.setPos(spawnPos);
