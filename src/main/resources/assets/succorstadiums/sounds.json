@@ -1,26 +1,26 @@
 {
   "aquaonduit_use": {
-    "sounds": ["succorstadiums:aquaonduit_use"]
+    "sounds": ["succorstadiums:weapons/magic/aquaonduit_use"]
   },
   "firecharged_cane_use": {
-    "sounds": ["succorstadiums:firecharged_cane_use"]
+    "sounds": ["succorstadiums:weapons/magic/firecharged_cane_use"]
   },
   "sprout_sickle_use": {
-    "sounds": ["succorstadiums:sprout_sickle_use"]
+    "sounds": ["succorstadiums:weapons/melee/sprout_sickle_use"]
   },
   "great_sword_of_the_forest_use": {
-    "sounds": ["succorstadiums:great_sword_of_the_forest_use"]
+    "sounds": ["succorstadiums:weapons/melee/great_sword_of_the_forest_use"]
   },
   "razor_thorn_use": {
-    "sounds": ["succorstadiums:razor_thorn_use"]
+    "sounds": ["succorstadiums:weapons/ranged/razor_thorn_use"]
   },
   "razor_thorn_hit": {
-    "sounds": ["succorstadiums:razor_thorn_hit"]
+    "sounds": ["succorstadiums:weapons/ranged/razor_thorn_hit"]
   },
   "rosebound_tome_use": {
-    "sounds": ["succorstadiums:rosebound_tome_use"]
+    "sounds": ["succorstadiums:trinkets/rosebound_tome_use"]
   },
   "arachno_carapace_armor_equip": {
-    "sounds": ["succorstadiums:arachno_carapace_armor_equip"]
+    "sounds": ["succorstadiums:armor/arachno_carapace_armor_equip"]
   }
 }
