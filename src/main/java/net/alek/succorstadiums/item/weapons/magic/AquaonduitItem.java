@@ -1,36 +1,40 @@
 package net.alek.succorstadiums.item.weapons.magic;
 
-import net.alek.succorstadiums.mana.ManaHelper;
-import net.alek.succorstadiums.sound.ModSounds;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.core.BlockPos;
+
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+
 import org.jspecify.annotations.NonNull;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import static net.alek.succorstadiums.SuccorStadiums.MOD_ID;
+import net.alek.succorstadiums.mana.ManaHelper;
+import net.alek.succorstadiums.sound.ModSounds;
 
+// AquaonduitItem class
 public class AquaonduitItem extends Item implements MagicIndicator {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
@@ -92,6 +96,7 @@ public class AquaonduitItem extends Item implements MagicIndicator {
 
         // Check if player has enough mana to cast staff
         if (!ManaHelper.consumeMana(player, MANA_COST)) {
+            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.PLAYERS, 1.0f, 0.5f);
             player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
             return InteractionResult.FAIL;
         }
