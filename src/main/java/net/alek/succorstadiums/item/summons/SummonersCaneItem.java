@@ -30,7 +30,6 @@ import java.util.UUID;
 
 import net.alek.succorstadiums.item.weapons.magic.MagicIndicator;
 import net.alek.succorstadiums.mana.ManaHelper;
-import net.alek.succorstadiums.sound.ModSounds;
 
 // SummonersCaneItem class
 public class SummonersCaneItem extends Item implements MagicIndicator {
@@ -72,6 +71,7 @@ public class SummonersCaneItem extends Item implements MagicIndicator {
     private static final int COOLDOWN_TICKS = 20 * 10; // 10 Seconds
     private static final int MANA_COST = 6; // 3 Stars
     private static final double AOE_RADIUS = 2.5;
+    private static final int RANGE = 100;
 
     private static final Component NOT_ENOUGH_MANA_MESSAGE =
             Component.translatable("message.succorstadiums.not_enough_mana");
@@ -127,7 +127,7 @@ public class SummonersCaneItem extends Item implements MagicIndicator {
 
         // Set cooldown and return a success value for the interaction result
         player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
-        level.playSound(null, player, ModSounds.FIRECHARGED_CANE_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
+        level.playSound(null, player, SoundEvents.WET_SPONGE_STEP, SoundSource.PLAYERS, 1.0f, 1.0f);
         return InteractionResult.SUCCESS;
     }
 
@@ -165,11 +165,10 @@ public class SummonersCaneItem extends Item implements MagicIndicator {
 
     // Private helper method that returns the living mob the player is looking at within their entity interaction range, or null
     private static LivingEntity getLookedAtMob(ServerLevel level, Player player) {
-        double range = player.entityInteractionRange();
         Vec3 eye = player.getEyePosition();
         Vec3 look = player.getViewVector(1.0F);
-        Vec3 end = eye.add(look.scale(range));
-        AABB searchBox = player.getBoundingBox().expandTowards(look.scale(range)).inflate(1.0);
+        Vec3 end = eye.add(look.scale(RANGE));
+        AABB searchBox = player.getBoundingBox().expandTowards(look.scale(RANGE)).inflate(1.0);
 
         EntityHitResult hit = ProjectileUtil.getEntityHitResult(
                 player, eye, end, searchBox,
@@ -178,7 +177,7 @@ public class SummonersCaneItem extends Item implements MagicIndicator {
                         && !entity.isSpectator()
                         && entity != player
                         && !(entity instanceof Wolf wolf && wolf.isOwnedBy(player)),
-                range * range
+                RANGE * RANGE
         );
         if (hit == null) {
             return null;
