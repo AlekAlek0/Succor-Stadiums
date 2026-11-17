@@ -125,7 +125,7 @@ public class SummonersCaneItem extends Item implements MagicIndicator {
 
         // Set cooldown and return a success value for the interaction result
         player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
-        level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.FIRECHARGED_CANE_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
+        level.playSound(null, player, ModSounds.FIRECHARGED_CANE_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
         return InteractionResult.SUCCESS;
     }
 
