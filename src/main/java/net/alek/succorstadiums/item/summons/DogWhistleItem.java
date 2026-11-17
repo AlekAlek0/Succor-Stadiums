@@ -25,9 +25,9 @@ import net.minecraft.core.Holder;
 
 import org.jspecify.annotations.NonNull;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.Map;
 
 import net.alek.succorstadiums.item.weapons.magic.MagicIndicator;
 import net.alek.succorstadiums.mana.ManaHelper;
@@ -98,7 +98,6 @@ public class DogWhistleItem extends Item implements MagicIndicator {
                     wolf.setComponent(DataComponents.WOLF_VARIANT, woodsVariant);
                     wolf.setTarget(null);
 
-
                     // Set wolf max health to 4 hearts
                     if (wolf.getAttribute(Attributes.MAX_HEALTH) != null) {
                         Objects.requireNonNull(wolf.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(8.0);
@@ -131,7 +130,7 @@ public class DogWhistleItem extends Item implements MagicIndicator {
             }
 
             // Play the wolf growl sound and set a cooldown
-            level.playSound(null, playerPos.x, playerPos.y, playerPos.z, SoundEvents.WOLF_GROWL_BABY, SoundSource.PLAYERS, 1.0F, 1.0F);
+            level.playSound(null, player, SoundEvents.WOLF_GROWL_BABY.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
             player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
         }
 
