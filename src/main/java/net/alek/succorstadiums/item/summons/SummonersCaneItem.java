@@ -90,9 +90,10 @@ public class SummonersCaneItem extends Item implements MagicIndicator {
             return InteractionResult.PASS;
         }
 
-        // Find the mob the player is looking at, if there send warn message to the player and spend no mana
+        // Find the mob the player is looking at, if there isn't one send warn message to the player and spend no mana
         LivingEntity lookedAt = getLookedAtMob(serverLevel, player);
         if (lookedAt == null) {
+            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.UI, 1.0f, 1.0f);
             player.sendOverlayMessage(NO_TARGET_MESSAGE);
             return InteractionResult.FAIL;
         }
