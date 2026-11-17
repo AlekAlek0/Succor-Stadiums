@@ -48,7 +48,7 @@ public class ArachnoDoubleJumpHandler {
 
         // Check if player has enough mana to double jump if not send success false to jump result payload and return
         if (!ManaHelper.consumeMana(player, MANA_COST)) {
-            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.PLAYERS, 1.0f, 0.5f);
+            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.UI, 1.0f, 0.5f);
             player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
             ServerPlayNetworking.send(player, new ArachnoDoubleJumpResultPayload(false));
             return;
