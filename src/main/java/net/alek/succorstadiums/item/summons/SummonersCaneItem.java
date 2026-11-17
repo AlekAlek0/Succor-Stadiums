@@ -6,6 +6,7 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.animal.wolf.Wolf;
 import net.minecraft.world.entity.player.Player;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.resources.Identifier;
@@ -90,8 +92,10 @@ public class SummonersCaneItem extends Item implements MagicIndicator {
             return InteractionResult.PASS;
         }
 
-        // Find the mob the player is looking at, if there isn't one send warn message to the player and spend no mana
+        // Find the mob the player is looking at
         LivingEntity lookedAt = getLookedAtMob(serverLevel, player);
+
+        // If there isn't one send play a sound, send a warn message to the player, and spend no mana
         if (lookedAt == null) {
             level.playSound(null, player, SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.UI, 1.0f, 1.0f);
             player.sendOverlayMessage(NO_TARGET_MESSAGE);
@@ -119,6 +123,9 @@ public class SummonersCaneItem extends Item implements MagicIndicator {
             player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
             return InteractionResult.FAIL;
         }
+
+        // Give the targeted mob the glowing effect for infinite duration
+        lookedAt.addEffect(new MobEffectInstance(MobEffects.GLOWING, -1, 0));
 
         // Make every summon target the mob
         for (Wolf wolf : summons) {
