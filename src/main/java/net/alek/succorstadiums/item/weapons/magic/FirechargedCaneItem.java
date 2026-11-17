@@ -47,7 +47,7 @@ public class FirechargedCaneItem extends Item implements MagicIndicator {
 
         // Check if player has enough mana to cast staff
         if (!ManaHelper.consumeMana(player, MANA_COST)) {
-            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.PLAYERS, 1.0f, 0.5f);
+            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.UI, 1.0f, 0.5f);
             player.sendOverlayMessage(NOT_ENOUGH_MANA_MESSAGE);
             return InteractionResult.FAIL;
         }
@@ -63,7 +63,7 @@ public class FirechargedCaneItem extends Item implements MagicIndicator {
 
         // Set Cooldown, play a sound effect and return a success value for the interaction result
         player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
-        level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.FIRECHARGED_CANE_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
+        level.playSound(null, player, ModSounds.FIRECHARGED_CANE_USE, SoundSource.PLAYERS, 1.0f, 1.0f);
         return InteractionResult.SUCCESS;
     }
 }
