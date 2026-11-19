@@ -28,7 +28,7 @@ public class ModArmorMaterials {
     // Create bale armor material
     public static final ArmorMaterial BALE_ARMOR_MATERIAL = new ArmorMaterial(0,
             ArmorMaterials.makeDefense(1,2,2,1,6),
-            25, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0f, 0.0f, null, BALE_ARMOR_KEY);
+            25, Holder.direct(SoundEvents.GOAT_EAT), 0.0f, 0.0f, null, BALE_ARMOR_KEY);
 
     // Create arachno carapace armor material
     public static final ArmorMaterial ARACHNO_CARAPACE_ARMOR_MATERIAL = new ArmorMaterial(0,
