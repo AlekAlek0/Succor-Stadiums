@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "cookingtime": 90,
+  "ingredient": "succorstadiums:gray_spider_leg",
+  "result": {
+    "id": "succorstadiums:roasted_gray_spider_leg"
+  }
+}

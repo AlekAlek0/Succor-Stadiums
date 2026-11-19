@@ -176,4 +176,16 @@ public class ModFoods {
             .onConsume(new ApplyStatusEffectsConsumeEffect(
                     new MobEffectInstance(MobEffects.HUNGER, 400, 1), 0.3f))
             .build();
+
+    // Create a new food called roasted gray spider leg with the following nutrition and saturation
+    public static final FoodProperties ROASTED_GRAY_SPIDER_LEG = new FoodProperties.Builder()
+            .nutrition(6)
+            .saturationModifier(7f / 12f)
+            .build();
+
+    // Create the consumable for the roasted gray spider leg with the consume duration
+    public static final Consumable ROASTED_GRAY_SPIDER_LEG_CONSUMABLE = Consumables.defaultFood()
+            .consumeSeconds(1.6f)
+
+            .build();
 }

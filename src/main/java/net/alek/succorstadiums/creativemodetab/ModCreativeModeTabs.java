@@ -140,6 +140,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.MUTTON_STEW);
                         output.accept(ModItems.RABBIT_STEW);
                         output.accept(ModItems.ROTTEN_STEW);
+                        output.accept(ModItems.ROASTED_GRAY_SPIDER_LEG);
 
 
 

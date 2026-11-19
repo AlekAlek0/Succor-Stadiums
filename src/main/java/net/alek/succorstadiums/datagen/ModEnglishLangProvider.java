@@ -100,6 +100,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.MUTTON_STEW, "Mutton Stew");
         translationBuilder.add(ModItems.RABBIT_STEW, "Rabbit Stew");
         translationBuilder.add(ModItems.ROTTEN_STEW, "Rotten Stew");
+        translationBuilder.add(ModItems.ROASTED_GRAY_SPIDER_LEG, "Roasted Gray Spider Leg");
 
         // Trinket translations
         translationBuilder.add(ModItems.FLINT_CHARM, "Flint Charm");

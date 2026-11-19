@@ -107,6 +107,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerators.generateFlatItem(ModItems.MUTTON_STEW, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.RABBIT_STEW, ModelTemplates.FLAT_ITEM);
         itemModelGenerators.generateFlatItem(ModItems.ROTTEN_STEW, ModelTemplates.FLAT_ITEM);
+        itemModelGenerators.generateFlatItem(ModItems.ROASTED_GRAY_SPIDER_LEG, ModelTemplates.FLAT_ITEM);
 
         // Trinket datagen
         itemModelGenerators.generateFlatItem(ModItems.RESURRECTION_AMULET, ModelTemplates.FLAT_ITEM);

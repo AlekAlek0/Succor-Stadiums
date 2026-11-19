@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "cookingtime": 540,
+  "ingredient": "succorstadiums:gray_spider_leg",
+  "result": {
+    "id": "succorstadiums:roasted_gray_spider_leg"
+  }
+}

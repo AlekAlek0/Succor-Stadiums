@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 180,
+  "ingredient": "succorstadiums:gray_spider_leg",
+  "result": {
+    "id": "succorstadiums:roasted_gray_spider_leg"
+  }
+}

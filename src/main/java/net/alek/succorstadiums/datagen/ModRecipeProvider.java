@@ -1,17 +1,23 @@
 package net.alek.succorstadiums.datagen;
 
-import java.util.concurrent.CompletableFuture;
-
-import net.alek.succorstadiums.item.ModItems;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.world.item.crafting.SmeltingRecipe;
+import net.minecraft.world.item.crafting.SmokingRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.Items;
+
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+
+import java.util.concurrent.CompletableFuture;
 import org.jspecify.annotations.NonNull;
 
+import net.alek.succorstadiums.item.ModItems;
+
+// ModRecipeProvider class
 public class ModRecipeProvider extends FabricRecipeProvider {
     public ModRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
@@ -153,6 +159,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .unlockedBy(getHasName(Items.ROTTEN_FLESH), has(Items.ROTTEN_FLESH))
                         .unlockedBy(getHasName(ModItems.BONE_BROTH), has(ModItems.BONE_BROTH))
                         .save(output);
+
+                // Cooked Gray Spider Leg Recipes (furnace, smoker, campfire)
+                simpleCookingRecipe("smelting", SmeltingRecipe::new, 180, ModItems.GRAY_SPIDER_LEG, ModItems.ROASTED_GRAY_SPIDER_LEG, 0F);
+                simpleCookingRecipe("smoking", SmokingRecipe::new, 90, ModItems.GRAY_SPIDER_LEG, ModItems.ROASTED_GRAY_SPIDER_LEG, 0F);
+                simpleCookingRecipe("campfire_cooking", CampfireCookingRecipe::new, 540, ModItems.GRAY_SPIDER_LEG, ModItems.ROASTED_GRAY_SPIDER_LEG, 0F);
             }
         };
     }

@@ -217,6 +217,7 @@ public class ModItems {
             .stacksTo(16)));
     public static final Item ROTTEN_STEW = registerItem("rotten_stew", properties -> new Item(properties.food(ModFoods.ROTTEN_STEW, ModFoods.ROTTEN_STEW_CONSUMABLE)
             .stacksTo(16)));
+    public static final Item ROASTED_GRAY_SPIDER_LEG = registerItem("roasted_gray_spider_leg", properties -> new Item(properties.food(ModFoods.ROASTED_GRAY_SPIDER_LEG, ModFoods.ROASTED_GRAY_SPIDER_LEG_CONSUMABLE)));
 
     // Trinket Items
     public static final Item FLINT_CHARM = registerItem("flint_charm", properties -> new FlintCharmItem(properties
