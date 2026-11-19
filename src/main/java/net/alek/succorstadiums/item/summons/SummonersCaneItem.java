@@ -112,7 +112,7 @@ public class SummonersCaneItem extends Item implements MagicIndicator {
 
         // If there are no summons send warn message to the player and return a success value for the interaction result
         if (summons.isEmpty()) {
-            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.UI, 1.0f, 0.5f);
+            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BASS.value(), SoundSource.UI, 1.0f, 1.0f);
             player.sendOverlayMessage(NO_SUMMONS_MESSAGE);
             return InteractionResult.FAIL;
         }
