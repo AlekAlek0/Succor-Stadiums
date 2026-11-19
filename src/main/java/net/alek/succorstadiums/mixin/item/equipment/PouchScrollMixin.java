@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 import net.minecraft.client.Minecraft;
 
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -72,6 +73,7 @@ public abstract class PouchScrollMixin {
 
         // If player cant transfer then send the corresponding message depending on the deposit boolean
         if (!succorstadiums$canTransfer(player, pouchStack, deposit)) {
+            this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.NOTE_BLOCK_BASS.value(), 1.0F, 1.0F));
             player.sendOverlayMessage(deposit ? NO_COINS_TO_DEPOSIT_MESSAGE : NO_COINS_TO_WITHDRAW_MESSAGE);
             ci.cancel();
             return;
