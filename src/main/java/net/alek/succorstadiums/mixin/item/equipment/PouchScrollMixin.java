@@ -6,7 +6,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.Level;
 import net.minecraft.client.Minecraft;
 
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
