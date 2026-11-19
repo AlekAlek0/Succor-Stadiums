@@ -128,13 +128,11 @@ public class DogWhistleItem extends Item implements MagicIndicator {
             if (itemStack.isDamageableItem()) {
                 itemStack.hurtAndBreak(1, player, hand);
             }
-
-            // Play the wolf growl sound and set a cooldown
-            level.playSound(null, player, SoundEvents.WOLF_GROWL_BABY.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
-            player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
         }
 
-        // Return interaction result success
+        // Set Cooldown, play a sound effect and return a success value for the interaction result
+        player.getCooldowns().addCooldown(this.getDefaultInstance(), COOLDOWN_TICKS);
+        level.playSound(null, player, SoundEvents.GOAT_HORN_SOUND_VARIANTS.get(1).value(), SoundSource.PLAYERS, 1.0F, 1.0F);
         return InteractionResult.SUCCESS;
     }
 }
