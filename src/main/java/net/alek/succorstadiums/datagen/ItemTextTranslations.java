@@ -48,9 +48,9 @@ public final class ItemTextTranslations {
         lore(b, "silk_weave", "Used to make the Silkweave armor set.");
         lore(b, "bone_broth", "Looks inedible, but may have a use...");
         lore(b, "spider_carapace", "Part of a Spiders tough exterior, the possible applications for such an item are endless.");
-        lore(b, "spider_leg", "Still wriggling");
-        lore(b, "banana_slime_ball", "Ballnana");
-        lore(b, "banana_branch", "The Banana must remain unharmed");
+        lore(b, "spider_leg", "Still wriggling..");
+        lore(b, "banana_slime_ball", "Ballnana.");
+        lore(b, "banana_branch", "The Banana must remain unharmed.");
 
         // ---------- Armor ----------
         lore(b, "bale_helmet", "Why a bale bucket you may ask... well it sounded nice.");
