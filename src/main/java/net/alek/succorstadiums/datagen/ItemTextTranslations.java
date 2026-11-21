@@ -106,7 +106,7 @@ public final class ItemTextTranslations {
         tooltip(b, "ghramble_bapple",
                 "§aResistance II | 0:45 | 30%", "§aHealth Boost I | 0:30 | 10%", "§aRegeneration I | 0:15 | 75%",
                 "§cSlowness IV | 0:14 | 30%", "§cWeakness I | 0:12 | 65%", "§cParalysis I | 0:08 | 8%");
-        lore(b, "mana_paste", "Restores mana in seconds.");
+        lore(b, "mana_paste", "Restores mana in seconds!");
         lore(b, "creeper_salve", "Patches you up in seconds!");
         lore(b, "plant_powder", "DO NOT CONSUME");
         lore(b, "rotten_stew", "Cafeteria slop.");
