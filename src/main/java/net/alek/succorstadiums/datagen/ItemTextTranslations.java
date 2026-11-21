@@ -90,6 +90,7 @@ public final class ItemTextTranslations {
         lore(b, "oak_bow", "Not as powerful as you might expect.");
         lore(b, "bownana", "Nana Nana.");
         lore(b, "arachno_crossbow", "Slow but powerful, a promising ranged option.");
+        lore(b, "creepbow", "Hold charge for an extra powerful shot.");
         lore(b, "razor_thorn", "Just a sharp branch.");
         tooltip(b, "razor_thorn", SP, "§51% Chance for free a thorn.", SP, "§7When Thrown:", "§2 4 Attack Damage 3x");
         lore(b, "bale_arrow", "Knockback.");

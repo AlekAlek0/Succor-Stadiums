@@ -121,6 +121,7 @@
   "item.succorstadiums.chicken_stew": "Chicken Stew",
   "item.succorstadiums.chicken_stew.tooltip_0": "§c🍖 Hunger I | 0:20 | 10%",
   "item.succorstadiums.creepbow": "Creepbow",
+  "item.succorstadiums.creepbow.lore": "Hold charge for an extra powerful shot.",
   "item.succorstadiums.creeper_salve": "Creeper Salve",
   "item.succorstadiums.creeper_salve.lore": "Patches you up in seconds!",
   "item.succorstadiums.dog_whistle": "Dog Whistle",
