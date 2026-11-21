@@ -20,10 +20,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 
     // Generate translations
     @Override
-    public void generateTranslations(HolderLookup.@NonNull Provider holderLookup, FabricLanguageProvider.TranslationBuilder translationBuilder) {
-
-        // Spacer translation
-        translationBuilder.add("item.succorstadiums.spacer", "");
+    public void generateTranslations(HolderLookup.@NonNull Provider holderLookup, FabricLanguageProvider.@NonNull TranslationBuilder translationBuilder) {
 
         // Creative Mode Tab translations
         translationBuilder.add("creativemodetab.succorstadiums.succor_stadium_items", "Succor Stadium Items");
@@ -111,10 +108,12 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add(ModItems.SUMMONERS_CANE, "Summoners Cane");
         translationBuilder.add(ModItems.DOG_WHISTLE, "Dog Whistle");
 
-
         // Equipment translations
         translationBuilder.add(ModItems.PLAINS_COIN_POUCH, "Plains Coin Pouch");
         translationBuilder.add(ModItems.CARDBOARD_SHIELD, "Cardboard Shield");
+
+        // Item lore and tooltip translations
+        ItemTextTranslations.generate(translationBuilder);
 
         // Enchantment translations
         translationBuilder.add("enchantment.succorstadiums.vipers_bite", "Vipers Bite");
@@ -136,150 +135,6 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("message.succorstadiums.no_summons", "§cYou have no summons spawned");
         translationBuilder.add("message.succorstadiums.offhand_only", "§cMust be held in the offhand");
 
-
-        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-        // Item Lore translations
-        translationBuilder.add("item.succorstadiums.brennon_ore.lore", "Finally!");
-        translationBuilder.add("item.succorstadiums.silver_ingot.lore", "Shiny!");
-        translationBuilder.add("item.succorstadiums.emerald_coin.lore", "Common tender in the plains.");
-        translationBuilder.add("item.succorstadiums.silk_spool.lore", "Used to make the Spider Silk Bow and Silkweave.");
-        translationBuilder.add("item.succorstadiums.silk_weave.lore", "Used to make the Silkweave armor set.");
-        translationBuilder.add("item.succorstadiums.bone_broth.lore", "Looks inedible, but may have a use...");
-        translationBuilder.add("item.succorstadiums.spider_carapace.lore", "Part of a Spiders tough exterior, the possible applications for such an item are endless.");
-        translationBuilder.add("item.succorstadiums.spider_leg.lore", "Still wriggling");
-        translationBuilder.add("item.succorstadiums.banana_slime_ball.lore", "Ballnana");
-        translationBuilder.add("item.succorstadiums.banana_branch.lore", "The Banana must remain unharmed");
-
-        // Item Tooltip translations
-        //--------------------------
-
-        // Armor Lore translations
-        translationBuilder.add("item.succorstadiums.bale_helmet.lore", "Why a bale bucket you may ask... well it sounded nice.");
-        translationBuilder.add("item.succorstadiums.bale_chestplate.lore", "Aim for the target.");
-        translationBuilder.add("item.succorstadiums.bale_leggings.lore", "All sneaky beaky like.");
-        translationBuilder.add("item.succorstadiums.bale_boots.lore", "Good for a short fall.");
-        translationBuilder.add("item.succorstadiums.arachno_carapace_helmet.lore", "These Eyes have seen a lot.");
-        translationBuilder.add("item.succorstadiums.arachno_carapace_chestplate.lore", "Made of 100% unethically sourced Spider Carapace.");
-        translationBuilder.add("item.succorstadiums.arachno_carapace_leggings.lore", "Spiderlegs would have been a cooler name... just sayin.");
-        translationBuilder.add("item.succorstadiums.arachno_carapace_boots.lore", "Spider Boots? But spiders don't wear boots!");
-        translationBuilder.add("item.succorstadiums.nanner_water_waders.lore", "Helps you traverse mucky terrain with the greatest of ease.");
-        translationBuilder.add("item.succorstadiums.helm_of_the_forest.lore", "Helmet of a Forest Guardian.");
-        translationBuilder.add("item.succorstadiums.chestplate_of_the_forest.lore", "Chestplate of a Forest Guardian.");
-        translationBuilder.add("item.succorstadiums.leggings_of_the_forest.lore", "Leggings of a Forest Guardian.");
-        translationBuilder.add("item.succorstadiums.boots_of_the_forest.lore", "Boots of a Forest Guardian.");
-
-        // Armor Tooltip translations
-        translationBuilder.add("item.succorstadiums.bale_armor.tooltip_0", "Full Set Bonus:");
-        translationBuilder.add("item.succorstadiums.bale_armor.tooltip_1", " 3% Bale Arrows not consumed on use");
-        translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_0", "Full Set Bonus:");
-        translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_1", "+1 Mid-air Jump");
-        translationBuilder.add("item.succorstadiums.arachno_carapace_armor.tooltip_2", " Consumes 4 Mana");
-        translationBuilder.add("item.succorstadiums.nanner_water_waders.tooltip", "Increased Speed on Soul Sand / Soil, Mud and Underwater.");
-        translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_0", "Full Set Bonus:");
-        translationBuilder.add("item.succorstadiums.armor_of_the_forest.tooltip_1", " 20% Knockback Resist");
-
-        // Melee Weapon Lore translations
-        translationBuilder.add("item.succorstadiums.bean_pole.lore", "I wouldn't even touch you with a...");
-        translationBuilder.add("item.succorstadiums.bone_dagger.lore", "3 inches is actually pretty big..");
-        translationBuilder.add("item.succorstadiums.bananner_blade.lore", "All though it resembles the banana fruit this sturdy blade is actually made of from Baldnana wood.");
-        translationBuilder.add("item.succorstadiums.fumblebringer_fork.lore", "This weapon was once used to bring upon \"The Great Fumbling\".");
-        translationBuilder.add("item.succorstadiums.sword_of_the_forest.lore", "Recommended for big hoards.");
-        translationBuilder.add("item.succorstadiums.sprout_sickle.lore", "Inflicts Paralysis…");
-        translationBuilder.add("item.succorstadiums.oak_sword.lore", "Your first proper weapon.");
-
-        // Melee Weapon Tooltip translations
-        translationBuilder.add("item.succorstadiums.bone_dagger.tooltip_0", " 2x Crit Damage");
-        translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_0", "Armor of the Forest Bonus:");
-        translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_1", "+1 Attack Damage");
-        translationBuilder.add("item.succorstadiums.sword_of_the_forest.tooltip_2", "  Poison I | 0:04 | 25%");
-        translationBuilder.add("item.succorstadiums.sprout_sickle.tooltip_0", "Paralysis | 0:03 | 8%");
-
-        // Ranged Weapon Lore translations
-        translationBuilder.add("item.succorstadiums.oak_bow.lore", "Not as powerful as you might expect.");
-        translationBuilder.add("item.succorstadiums.bownana.lore", "Nana Nana.");
-        translationBuilder.add("item.succorstadiums.arachno_crossbow.lore", "Slow but powerful, a promising ranged option.");
-        translationBuilder.add("item.succorstadiums.razor_thorn.lore", "Just a sharp branch.");
-        translationBuilder.add("item.succorstadiums.bale_arrow.lore", "Knockback.");
-
-        // Ranged Weapon Tooltip translations
-        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_0", "1% Chance for free a thorn.");
-        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_1", "When Thrown:");
-        translationBuilder.add("item.succorstadiums.razor_thorn.tooltip_2", " 4 Attack Damage 3x");
-
-        // Magic Weapon Lore translations
-        translationBuilder.add("item.succorstadiums.fire_staff.lore", "Fireball.");
-        translationBuilder.add("item.succorstadiums.aqua_staff.lore", "Slows both movement and fall speed.");
-
-        // Magic Weapon Tooltip translations
-        translationBuilder.add("item.succorstadiums.fire_staff.tooltip_0", "When Used:");
-        translationBuilder.add("item.succorstadiums.fire_staff.tooltip_1", " 3 Magic Damage");
-        translationBuilder.add("item.succorstadiums.fire_staff.tooltip_2", " 1.5s Cooldown");
-        translationBuilder.add("item.succorstadiums.fire_staff.tooltip_3", "-4 Mana");
-        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_0", "When Used:");
-        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_1", " 0 Magic Damage");
-        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_2", " 12s Cooldown");
-        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_3", " 12s Ring Duration");
-        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_4", " Slow Falling I | 00:15 | 100%");
-        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_5", " Slowness II | 00:15 | 100%");
-        translationBuilder.add("item.succorstadiums.aqua_staff.tooltip_6", "-7 Mana");
-
-        // Food Lore translations
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.lore", "Ghramble is my favorite bapple.");
-        translationBuilder.add("item.succorstadiums.mana_paste.lore", "Restores mana in seconds.");
-        translationBuilder.add("item.succorstadiums.plant_powder.lore", "DO NOT CONSUME");
-        translationBuilder.add("item.succorstadiums.rotten_stew.lore", "Cafeteria slop.");
-
-        // Food Tooltip translations
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_0", "Resistance II | 0:45 | 30%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_1", "Health Boost I | 0:30 | 10%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_2", "Regeneration I | 0:15 | 75%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_3", "Slowness IV | 0:14 | 30%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_4", "Weakness I | 0:12 | 65%");
-        translationBuilder.add("item.succorstadiums.ghramble_bapple.tooltip_5", "Paralysis I | 0:08 | 8%");
-        translationBuilder.add("item.succorstadiums.chicken_stew.tooltip", "\uD83C\uDF56 Hunger I | 0:20 | 10%");
-        translationBuilder.add("item.succorstadiums.rotten_stew.tooltip", "\uD83C\uDF56 Hunger II | 0:20 | 30%");
-
-        // Trinket Lore translations
-        translationBuilder.add("item.succorstadiums.flint_charm.lore", "Flint Charm? I just don't see it.");
-        translationBuilder.add("item.succorstadiums.resurrection_amulet.lore", "I mean the name tells you all you need to know.");
-        translationBuilder.add("item.succorstadiums.rosebound_tome.lore", "Spawns a healing aura.");
-
-        // Trinket Tooltip translations
-        translationBuilder.add("item.succorstadiums.flint_charm.tooltip_0", "When in Off Hand:");
-        translationBuilder.add("item.succorstadiums.flint_charm.tooltip_1", " +1 Melee Attack Damage");
-        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_0", "When Used:");
-        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_1", " 0 Magic Damage");
-        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_2", " 90s Cooldown");
-        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_3", " 20s Ring Duration");
-        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_4", " Regeneration I | 00:30 | 100%");
-        translationBuilder.add("item.succorstadiums.rosebound_tome.tooltip_5", "-5 Mana");
-
-        // Summons Lore translations
-        translationBuilder.add("item.succorstadiums.summoners_cane.lore", "A trusty tool for any summoner.");
-        translationBuilder.add("item.succorstadiums.dog_whistle.lore", "Summons 3 doggies to help you fight!");
-
-        // Summons Tooltip translations
-        translationBuilder.add("item.succorstadiums.summoners_cane.tooltip_0", "-6 Mana");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_0", "When Used:");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_1", " 1.5 Summon Damage");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_2", " 30s Summon Duration");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_3", " 10s Cooldown");
-        translationBuilder.add("item.succorstadiums.dog_whistle.tooltip_4", "-8 Mana");
-
-        // Equipment Lore translations
-        translationBuilder.add("item.succorstadiums.cardboard_shield.lore", "Only Blocks Projectiles.");
-        translationBuilder.add("item.succorstadiums.plains_coin_pouch.lore", "A pouch for your coins.");
-
-        // Equipment Tooltip translations
-        // ----------------------
-
-        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
         // Item entity translations
         translationBuilder.add("entity.succorstadiums.razor_thorn", "Razor Thorn");
         translationBuilder.add("entity.succorstadiums.bale_arrow", "Bale Arrow");
@@ -291,10 +146,6 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
         translationBuilder.add("entity.succorstadiums.grass_creeper", "Grass Creeper");
         translationBuilder.add("entity.succorstadiums.skelcrow", "Skelcrow");
         translationBuilder.add("entity.succorstadiums.gray_spider", "Gray Spider");
-
-        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         // Mod Keybindings translations
         translationBuilder.add("key.category.succorstadiums.general", "Succor Stadiums");
