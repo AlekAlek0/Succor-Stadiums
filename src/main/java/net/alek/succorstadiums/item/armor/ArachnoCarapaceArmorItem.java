@@ -65,17 +65,6 @@ public class ArachnoCarapaceArmorItem extends Item {
         ));
     }
 
-    // Helper method to get armor points required for each armor type
-    private static double getArmorPoints(ArmorType armorType) {
-        return switch (armorType) {
-            case HELMET -> 2;
-            case CHESTPLATE -> 3;
-            case LEGGINGS -> 2;
-            case BOOTS -> 1;
-            default -> 0;
-        };
-    }
-
     // Helper method to get knockback resistance required for each armor type
     private static double getKnockbackResistance(ArmorType armorType) {
         return switch (armorType) {
@@ -83,6 +72,17 @@ public class ArachnoCarapaceArmorItem extends Item {
             case CHESTPLATE -> 0.5;
             case LEGGINGS -> 0.4;
             case BOOTS -> 0.1;
+            default -> 0;
+        };
+    }
+
+    // Helper method to get armor points required for each armor type
+    private static double getArmorPoints(ArmorType armorType) {
+        return switch (armorType) {
+            case HELMET -> 2;
+            case CHESTPLATE -> 3;
+            case LEGGINGS -> 2;
+            case BOOTS -> 1;
             default -> 0;
         };
     }
