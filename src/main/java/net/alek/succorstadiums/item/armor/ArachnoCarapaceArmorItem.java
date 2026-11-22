@@ -62,7 +62,7 @@ public class ArachnoCarapaceArmorItem extends Item {
                                         Identifier.withDefaultNamespace(
                                                 "arachno_armor_" + armorType.getName()
                                         ),
-                                        1,
+                                        getArmorPoints(armorType),
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 getSlotGroup(armorType)
@@ -72,6 +72,18 @@ public class ArachnoCarapaceArmorItem extends Item {
         ));
     }
 
+    // Helper method to get armor points required for each armor type
+    private static double getArmorPoints(ArmorType armorType) {
+        return switch (armorType) {
+            case HELMET -> 2;
+            case CHESTPLATE -> 3;
+            case LEGGINGS -> 2;
+            case BOOTS -> 1;
+            default -> 0;
+        };
+    }
+
+    // Helper method to get the slot the armor is in
     private static EquipmentSlotGroup getSlotGroup(ArmorType armorType) {
         return switch (armorType) {
             case HELMET -> EquipmentSlotGroup.HEAD;
@@ -81,5 +93,4 @@ public class ArachnoCarapaceArmorItem extends Item {
             default -> EquipmentSlotGroup.ARMOR;
         };
     }
-
 }
