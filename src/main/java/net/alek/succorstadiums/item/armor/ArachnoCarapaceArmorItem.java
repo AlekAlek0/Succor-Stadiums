@@ -11,11 +11,11 @@ import net.minecraft.world.item.Item;
 
 public class ArachnoCarapaceArmorItem extends Item {
 
-    private static final Identifier SAFE_FALL_DISTANCE_ID =
-            Identifier.withDefaultNamespace("arachno_safe_fall_distance");
-
     private static final Identifier KNOCKBACK_RESISTANCE_ID =
             Identifier.withDefaultNamespace("arachno_knockback_resistance");
+
+    private static final Identifier SAFE_FALL_DISTANCE_ID =
+            Identifier.withDefaultNamespace("arachno_safe_fall_distance");
 
     private static final Identifier STEP_HEIGHT_ID =
             Identifier.withDefaultNamespace("arachno_step_height");
@@ -23,19 +23,16 @@ public class ArachnoCarapaceArmorItem extends Item {
     public ArachnoCarapaceArmorItem(Item.Properties properties, ArmorType armorType) {
         super(properties.component(
                 DataComponents.ATTRIBUTE_MODIFIERS,
-
                 ItemAttributeModifiers.builder()
-
                         .add(
                                 Attributes.KNOCKBACK_RESISTANCE,
                                 new AttributeModifier(
                                         KNOCKBACK_RESISTANCE_ID,
-                                        0.01,
+                                        getKnockbackResistance(armorType),
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
-                                EquipmentSlotGroup.ARMOR
+                                getSlotGroup(armorType)
                         )
-
                         .add(
                                 Attributes.SAFE_FALL_DISTANCE,
                                 new AttributeModifier(
@@ -45,7 +42,6 @@ public class ArachnoCarapaceArmorItem extends Item {
                                 ),
                                 EquipmentSlotGroup.ARMOR
                         )
-
                         .add(
                                 Attributes.STEP_HEIGHT,
                                 new AttributeModifier(
@@ -55,7 +51,6 @@ public class ArachnoCarapaceArmorItem extends Item {
                                 ),
                                 EquipmentSlotGroup.ARMOR
                         )
-
                         .add(
                                 Attributes.ARMOR,
                                 new AttributeModifier(
@@ -66,9 +61,7 @@ public class ArachnoCarapaceArmorItem extends Item {
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 getSlotGroup(armorType)
-                        )
-
-                        .build()
+                        ).build()
         ));
     }
 
@@ -79,6 +72,17 @@ public class ArachnoCarapaceArmorItem extends Item {
             case CHESTPLATE -> 3;
             case LEGGINGS -> 2;
             case BOOTS -> 1;
+            default -> 0;
+        };
+    }
+
+    // Helper method to get knockback resistance required for each armor type
+    private static double getKnockbackResistance(ArmorType armorType) {
+        return switch (armorType) {
+            case HELMET -> 0.2;
+            case CHESTPLATE -> 0.5;
+            case LEGGINGS -> 0.4;
+            case BOOTS -> 0.1;
             default -> 0;
         };
     }
