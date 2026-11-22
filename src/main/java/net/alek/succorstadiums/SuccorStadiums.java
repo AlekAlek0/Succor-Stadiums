@@ -13,6 +13,7 @@ import net.alek.succorstadiums.entity.ModEntityAttributes;
 import net.alek.succorstadiums.entity.ModEntityTypes;
 import net.alek.succorstadiums.food.ModConsumeEffects;
 import net.alek.succorstadiums.item.ModItems;
+import net.alek.succorstadiums.item.armor.ArachnoCarapaceArmorItem;
 import net.alek.succorstadiums.item.summons.DogWhistleItem;
 import net.alek.succorstadiums.loottable.ModLootTableModifiers;
 import net.alek.succorstadiums.mana.ManaRegenHandler;
@@ -76,6 +77,7 @@ public class SuccorStadiums implements ModInitializer {
 		PayloadTypeRegistry.clientboundPlay().register(ResurrectionAmuletPayload.TYPE, ResurrectionAmuletPayload.CODEC);
 		PayloadTypeRegistry.serverboundPlay().register(ArachnoDoubleJumpPayload.TYPE, ArachnoDoubleJumpPayload.CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(ArachnoDoubleJumpResultPayload.TYPE, ArachnoDoubleJumpResultPayload.CODEC);
+		ArachnoCarapaceArmorItem.registerSetBonus();
 		ArachnoDoubleJumpHandler.register();
 		SummonItemHandler.register();
 

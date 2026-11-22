@@ -63,7 +63,7 @@ public final class ItemTextTranslations {
         lore(b, "arachno_carapace_chestplate", "Made of 100% unethically sourced Spider Carapace.");
         lore(b, "arachno_carapace_leggings", "Spiderlegs would have been a cooler name... just sayin.");
         lore(b, "arachno_carapace_boots", "Spider Boots? But spiders don't wear boots!");
-        tooltip(b, ARACHNO_ARMOR, SP, "§5Full Set Bonus:", "§9+1 Mid-air Jump", "§c Consumes 4 Mana");
+        tooltip(b, ARACHNO_ARMOR, SP, "§5Full Set Bonus:", "§9-0.13 Air-Drag", "§9+1 Mid-air Jump", "§c Consumes 4 Mana");
 
         lore(b, "nanner_water_waders", "Helps you traverse mucky terrain with the greatest of ease.");
         bottom(b, "nanner_water_waders", "§9 Increased Speed on Soul Sand / Soil, Mud and Underwater.");

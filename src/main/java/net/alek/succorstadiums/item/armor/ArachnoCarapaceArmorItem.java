@@ -1,6 +1,11 @@
 package net.alek.succorstadiums.item.armor;
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -19,6 +24,8 @@ public class ArachnoCarapaceArmorItem extends Item {
 
     private static final Identifier STEP_HEIGHT_ID =
             Identifier.withDefaultNamespace("arachno_step_height");
+
+    private static final double SET_BONUS_AIR_DRAG = 0.87;
 
     public ArachnoCarapaceArmorItem(Item.Properties properties, ArmorType armorType) {
         super(properties.component(
@@ -63,6 +70,40 @@ public class ArachnoCarapaceArmorItem extends Item {
                                 getSlotGroup(armorType)
                         ).build()
         ));
+    }
+
+    // Call once from your mod initializer to enable the full set bonus
+    public static void registerSetBonus() {
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                updateAirDragBonus(player);
+            }
+        });
+    }
+
+    private static void updateAirDragBonus(ServerPlayer player) {
+        AttributeInstance airDrag = player.getAttribute(Attributes.AIR_DRAG_MODIFIER);
+        if (airDrag == null) {
+            return;
+        }
+
+        boolean hasBonus = Math.abs(airDrag.getBaseValue() - SET_BONUS_AIR_DRAG) < 1.0E-6;
+
+        if (isWearingFullArachnoSet(player)) {
+            if (!hasBonus) {
+                airDrag.setBaseValue(SET_BONUS_AIR_DRAG);
+            }
+        } else if (hasBonus) {
+            airDrag.setBaseValue(Attributes.AIR_DRAG_MODIFIER.value().getDefaultValue());
+        }
+    }
+
+    // Accessor method to get if player is wearing full armor of the arachno set
+    public static boolean isWearingFullArachnoSet(Player player) {
+        return player.getItemBySlot(EquipmentSlot.HEAD).getItem() instanceof ArachnoCarapaceArmorItem
+                && player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof ArachnoCarapaceArmorItem
+                && player.getItemBySlot(EquipmentSlot.LEGS).getItem() instanceof ArachnoCarapaceArmorItem
+                && player.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof ArachnoCarapaceArmorItem;
     }
 
     // Helper method to get knockback resistance required for each armor type

@@ -5,7 +5,6 @@ import net.minecraft.client.model.object.equipment.ShieldModel;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -19,6 +18,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.fabricmc.api.ClientModInitializer;
 
+import static net.alek.succorstadiums.item.armor.ArachnoCarapaceArmorItem.isWearingFullArachnoSet;
 import net.alek.succorstadiums.client.render.item.CardboardShieldSpecialRenderer;
 import net.alek.succorstadiums.network.item.trinkets.ResurrectionAmuletPayload;
 import net.alek.succorstadiums.client.render.item.CardboardShieldLayers;
@@ -36,6 +36,7 @@ import net.alek.succorstadiums.screen.mobarenagui.*;
 import net.alek.succorstadiums.network.item.armor.*;
 import net.alek.succorstadiums.item.ModItems;
 
+// SuccorStadiumsClient class
 public class SuccorStadiumsClient implements ClientModInitializer {
     private static boolean canDoubleJump;
     private static boolean hasReleasedJumpKey;
@@ -137,13 +138,6 @@ public class SuccorStadiumsClient implements ClientModInitializer {
 
         canDoubleJump = false;
         ClientPlayNetworking.send(new ArachnoDoubleJumpPayload());
-    }
-
-    private static boolean isWearingFullArachnoSet(LocalPlayer player) {
-        return player.getItemBySlot(EquipmentSlot.HEAD).is(ModItems.ARACHNO_CARAPACE_HELMET)
-                && player.getItemBySlot(EquipmentSlot.CHEST).is(ModItems.ARACHNO_CARAPACE_CHESTPLATE)
-                && player.getItemBySlot(EquipmentSlot.LEGS).is(ModItems.ARACHNO_CARAPACE_LEGGINGS)
-                && player.getItemBySlot(EquipmentSlot.FEET).is(ModItems.ARACHNO_CARAPACE_BOOTS);
     }
 
     private static boolean isDoubleJumpBlocked(LocalPlayer player) {
