@@ -94,7 +94,7 @@ public class ArmorOfTheForestItem extends Item {
     // Helper method to get armor points required for each armor type
     private static double getArmorPoints(ArmorType armorType) {
         return switch (armorType) {
-            case HELMET -> 1.5;
+            case HELMET -> 2;
             case CHESTPLATE -> 2.5;
             case LEGGINGS -> 2;
             case BOOTS -> 1;
