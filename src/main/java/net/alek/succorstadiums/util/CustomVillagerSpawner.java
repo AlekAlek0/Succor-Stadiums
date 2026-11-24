@@ -229,6 +229,10 @@ public class CustomVillagerSpawner {
                 ModItems.DOG_WHISTLE, 1,
                 9999999, 0, 0.0F);
 
+        addOffer(offers, ModItems.EMERALD_COIN, 12,
+                ModItems.SUMMONERS_CANE, 1,
+                9999999, 0, 0.0F);
+
         // Add villager to the level
         level.addFreshEntity(villager);
     }
@@ -321,8 +325,8 @@ public class CustomVillagerSpawner {
                 ModItems.OAK_BOW, 1,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, ModItems.EMERALD_COIN, 18,
-                ModItems.PLANT_POWDER, 2,
+        addOffer(offers, ModItems.OAK_BOW, 1,
+                ModItems.PLANT_POWDER, 8,
                 ModItems.CREEPBOW, 1,
                 9999999, 0, 0.0F);
 
