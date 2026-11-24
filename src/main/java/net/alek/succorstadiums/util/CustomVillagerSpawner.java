@@ -206,8 +206,8 @@ public class CustomVillagerSpawner {
                 ModItems.CREEPER_SALVE, 4,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, ModItems.EMERALD_COIN, 8,
-                ModItems.MAGIC_FLESH, 4,
+        addOffer(offers, ModItems.EMERALD_COIN, 6,
+                ModItems.MAGIC_FLESH, 2,
                 ModItems.MANA_PASTE, 6,
                 9999999, 0, 0.0F);
 
