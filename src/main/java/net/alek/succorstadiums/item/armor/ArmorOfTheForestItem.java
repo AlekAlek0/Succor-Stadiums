@@ -95,7 +95,7 @@ public class ArmorOfTheForestItem extends Item {
     private static double getArmorPoints(ArmorType armorType) {
         return switch (armorType) {
             case HELMET -> 2;
-            case CHESTPLATE -> 2.5;
+            case CHESTPLATE -> 5;
             case LEGGINGS -> 2;
             case BOOTS -> 1;
             default -> 0;
