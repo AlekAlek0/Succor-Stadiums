@@ -289,6 +289,10 @@ public class CustomVillagerSpawner {
                 Items.POISONOUS_POTATO, 2,
                 9999999, 0, 0.0F);
 
+        addOffer(offers, Items.POISONOUS_POTATO, 8,
+                ModItems.ROSEBOUND_TOME, 1,
+                9999999, 0, 0.0F);
+
         // Add the villager to the level
         level.addFreshEntity(villager);
     }
