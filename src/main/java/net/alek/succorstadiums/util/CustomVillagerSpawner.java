@@ -201,8 +201,8 @@ public class CustomVillagerSpawner {
                 ModItems.ROTTEN_STEW, 8,
                 9999999, 0, 0.0F);
 
-        addOffer(offers, ModItems.EMERALD_COIN, 4,
-                ModItems.PLANT_POWDER, 6,
+        addOffer(offers, ModItems.EMERALD_COIN, 6,
+                ModItems.PLANT_POWDER, 8,
                 ModItems.CREEPER_SALVE, 4,
                 9999999, 0, 0.0F);
 
