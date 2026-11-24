@@ -97,7 +97,7 @@ public class ArmorOfTheForestItem extends Item {
             case HELMET -> 2;
             case CHESTPLATE -> 5;
             case LEGGINGS -> 3;
-            case BOOTS -> 1;
+            case BOOTS -> 2;
             default -> 0;
         };
     }
