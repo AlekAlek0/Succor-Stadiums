@@ -25,6 +25,7 @@ public class ArmorOfTheForestItem extends Item {
 
     public static final double KB_RESISTANCE_SET_MODIFIER = 0.2; // 20%
     public static final int ATTACK_DAMAGE_SET_MODIFIER = 1;
+    public static final double FRICTION_PER_PIECE = -0.05; // -5% per piece
 
     private static final Identifier ARMOR_OF_THE_FOREST_KNOCKBACK_RESISTANCE_ID =
             Identifier.withDefaultNamespace("armor_of_the_forest_knockback_resistance");
@@ -44,6 +45,17 @@ public class ArmorOfTheForestItem extends Item {
                                         ),
                                         getArmorPoints(armorType),
                                         AttributeModifier.Operation.ADD_VALUE
+                                ),
+                                getSlotGroup(armorType)
+                        )
+                        .add(
+                                Attributes.FRICTION_MODIFIER,
+                                new AttributeModifier(
+                                        Identifier.withDefaultNamespace(
+                                                "forest_armor_friction_" + armorType.getName()
+                                        ),
+                                        FRICTION_PER_PIECE,
+                                        AttributeModifier.Operation.ADD_MULTIPLIED_BASE
                                 ),
                                 getSlotGroup(armorType)
                         ).build()
