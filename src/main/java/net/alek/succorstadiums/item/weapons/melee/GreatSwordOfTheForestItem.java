@@ -1,7 +1,9 @@
 package net.alek.succorstadiums.item.weapons.melee;
 
+import net.alek.succorstadiums.SuccorStadiums;
 import net.alek.succorstadiums.sound.ModSounds;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,7 +37,16 @@ public class GreatSwordOfTheForestItem extends Item {
                                         AttributeModifier.Operation.ADD_VALUE
                                 ),
                                 EquipmentSlotGroup.MAINHAND
-                        ).build())
+                        )
+                        .add(
+                                Attributes.FRICTION_MODIFIER,
+                                new AttributeModifier(
+                                        Identifier.fromNamespaceAndPath(
+                                                SuccorStadiums.MOD_ID, "great_sword_of_the_forest_friction"),
+                                        -0.1,
+                                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                                ),
+                                EquipmentSlotGroup.MAINHAND).build())
         );
     }
 
