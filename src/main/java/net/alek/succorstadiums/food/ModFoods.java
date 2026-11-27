@@ -62,6 +62,7 @@ public class ModFoods {
     public static final FoodProperties MANA_PASTE = new FoodProperties.Builder()
             .nutrition(0)
             .saturationModifier(0)
+            .alwaysEdible()
             .build();
 
     // Create the consumable for the mana paste with the consume duration and restore mana consume effect
