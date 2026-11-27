@@ -42,21 +42,23 @@ public final class ItemLore {
 
             String loreKey = base + ".lore";
             if (language.has(loreKey)) {
-                tooltip.add(insertAt++, Component.translatable(loreKey)
+                tooltip.add(insertAt++, Component.translatable(loreKey, ManaIcons.FULL, ManaIcons.HALF)
                         .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
             }
 
             for (int i = 0; ; i++) {
                 String key = base + ".tooltip_" + i;
                 if (!language.has(key)) break;
-                tooltip.add(insertAt++, Component.translatable(key).withStyle(ChatFormatting.GRAY));
+                tooltip.add(insertAt++, Component.translatable(key, ManaIcons.FULL, ManaIcons.HALF)
+                        .withStyle(ChatFormatting.GRAY));
             }
 
             int bottomAt = bottomInsertIndex(tooltip, id, type.isAdvanced());
             for (int i = 0; ; i++) {
                 String key = base + ".bottom_" + i;
                 if (!language.has(key)) break;
-                tooltip.add(bottomAt++, Component.translatable(key).withStyle(ChatFormatting.GRAY));
+                tooltip.add(bottomAt++, Component.translatable(key, ManaIcons.FULL, ManaIcons.HALF)
+                        .withStyle(ChatFormatting.GRAY));
             }
         });
     }
