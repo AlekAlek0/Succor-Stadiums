@@ -29,6 +29,10 @@ public final class ItemLore {
             .map(mod -> mod.getMetadata().getName())
             .orElse(NAMESPACE);
 
+    private static final Object[] ICONS = {
+            HeartIcons.FULL, HeartIcons.HALF, ManaIcons.FULL, ManaIcons.HALF
+    };
+
     private ItemLore() {}
 
     public static void register() {
@@ -42,14 +46,14 @@ public final class ItemLore {
 
             String loreKey = base + ".lore";
             if (language.has(loreKey)) {
-                tooltip.add(insertAt++, Component.translatable(loreKey, ManaIcons.FULL, ManaIcons.HALF)
+                tooltip.add(insertAt++, Component.translatable(loreKey, ICONS)
                         .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
             }
 
             for (int i = 0; ; i++) {
                 String key = base + ".tooltip_" + i;
                 if (!language.has(key)) break;
-                tooltip.add(insertAt++, Component.translatable(key, ManaIcons.FULL, ManaIcons.HALF)
+                tooltip.add(insertAt++, Component.translatable(key, ICONS)
                         .withStyle(ChatFormatting.GRAY));
             }
 
@@ -57,7 +61,7 @@ public final class ItemLore {
             for (int i = 0; ; i++) {
                 String key = base + ".bottom_" + i;
                 if (!language.has(key)) break;
-                tooltip.add(bottomAt++, Component.translatable(key, ManaIcons.FULL, ManaIcons.HALF)
+                tooltip.add(bottomAt++, Component.translatable(key, ICONS)
                         .withStyle(ChatFormatting.GRAY));
             }
         });

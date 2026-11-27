@@ -108,8 +108,9 @@ public final class ItemTextTranslations {
                 "§aResistance II | 0:45 | 30%", "§aHealth Boost I | 0:30 | 10%", "§aRegeneration I | 0:15 | 75%",
                 "§cSlowness IV | 0:14 | 30%", "§cWeakness I | 0:12 | 65%", "§cParalysis I | 0:08 | 8%");
         lore(b, "mana_paste", "Restores mana in seconds!");
-        tooltip(b, "mana_paste", SP, "%1$s%1$s%2$s");
+        tooltip(b, "mana_paste", SP, "%3$s%3$s%4$s");
         lore(b, "creeper_salve", "Patches you up in seconds!");
+        tooltip(b, "creeper_salve", SP, "%1$s%2$s");
         lore(b, "plant_powder", "DO NOT CONSUME");
         lore(b, "rotten_stew", "Cafeteria slop.");
         tooltip(b, "rotten_stew", "§c\uD83C\uDF56 Hunger II | 0:20 | 30%");
