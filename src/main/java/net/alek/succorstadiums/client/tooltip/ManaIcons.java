@@ -4,6 +4,7 @@ import net.minecraft.network.chat.FontDescription;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
+// ManaIcons class
 public final class ManaIcons {
     private static final FontDescription FONT = new FontDescription.Resource(
             Identifier.fromNamespaceAndPath("succorstadiums", "icons"));
