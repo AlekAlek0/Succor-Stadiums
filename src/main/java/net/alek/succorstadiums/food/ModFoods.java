@@ -54,7 +54,7 @@ public class ModFoods {
     public static final Consumable CREEPER_SALVE_CONSUMABLE = Consumables.defaultFood()
             .consumeSeconds(0.4f)
 
-            .onConsume(new HealConsumeEffect(3.0f))
+            .onConsume(new HealConsumeEffect(6.0f))
 
             .build();
 
