@@ -200,7 +200,7 @@ public class ModItems {
             .useCooldown(5)));
     public static final Item CREEPER_SALVE = registerItem("creeper_salve", properties -> new CreeperSalveItem(properties.food(ModFoods.CREEPER_SALVE, ModFoods.CREEPER_SALVE_CONSUMABLE)
             .useCooldown(12)
-            .stacksTo(8)));
+            .stacksTo(12)));
     public static final Item MANA_PASTE = registerItem("mana_paste", properties -> new ManaPasteItem(properties.food(ModFoods.MANA_PASTE, ModFoods.MANA_PASTE_CONSUMABLE)
             .useCooldown(15)
             .stacksTo(12)));

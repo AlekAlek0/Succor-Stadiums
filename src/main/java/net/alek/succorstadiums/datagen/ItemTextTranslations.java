@@ -110,7 +110,7 @@ public final class ItemTextTranslations {
         lore(b, "mana_paste", "Restores mana in seconds!");
         tooltip(b, "mana_paste", SP, "%3$s%3$s%4$s");
         lore(b, "creeper_salve", "Patches you up in seconds!");
-        tooltip(b, "creeper_salve", SP, "%1$s%2$s");
+        tooltip(b, "creeper_salve", SP, "%1$s%1$s%1$s");
         lore(b, "plant_powder", "DO NOT CONSUME");
         lore(b, "rotten_stew", "Cafeteria slop.");
         tooltip(b, "rotten_stew", "§c\uD83C\uDF56 Hunger II | 0:20 | 30%");

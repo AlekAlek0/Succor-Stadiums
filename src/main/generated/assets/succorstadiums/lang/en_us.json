@@ -129,7 +129,7 @@
   "item.succorstadiums.creeper_salve": "Creeper Salve",
   "item.succorstadiums.creeper_salve.lore": "Patches you up in seconds!",
   "item.succorstadiums.creeper_salve.tooltip_0": "",
-  "item.succorstadiums.creeper_salve.tooltip_1": "%1$s%2$s",
+  "item.succorstadiums.creeper_salve.tooltip_1": "%1$s%1$s%1$s",
   "item.succorstadiums.dog_whistle": "Dog Whistle",
   "item.succorstadiums.dog_whistle.lore": "Summons 3 doggies to help you fight!",
   "item.succorstadiums.dog_whistle.tooltip_0": "",
