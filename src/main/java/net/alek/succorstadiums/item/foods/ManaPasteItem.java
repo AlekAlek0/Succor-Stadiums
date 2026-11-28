@@ -26,9 +26,11 @@ public class ManaPasteItem extends Item {
     public @NonNull InteractionResult use(@NonNull Level level, @NonNull Player player, @NonNull InteractionHand hand) {
 
         // Check to not allow eating if mana is full
-        if (!level.isClientSide() && ManaHelper.get(player).getMana() >= ManaHelper.get(player).getMaxMana()) {
-            level.playSound(null, player, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.UI, 1.0f, 0.7f);
-            player.sendOverlayMessage(MANA_FULL_MESSAGE);
+        if (ManaHelper.get(player).getMana() >= ManaHelper.get(player).getMaxMana()) {
+            if (!level.isClientSide()) {
+                level.playSound(null, player, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.UI, 1.0f, 0.7f);
+                player.sendOverlayMessage(MANA_FULL_MESSAGE);
+            }
             return InteractionResult.FAIL;
         }
         return super.use(level, player, hand);
